@@ -16,9 +16,9 @@ void main() {
   char returner;
 
   // check comparison whitespace with num and id
-  if (c <1) {
-  } else if (c> 2) {
-  } else if (c<3) {
+  if (c ==1) {
+  } else if (c>= 2) {
+  } else if (3<=c) {
   }
 
   // read n from the standard input

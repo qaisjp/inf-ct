@@ -68,6 +68,12 @@ public class Tokeniser {
             put(';', TokenClass.SC); // semicolon
     }};
 
+    // Character.isDigit takes other languages
+    // we just want 0 to 9
+    private boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
+
     private Token next() throws IOException {
 
         int line = scanner.getLine();
@@ -80,10 +86,15 @@ public class Tokeniser {
         if (Character.isWhitespace(c))
             return next();
 
-        // recognises single character tokens (doesn't take into account literals)
+        // recognises single character tokens (doesn't take into string literals)
         TokenClass tok = tokMap.get(c);
         if (tok != null) {
             return new Token(tok, line, column);
+        }
+
+        // recognises integer literals (again no accounting for string literals)
+        if (isDigit(c)) {
+            return new Token(TokenClass.INT_LITERAL, line, column);
         }
 
         // ... to be completed

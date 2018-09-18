@@ -141,10 +141,21 @@ public class Tokeniser {
             }
         }
 
-
         // If we haven't consumed characters, just try the single character in the map
         if (!consumedCharacters && charTokMap.containsKey(firstChar)) {
             return charTokMap.get(firstChar);
+        }
+
+        // todo: the below accounts for stuff like `ifner` being reported as an ID
+        //       what about &|?
+        //
+        // investigate solution: if most recently consumed character is a non-identifier
+        //                       character, then we just say it's an invalid token (?)
+
+        // IMPORTANT! ONCE WE HAVE CONSUMED A CHARACTER WE CANNOT GO BACK!
+        // This means we need to keep consuming until a non-identifier character
+        if (consumedCharacters) {
+            // TODO: Check if this works properly
         }
 
         return null;

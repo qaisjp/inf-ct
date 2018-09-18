@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 
 
 /**
@@ -35,8 +36,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        if (args.length != 3)
+        if (args.length != 3) {
+            System.out.printf("You did: %s\n", Arrays.toString(args));
             usage();
+        }
 
         Mode mode = null;
         switch (args[0]) {

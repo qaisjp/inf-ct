@@ -1,9 +1,9 @@
 # Deadlines #
 
 1. [Part 1 (parser)](desc/part1/), Thursday 12 October 2017  at 4pm, weight = 20%
-2. Part 2 (ast builder + semantic analyser),  Thursday 26 October 2017  at 4pm, weight = 20%
-3. Part 3 (code generator), Thursday 16 November 2017 at 4pm, weight = 30%
-4. Part 4 (LLVM-based compiler pass), Monday 15 January 2018, 10am, weight = 30%
+2. [Part 2 (ast builder + semantic analyser)](desc/part2/),  Thursday 26 October 2017  at 4pm, weight = 20%
+3. [Part 3 (code generator)](desc/part3/), Thursday 16 November 2017 at 4pm, weight = 30%
+4. [Part 4 (LLVM-based compiler pass)](desc/part4/), Monday 15 January 2018, 10am, weight = 30%
 
 Note that specific instructions for each part can be found above by clicking on the part name.
 
@@ -25,24 +25,24 @@ For parts 1-3 of the coursework, the marking will be a function of the number of
 
 ## Part 1-2
 66% of the mark will be determined by the scoreboard tests and 33% will be determined by the hidden tests.
-You will get one point for each passing test and -1 for each failing test (the -1 penalty is not applied for the AST tests).
-Then the mark is calculated by dividing the number of points achieved by the number of tests and the visible tests are marked independently of the hidden ones.
+You will get one point for each passing test and -1 for each failing test.
+Then the mark is calculated by dividing the number of points achieved by the number of tests.
+To be more precise, here is the formula used for marking: 
+2/3\*max(0,(#passed_v_tests-#failed_v_tests)/(#passed_v_tests+#failed_v_tests)) + 1/3\*max(0,(#passed_h_tests-#failed_h_tests)/(#passed_h_tests+#failed_h_tests))
+where _v_ represents the visible tests and _h_ the hidden ones.
 
 ## Part 3
 66% of the mark will be determined by the visible scoreboard tests and 33% will be determined by the hidden tests.
-The mark will directly be proportional to the number of passed tests (no negative point).
+The mark will directly be proportial to the number of passed tests (no negative point).
 So for instance, passing 7 out of 50 tests would result in a mark of 14/100.
 
 
 # Setup #
 
-## Bitbucket ##
-We will rely on bitbucket and it is mandatory to use it for this coursework.
-Bitbucket is an online repository that can be used with the git control revision system.
+## GitLab ##
+We will rely on gitlab and it is mandatory to use it for this coursework.
+GitLab is an online repository that can be used with the git control revision system.  The university runs a GitLab hosting service, and all students are provided with an account. The username is your univeristy id number (sXXXXXXX) and your password is the EASE.
 
-Your first task should be to setup a bitbucket account using your university email address.
-You should then send register your bitbucket id with your university id using this [Google form](https://docs.google.com/forms/d/1z2EthflazoU2bvfnJlrCWB_-AqB4ZxIgsJW-8SWiXyM) so that we can run the automated test suite on your repository.
-Details on how to fork the ct-18-19 repository are given below.
 Important: do not share your code and repository with anyone and keep your source code secret.
 If we identify that two students have identical portion of code, both will be considered to have cheated.
 
@@ -54,35 +54,40 @@ You can choose to use a development environment for your project. DICE machines 
 
 Alternatively, you can use Emacs, vim, or your favourite text editor. Choose whichever you are confident with.
 
-## Obtaining your own copy of the ct-18-19 repository 
+## Obtaining your own copy of the ct-18-19 repository
 We are going to be using the Git revision control system during the course. Git is installed on DICE machines. If you use your own machine then make sure to install Git.
 
-You will need to have your own copy of the ct-18-19 repository. In order to fork this repository, click on the plus sign in the left panel as shown below and click on *Fork* this repository:
+You will need to have your own copy of the ct-18-19 repository. In order to fork this repository, click the fork button:
 
-![Forking the CT-18-19 repository](/figures/bb_menu.png "Forking this repository.")
+![Forking the CT-18-19 repository](/figures/gl_fork1.png "Forking this repository.")
 
-![Forking the CT-18-19 repository](/figures/bb_fork.png "Forking this repository.")
+![Forking the CT-18-19 repository](/figures/gl_fork2.png "Forking this repository.")
 
-Here you can name your repository and give it an optional description. **Remember** to tick "This is a private repository" as shown below:
- 
-![Forking the CT-18-19 repository](/figures/bb_fork_private.png "Forking this repository.")
+Then, make the repository private
 
-Finally, click "Fork repository" to finish. After forking you should grant the teaching staff read access to your repository. Click on Settings (the gear icon), and then go to "Access management", the window should look similar to the figure below:
+![Making repository private](/figures/gl_private1.png "Making repository private.")
 
-![Granting the teaching staff read access](/figures/repopermissions.png "Granting the teaching staff read access.")
+![Making repository private](/figures/gl_private2.png "Making repository private.")
+
+![Making repository private](/figures/gl_private3.png "Making repository private.")
+
+Now, grant access to the teaching staff
+
+![Granting the teaching staff read access](/figures/gl_permissions1.png "Granting the teaching staff read access.")
+
+![Granting the teaching staff read access](/figures/gl_permissions2.png "Granting the teaching staff read access.")
 
 You should grant the following users *write* access:
-
-* Christophe Dubach (username: cdubach)
-* Federico Pizzuti (username: fedepiz)
-* Adam Harries (username: AdamHarries)
+  * Christophe Dubach (username: cdubach)
+  * Federico Pizzuti (username: s1580329)
 
 Next, you will have to clone the forked repository to your local machine. In order to clone the repository you should launch a terminal and type:
-```
-$ git clone https://YOUR-USERNAME@bitbucket.org/YOUR-USERNAME/YOUR-REPOSITORY-NAME
-```
-where `YOUR-USERNAME` must be *your* Bitbucket account name, and `YOUR-REPOSITORY-NAME` must be the name you chose for your fork of the ct-18-19 repository.
 
+```
+$ git clone https://sXXXXXXX@git.ecdf.ed.ac.uk/sXXXXXXX/ct-18-19.git
+```
+
+where sXXXXXXX is your student id
 
 ## Building the ct-18-19 project
 In order to build the project you must have Ant installed. On DICE machines Ant is already installed.

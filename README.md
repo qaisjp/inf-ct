@@ -43,13 +43,6 @@ GitLab is an online repository that can be used with the git control revision sy
 Important: do not share your code and repository with anyone and keep your source code secret.
 If we identify that two students have identical portion of code, both will be considered to have cheated.
 
-## Development environment (editor)
-You can choose to use a development environment for your project. DICE machines have the following integrated development environments (IDE) for Java installed:
-
-* Community edition of [IntelliJ](https://www.jetbrains.com/idea/).
-* [Eclipse](https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/marsr) for Java.
-
-Alternatively, you can use Emacs, vim, or your favourite text editor. Choose whichever you are confident with.
 
 ## Obtaining your own copy of the ct-18-19 repository
 We are going to be using the Git revision control system during the course. Git is installed on DICE machines. If you use your own machine then make sure to install Git.
@@ -85,6 +78,24 @@ $ git clone https://sXXXXXXX@git.ecdf.ed.ac.uk/sXXXXXXX/ct-18-19.git
 ```
 
 where sXXXXXXX is your student id
+
+## Development environment (editor)
+You can choose to use a development environment for your project. DICE machines have the following integrated development environments (IDE) for Java installed:
+
+* Community edition of [IntelliJ](https://www.jetbrains.com/idea/).
+* [Eclipse](https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/marsr) for Java.
+
+Alternatively, you can use Emacs, vim, or your favourite text editor. Choose whichever you are confident with.
+
+We reccommend using IntelliJ Idea. To launch it on dice machines, open a terminal and type
+
+```
+idea18-ce 
+```
+
+To import the project, after idea launches select "Import Project" and select the root directory of your project. On the following screen, ensure that the "Create project from existing sources" option is selected. You will then be presented with a series of screens. Just keep selecting "Next" without modifying any options. If you are asked whether to overwrite an existing .iml file, select the overwrite option.
+
+To confirm that the project is setup correctly, you can try to run the Main.java file directly from the idea. To do so, right click the Main file in the src directory. In the context menu, select the "Run Main.main()" option. The program should now have run successfully
 
 ## Building the ct-18-19 project
 In order to build the project you must have Ant installed. On DICE machines Ant is already installed.

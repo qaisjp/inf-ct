@@ -31,11 +31,11 @@ public class Parser {
         this.tokeniser = tokeniser;
     }
 
-    public Program parse() {
+    public void parse() {
         // get the first token
         nextToken();
 
-        return parseProgram();
+        parseProgram();
     }
 
     public int getErrorCount() {
@@ -125,13 +125,12 @@ public class Parser {
     }
 
 
-    private Program parseProgram() {
+    private void parseProgram() {
         parseIncludes();
-        List<StructTypeDecl> stds = parseStructDecls();
-        List<VarDecl> vds = parseVarDecls();
-        List<FunDecl> fds = parseFunDecls();
+        parseStructDecls();
+        parseVarDecls();
+        parseFunDecls();
         expect(TokenClass.EOF);
-        return new Program(stds, vds, fds);
     }
 
     // includes are ignored, so does not need to return an AST node
@@ -143,17 +142,17 @@ public class Parser {
         }
     }
 
-    private List<StructTypeDecl> parseStructDecls() {
+    private void parseStructDecls() {
         // to be completed ...
         return null;
     }
 
-    private List<VarDecl> parseVarDecls() {
+    private void parseVarDecls() {
         // to be completed ...
         return null;
     }
 
-    private List<FunDecl> parseFunDecls() {
+    private void parseFunDecls() {
         // to be completed ...
         return null;
     }

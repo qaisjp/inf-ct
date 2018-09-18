@@ -4,6 +4,8 @@ import lexer.Token.TokenClass;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author cdubach
@@ -46,6 +48,26 @@ public class Tokeniser {
     /*
      * To be completed
      */
+    public static final Map<Character,TokenClass> tokMap = new HashMap<Character,TokenClass>() {{
+            put('{', TokenClass.LBRA); // left brace
+            put('}', TokenClass.RBRA); // right brace
+            put('(', TokenClass.LPAR); // left paren
+            put(')', TokenClass.RPAR); // right paren
+            put('[', TokenClass.LSBR); // left sq brace
+            put(']', TokenClass.RSBR); // rigth sq brace
+
+            put('+', TokenClass.PLUS);
+            put('-', TokenClass.MINUS);
+            put('*', TokenClass.ASTERIX); // ASTERISK!!!!!!
+            put('/', TokenClass.DIV);
+            put('%', TokenClass.REM); // modulo
+
+            put('.', TokenClass.DOT); // struct member access
+            put('=', TokenClass.ASSIGN);
+            put(',', TokenClass.COMMA);
+            put(';', TokenClass.SC); // semicolon
+    }};
+
     private Token next() throws IOException {
 
         int line = scanner.getLine();
@@ -58,9 +80,11 @@ public class Tokeniser {
         if (Character.isWhitespace(c))
             return next();
 
-        // recognises the plus operator
-        if (c == '+')
-            return new Token(TokenClass.PLUS, line, column);
+        // recognises single character tokens (doesn't take into account literals)
+        TokenClass tok = tokMap.get(c);
+        if (tok != null) {
+            return new Token(tok, line, column);
+        }
 
         // ... to be completed
 

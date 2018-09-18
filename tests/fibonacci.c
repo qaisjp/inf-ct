@@ -11,7 +11,7 @@ void main() {
   // read n from the standard input
   n = read_i();
   
-  first = 0;
+  first = 00;
   second = 1;
     
   print_s((char*)"First ");

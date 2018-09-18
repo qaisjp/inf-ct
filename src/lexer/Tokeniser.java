@@ -181,6 +181,15 @@ public class Tokeniser {
             return next();
         }
 
+        // if this is / and next will be /
+        if (c == '/' && scanner.peek() == '/') {
+            // until we hit a newline
+            while (scanner.next() != '\n') {
+                // do nothing
+            }
+            return next();
+        }
+
         // If open string literal
         if (c == '"') {
             // Keep reading until we encounter a closing quote

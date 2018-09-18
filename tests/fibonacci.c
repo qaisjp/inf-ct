@@ -19,6 +19,9 @@ void main() {
   if (c ==1) {
   } else if (c>= 2) {
   } else if (3<=c) {
+  } else if (c >1) {
+  } else if (c< 2) {
+  } else if (3>c) {
   }
 
   // read n from the standard input

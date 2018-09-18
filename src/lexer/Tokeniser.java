@@ -118,8 +118,8 @@ public class Tokeniser {
 
                     // If we have consumed our string
                     if (i == s.length()-1) {
-                        // Return token if next is whitespace
-                        if (Character.isWhitespace(scanner.peek())) {
+                        // Return token if next is whitespace (or current is symbol, i.e not letter)
+                        if (Character.isWhitespace(scanner.peek()) || !Character.isLetter(c)) {
                             // System.out.print(scanner.peek());
                             return e.getValue();
                         }

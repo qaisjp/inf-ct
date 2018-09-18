@@ -88,6 +88,9 @@ public class Tokeniser {
 
         // recognises integer literals (again no accounting for string literals)
         if (Character.isDigit(c)) {
+            while(Character.isDigit(scanner.peek())) {
+                scanner.next();
+            }
             return new Token(TokenClass.INT_LITERAL, line, column);
         }
 

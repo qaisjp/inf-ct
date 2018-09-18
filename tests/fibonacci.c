@@ -15,6 +15,12 @@ void main() {
   char elser;
   char returner;
 
+  // check comparison whitespace with num and id
+  if (c <1) {
+  } else if (c> 2) {
+  } else if (c<3) {
+  }
+
   // read n from the standard input
   n = read_i();
 

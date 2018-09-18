@@ -1,3 +1,8 @@
+# Draft description, please read!#
+
+The official description of the course work will be finalised and released on Thursday when the labs start.
+Changes are possible until the start of the labs.
+
 # Deadlines #
 
 1. [Part 1 (parser)](desc/part1/), Thursday 12 October 2017  at 4pm, weight = 20%

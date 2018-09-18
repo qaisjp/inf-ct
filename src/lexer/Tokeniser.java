@@ -66,11 +66,71 @@ public class Tokeniser {
             put('=', TokenClass.ASSIGN);
             put(',', TokenClass.COMMA);
             put(';', TokenClass.SC); // semicolon
+
+            // comparisons
+            put('<', TokenClass.LT);
+            put('>', TokenClass.GT);
     }};
 
-    static final Map<String,TokenClass> stringTokMap = new HashMap<String,TokenClass>();
+    static final Map<String,TokenClass> stringTokMap = new HashMap<String,TokenClass>() {{
+        // types
+        put("int", TokenClass.INT);
+        put("void", TokenClass.VOID);
+        put("char", TokenClass.CHAR);
 
-    private TokenClass readString(char firstChar) {
+        // keywords
+        put("if", TokenClass.IF);
+        put("else", TokenClass.ELSE);
+        put("while", TokenClass.WHILE);
+        put("return", TokenClass.RETURN);
+        put("struct", TokenClass.STRUCT);
+        put("sizeof", TokenClass.SIZEOF);
+
+        // include
+        put("#include", TokenClass.INCLUDE);
+
+        // comparisons
+        put("==", TokenClass.EQ);
+        put("!=", TokenClass.NE);
+        put("<=", TokenClass.LE);
+        put(">=", TokenClass.GE);
+
+        // logical operators
+        put("&&", TokenClass.AND);
+        put("||", TokenClass.OR);
+    }};
+
+    private TokenClass readString(char firstChar) throws IOException {
+        for (Map.Entry<String,TokenClass> e : stringTokMap.entrySet()) {
+            String s = e.getKey();
+
+            if (s.charAt(0) == firstChar) {
+                char c = firstChar;
+                // System.out.print(c);
+                char i = 0;
+
+                // While next character matches
+                while (scanner.peek() == s.charAt(i + 1)) {
+                    // Consume the next character
+                    c = scanner.next();
+                    // System.out.print(c);
+                    i += 1;
+
+                    // If we have consumed our string
+                    if (i == s.length()-1) {
+                        // Return token if next is whitespace
+                        if (Character.isWhitespace(scanner.peek())) {
+                            // System.out.print(scanner.peek());
+                            return e.getValue();
+                        }
+
+                        // We've consumed the string but there's more!!
+                        // We just break out of it. It could be another string or an identifier
+                        break;
+                    }
+                }
+            }
+        }
         return charTokMap.get(firstChar);
     }
 

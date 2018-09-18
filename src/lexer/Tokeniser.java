@@ -101,6 +101,8 @@ public class Tokeniser {
     }};
 
     private TokenClass readString(char firstChar) throws IOException {
+        boolean consumedCharacters = false;
+
         for (Map.Entry<String,TokenClass> e : stringTokMap.entrySet()) {
             String s = e.getKey();
 
@@ -113,8 +115,9 @@ public class Tokeniser {
                 while (scanner.peek() == s.charAt(i + 1)) {
                     // Consume the next character
                     c = scanner.next();
-                    // System.out.print(c);
                     i += 1;
+                    consumedCharacters = true;
+                    // System.out.print(c);
 
                     // If we have consumed our string
                     if (i == s.length()-1) {
@@ -137,7 +140,14 @@ public class Tokeniser {
                 }
             }
         }
-        return charTokMap.get(firstChar);
+
+
+        // If we haven't consumed characters, just try the single character in the map
+        if (!consumedCharacters && charTokMap.containsKey(firstChar)) {
+            return charTokMap.get(firstChar);
+        }
+
+        return null;
     }
 
     private Token next() throws IOException {

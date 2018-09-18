@@ -8,9 +8,9 @@ void main() {
   int c;
   char t;
 
-  // check to make sure keywords
-  // don't affect identifiers
-  // (these are unused)
+  /*/ check to make sure keywords
+  //* don't affect identifiers
+  // (these are unused) */
   char ifner;
   char elser;
   char returner;

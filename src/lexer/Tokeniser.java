@@ -190,6 +190,27 @@ public class Tokeniser {
             return next();
         }
 
+        // if this is / and next will be *
+        if (c == '/' && scanner.peek() == '*') {
+            // consume that opening *
+            char prevChar = scanner.next();
+            char nextChar = scanner.next();
+            // System.out.print(c);
+            // System.out.print(prevChar);
+            // System.out.print(nextChar);
+
+            // This loop continues until next() throws OR return next()
+            while (true) {
+                prevChar = nextChar;
+                nextChar = scanner.next();
+                // System.out.print(nextChar);
+
+                if (prevChar == '*' && nextChar == '/') {
+                    return next();
+                }
+            }
+        }
+
         // If open string literal
         if (c == '"') {
             // Keep reading until we encounter a closing quote
@@ -229,10 +250,10 @@ public class Tokeniser {
 
         // Use readstring trick to read strings (or individual characters)
         // starts with provided character
-        // TokenClass tok = readString(c);
-        // if (tok != null) {
-        //     return new Token(tok, line, column);
-        // }
+        TokenClass tok = readString(c);
+        if (tok != null) {
+            return new Token(tok, line, column);
+        }
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);

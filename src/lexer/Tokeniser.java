@@ -225,11 +225,15 @@ public class Tokeniser {
 
             // keep scanning until we've hit a quote
             while (c != '"') {
-                // If current character is a backlash
+                // If current character is a backlash we're starting an escape sequence
                 if (c == '\\') {
-                    // we read & ignore the next character (can be a quote)
-                    scanner.next();
-                    // System.out.print(c);
+                    // we read the escape character
+                    c = scanner.next();
+
+                    // If it is not a valid escape character, return invalid
+                    if (c != 't' && c != 'b' && c != 'n' && c != 'r' && c != 'f' && c != '\'' && c != '"' && c != '\\') {
+                        return new Token(TokenClass.INVALID, line, column);
+                    }
                 }
 
                 // Read the next char

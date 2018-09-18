@@ -80,6 +80,35 @@ public class Tokeniser {
         if (Character.isWhitespace(c))
             return next();
 
+        // If open string literal
+        if (c == '"') {
+            // Keep reading until we encounter a closing quote
+            // ESCAPE \"
+
+            // System.out.print(c);
+
+            // Read the next character
+            c = scanner.next();
+
+            // System.out.print(c);
+
+            // keep scanning until we've hit a quote
+            while (c != '"') {
+                // If current character is a backlash
+                if (c == '\\') {
+                    // we read & ignore the next character (can be a quote)
+                    scanner.next();
+                    // System.out.print(c);
+                }
+
+                // Read the next char
+                // if we ignored a char, it's after the ignored char
+                c = scanner.next();
+                // System.out.print(c);
+            }
+            return new Token(TokenClass.STRING_LITERAL, line, column);
+        }
+
         // recognises single character tokens (doesn't take into string literals)
         TokenClass tok = tokMap.get(c);
         if (tok != null) {

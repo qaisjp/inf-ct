@@ -48,7 +48,7 @@ public class Tokeniser {
     /*
      * To be completed
      */
-    private static final Map<Character,TokenClass> tokMap = new HashMap<Character,TokenClass>() {{
+    private static final Map<Character,TokenClass> charTokMap = new HashMap<Character,TokenClass>() {{
             put('{', TokenClass.LBRA); // left brace
             put('}', TokenClass.RBRA); // right brace
             put('(', TokenClass.LPAR); // left paren
@@ -67,6 +67,12 @@ public class Tokeniser {
             put(',', TokenClass.COMMA);
             put(';', TokenClass.SC); // semicolon
     }};
+
+    static final Map<String,TokenClass> stringTokMap = new HashMap<String,TokenClass>();
+
+    private TokenClass readString(char firstChar) {
+        return charTokMap.get(firstChar);
+    }
 
     private Token next() throws IOException {
 
@@ -117,8 +123,9 @@ public class Tokeniser {
             return new Token(TokenClass.INT_LITERAL, line, column);
         }
 
-        // recognises single character tokens (doesn't take into string literals)
-        TokenClass tok = tokMap.get(c);
+        // Use readstring trick to read strings (or individual characters)
+        // starts with provided character
+        TokenClass tok = readString(c);
         if (tok != null) {
             return new Token(tok, line, column);
         }

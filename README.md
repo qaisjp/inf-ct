@@ -1,9 +1,9 @@
 # Deadlines #
 
-1. [Part 1 (parser)](desc/part1/), Thursday 11 October 2018  at 11am, weight = 20%
-2. [Part 2 (ast builder + semantic analyser)](desc/part2/),  Thursday 25 October 2018  at 11am, weight = 20%
-3. [Part 3 (code generator)](desc/part3/), Thursday 15 November 2018 at 11am, weight = 30%
-4. [Part 4 (LLVM-based compiler pass)](desc/part4/), Monday 14 January 2019, 10am, weight = 30%
+1. [Part 1 (parser)](desc/part1/), Thursday 12 October 2017  at 4pm, weight = 20%
+2. [Part 2 (ast builder + semantic analyser)](desc/part2/),  Thursday 26 October 2017  at 4pm, weight = 20%
+3. [Part 3 (code generator)](desc/part3/), Thursday 16 November 2017 at 4pm, weight = 30%
+4. [Part 4 (LLVM-based compiler pass)](desc/part4/), Monday 15 January 2018, 10am, weight = 30%
 
 Note that specific instructions for each part can be found above by clicking on the part name.
 
@@ -56,6 +56,8 @@ Alternatively, you can use Emacs, vim, or your favourite text editor. Choose whi
 
 ## Obtaining your own copy of the ct-18-19 repository
 We are going to be using the Git revision control system during the course. Git is installed on DICE machines. If you use your own machine then make sure to install Git.
+
+You can find the base CT-18-19 repository [here](https://git.ecdf.ed.ac.uk/cdubach/ct-18-19)
 
 You will need to have your own copy of the ct-18-19 repository. In order to fork this repository, click the fork button:
 

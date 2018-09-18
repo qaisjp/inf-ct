@@ -10,8 +10,7 @@ Note that specific instructions for each part can be found above by clicking on 
 # Scoreboard #
 
 We automatically run a series of hidden test programs using your compiler about once a day.
-You can keep track of your progress and see how many tests pass/fail using the scoreboard by following this link:
-https://htmlpreview.github.io/?https://bitbucket.org/cdubach/ct-18-19/raw/master/scoreboard/scoreboard.html
+You can keep track of your progress and see how many tests pass/fail using the scoreboard by following this link: TBC
 
 # Marking #
 

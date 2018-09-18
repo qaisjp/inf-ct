@@ -8,9 +8,17 @@ void main() {
   int c;
   char t;
 
+  // check to make sure keywords
+  // don't affect identifiers
+  // (these are unused)
+  char ifner;
+  char elser;
+  char returner;
+
   // read n from the standard input
   n = read_i();
-  
+
+  // double 0 to check multiple digit int literal
   first = 00;
   second = 1;
     

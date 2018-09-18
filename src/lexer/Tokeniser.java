@@ -100,6 +100,10 @@ public class Tokeniser {
         put("||", TokenClass.OR);
     }};
 
+    private boolean isIdentifier(char c) {
+        // this method won't be usable. it's not just [A-Za-z0-9]+, it has a different regex.
+    }
+
     private TokenClass readString(char firstChar) throws IOException {
         boolean consumedCharacters = false;
 

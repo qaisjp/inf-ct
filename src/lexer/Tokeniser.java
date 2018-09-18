@@ -109,12 +109,6 @@ public class Tokeniser {
             return new Token(TokenClass.STRING_LITERAL, line, column);
         }
 
-        // recognises single character tokens (doesn't take into string literals)
-        TokenClass tok = tokMap.get(c);
-        if (tok != null) {
-            return new Token(tok, line, column);
-        }
-
         // recognises integer literals (again no accounting for string literals)
         if (Character.isDigit(c)) {
             while(Character.isDigit(scanner.peek())) {
@@ -123,8 +117,11 @@ public class Tokeniser {
             return new Token(TokenClass.INT_LITERAL, line, column);
         }
 
-        // ... to be completed
-
+        // recognises single character tokens (doesn't take into string literals)
+        TokenClass tok = tokMap.get(c);
+        if (tok != null) {
+            return new Token(tok, line, column);
+        }
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);

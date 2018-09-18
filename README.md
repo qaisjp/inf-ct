@@ -97,6 +97,14 @@ To import the project, after idea launches select "Import Project" and select th
 
 To confirm that the project is setup correctly, you can try to run the Main.java file directly from the idea. To do so, right click the Main file in the src directory. In the context menu, select the "Run Main.main()" option. The program should now have run successfully
 
+
+If you prefer to use eclipse, then launch via
+```
+eclipse
+```
+
+Once eclispe has started, all you will have to do is to go on File > Open Project from File Systems, select the root directory of your project, and click finish.
+
 ## Building the ct-18-19 project
 In order to build the project you must have Ant installed. On DICE machines Ant is already installed.
 Your local copy of the ct-18-19 repository contains an Ant build file (`build.xml`).

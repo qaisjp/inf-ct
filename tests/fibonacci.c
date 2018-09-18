@@ -24,6 +24,9 @@ void main() {
   } else if (3>c) {
   }
 
+  // Check all escape sequences
+  print_s((char *)"\t \b \f \' \" \\\r\n");
+
   // read n from the standard input
   n = read_i();
 

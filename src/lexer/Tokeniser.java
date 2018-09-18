@@ -48,7 +48,7 @@ public class Tokeniser {
     /*
      * To be completed
      */
-    public static final Map<Character,TokenClass> tokMap = new HashMap<Character,TokenClass>() {{
+    private static final Map<Character,TokenClass> tokMap = new HashMap<Character,TokenClass>() {{
             put('{', TokenClass.LBRA); // left brace
             put('}', TokenClass.RBRA); // right brace
             put('(', TokenClass.LPAR); // left paren

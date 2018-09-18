@@ -102,6 +102,7 @@ public class Tokeniser {
 
     private boolean isIdentifier(char c) {
         // this method won't be usable. it's not just [A-Za-z0-9]+, it has a different regex.
+        return false;
     }
 
     private TokenClass readString(char firstChar) throws IOException {
@@ -174,8 +175,11 @@ public class Tokeniser {
         char c = scanner.next();
 
         // skip white spaces
-        if (Character.isWhitespace(c))
+        if (Character.isWhitespace(c)) {
+            // if (c == '\n')
+            //     System.out.println("NEWLINE");
             return next();
+        }
 
         // If open string literal
         if (c == '"') {
@@ -216,10 +220,10 @@ public class Tokeniser {
 
         // Use readstring trick to read strings (or individual characters)
         // starts with provided character
-        TokenClass tok = readString(c);
-        if (tok != null) {
-            return new Token(tok, line, column);
-        }
+        // TokenClass tok = readString(c);
+        // if (tok != null) {
+        //     return new Token(tok, line, column);
+        // }
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);

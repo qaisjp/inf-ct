@@ -56,8 +56,6 @@ Alternatively, you can use Emacs, vim, or your favourite text editor. Choose whi
 ## Obtaining your own copy of the ct-18-19 repository
 We are going to be using the Git revision control system during the course. Git is installed on DICE machines. If you use your own machine then make sure to install Git.
 
-You can find the base CT-18-19 repository [here](https://git.ecdf.ed.ac.uk/cdubach/ct-18-19)
-
 You will need to have your own copy of the ct-18-19 repository. In order to fork this repository, click the fork button:
 
 ![Forking the CT-18-19 repository](/figures/gl_fork1.png "Forking this repository.")

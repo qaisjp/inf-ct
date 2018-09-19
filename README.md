@@ -127,7 +127,7 @@ The parameter `cp` instructs the Java Runtime to include the local directory `bi
 You can find a series of tests in the `tests` folder. To run the lexer on one of them, you can type:
 
 ```
-$ java -cp bin Main -lexer tests/fibonacci.c
+$ java -cp bin Main -lexer tests/fibonacci.c dummy.out
 ```
 
 

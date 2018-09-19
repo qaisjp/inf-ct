@@ -72,7 +72,7 @@ Now, grant access to the teaching staff
 
 ![Granting the teaching staff read access](/figures/gl_permissions2.png "Granting the teaching staff read access.")
 
-You should grant the following users *write* access:
+You should grant the following users *Mantainer* access:
   * Christophe Dubach (username: cdubach)
   * Federico Pizzuti (username: s1580329)
 
@@ -139,7 +139,7 @@ This command effectively deletes the `bin` directory.
 
 ## Working with git and pushing your changes
 
-Since we are using an automated marking mechnism (based on how many progams can run successfully through your compiler), it is important to understand how git works. If you want to benefit from the nightly automatic marking feedback, please ensure that you push all your changes daily onto your bitbucket centralised repository.
+Since we are using an automated marking mechnism (based on how many progams can run successfully through your compiler), it is important to understand how git works. If you want to benefit from the nightly automatic marking feedback, please ensure that you push all your changes daily onto your GitLab centralised repository.
 
 We suggest you follow the excelent [tutorial](https://www.atlassian.com/git/tutorials/what-is-version-control) from atlassian on how to use git. In particular you will need to understand the following basic meachnisms:
 

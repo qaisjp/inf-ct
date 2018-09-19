@@ -14,7 +14,7 @@ Note that specific instructions for each part can be found above by clicking on 
 
 # Scoreboard #
 
-We automatically run a series of hidden test programs using your compiler about once a day.
+We automatically run a series of hidden test programs using your compiler about twice a day.
 You can keep track of your progress and see how many tests pass/fail using the scoreboard by following this link: TBC
 
 # Marking #
@@ -26,17 +26,24 @@ Also make sure that the build script provided remains unchanged so that your pro
 Furthermore, you may not use any external libraries.
 
 For parts 1-3 of the coursework, the marking will be a function of the number of successful tests as shown in the scoreboard and a series of hidden tests.
+In addition, 10% of the mark will be determined by test coverage.
 
 ## Part 1-2
-66% of the mark will be determined by the scoreboard tests and 33% will be determined by the hidden tests.
+60% of the mark will be determined by the scoreboard tests, 30% will be determined by the hidden tests and 10% by the test coverage.
 You will get one point for each passing test and -1 for each failing test (only for the lexer, parser and semantic analysis components).
 Then the mark is calculated by dividing the number of points achieved by the number of tests.
 The hidden tests are marked independently from the visible ones.
 
 ## Part 3
-66% of the mark will be determined by the visible scoreboard tests and 33% will be determined by the hidden tests.
+60% of the mark will be determined by the visible scoreboard tests, 30% will be determined by the hidden tests and 10% by the test coverage.
 The mark will directly be proportial to the number of passed tests (no negative point).
-So for instance, passing 7 out of 50 tests would result in a mark of 14/100.
+So for instance, passing 7 out of 50 tests would result in a mark of 14/90 + 10 * (percentage of code covered by your tests).
+
+# Test Coverage # 
+As mentionned earlier, for part 1-3, 10% of the mark will be determined by the amount of code that your tests covered.
+You should all your tests into the tests folder and make sure all the files ends with the suffix '.c'.
+We will run your compiler on all the file found (sub-directories are allowed) with the '.c'.
+Please ensure that your compiler does not enter an infinite loop or freezes when running your tests or our coverage measurement will faile and you will receive a 0 for coverage.
 
 
 # Setup #

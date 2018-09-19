@@ -39,7 +39,8 @@ The hidden tests are marked independently from the visible ones.
 The mark will directly be proportial to the number of passed tests (no negative point).
 So for instance, passing 7 out of 50 tests would result in a mark of 14/90 + 10 * (percentage of code covered by your tests).
 
-# Test Coverage # 
+# Test Coverage #
+
 As mentionned earlier, for part 1-3, 10% of the mark will be determined by the amount of code that your tests covered.
 You should all your tests into the tests folder and make sure all the files ends with the suffix '.c'.
 We will run your compiler on all the file found (sub-directories are allowed) with the '.c'.

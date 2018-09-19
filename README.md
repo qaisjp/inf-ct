@@ -41,10 +41,10 @@ So for instance, passing 7 out of 50 tests would result in a mark of 14/90 + 10 
 
 # Test Coverage #
 
-As mentionned earlier, for part 1-3, 10% of the mark will be determined by the amount of code that your tests covered.
-You should all your tests into the tests folder and make sure all the files ends with the suffix '.c'.
-We will run your compiler on all the file found (sub-directories are allowed) with the '.c'.
-Please ensure that your compiler does not enter an infinite loop or freezes when running your tests or our coverage measurement will faile and you will receive a 0 for coverage.
+As mentionned earlier, for part 1-3, 10% of the mark will be determined by the amount of code that your tests cover.
+You should add all your tests into the 'tests' folder and make sure all the files ends with the suffix '.c'.
+We will run your compiler on all the files found (sub-directories are allowed) with the '.c' suffix.
+Please ensure that your compiler does not enter an infinite loop or freezes when running your tests or our coverage measurement will fail and you will receive 0 for coverage.
 
 
 # Setup #

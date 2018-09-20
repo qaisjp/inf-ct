@@ -46,6 +46,7 @@ The mark will directly be proportial to the number of passed tests (no negative 
 First, we will need you fill up [this google form](https://docs.google.com/forms/d/e/1FAIpQLSeAj5JKrglJ0AuHD8uvIZc3syErIzuypaNNHlOD47vZi14sPA/viewform)
 in order for us to register you for the automarking.
 If you are not registered, we won't be able to mark you.
+Also please make sure to keep `ct-18-19` as your repository name, otherwise autmarking will fail.
 
 ## GitLab ##
 We will rely on gitlab and it is mandatory to use it for this coursework.

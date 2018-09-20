@@ -107,9 +107,12 @@ public class Tokeniser {
     private TokenClass readString(char firstChar) throws IOException {
         boolean consumedCharacters = false;
 
+        stringSoFar.append(firstChar);
+
         for (Map.Entry<String,TokenClass> e : stringTokMap.entrySet()) {
             String s = e.getKey();
 
+            // todo: doesn't catch char sometimes hmmm
             if (s.charAt(0) == firstChar) {
                 char c = firstChar;
                 // System.out.print(c);
@@ -119,6 +122,8 @@ public class Tokeniser {
                 while (scanner.peek() == s.charAt(i + 1)) {
                     // Consume the next character
                     c = scanner.next();
+                    stringSoFar.append(c);
+
                     i += 1;
                     consumedCharacters = true;
                     // System.out.print(c);
@@ -145,16 +150,10 @@ public class Tokeniser {
             }
         }
 
-        // todo: the below accounts for stuff like `ifner` being reported as an ID
-        //       what about &|?
-        //
-        // investigate solution: if most recently consumed character is a non-identifier
-        //                       character, then we just say it's an invalid token (?)
-
-        // IMPORTANT! ONCE WE HAVE CONSUMED A CHARACTER WE CANNOT GO BACK!
-        // This means we need to keep consuming until a non-identifier character
-        if (consumedCharacters) {
-            // TODO: Check if this works properly
+        if (consumedCharacters || Character.isLetter(firstChar) || firstChar == '_') {
+            readIdentifier();
+            // System.out.printf("Consumed: %s\n", stringSoFar);
+            return TokenClass.IDENTIFIER;
         }
 
         return null;

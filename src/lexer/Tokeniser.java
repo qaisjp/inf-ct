@@ -183,7 +183,9 @@ public class Tokeniser {
         // if this is / and next will be *
         if (c == '/' && scanner.peek() == '*') {
             // consume that opening *
-            char prevChar = scanner.next();
+            scanner.next();
+            
+            char prevChar;
             char nextChar = scanner.next();
             // System.out.print(c);
             // System.out.print(prevChar);

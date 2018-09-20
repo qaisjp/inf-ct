@@ -183,6 +183,7 @@ public class Tokeniser {
             // Put the column back a few, precisely the length of the partially read identifier
             column -= stringSoFar.length();
             readIdentifier();
+            // System.out.printf("%s\n", stringSoFar);
             return new Token(TokenClass.IDENTIFIER, line, column);
         }
 

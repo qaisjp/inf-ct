@@ -84,6 +84,7 @@ public class Tokeniser {
             put('>', TokenClass.GE);
     }};
 
+    // Strings in stringTokMap DO NOT ACCEPT SPECIAL CHARACTERS (I think?)
     private static final Map<String,TokenClass> stringTokMap = new HashMap<String,TokenClass>() {{
         // types
         put("int", TokenClass.INT);

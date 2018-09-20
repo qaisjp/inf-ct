@@ -162,6 +162,10 @@ public class Tokeniser {
         }
     }
 
+    boolean isEscapeCharacter(char c) {
+        return (c == 't' || c == 'b' || c == 'n' || c == 'r' || c == 'f' || c == '\'' || c == '"' || c == '\\');
+    }
+
     private Token next() throws IOException {
 
         int line = scanner.getLine();
@@ -238,7 +242,7 @@ public class Tokeniser {
                     c = scanner.next();
 
                     // If it is not a valid escape character, return invalid
-                    if (c != 't' && c != 'b' && c != 'n' && c != 'r' && c != 'f' && c != '\'' && c != '"' && c != '\\') {
+                    if (!isEscapeCharacter(c)) {
                         return new Token(TokenClass.INVALID, line, column);
                     }
                 }

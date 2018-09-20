@@ -263,25 +263,23 @@ public class Tokeniser {
         }
 
         // Check for logical operators
-        if (c == '&' || c == '|') {
-            if (scanner.peek() == c) {
-                TokenClass tok = null;
-                switch (c) {
-                    case '&':
-                        tok = TokenClass.AND;
-                        break;
-                    case '|':
-                        tok = TokenClass.OR;
-                        break;
-                }
+        if ((c == '&' || c == '|') && (scanner.peek() == c)) {
+            TokenClass tok = null;
+            switch (c) {
+                case '&':
+                    tok = TokenClass.AND;
+                    break;
+                case '|':
+                    tok = TokenClass.OR;
+                    break;
+            }
 
-                if (tok != null) {
-                    // Consume the character we've peeked
-                    scanner.next();
+            if (tok != null) {
+                // Consume the character we've peeked
+                scanner.next();
 
-                    // Return the token we've found
-                    return new Token(tok, line, column);
-                }
+                // Return the token we've found
+                return new Token(tok, line, column);
             }
         }
 

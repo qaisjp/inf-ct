@@ -278,7 +278,7 @@ public class Tokeniser {
         if (c == '#') {
             int startColumn = column;
             // TODO: column is supposed to be reported at start
-            for (char nextChar : "include ".toCharArray()) {
+            for (char nextChar : "include".toCharArray()) {
                 if (scanner.next() != nextChar) {
                     return new Token(TokenClass.INVALID, line, startColumn);
                 }

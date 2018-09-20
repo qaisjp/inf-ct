@@ -94,7 +94,7 @@ public class Tokeniser {
         put("struct", TokenClass.STRUCT);
         put("sizeof", TokenClass.SIZEOF);
 
-        // include
+        // include - TODO: this will cause problems.
         put("#include", TokenClass.INCLUDE);
     }};
 

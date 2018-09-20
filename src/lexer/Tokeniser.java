@@ -99,11 +99,6 @@ public class Tokeniser {
         put("sizeof", TokenClass.SIZEOF);
     }};
 
-    private boolean isIdentifier(char c) {
-        // this method won't be usable. it's not just [A-Za-z0-9]+, it has a different regex.
-        return false;
-    }
-
     private TokenClass readString(char firstChar) throws IOException {
         boolean consumedCharacters = false;
 

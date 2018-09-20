@@ -41,6 +41,12 @@ The mark will directly be proportial to the number of passed tests (no negative 
 
 # Setup #
 
+## Register your student id and name ## 
+
+First, we will need you fill up [this google form](https://docs.google.com/forms/d/e/1FAIpQLSeAj5JKrglJ0AuHD8uvIZc3syErIzuypaNNHlOD47vZi14sPA/viewform)
+in order for us to register you for the automarking.
+If you are not registered, we won't be able to mark you.
+
 ## GitLab ##
 We will rely on gitlab and it is mandatory to use it for this coursework.
 GitLab is an online repository that can be used with the git control revision system.  The university runs a GitLab hosting service, and all students are provided with an account. The username is your univeristy id number (sXXXXXXX) and your password is the EASE.
@@ -83,6 +89,7 @@ $ git clone https://sXXXXXXX@git.ecdf.ed.ac.uk/sXXXXXXX/ct-18-19.git
 ```
 
 where sXXXXXXX is your student id
+
 
 ## Development environment (editor)
 You can choose to use a development environment for your project. DICE machines have the following integrated development environments (IDE) for Java installed:

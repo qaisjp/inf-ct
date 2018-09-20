@@ -83,7 +83,7 @@ Now, grant access to the teaching staff
 
 ![Granting the teaching staff read access](/figures/gl_permissions2.png "Granting the teaching staff read access.")
 
-You should grant the following users *Mantainer* access:
+You should grant the following users *Reporter* access:
   * Christophe Dubach (username: cdubach)
   * Federico Pizzuti (username: s1580329)
 

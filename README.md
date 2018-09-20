@@ -54,7 +54,10 @@ Also please make sure to keep `ct-18-19` as your repository name, otherwise autm
 
 ## GitLab ##
 We will rely on gitlab and it is mandatory to use it for this coursework.
-GitLab is an online repository that can be used with the git control revision system.  The university runs a GitLab hosting service, and all students are provided with an account. The username is your univeristy id number (sXXXXXXX) and your password is the EASE.
+GitLab is an online repository that can be used with the git control revision system.
+The university runs a GitLab hosting service, and all students are provided with an account.
+The username is your univeristy id number (sXXXXXXX) and your password is the EASE.
+Please make sure to use your university id when login on the University gitlab, otherwise, we will be unable to automatically mark your coursework.
 
 Important: do not share your code and repository with anyone and keep your source code secret.
 If we identify that two students have identical portion of code, both will be considered to have cheated.
@@ -83,7 +86,7 @@ Now, grant access to the teaching staff
 
 ![Granting the teaching staff read access](/figures/gl_permissions2.png "Granting the teaching staff read access.")
 
-You should grant the following users *Mantainer* access:
+You should grant the following users *Reporter* access:
   * Christophe Dubach (username: cdubach)
   * Federico Pizzuti (username: s1580329)
 

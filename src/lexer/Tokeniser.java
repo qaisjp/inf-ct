@@ -255,6 +255,33 @@ public class Tokeniser {
             return new Token(TokenClass.STRING_LITERAL, line, column);
         }
 
+        // If open character literal
+        if (c == '\'') {
+            // Read the next character
+            c = scanner.next();
+
+            // If current character is a backlash we're starting an escape sequence
+            if (c == '\\') {
+                // we read the escape character
+                c = scanner.next();
+
+                // If it is not a valid escape character, return invalid
+                if (!isEscapeCharacter(c)) {
+                    return new Token(TokenClass.INVALID, line, column);
+                }
+            }
+
+            // Check if the next character is a close quote
+            if (scanner.peek() == '\'') {
+                scanner.consume();
+
+                return new Token(TokenClass.CHAR_LITERAL, line, column);
+            }
+
+            // If we're here, then there's a mistake. Uh oh!
+            return new Token(TokenClass.INVALID, line, column);
+        }
+
         // recognises integer literals (again no accounting for string literals)
         if (Character.isDigit(c)) {
             while(Character.isDigit(scanner.peek())) {

@@ -283,6 +283,11 @@ public class Tokeniser {
             }
         }
 
+        // Check for simple character
+        if (charTokMap.containsKey(c)) {
+            return new Token(charTokMap.get(c), line, column);
+        }
+
         // Use readstring trick to read strings (or individual characters)
         // starts with provided character
         TokenClass tok = readString(c);

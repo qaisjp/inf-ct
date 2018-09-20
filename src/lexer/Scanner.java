@@ -60,6 +60,11 @@ public class Scanner {
         return r;
     }
 
+    // consume does next() but doesn't return a character
+    public void consume() throws IOException {
+        next();
+    }
+
     public void close() throws IOException {
         input.close();
     }

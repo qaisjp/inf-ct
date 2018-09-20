@@ -13,6 +13,7 @@ import java.util.Map;
 public class Tokeniser {
 
     private Scanner scanner;
+    private StringBuilder stringSoFar = new StringBuilder();
 
     private int error = 0;
     public int getErrorCount() {
@@ -33,6 +34,9 @@ public class Tokeniser {
         Token result;
         try {
              result = next();
+             if (result.tokenClass != TokenClass.INVALID) {
+                 stringSoFar.setLength(0);
+             }
         } catch (EOFException eof) {
             // end of file, nothing to worry about, just return EOF token
             return new Token(TokenClass.EOF, scanner.getLine(), scanner.getColumn());
@@ -156,10 +160,31 @@ public class Tokeniser {
         return null;
     }
 
+    // readIdentifier keeps scanning until we hit a non-identifier character
+    private void readIdentifier() throws IOException {
+        char nextChar = scanner.peek();
+        while (Character.isLetterOrDigit(nextChar) || nextChar == '_') {
+            // Consume the character we have peeked
+            scanner.next();
+
+            stringSoFar.append(nextChar);
+
+            nextChar = scanner.peek();
+        }
+    }
+
     private Token next() throws IOException {
 
         int line = scanner.getLine();
         int column = scanner.getColumn();
+
+        // Are we currently reading an identifier?
+        if (stringSoFar.length() > 0) {
+            // Put the column back a few, precisely the length of the partially read identifier
+            column -= stringSoFar.length();
+            readIdentifier();
+            return new Token(TokenClass.IDENTIFIER, line, column);
+        }
 
         // get the next character
         char c = scanner.next();
@@ -184,7 +209,7 @@ public class Tokeniser {
         if (c == '/' && scanner.peek() == '*') {
             // consume that opening *
             scanner.next();
-            
+
             char prevChar;
             char nextChar = scanner.next();
             // System.out.print(c);
@@ -281,7 +306,10 @@ public class Tokeniser {
             int startColumn = column;
             // TODO: column is supposed to be reported at start
             for (char nextChar : "include".toCharArray()) {
-                if (scanner.next() != nextChar) {
+                c = scanner.next();
+                stringSoFar.append(c);
+                if (c != nextChar) {
+
                     return new Token(TokenClass.INVALID, line, startColumn);
                 }
             }

@@ -144,11 +144,6 @@ public class Tokeniser {
             }
         }
 
-        // If we haven't consumed characters, just try the single character in the map
-        if (!consumedCharacters && charTokMap.containsKey(firstChar)) {
-            return charTokMap.get(firstChar);
-        }
-
         // todo: the below accounts for stuff like `ifner` being reported as an ID
         //       what about &|?
         //
@@ -288,7 +283,7 @@ public class Tokeniser {
             return new Token(charTokMap.get(c), line, column);
         }
 
-        // Use readstring trick to read strings (or individual characters)
+        // Use readstring trick to read strings
         // starts with provided character
         TokenClass tok = readString(c);
         if (tok != null) {

@@ -72,7 +72,15 @@ public class Tokeniser {
             put('>', TokenClass.GT);
     }};
 
-    static final Map<String,TokenClass> stringTokMap = new HashMap<String,TokenClass>() {{
+
+    private static final Map<Character,TokenClass> charTokComparisonMap = new HashMap<Character,TokenClass>() {{
+            put('=', TokenClass.EQ);
+            put('!', TokenClass.NE);
+            put('<', TokenClass.LE);
+            put('>', TokenClass.GE);
+    }};
+
+    private static final Map<String,TokenClass> stringTokMap = new HashMap<String,TokenClass>() {{
         // types
         put("int", TokenClass.INT);
         put("void", TokenClass.VOID);
@@ -88,12 +96,6 @@ public class Tokeniser {
 
         // include
         put("#include", TokenClass.INCLUDE);
-
-        // comparisons
-        put("==", TokenClass.EQ);
-        put("!=", TokenClass.NE);
-        put("<=", TokenClass.LE);
-        put(">=", TokenClass.GE);
 
         // logical operators
         put("&&", TokenClass.AND);
@@ -250,6 +252,18 @@ public class Tokeniser {
                 scanner.next();
             }
             return new Token(TokenClass.INT_LITERAL, line, column);
+        }
+
+        // Quickly check for comparisons
+        if (scanner.peek() == '=') {
+            TokenClass tok = charTokComparisonMap.get(c);
+            if (tok != null) {
+                // Consume the character we've peeked
+                scanner.next();
+
+                // Return the token we've found
+                return new Token(tok, line, column);
+            }
         }
 
         // Use readstring trick to read strings (or individual characters)

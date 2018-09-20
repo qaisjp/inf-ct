@@ -1,7 +1,6 @@
-# Draft description, please read!#
+# Description of the course work is likely to be upatded!#
 
-The official description of the course work will be finalised and released on Thursday when the labs start.
-Changes are possible until the start of the labs.
+Please note that the description of the course work might be updated from time to time to clarify things or fix mistakes.
 
 # Deadlines #
 

@@ -24,6 +24,11 @@ void main() {
   } else if (3>c) {
   }
 
+  // check logical operators
+  if (1 && 0) {
+  } else if (0 || 0) {
+  }
+
   // Check all escape sequences
   print_s((char *)"\t \b \f \' \" \\\r\n");
 

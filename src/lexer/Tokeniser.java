@@ -96,10 +96,6 @@ public class Tokeniser {
 
         // include
         put("#include", TokenClass.INCLUDE);
-
-        // logical operators
-        put("&&", TokenClass.AND);
-        put("||", TokenClass.OR);
     }};
 
     private boolean isIdentifier(char c) {

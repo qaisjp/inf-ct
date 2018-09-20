@@ -37,7 +37,11 @@ The hidden tests are marked independently from the visible ones.
 66.6% of the mark will be determined by the visible scoreboard tests and 33.3% will be determined by the hidden tests and 10% by the test coverage.
 The mark will directly be proportial to the number of passed tests (no negative point).
 
+# Tests #
 
+Although we do not mark you on the tests you will create for testing your own compiler, we do ask you to add all the tests you used into the `tests` folder of your repository.
+If we find students that do not have any tests (or very few), and they managed to pass most of our tests, this will raise suspicion that this might be a case of academic misconduct.
+Also make sure that you do not share your tests as they should be written by yourself alone (we will run plagiarism detection software on all the code, including the tests, that is in your repository).
 
 # Setup #
 

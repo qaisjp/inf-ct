@@ -167,7 +167,7 @@ public class Tokeniser {
         int line = scanner.getLine();
         int column = scanner.getColumn();
 
-        // Are we currently reading an identifier?
+        // Are we currently reading an identifier? (this happens if we read ahead and ran into an error)
         if (stringSoFar.length() > 0) {
             // Put the column back a few, precisely the length of the partially read identifier
             column -= stringSoFar.length();
@@ -322,6 +322,4 @@ public class Tokeniser {
         error(c, line, column);
         return new Token(TokenClass.INVALID, line, column);
     }
-
-
 }

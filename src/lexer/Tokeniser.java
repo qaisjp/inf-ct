@@ -125,14 +125,8 @@ public class Tokeniser {
 
                     // If we have consumed our string
                     if (i == s.length()-1) {
-                        // Return token if next is whitespace (or current is symbol, i.e not letter)
-                        //
-                        // Note; when thisChar is a symbol, we don't need to check if the next is a symbol
-                        //       because we don't need to account for situations like "===" and "==".
-                        //       It will also be annoying to deal with comparisons such as:
-                        //          `2 >! false` (i.e 2>!false, i.e 2>true, i.e 2>1, i.e true)
-                        //       (Our current code deals with this fine, I think)
-                        if (Character.isWhitespace(scanner.peek()) || !Character.isLetter(c)) {
+                        // Return token if next is whitespace
+                        if (Character.isWhitespace(scanner.peek())) {
                             // System.out.print(scanner.peek());
                             return e.getValue();
                         }

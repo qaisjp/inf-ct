@@ -1,7 +1,6 @@
-# Draft description, please read!#
+# Description of the course work is likely to be upatded!#
 
-The official description of the course work will be finalised and released on Thursday when the labs start.
-Changes are possible until the start of the labs.
+Please note that the description of the course work might be updated from time to time to clarify things or fix mistakes.
 
 # Deadlines #
 
@@ -14,7 +13,7 @@ Note that specific instructions for each part can be found above by clicking on 
 
 # Scoreboard #
 
-We automatically run a series of hidden test programs using your compiler about once a day.
+We automatically run a series of hidden test programs using your compiler about twice a day.
 You can keep track of your progress and see how many tests pass/fail using the scoreboard by following this link: TBC
 
 # Marking #
@@ -27,19 +26,31 @@ Furthermore, you may not use any external libraries.
 
 For parts 1-3 of the coursework, the marking will be a function of the number of successful tests as shown in the scoreboard and a series of hidden tests.
 
+
 ## Part 1-2
-66% of the mark will be determined by the scoreboard tests and 33% will be determined by the hidden tests.
+66.6% of the mark will be determined by the scoreboard tests and 33.3% will be determined by the hidden tests.
 You will get one point for each passing test and -1 for each failing test (only for the lexer, parser and semantic analysis components).
-Then the mark is calculated by dividing the number of points achieved by the number of tests.
+Then, the mark is calculated by dividing the number of points achieved by the number of tests.
 The hidden tests are marked independently from the visible ones.
 
 ## Part 3
-66% of the mark will be determined by the visible scoreboard tests and 33% will be determined by the hidden tests.
+66.6% of the mark will be determined by the visible scoreboard tests and 33.3% will be determined by the hidden tests and 10% by the test coverage.
 The mark will directly be proportial to the number of passed tests (no negative point).
-So for instance, passing 7 out of 50 tests would result in a mark of 14/100.
 
+# Tests #
+
+Although we do not mark you on the tests you will create for testing your own compiler, we do ask you to add all the tests you used into the `tests` folder of your repository.
+If we find students that do not have any tests (or very few), and they managed to pass most of our tests, this will raise suspicion that this might be a case of academic misconduct.
+Also make sure that you do not share your tests as they should be written by yourself alone (we will run plagiarism detection software on all the code, including the tests, that is in your repository).
 
 # Setup #
+
+## Register your student id and name
+
+First, we will need you fill up [this google form](https://docs.google.com/forms/d/e/1FAIpQLSeAj5JKrglJ0AuHD8uvIZc3syErIzuypaNNHlOD47vZi14sPA/viewform)
+in order for us to register you for the automarking.
+If you are not registered, we won't be able to mark you.
+Also please make sure to keep `ct-18-19` as your repository name, otherwise autmarking will fail.
 
 ## GitLab ##
 We will rely on gitlab and it is mandatory to use it for this coursework.
@@ -72,7 +83,7 @@ Now, grant access to the teaching staff
 
 ![Granting the teaching staff read access](/figures/gl_permissions2.png "Granting the teaching staff read access.")
 
-You should grant the following users *write* access:
+You should grant the following users *Mantainer* access:
   * Christophe Dubach (username: cdubach)
   * Federico Pizzuti (username: s1580329)
 
@@ -83,6 +94,7 @@ $ git clone https://sXXXXXXX@git.ecdf.ed.ac.uk/sXXXXXXX/ct-18-19.git
 ```
 
 where sXXXXXXX is your student id
+
 
 ## Development environment (editor)
 You can choose to use a development environment for your project. DICE machines have the following integrated development environments (IDE) for Java installed:
@@ -127,7 +139,7 @@ The parameter `cp` instructs the Java Runtime to include the local directory `bi
 You can find a series of tests in the `tests` folder. To run the lexer on one of them, you can type:
 
 ```
-$ java -cp bin Main -lexer tests/fibonacci.c
+$ java -cp bin Main -lexer tests/fibonacci.c dummy.out
 ```
 
 
@@ -139,7 +151,7 @@ This command effectively deletes the `bin` directory.
 
 ## Working with git and pushing your changes
 
-Since we are using an automated marking mechnism (based on how many progams can run successfully through your compiler), it is important to understand how git works. If you want to benefit from the nightly automatic marking feedback, please ensure that you push all your changes daily onto your bitbucket centralised repository.
+Since we are using an automated marking mechnism (based on how many progams can run successfully through your compiler), it is important to understand how git works. If you want to benefit from the nightly automatic marking feedback, please ensure that you push all your changes daily onto your GitLab centralised repository.
 
 We suggest you follow the excelent [tutorial](https://www.atlassian.com/git/tutorials/what-is-version-control) from atlassian on how to use git. In particular you will need to understand the following basic meachnisms:
 

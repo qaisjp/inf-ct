@@ -41,7 +41,7 @@ The mark will directly be proportial to the number of passed tests (no negative 
 
 # Setup #
 
-## Register your student id and name ## 
+## Register your student id and name
 
 First, we will need you fill up [this google form](https://docs.google.com/forms/d/e/1FAIpQLSeAj5JKrglJ0AuHD8uvIZc3syErIzuypaNNHlOD47vZi14sPA/viewform)
 in order for us to register you for the automarking.

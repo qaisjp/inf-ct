@@ -93,9 +93,6 @@ public class Tokeniser {
         put("return", TokenClass.RETURN);
         put("struct", TokenClass.STRUCT);
         put("sizeof", TokenClass.SIZEOF);
-
-        // include - TODO: this will cause problems.
-        put("#include", TokenClass.INCLUDE);
     }};
 
     private boolean isIdentifier(char c) {
@@ -276,6 +273,17 @@ public class Tokeniser {
                 // Return the token we've found
                 return new Token(tok, line, column);
             }
+        }
+
+        if (c == '#') {
+            int startColumn = column;
+            // TODO: column is supposed to be reported at start
+            for (char nextChar : "include ".toCharArray()) {
+                if (scanner.next() != nextChar) {
+                    return new Token(TokenClass.INVALID, line, startColumn);
+                }
+            }
+            return new Token(TokenClass.INCLUDE, line, column);
         }
 
         // Check for simple character

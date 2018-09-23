@@ -26,7 +26,7 @@ public class Tokeniser {
 
     private void error(char c, int line, int col) {
         System.out.println("Lexing error: unrecognised character ("+c+") at "+line+":"+col);
-	error++;
+	    error++;
     }
 
     public Token nextToken() {
@@ -246,6 +246,7 @@ public class Tokeniser {
 
                     // If it is not a valid escape character, return invalid
                     if (!isEscapeCharacter(c)) {
+                        error(c, line, column);
                         return new Token(TokenClass.INVALID, line, column);
                     }
                 }
@@ -270,6 +271,7 @@ public class Tokeniser {
 
                 // If it is not a valid escape character, return invalid
                 if (!isEscapeCharacter(c)) {
+                    error(c, line, column);
                     return new Token(TokenClass.INVALID, line, column);
                 }
             }
@@ -282,6 +284,7 @@ public class Tokeniser {
             }
 
             // If we're here, then there's a mistake. Uh oh!
+            error(c, line, column);
             return new Token(TokenClass.INVALID, line, column);
         }
 
@@ -333,7 +336,7 @@ public class Tokeniser {
                 c = scanner.next();
                 stringSoFar.append(c);
                 if (c != nextChar) {
-
+                    error(c, line, startColumn);
                     return new Token(TokenClass.INVALID, line, startColumn);
                 }
             }

@@ -336,7 +336,7 @@ public class Tokeniser {
                 c = scanner.next();
                 stringSoFar.append(c);
                 if (c != nextChar) {
-                    error(c, line, startColumn);
+                    error('#', line, startColumn);
                     return new Token(TokenClass.INVALID, line, startColumn);
                 }
             }

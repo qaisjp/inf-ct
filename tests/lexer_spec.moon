@@ -39,18 +39,29 @@ check_lexes_to = (filename, t, errors) ->
                 assert.equal "Lexing: pass", outcome
                 return
 
+tests =
+    ["p.types.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",
+        "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
+    ["trailingnewline/f.nonewline.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
+        "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
+    ["trailingnewline/f.endnewline.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
+        "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
+
 describe "lexer", ->
-    describe "types", ->
-        check_lexes_to "p.types.c",
-            {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",
-            "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
+    [check_lexes_to filename, to, errors for filename, {:to, :errors} in pairs tests]
+    -- check_lexes_to "p.types.c",
+    --     {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",
+    --     "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
 
-    check_lexes_to "trailingnewline/f.nonewline.c",
-        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
-        "Lexing error: unrecognised character (#) at 2:0",
-        "INVALID"}, 1
+    -- check_lexes_to "trailingnewline/f.nonewline.c",
+    --     {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
+    --     "Lexing error: unrecognised character (#) at 2:0",
+    --     "INVALID"}, 1
 
-    check_lexes_to "trailingnewline/f.endnewline.c",
-        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
-        "Lexing error: unrecognised character (#) at 2:0",
-        "INVALID"}, 1
+    -- check_lexes_to "trailingnewline/f.endnewline.c",
+    --     {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
+    --     "Lexing error: unrecognised character (#) at 2:0",
+    --     "INVALID"}, 1

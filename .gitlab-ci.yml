@@ -1,0 +1,10 @@
+pages:
+  stage: deploy
+  script:
+  - mkdir public
+  - cp scoreboard/* public/
+  artifacts:
+    paths:
+    - public
+  only:
+  - master

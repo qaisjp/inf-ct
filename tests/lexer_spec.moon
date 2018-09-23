@@ -1,3 +1,5 @@
+-- Requirements: busted, luarocks, luafilesystem
+
 PROJ = os.getenv("PROJ")
 if PROJ == "" or not PROJ then
     error("PROJ environment variable is not set")
@@ -10,7 +12,7 @@ getfile = (filename) ->
     t
 
 lexfile = (filename) ->
-    f = assert(io.popen("java -cp $PROJ/bin Main -lexer $PROJ/tests/lexer/" .. filename .. " out", "r"))
+    f = assert(io.popen "java -cp $PROJ/bin Main -lexer $PROJ/tests/lexer/#{filename} out", "r")
     t = f\read "*all"
     f\close!
     t
@@ -25,7 +27,9 @@ check_lexes_to = (filename, t, errors) ->
         outcome = lines[#lines]
         table.remove lines, #lines
 
-        it "should match", -> assert.are.same t, lines
+        it "should match", ->
+            assert.are.same t, lines
+            return
 
         if errors then
             it "should fail", ->
@@ -50,5 +54,33 @@ tests =
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
 
+    ["strings/p.escapes.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "STRING_LITERAL", "RBRA"}
+
 describe "lexer", ->
-    [check_lexes_to filename, to, errors for filename, {:to, :errors} in pairs tests]
+    local iterate
+    iterate = (base, f="") ->
+        for d in lfs.dir("#{PROJ}/tests/#{base}/#{f}") do
+            unless d == "." or d == ".."
+                isDir = lfs.attributes("#{PROJ}/tests/#{base}/#{f}#{d}").mode == "directory"
+                filename = "#{f}#{d}"
+                if not isDir and d\sub(-2,-1) == ".c"
+                    print filename
+                    testData = tests[filename]
+
+                    if testData
+                        testData.visited = true
+                        check_lexes_to filename, testData.to, testData.errors
+                    else
+                        describe filename, -> it "should have test", ->
+                            pending "file exists but not test"
+                            return
+                elseif isDir
+                    iterate base, filename.."/"
+    iterate "lexer"
+
+    for filename, test in pairs tests do
+        unless test.visited
+            describe filename, -> it "should exist", ->
+                pending "test exists but not flie"
+                return

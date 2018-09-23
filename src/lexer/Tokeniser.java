@@ -29,7 +29,6 @@ public class Tokeniser {
 	error++;
     }
 
-
     public Token nextToken() {
         Token result;
         try {
@@ -126,8 +125,8 @@ public class Tokeniser {
 
                     // If we have consumed our string
                     if (i == s.length()-1) {
-                        // Return token if next is whitespace
-                        if (Character.isWhitespace(scanner.peek())) {
+                        // Return token if next is NOT identifier
+                        if (!isIdentifierCharacterMid(scanner.peek())) {
                             // System.out.print(scanner.peek());
                             return e.getValue();
                         }
@@ -149,10 +148,14 @@ public class Tokeniser {
         return null;
     }
 
+    private boolean isIdentifierCharacterMid(char c) {
+        return Character.isLetterOrDigit(c) || c == '_';
+    }
+
     // readIdentifier keeps scanning until we hit a non-identifier character
     private void readIdentifier() throws IOException {
         char nextChar = scanner.peek();
-        while (Character.isLetterOrDigit(nextChar) || nextChar == '_') {
+        while (isIdentifierCharacterMid(nextChar)) {
             // Consume the character we have peeked
             scanner.next();
 

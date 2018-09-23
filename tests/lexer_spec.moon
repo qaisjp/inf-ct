@@ -50,14 +50,23 @@ tests =
     ["p.types.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",
         "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
+
+    -- trailingnewline
     ["trailingnewline/f.nonewline.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
     ["trailingnewline/f.endnewline.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
+
+    -- string literals
     ["strings/p.escapes.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "STRING_LITERAL", "RBRA"}
+
+    -- char literals
+    ["chars/f.multichar.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
+        "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"},
 
 describe "lexer", ->
     local iterate

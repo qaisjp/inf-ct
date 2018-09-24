@@ -47,9 +47,16 @@ check_lexes_to = (filename, t, errors) ->
             return
 
 tests =
+    -- base
     ["p.types.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",
         "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
+    ["p.empty.c"]: to: {}
+    ["p.identifiers.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA"
+        "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
+        "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
+        "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC", "RBRA"}
 
     -- trailingnewline
     ["trailingnewline/f.nonewline.c"]: errors: 1, to:

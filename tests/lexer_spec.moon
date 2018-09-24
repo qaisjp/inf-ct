@@ -84,16 +84,16 @@ tests =
     -- lastchar
     ["lastchar/f.nonewline.hash.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
-        "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
+        "Lexing error: unrecognised character (#) at 2:1", "INVALID"}
     ["lastchar/f.endnewline.hash.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
-        "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
+        "Lexing error: unrecognised character (#) at 2:1", "INVALID"}
     ["lastchar/f.nonewline.excl.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
-        "Lexing error: unrecognised character (!) at 2:0", "INVALID"}
+        "Lexing error: unrecognised character (!) at 2:1", "INVALID"}
     ["lastchar/f.endnewline.excl.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
-        "Lexing error: unrecognised character (!) at 2:0", "INVALID"}
+        "Lexing error: unrecognised character (!) at 2:1", "INVALID"}
 
     -- string literals
     ["strings/p.escapes.c"]: to:

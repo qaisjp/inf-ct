@@ -58,17 +58,17 @@ tests =
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC", "RBRA"}
 
-    -- trailingnewline
-    ["trailingnewline/f.nonewline.hash.c"]: errors: 1, to:
+    -- lastchar
+    ["lastchar/f.nonewline.hash.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
-    ["trailingnewline/f.endnewline.hash.c"]: errors: 1, to:
+    ["lastchar/f.endnewline.hash.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
-    ["trailingnewline/f.nonewline.excl.c"]: errors: 1, to:
+    ["lastchar/f.nonewline.excl.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (!) at 2:0", "INVALID"}
-    ["trailingnewline/f.endnewline.excl.c"]: errors: 1, to:
+    ["lastchar/f.endnewline.excl.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (!) at 2:0", "INVALID"}
 

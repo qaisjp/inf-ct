@@ -29,6 +29,11 @@ public class Tokeniser {
 	    error++;
     }
 
+    private void error(String reason, int line, int col) {
+        System.out.printf("Lexing error: %s at %d:%d\n", reason, line, col);
+        error++;
+    }
+
     public Token nextToken() {
         Token result;
         try {
@@ -256,6 +261,14 @@ public class Tokeniser {
                 // if we ignored a char, it's after the ignored char
                 c = scanner.next();
                 // System.out.print(c);
+
+                // If we're a newline, whoops. It's all gone to pot!
+                if (c == '\n' || c == '\r') {
+                    // error("expected closing quote, got newline", line, column);
+                    // TODO: ask if we should print an error
+                    error++;
+                    return new Token(TokenClass.INVALID, line, column);
+                }
             }
             return new Token(TokenClass.STRING_LITERAL, line, column);
         }

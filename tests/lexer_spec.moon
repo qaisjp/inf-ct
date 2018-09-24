@@ -114,7 +114,7 @@ describe "#lexer", ->
     iterate "lexer"
 
     for filename, test in pairs tests do
-        unless test.visited
-            describe filename, -> it "should have file", ->
+        describe filename, -> it "should have file", ->
+            unless test.visited
                 pending "test exists but not file"
-                return
+            return

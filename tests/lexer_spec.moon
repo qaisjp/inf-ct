@@ -59,21 +59,35 @@ tests =
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC", "RBRA"}
 
     -- trailingnewline
-    ["trailingnewline/f.nonewline.c"]: errors: 1, to:
+    ["trailingnewline/f.nonewline.hash.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
-    ["trailingnewline/f.endnewline.c"]: errors: 1, to:
+    ["trailingnewline/f.endnewline.hash.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:0", "INVALID"}
+    ["trailingnewline/f.nonewline.excl.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
+        "Lexing error: unrecognised character (!) at 2:0", "INVALID"}
+    ["trailingnewline/f.endnewline.excl.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA",
+        "Lexing error: unrecognised character (!) at 2:0", "INVALID"}
 
     -- string literals
     ["strings/p.escapes.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "STRING_LITERAL", "RBRA"}
+    ["strings/p.empty.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
+        "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
 
     -- char literals
     ["chars/f.multichar.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
-        "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"},
+        "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"}
+
+    -- includes
+    ["includes/f.caps.c"]: errors: 1, to:
+        {"Lexing error: unrecognised character (#) at 1:1",
+        "INVALID", "IDENTIFIER", "STRING_LITERAL"}
 
 describe "#lexer", ->
     local iterate

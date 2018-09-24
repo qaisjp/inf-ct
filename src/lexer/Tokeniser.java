@@ -298,15 +298,14 @@ public class Tokeniser {
         }
 
         // Quickly check for comparisons
-        if (scanner.peek() == '=') {
+        if (charTokComparisonMap.containsKey(c) && scanner.peek() == '=') {
             TokenClass tok = charTokComparisonMap.get(c);
-            if (tok != null) {
-                // Consume the character we've peeked
-                scanner.next();
 
-                // Return the token we've found
-                return new Token(tok, line, column);
-            }
+            // Consume the character we've peeked
+            scanner.next();
+
+            // Return the token we've found
+            return new Token(tok, line, column);
         }
 
         // Check for logical operators

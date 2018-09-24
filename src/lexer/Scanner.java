@@ -31,12 +31,16 @@ public class Scanner {
             return (char)peeked;
 
         int r = input.read();
-        if (r == -1)
+        if (r == -1) {
+            // return '\0';
             throw new EOFException();
+        }
 
         peeked = r;
         return (char) r;
     }
+
+
 
 
     public char next() throws IOException {

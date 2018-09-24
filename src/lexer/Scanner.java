@@ -54,10 +54,10 @@ public class Scanner {
                 throw new EOFException();
             r = (char) i;
         }
-
+        // System.out.printf("%s at %d\n", r, column);
         if (r == '\n' || r == '\r') {
             line++;
-            column =0;
+            column = 1;
         } else {
             column++;
         }

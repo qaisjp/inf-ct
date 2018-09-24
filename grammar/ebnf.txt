@@ -15,7 +15,7 @@ structdecl ::= structtype "{" (vardecl)+ "}" ";"    # structure declaration
 vardecl    ::= type IDENT ";"                       # normal declaration, e.g. int a;
              | type IDENT "[" INT_LITERAL "]" ";"   # array declaration, e.g. int a[2];
 
-fundecl    ::= type IDENT "(" params ")" block    # function declaration
+fundecl    ::= type IDENT "(" params ")" block      # function declaration
 
 type       ::= ("int" | "char" | "void" | structtype) ["*"]
 structtype ::= "struct" IDENT
@@ -26,7 +26,7 @@ stmt       ::= block
              | "while" "(" exp ")" stmt              # while loop
              | "if" "(" exp ")" stmt ["else" stmt]   # if then else
              | "return" [exp] ";"                    # return
-             | exp "=" exp ";"                      # assignment
+             | exp "=" exp ";"                       # assignment
              | exp ";"                               # expression statement, e.g. a function call
 
 block      ::= "{" (vardecl)* (stmt)* "}"

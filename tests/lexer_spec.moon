@@ -71,15 +71,36 @@ tests =
         "IDENTIFIER", "ASSIGN", "IDENTIFIER", "PLUS", "INT_LITERAL", "SC",
         "RBRA", "RBRA"}
     -- base
-    ["p.types.c"]: to:
-        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",
-        "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
+    ["p.empty.c"]: to: {}
+    ["f.excl.c"]: errors: 1, to: {"Lexing error: unrecognised character (!) at 1:1", "INVALID"}
+    ["p.comments.c"]: to: {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA"}
     ["p.empty.c"]: to: {}
     ["p.identifiers.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA"
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC", "RBRA"}
+    ["p.ops.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER",
+        "ASSIGN", "INT_LITERAL", "SC", "IF", "LPAR", "IDENTIFIER", "EQ",
+        "INT_LITERAL", "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR",
+        "IDENTIFIER", "GE", "INT_LITERAL", "RPAR", "LBRA", "RBRA", "ELSE",
+        "IF", "LPAR", "INT_LITERAL", "LE", "IDENTIFIER", "RPAR", "LBRA",
+        "RBRA", "ELSE", "IF", "LPAR", "IDENTIFIER", "GT", "INT_LITERAL",
+        "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR", "IDENTIFIER", "LT",
+        "INT_LITERAL", "RPAR", "LBRA", "RBRA","ELSE", "IF", "LPAR", "INT_LITERAL",
+        "GT", "IDENTIFIER", "RPAR", "LBRA", "RBRA", "IF", "LPAR", "INT_LITERAL",
+        "AND", "INT_LITERAL", "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR",
+        "INT_LITERAL", "OR", "INT_LITERAL", "RPAR", "LBRA", "RBRA", "RBRA"}
+    ["p.partial.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "IDENTIFIER", "SC",
+        "CHAR", "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
+    ["p.twocharint.c"]: to: {
+        "VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER", "ASSIGN",
+        "INT_LITERAL", "SC", "RBRA"}
+    ["p.types.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",
+        "IDENTIFIER", "SC", "CHAR", "IDENTIFIER", "SC", "RBRA"}
 
     -- lastchar
     ["lastchar/f.nonewline.hash.c"]: errors: 1, to:
@@ -96,16 +117,17 @@ tests =
         "Lexing error: unrecognised character (!) at 2:1", "INVALID"}
 
     -- string literals
-    ["strings/p.escapes.c"]: to:
-        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "STRING_LITERAL", "RBRA"}
-    ["strings/p.empty.c"]: to:
+    ["strings/f.badescapes.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
-        "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
+        "IDENTIFIER", "INVALID", "SC"}
     ["strings/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",
         -- "Lexing error: expected closing quote, got newline at 2:16",
         "INVALID", "RBRA"}
+    ["strings/p.empty.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
+        "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
     ["strings/p.escapes.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
         "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
@@ -119,6 +141,13 @@ tests =
     ["includes/f.caps.c"]: errors: 1, to:
         {"Lexing error: unrecognised character (#) at 1:1",
         "INVALID", "IDENTIFIER", "STRING_LITERAL"}
+    ["includes/f.typo.c"]: errors: 1, to:
+        {"Lexing error: unrecognised character (#) at 1:1", "INVALID", "IDENTIFIER"}
+    -- ["includes/p.multiOneLine.c"]: to: {"INCLUDE", "STRING_LITERAL", "INCLUDE", "STRING_LITERAL"}
+    ["includes/p.nospace.c"]: to: {"INCLUDE", "STRING_LITERAL"}
+    ["includes/p.space.c"]: to: {"INCLUDE", "STRING_LITERAL"}
+    ["includes/p.spaces.c"]: to: {"INCLUDE", "STRING_LITERAL"}
+
 
 describe "#lexer", ->
     local iterate

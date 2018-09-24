@@ -47,6 +47,29 @@ check_lexes_to = (filename, t, errors) ->
             return
 
 tests =
+    -- base originals
+    ["fibonacci.c"]: to:
+        {"INCLUDE", "STRING_LITERAL", "VOID", "IDENTIFIER",
+        "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER", "SC",
+        "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
+        "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
+        "CHAR", "IDENTIFIER", "SC", "IDENTIFIER", "ASSIGN", "IDENTIFIER",
+        "LPAR", "RPAR", "SC", "IDENTIFIER", "ASSIGN", "INT_LITERAL",
+        "SC", "IDENTIFIER", "ASSIGN", "INT_LITERAL", "SC", "IDENTIFIER",
+        "LPAR", "LPAR", "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL",
+        "RPAR", "SC", "IDENTIFIER", "LPAR", "IDENTIFIER", "RPAR",
+        "SC", "IDENTIFIER", "LPAR", "LPAR", "CHAR", "ASTERIX", "RPAR",
+        "STRING_LITERAL", "RPAR", "SC", "IDENTIFIER", "ASSIGN",
+        "INT_LITERAL", "SC", "WHILE", "LPAR", "IDENTIFIER", "LT",
+        "IDENTIFIER", "RPAR", "LBRA", "IF", "LPAR", "IDENTIFIER", "LE",
+        "INT_LITERAL", "RPAR", "IDENTIFIER", "ASSIGN", "IDENTIFIER", "SC",
+        "ELSE", "LBRA", "IDENTIFIER", "ASSIGN", "IDENTIFIER", "PLUS",
+        "IDENTIFIER", "SC", "IDENTIFIER", "ASSIGN", "IDENTIFIER", "SC",
+        "IDENTIFIER", "ASSIGN", "IDENTIFIER", "SC", "RBRA", "IDENTIFIER",
+        "LPAR", "IDENTIFIER", "RPAR", "SC", "IDENTIFIER", "LPAR", "LPAR",
+        "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL", "RPAR", "SC",
+        "IDENTIFIER", "ASSIGN", "IDENTIFIER", "PLUS", "INT_LITERAL", "SC",
+        "RBRA", "RBRA"}
     -- base
     ["p.types.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT",

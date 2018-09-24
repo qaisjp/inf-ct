@@ -133,6 +133,7 @@ public class Tokeniser {
 
                         // We've consumed the string but there's more!!
                         // We just break out of it. It could be another string or an identifier
+                        // TODO: Tweak this. other identifiers won't actually be checked.
                         break;
                     }
                 }
@@ -179,7 +180,7 @@ public class Tokeniser {
             // Put the column back a few, precisely the length of the partially read identifier
             column -= stringSoFar.length();
             readIdentifier();
-            // System.out.printf("%s\n", stringSoFar);
+            // System.out.printf("stringSoFar: %s\n", stringSoFar);
             return new Token(TokenClass.IDENTIFIER, line, column);
         }
 
@@ -356,6 +357,8 @@ public class Tokeniser {
         }
 
         // if we reach this point, it means we did not recognise a valid token
+        // we also reset our stringSoFar because it's an immediate problem
+        stringSoFar.setLength(0);
         error(c, line, column);
         return new Token(TokenClass.INVALID, line, column);
     }

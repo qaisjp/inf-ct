@@ -75,7 +75,7 @@ tests =
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
         "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"},
 
-describe "lexer", ->
+describe "#lexer", ->
     local iterate
     iterate = (base, f="") ->
         for d in lfs.dir("#{PROJ}/tests/#{base}/#{f}") do
@@ -87,7 +87,7 @@ describe "lexer", ->
                     testData = tests[filename]
 
                     baseHash = if base == "" then "root" else base
-                    describe "#{filename} ##{baseHash}", ->
+                    describe "#{filename}", ->
                         if testData
                             testData.visited = true
                             check_lexes_to filename, testData.to, testData.errors

@@ -304,22 +304,26 @@ public class Tokeniser {
 
         // recognises integer literals (again no accounting for string literals)
         if (Character.isDigit(c)) {
-            while(Character.isDigit(scanner.peek())) {
-                scanner.next();
-            }
+            try {
+                while (Character.isDigit(scanner.peek())) {
+                    scanner.next();
+                }
+            } catch (EOFException e) {}
             return new Token(TokenClass.INT_LITERAL, line, column);
         }
 
         // Quickly check for comparisons
-        if (charTokComparisonMap.containsKey(c) && scanner.peek() == '=') {
-            TokenClass tok = charTokComparisonMap.get(c);
+        try {
+            if (charTokComparisonMap.containsKey(c) && scanner.peek() == '=') {
+                TokenClass tok = charTokComparisonMap.get(c);
 
-            // Consume the character we've peeked
-            scanner.next();
+                // Consume the character we've peeked
+                scanner.next();
 
-            // Return the token we've found
-            return new Token(tok, line, column);
-        }
+                // Return the token we've found
+                return new Token(tok, line, column);
+            }
+        } catch (EOFException e) {}
 
         // Check for logical operators
         if ((c == '&' || c == '|') && (scanner.peek() == c)) {
@@ -345,13 +349,18 @@ public class Tokeniser {
         if (c == '#') {
             int startColumn = column;
             // TODO: column is supposed to be reported at start
-            for (char nextChar : "include".toCharArray()) {
-                c = scanner.next();
-                stringSoFar.append(c);
-                if (c != nextChar) {
-                    error('#', line, startColumn);
-                    return new Token(TokenClass.INVALID, line, startColumn);
+            try {
+                for (char nextChar : "include".toCharArray()) {
+                    c = scanner.next();
+                    stringSoFar.append(c);
+                    if (c != nextChar) {
+                        error('#', line, startColumn);
+                        return new Token(TokenClass.INVALID, line, startColumn);
+                    }
                 }
+            } catch (EOFException e) {
+                error('#', line, startColumn);
+                return new Token(TokenClass.INVALID, line, startColumn);
             }
             return new Token(TokenClass.INCLUDE, line, column);
         }

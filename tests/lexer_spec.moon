@@ -106,6 +106,9 @@ tests =
         "ASTERIX", "IDENTIFIER", "ASSIGN",
         -- "Lexing error: expected closing quote, got newline at 2:16",
         "INVALID", "RBRA"}
+    ["strings/p.escapes.c"]: to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
+        "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
 
     -- char literals
     ["chars/f.multichar.c"]: errors: 1, to:

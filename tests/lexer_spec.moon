@@ -101,6 +101,6 @@ describe "lexer", ->
 
     for filename, test in pairs tests do
         unless test.visited
-            describe filename, -> it "should exist", ->
-                pending "test exists but not flie"
+            describe filename, -> it "should have file", ->
+                pending "test exists but not files"
                 return

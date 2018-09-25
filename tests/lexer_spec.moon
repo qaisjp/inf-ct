@@ -71,7 +71,6 @@ tests =
         "IDENTIFIER", "ASSIGN", "IDENTIFIER", "PLUS", "INT_LITERAL", "SC",
         "RBRA", "RBRA"}
     -- base
-    ["p.empty.c"]: to: {}
     ["f.excl.c"]: errors: 1, to: {"Lexing error: unrecognised character (!) at 1:1", "INVALID"}
     ["p.empty.c"]: to: {}
     ["p.identifiers.c"]: to:

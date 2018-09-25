@@ -300,11 +300,21 @@ public class Tokeniser {
 
         // If open character literal
         if (c == '\'') {
+            if (!scanner.canPeek()) {
+                error('\'', line, column);
+                return new Token(TokenClass.INVALID, line, column);
+            }
+
             // Read the next character
             c = scanner.next();
 
             // If current character is a backlash we're starting an escape sequence
             if (c == '\\') {
+                if (!scanner.canPeek()) {
+                    error('\'', line, column);
+                    return new Token(TokenClass.INVALID, line, column);
+                }
+
                 // we read the escape character
                 c = scanner.next();
 
@@ -313,6 +323,11 @@ public class Tokeniser {
                     error(c, line, column);
                     return new Token(TokenClass.INVALID, line, column);
                 }
+            }
+
+            if (!scanner.canPeek()) {
+                error('\'', line, column);
+                return new Token(TokenClass.INVALID, line, column);
             }
 
             // Check if the next character is a close quote

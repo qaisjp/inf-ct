@@ -145,6 +145,31 @@ tests =
     ["chars/f.multichar.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
         "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"}
+    ["chars/f.unclosed.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
+        "ASTERIX", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (\') at 2:17",
+        "INVALID"}
+    ["chars/f.unclosed.eof.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
+        "ASTERIX", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (\') at 2:17",
+        "INVALID"}
+    ["chars/f.unclosed.eof.escape.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
+        "ASTERIX", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (\') at 2:17",
+        "INVALID"}
+    ["chars/f.unclosed.withchar.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
+        "ASTERIX", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (\') at 2:17",
+        "INVALID"}
+    ["chars/f.unclosed.withchar.eof.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
+        "ASTERIX", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (\') at 2:17",
+        "INVALID"}
 
     -- comments
     ["comments/p.incomplete.c"]: to: {"INT", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "DIV"}

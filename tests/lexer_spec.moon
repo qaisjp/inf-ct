@@ -183,7 +183,7 @@ tests =
         "INVALID", "IDENTIFIER", "STRING_LITERAL"}
     ["includes/f.typo.c"]: errors: 1, to:
         {"Lexing error: unrecognised character (#) at 1:1", "INVALID", "IDENTIFIER"}
-    -- ["includes/p.multiOneLine.c"]: to: {"INCLUDE", "STRING_LITERAL", "INCLUDE", "STRING_LITERAL"}
+    ["includes/p.multiOneLine.c"]: to: {"INCLUDE", "STRING_LITERAL", "INCLUDE", "STRING_LITERAL"}
     ["includes/p.nospace.c"]: to: {"INCLUDE", "STRING_LITERAL"}
     ["includes/p.space.c"]: to: {"INCLUDE", "STRING_LITERAL"}
     ["includes/p.spaces.c"]: to: {"INCLUDE", "STRING_LITERAL"}

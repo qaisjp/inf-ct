@@ -148,8 +148,8 @@ tests =
     ["chars/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",
-        "Lexing error: unrecognised character (\') at 2:17",
-        "INVALID"}
+        "Lexing error: unrecognised character (;) at 2:17",
+        "INVALID", "RBRA"}
     ["chars/f.unclosed.eof.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",
@@ -163,8 +163,8 @@ tests =
     ["chars/f.unclosed.withchar.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",
-        "Lexing error: unrecognised character (\') at 2:17",
-        "INVALID"}
+        "Lexing error: unrecognised character (n) at 2:17",
+        "INVALID", "SC", "RBRA"}
     ["chars/f.unclosed.withchar.eof.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",

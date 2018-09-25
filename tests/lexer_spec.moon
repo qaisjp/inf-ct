@@ -73,7 +73,6 @@ tests =
     -- base
     ["p.empty.c"]: to: {}
     ["f.excl.c"]: errors: 1, to: {"Lexing error: unrecognised character (!) at 1:1", "INVALID"}
-    ["p.comments.c"]: to: {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA"}
     ["p.empty.c"]: to: {}
     ["p.identifiers.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA"
@@ -136,6 +135,9 @@ tests =
     ["chars/f.multichar.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
         "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"}
+
+    -- comments
+    ["comments/p.comments.c"]: to: {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA"}
 
     -- includes
     ["includes/f.caps.c"]: errors: 1, to:

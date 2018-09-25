@@ -124,6 +124,16 @@ tests =
         "ASTERIX", "IDENTIFIER", "ASSIGN",
         -- "Lexing error: expected closing quote, got newline at 2:16",
         "INVALID", "RBRA"}
+    ["strings/f.unclosed.eof.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
+        "ASTERIX", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (\") at 2:17",
+        "INVALID"}
+    ["strings/f.unclosed.eof.escape.c"]: errors: 1, to:
+        {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
+        "ASTERIX", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (\") at 2:17",
+        "INVALID"}
     ["strings/p.empty.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
         "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}

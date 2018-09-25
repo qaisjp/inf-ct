@@ -248,6 +248,11 @@ public class Tokeniser {
 
             // System.out.print(c);
 
+            if (!scanner.canPeek()) {
+                error(c, line, column);
+                return new Token(TokenClass.INVALID, line, column);
+            }
+
             // Read the next character
             c = scanner.next();
 
@@ -257,14 +262,24 @@ public class Tokeniser {
             while (c != '"') {
                 // If current character is a backlash we're starting an escape sequence
                 if (c == '\\') {
+                    if (!scanner.canPeek()) {
+                        error('"', line, column);
+                        return new Token(TokenClass.INVALID, line, column);
+                    }
+
                     // we read the escape character
                     c = scanner.next();
 
                     // If it is not a valid escape character, return invalid
                     if (!isEscapeCharacter(c)) {
-                        error(c, line, column);
+                        error(c, line, scanner.getColumn());
                         return new Token(TokenClass.INVALID, line, column);
                     }
+                }
+
+                if (!scanner.canPeek()) {
+                    error('"', line, column);
+                    return new Token(TokenClass.INVALID, line, column);
                 }
 
                 // Read the next char

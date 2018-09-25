@@ -40,8 +40,14 @@ public class Scanner {
         return (char) r;
     }
 
-
-
+    public boolean canPeek() {
+        try {
+            peek();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
     public char next() throws IOException {
         char r;

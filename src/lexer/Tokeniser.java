@@ -200,7 +200,7 @@ public class Tokeniser {
         }
 
         // if this is / and next will be /
-        if (c == '/' && scanner.peek() == '/') {
+        if (c == '/' && scanner.canPeek() && scanner.peek() == '/') {
             // until we hit a newline
             while (scanner.next() != '\n') {
                 // do nothing
@@ -209,7 +209,7 @@ public class Tokeniser {
         }
 
         // if this is / and next will be *
-        if (c == '/' && scanner.peek() == '*') {
+        if (c == '/' && scanner.canPeek() && scanner.peek() == '*') {
             // consume that opening *
             scanner.next();
 

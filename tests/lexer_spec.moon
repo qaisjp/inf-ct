@@ -137,7 +137,11 @@ tests =
         "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"}
 
     -- comments
+    ["comments/p.incomplete.c"]: to: {"INT", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "DIV"}
     ["comments/p.comments.c"]: to: {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "RBRA"}
+    ["comments/f.unclosed.c"]: errors: 1, to:
+        {"INT", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
+        "Lexing error: unrecognised character (/) at 2:5", "INVALID"}
 
     -- includes
     ["includes/f.caps.c"]: errors: 1, to:

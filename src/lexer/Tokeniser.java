@@ -213,6 +213,11 @@ public class Tokeniser {
             // consume that opening *
             scanner.next();
 
+            if (!scanner.canPeek()) {
+                error(c, line, column);
+                return new Token(TokenClass.INVALID, line, column);
+            }
+
             char prevChar;
             char nextChar = scanner.next();
             // System.out.print(c);
@@ -221,6 +226,11 @@ public class Tokeniser {
 
             // This loop continues until next() throws OR return next()
             while (true) {
+                if (!scanner.canPeek()) {
+                    error(c, line, column);
+                    return new Token(TokenClass.INVALID, line, column);
+                }
+
                 prevChar = nextChar;
                 nextChar = scanner.next();
                 // System.out.print(nextChar);

@@ -115,9 +115,11 @@ tests =
         "Lexing error: unrecognised character (!) at 2:1", "INVALID"}
 
     -- string literals
-    ["strings/f.badescapes.c"]: errors: 1, volatile: true, to:
+    ["strings/f.badescapes.c"]: errors: 3, volatile: true, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
-        "IDENTIFIER", "INVALID", "SC"}
+        "IDENTIFIER", 'ASSIGN', 'Lexing error: unrecognised character (q) at 2:18',
+        'INVALID', 'Lexing error: unrecognised character (\\) at 2:18', 'INVALID',
+        'IDENTIFIER', 'INVALID', 'RBRA'}
     ["strings/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",
@@ -141,9 +143,12 @@ tests =
         "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
 
     -- char literals
-    ["chars/f.multichar.c"]: errors: 1, volatile: true, to:
+    ["chars/f.multichar.c"]: errors: 2, volatile: true, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
-        "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"}
+        "CHAR", "IDENTIFIER", "ASSIGN",
+        "Lexing error: unrecognised character (a) at 2:14",
+        "INVALID", "IDENTIFIER", "Lexing error: unrecognised character (;) at 2:19",
+        "INVALID", "RBRA"}
     ["chars/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",

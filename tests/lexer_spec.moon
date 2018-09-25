@@ -1,4 +1,4 @@
--- Requirements: busted, luarocks, luafilesystem
+-- Requirements: busted, moonscript, luafilesystem
 
 PROJ = os.getenv("PROJ")
 if PROJ == "" or not PROJ then

@@ -115,7 +115,7 @@ tests =
         "Lexing error: unrecognised character (!) at 2:1", "INVALID"}
 
     -- string literals
-    ["strings/f.badescapes.c"]: errors: 1, to:
+    ["strings/f.badescapes.c"]: errors: 1, volatile: true, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
         "IDENTIFIER", "INVALID", "SC"}
     ["strings/f.unclosed.c"]: errors: 1, to:
@@ -141,7 +141,7 @@ tests =
         "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
 
     -- char literals
-    ["chars/f.multichar.c"]: errors: 1, to:
+    ["chars/f.multichar.c"]: errors: 1, volatile: true, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
         "CHAR", "IDENTIFIER", "ASSIGN", "INVALID", "SC", "RBRA"}
     ["chars/f.unclosed.c"]: errors: 1, to:
@@ -201,7 +201,7 @@ describe "#lexer", ->
                     testData = tests[filename]
 
                     baseHash = if base == "" then "root" else base
-                    describe "#{filename}", ->
+                    describe "#{filename}#{testData.volatile and " #volatile" or ""}", ->
                         if testData
                             testData.visited = true
                             check_lexes_to filename, testData.to, testData.errors

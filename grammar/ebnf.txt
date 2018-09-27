@@ -73,8 +73,10 @@ expopt     ::= exp
              | ε
 
 funcall      ::= IDENT "(" arglistopt ")"
-arglist      ::= exp ("," exp)*
+arglist      ::= exp argrep
 arglistopt   ::= arglist
+               | ε
+argrep       ::= "," exp argrep
                | ε
 
 arrayaccess  ::= exp "[" exp "]"                  # array access

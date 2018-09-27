@@ -72,8 +72,10 @@ exp        ::= "(" exp ")"
 expopt     ::= exp
              | ε
 
-funcall      ::= IDENT "(" [ arglist ] ")"
+funcall      ::= IDENT "(" arglistopt ")"
 arglist      ::= exp ("," exp)*
+arglistopt   ::= arglist
+               | ε
 
 arrayaccess  ::= exp "[" exp "]"                  # array access
 fieldaccess  ::= exp "." IDENT                    # structure field member access

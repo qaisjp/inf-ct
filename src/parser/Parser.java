@@ -161,5 +161,12 @@ public class Parser {
         // todo
     }
 
+    private void parseTypeName() {
+        if (expect(TokenClass.INT) || expect(TokenClass.CHAR) || expect(TokenClass.VOID)) {
+            return;
+        }
+        parseStructType();
+    }
+
     // to be completed ...
 }

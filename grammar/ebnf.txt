@@ -45,11 +45,13 @@ paramlistrep ::= paramlist paramlistrep
 
 stmt       ::= block
              | "while" "(" exp ")" stmt              # while loop
-             | "if" "(" exp ")" stmt ["else" stmt]   # if then else
+             | "if" "(" exp ")" stmt elsestmt        # if then else
              | "return" [exp] ";"                    # return
              | exp "=" exp ";"                       # assignment
              | exp ";"                               # expression statement, e.g. a function call
 stmtrep    ::= stmt stmtrep
+             | ε
+elsestmt   ::= "else" stmt
              | ε
 
 block      ::= "{" vardeclrep stmtrep "}"

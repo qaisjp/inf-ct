@@ -43,7 +43,7 @@ stmt       ::= block
              | exp "=" exp ";"                       # assignment
              | exp ";"                               # expression statement, e.g. a function call
 
-block      ::= "{" (vardecl)* (stmt)* "}"
+block      ::= "{" vardeclrep (stmt)* "}"
 
 exp        ::= "(" exp ")"
              | (IDENT | INT_LITERAL)

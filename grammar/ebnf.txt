@@ -6,7 +6,7 @@
 # |  alternative
 
 
-program    ::= includerep (structdecl)* vardeclrep fundecl EOF
+program    ::= includerep (structdecl)* vardeclrep fundeclrep EOF
 
 include    ::= "#include" STRING_LITERAL
 includerep ::= include includerep

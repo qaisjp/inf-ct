@@ -158,7 +158,8 @@ public class Parser {
     }
 
     private void parseStructType() {
-        // todo
+        expect(TokenClass.STRUCT);
+        expect(TokenClass.IDENTIFIER);
     }
 
     private void parseTypeName() {

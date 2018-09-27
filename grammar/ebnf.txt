@@ -36,8 +36,10 @@ typename   ::= "int"
 
 structtype ::= "struct" IDENT
 
-params     ::= type IDENT ("," type IDENT)*
+params     ::= type IDENT (paramlist)*
              | ε
+
+paramlist  ::= "," type IDENT
 
 stmt       ::= block
              | "while" "(" exp ")" stmt              # while loop

@@ -138,7 +138,15 @@ public class Parser {
     }
 
     private void parseStructDecls() {
-        // to be completed ...
+        parseStructType();
+        expect(TokenClass.LBRA);
+        parseVarDeclPep();
+        expect(TokenClass.RBRA);
+        expect(TokenClass.SC);
+    }
+
+    private void parseVarDeclPep() {
+
     }
 
     private void parseVarDecls() {
@@ -147,6 +155,10 @@ public class Parser {
 
     private void parseFunDecls() {
         // to be completed ...
+    }
+
+    private void parseStructType() {
+        // todo
     }
 
     // to be completed ...

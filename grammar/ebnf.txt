@@ -6,13 +6,15 @@
 # |  alternative
 
 
-program    ::= includerep (structdecl)* vardeclrep fundeclrep EOF
+program    ::= includerep structdeclrep vardeclrep fundeclrep EOF
 
 include    ::= "#include" STRING_LITERAL
 includerep ::= include includerep
              | ε
 
 structdecl ::= structtype "{" (vardecl)+ "}" ";"    # structure declaration
+structdeclrep ::= structdecl structdeclrep
+                | ε
 
 vardecl    ::= type IDENT ";"                       # normal declaration, e.g. int a;
              | type IDENT "[" INT_LITERAL "]" ";"   # array declaration, e.g. int a[2];

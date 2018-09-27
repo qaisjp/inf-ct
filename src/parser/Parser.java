@@ -179,7 +179,7 @@ public class Parser {
     }
 
     private void parseTypeName() {
-        if (expect(TokenClass.INT) || expect(TokenClass.CHAR) || expect(TokenClass.VOID)) {
+        if (expectOr(TokenClass.INT) || expectOr(TokenClass.CHAR) || expectOr(TokenClass.VOID)) {
             return;
         }
         parseStructType();

@@ -6,7 +6,7 @@
 # |  alternative
 
 
-program    ::= includerep (structdecl)* (vardecl)* (fundecl)* EOF
+program    ::= includerep (structdecl)* (vardecl)* fundecl EOF
 
 include    ::= "#include" STRING_LITERAL
 includerep ::= include includerep
@@ -18,6 +18,8 @@ vardecl    ::= type IDENT ";"                       # normal declaration, e.g. i
              | type IDENT "[" INT_LITERAL "]" ";"   # array declaration, e.g. int a[2];
 
 fundecl    ::= type IDENT "(" params ")" block      # function declaration
+fundeclrep ::= fundecl fundeclrep
+             | ε
 
 type       ::= typename
              | typename "*"

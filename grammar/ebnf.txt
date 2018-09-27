@@ -55,12 +55,18 @@ stmtrep    ::= stmt stmtrep
 block      ::= "{" vardeclrep stmtrep "}"
 
 exp        ::= "(" exp ")"
-             | (IDENT | INT_LITERAL)
+             | IDENT
+             | INT_LITERAL
              | "-" exp
              | CHAR_LITERAL
              | STRING_LITERAL
              | exp (">" | "<" | ">=" | "<=" | "!=" | "==" | "+" | "-" | "/" | "*" | "%" | "||" | "&&") exp  # binary operators
-             | arrayaccess | fieldaccess | valueat | funcall | sizeof | typecast
+             | arrayaccess
+             | fieldaccess
+             | valueat
+             | funcall
+             | sizeof
+             | typecast
 
 funcall      ::= IDENT "(" [ exp ("," exp)* ] ")"
 arrayaccess  ::= exp "[" exp "]"                  # array access

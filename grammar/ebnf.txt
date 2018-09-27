@@ -44,8 +44,10 @@ stmt       ::= block
              | "return" [exp] ";"                    # return
              | exp "=" exp ";"                       # assignment
              | exp ";"                               # expression statement, e.g. a function call
+stmtrep    ::= stmt stmtrep
+             | ε
 
-block      ::= "{" vardeclrep (stmt)* "}"
+block      ::= "{" vardeclrep stmtrep "}"
 
 exp        ::= "(" exp ")"
              | (IDENT | INT_LITERAL)

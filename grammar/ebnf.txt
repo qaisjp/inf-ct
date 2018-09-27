@@ -6,9 +6,11 @@
 # |  alternative
 
 
-program    ::= (include)* (structdecl)* (vardecl)* (fundecl)* EOF
+program    ::= includerep (structdecl)* (vardecl)* (fundecl)* EOF
 
 include    ::= "#include" STRING_LITERAL
+includerep ::= include includerep
+             | ε
 
 structdecl ::= structtype "{" (vardecl)+ "}" ";"    # structure declaration
 

@@ -17,7 +17,13 @@ vardecl    ::= type IDENT ";"                       # normal declaration, e.g. i
 
 fundecl    ::= type IDENT "(" params ")" block      # function declaration
 
-type       ::= ("int" | "char" | "void" | structtype) ["*"]
+type       ::= typename
+             | typename "*"
+typename   ::= "int"
+             | "char"
+             | "void"
+             | structtype
+
 structtype ::= "struct" IDENT
 
 params     ::= [ type IDENT ("," type IDENT)* ]

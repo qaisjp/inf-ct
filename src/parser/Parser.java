@@ -179,9 +179,12 @@ public class Parser {
     }
 
     private void parseTypeName() {
+        // If we consume INT, CHAR, or VOID. We're done.
         if (expectOr(TokenClass.INT) || expectOr(TokenClass.CHAR) || expectOr(TokenClass.VOID)) {
             return;
         }
+
+        // If we didn't consume any of the above, we expect a structtype
         parseStructType();
     }
 

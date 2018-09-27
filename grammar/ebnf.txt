@@ -72,7 +72,9 @@ exp        ::= "(" exp ")"
 expopt     ::= exp
              | ε
 
-funcall      ::= IDENT "(" [ exp ("," exp)* ] ")"
+funcall      ::= IDENT "(" [ arglist ] ")"
+arglist      ::= exp ("," exp)*
+
 arrayaccess  ::= exp "[" exp "]"                  # array access
 fieldaccess  ::= exp "." IDENT                    # structure field member access
 valueat      ::= "*" exp                          # Value at operator (pointer indirection)

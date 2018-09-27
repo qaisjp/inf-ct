@@ -40,6 +40,7 @@ Furthermore, for numbers we consider only integers, and therefore you need not i
 The list of characters to escape are the same as in Java plus the null character `'\0'`.
 Please check this [link](http://docs.oracle.com/javase/tutorial/java/data/characters.html) for the full list of Java escaped characters.
 For instance, `"I am a \"string\""` should return a string token whose data field is `I am a "string"`.
+If an unknown escaped character appears, this should be reported as an error.
 
 A hint: It is recommended to use the [Character-class methods](https://docs.oracle.com/javase/7/docs/api/java/lang/Character.html) to test whether a character is a digit, whitespace, etc.
 

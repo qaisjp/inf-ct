@@ -62,7 +62,7 @@ exp        ::= "(" exp ")"
              | "-" exp
              | CHAR_LITERAL
              | STRING_LITERAL
-             | exp (">" | "<" | ">=" | "<=" | "!=" | "==" | "+" | "-" | "/" | "*" | "%" | "||" | "&&") exp  # binary operators
+             | exp binaryop exp  # binary operators
              | arrayaccess
              | fieldaccess
              | valueat
@@ -71,6 +71,20 @@ exp        ::= "(" exp ")"
              | typecast
 expopt     ::= exp
              | ε
+
+binaryop   ::= ">"
+             | "<"
+             | ">="
+             | "<="
+             | "!="
+             | "=="
+             | "+"
+             | "-"
+             | "/"
+             | "*"
+             | "%"
+             | "||"
+             | "&&"
 
 funcall      ::= IDENT "(" arglistopt ")"
 arglist      ::= exp argrep

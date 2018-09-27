@@ -59,16 +59,16 @@ block      ::= "{" vardeclrep stmtrep "}"
 exp        ::= "(" exp ")"
              | IDENT
              | INT_LITERAL
-             | "-" exp
              | CHAR_LITERAL
              | STRING_LITERAL
-             | exp binaryop exp  # binary operators
+             | funcall
              | arrayaccess
              | fieldaccess
-             | valueat
-             | funcall
-             | sizeof
+             | "-" exp
              | typecast
+             | valueat
+             | sizeof
+             | exp binaryop exp  # binary operators
 expopt     ::= exp
              | ε
 

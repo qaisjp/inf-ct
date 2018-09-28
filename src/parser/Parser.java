@@ -188,5 +188,25 @@ public class Parser {
         parseStructType();
     }
 
+    private void parseBinaryOp() {
+        Object _ = false ||
+                expectOr(TokenClass.ASTERIX) ||
+                expectOr(TokenClass.DIV) ||
+                expectOr(TokenClass.REM) ||
+                expectOr(TokenClass.PLUS) ||
+                expectOr(TokenClass.MINUS) ||
+                expectOr(TokenClass.LT) ||
+                expectOr(TokenClass.LE) ||
+                expectOr(TokenClass.GT) ||
+                expectOr(TokenClass.GE) ||
+                expectOr(TokenClass.EQ) ||
+                expectOr(TokenClass.NE) ||
+                expectOr(TokenClass.AND) ||
+                // we must end with expect
+                // so that at least ONE of
+                // these are expected!
+                (expect(TokenClass.OR) != null);
+    }
+
     // to be completed ...
 }

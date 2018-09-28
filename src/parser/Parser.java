@@ -110,19 +110,19 @@ public class Parser {
     }
 
     /*
-     * If the current token is equals to the expected one, accept and return token.
-     * Otherwise return null.
+     * If the current token is equals to the expected one, accept and return true.
+     * Otherwise return false.
      */
-    private Token expectOr(TokenClass... expected) {
+    private boolean expectOr(TokenClass... expected) {
         for (TokenClass e : expected) {
             if (e == token.tokenClass) {
                 Token cur = token;
                 nextToken();
-                return cur;
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     /*

@@ -206,7 +206,7 @@ describe "#lexer", ->
                     testData = tests[filename]
 
                     baseHash = if base == "" then "root" else base
-                    describe "#{filename}#{testData.volatile and " #volatile" or ""}", ->
+                    describe "#{filename}#{(testData and testData.volatile or false) and " #volatile" or ""}", ->
                         if testData
                             testData.visited = true
                             check_lexes_to filename, testData.to, testData.errors

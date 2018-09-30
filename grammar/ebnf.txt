@@ -86,10 +86,9 @@ binaryop   ::= "*"
              | "&&"
              | "||"
 
-funcall      ::= IDENT "(" arglistopt ")"
+funcall      ::= IDENT "(" ")"
+               | IDENT "(" arglist ")"
 arglist      ::= exp argrep
-arglistopt   ::= arglist
-               | ε
 argrep       ::= "," exp argrep
                | ε
 

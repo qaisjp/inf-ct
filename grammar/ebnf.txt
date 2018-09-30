@@ -63,10 +63,12 @@ root_exp   ::= "(" exp ")"
              | STRING_LITERAL
 
 exp        ::= exp_or
-exp_or     ::= exp_and
-             | exp_or "||" exp_and
-exp_and    ::= exp_eq
-             | exp_and "&&" exp_eq
+exp_or     ::= exp_and exp_or_
+exp_or_    ::= "||" exp_and exp_or_
+             | ε
+exp_and    ::= exp_eq exp_and_
+exp_and_   ::= "&&" exp_eq exp_and_
+             | ε
 exp_eq     ::= exp_rel
              | exp_eq "!=" exp_rel
              | exp_eq "==" exp_rel

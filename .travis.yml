@@ -7,7 +7,9 @@ jobs:
       - stage: build
         script: ant build
       - stage: test
-        script: PROJ="./" busted tests
+        script:
+          - ant build
+          - PROJ="./" busted tests
         env:
           - LUA=lua5.1
           - LUAROCKS=2.3.0

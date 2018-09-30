@@ -90,8 +90,7 @@ exp_unary  ::= exp_postfix
 exp_post   ::= root_exp
              | exp_post "." IDENT
              | exp_post "[" exp "]"
-             | exp_post "(" arglist ")"
-             | exp_post "(" ")"
+             | funcall
 
 
 expopt     ::= exp

@@ -83,13 +83,13 @@ exp_mult   ::= exp_unary
              | exp_mult "/" exp_unary
              | exp_mult "*" exp_unary
 exp_unary  ::= exp_postfix
-             | "sizeof" "(" type ")" exp_unary
-             | "*" exp_unary
-             | "(" type ")" exp_unary
+             | "sizeof" "(" type ")" exp_unary    # size of type
+             | "*" exp_unary                      # Value at operator (pointer indirection)
+             | "(" type ")" exp_unary             # type casting
              | "-" exp_unary
 exp_post   ::= root_exp
-             | exp_post "." IDENT
-             | exp_post "[" exp "]"
+             | exp_post "." IDENT                 # structure field member access
+             | exp_post "[" exp "]"               # array access
              | funcall
 
 
@@ -101,11 +101,3 @@ funcall      ::= IDENT "(" ")"
 arglist      ::= exp argrep
 argrep       ::= "," exp argrep
                | ε
-
-arrayaccess  ::= exp "[" exp "]"                  # array access
-fieldaccess  ::= exp "." IDENT                    # structure field member access
-valueat      ::= "*" exp                          # Value at operator (pointer indirection)
-sizeof       ::= "sizeof" "(" type ")"            # size of type
-typecast     ::= "(" type ")" exp                 # type casting
-
-

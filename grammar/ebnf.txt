@@ -69,14 +69,16 @@ exp_or_    ::= "||" exp_and exp_or_
 exp_and    ::= exp_eq exp_and_
 exp_and_   ::= "&&" exp_eq exp_and_
              | ε
-exp_eq     ::= exp_rel
-             | exp_eq "!=" exp_rel
-             | exp_eq "==" exp_rel
-exp_rel    ::= exp_add
-             | exp_rel ">=" exp_add
-             | exp_rel ">" exp_add
-             | exp_rel "<=" exp_add
-             | exp_rel ">" exp_add
+exp_eq     ::= exp_rel exp_eq_
+exp_eq_    ::= "!=" exp_rel exp_eq_
+             | "==" exp_rel exp_eq_
+             | ε
+exp_rel    ::= exp_add exp_rel_
+exp_rel_   ::= ">=" exp_add exp_rel_
+             | ">" exp_add exp_rel_
+             | "<=" exp_add exp_rel_
+             | ">" exp_add exp_rel_
+             | ε
 exp_add    ::= exp_mult
              | exp_add "-" exp_mult
              | exp_add "+" exp_mult

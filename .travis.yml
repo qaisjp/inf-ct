@@ -1,0 +1,12 @@
+language: java
+
+env:
+  - PROJ="./"
+
+jobs:
+    include:
+      - stage: build
+        script: ant build
+      - stage: test
+        script: busted tests
+

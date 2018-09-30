@@ -2,17 +2,15 @@ language: java
 
 sudo: false
 
-env:
-  - PROJ="./"
-
 jobs:
     include:
       - stage: build
         script: ant build
       - stage: test
-        script: busted tests
+        script: PROJ="./" busted tests
         env:
           - LUA=lua5.1
+          - LUAROCKS=2.3.0
         before_install:
           - source .travis/setenv_lua.sh
           - luarocks install busted

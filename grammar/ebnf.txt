@@ -61,6 +61,12 @@ root_exp   ::= "(" exp ")"
              | INT_LITERAL
              | CHAR_LITERAL
              | STRING_LITERAL
+             | IDENT "(" ")"
+             | IDENT "(" arglist ")"
+
+arglist      ::= exp argrep
+argrep       ::= "," exp argrep
+               | ε
 
 exp        ::= exp_or
 exp_or     ::= exp_and exp_or_
@@ -100,7 +106,6 @@ exp_unary  ::= exp_post
 # Do you think funcall could be moved to rootexp?
 #
 exp_post   ::= root_exp exp_post_
-             | funcall exp_post_
 exp_post_  ::=
              | "." IDENT exp_post_                 # structure field member access
              | "[" exp "]" exp_post_               # array access
@@ -109,9 +114,3 @@ exp_post_  ::=
 
 expopt     ::= exp
              | ε
-
-funcall      ::= IDENT "(" ")"
-               | IDENT "(" arglist ")"
-arglist      ::= exp argrep
-argrep       ::= "," exp argrep
-               | ε

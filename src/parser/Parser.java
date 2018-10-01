@@ -4,8 +4,10 @@ import lexer.Token;
 import lexer.Tokeniser;
 import lexer.Token.TokenClass;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 
 /**
@@ -192,6 +194,9 @@ public class Parser {
 
             // Consume a semicolon now or...
             if (!expectOr(TokenClass.SC)) {
+                // System.out.printf("Expecting LBRA...%s\n", Boolean.toString(mustAccept));
+                // expect(TokenClass.LBRA); // don't forget to comment out LBRA a few lines below
+                // System.out.println("OK");
                 expectThese(
                     TokenClass.LBRA,
                     TokenClass.INT_LITERAL,
@@ -209,7 +214,100 @@ public class Parser {
     }
 
     private void parseFunDecls() {
-        // to be completed ...
+        if (accept(typeNameFirst)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+            expect(TokenClass.LPAR);
+            parseParams();
+            expect(TokenClass.RPAR);
+            parseBlock();
+
+            parseFunDecls();
+        }
+    }
+
+    private void parseBlock() {
+        expect(TokenClass.LBRA);
+        parseVarDecls();
+
+        while (accept(stmtFirst)) {
+            parseStmt();
+        }
+
+        expect(TokenClass.RBRA);
+    }
+
+    private TokenClass[] expFirst = {
+            TokenClass.SIZEOF, // via exp_unary
+            TokenClass.ASTERIX, // via exp_unary
+            TokenClass.LPAR, // via exp_unary
+            TokenClass.MINUS, // via exp_unary
+            // still from exp... via exp_post this time
+            TokenClass.IDENTIFIER, // via funcall (so exp -> exp_post -> funcall)
+            // still from exp, via exp_post again
+            TokenClass.LPAR, // via root_exp
+            TokenClass.IDENTIFIER, // via root_exp
+            TokenClass.INT_LITERAL, // via root_exp
+            TokenClass.CHAR_LITERAL, // via root_exp
+            TokenClass.STRING_LITERAL, // via root_exp
+    };
+
+    private TokenClass[] stmtFirst = Stream.concat(Arrays.asList(
+            TokenClass.LBRA, // from block
+            TokenClass.WHILE,
+            TokenClass.IF,
+            TokenClass.RETURN
+    ).stream(), Arrays.stream(expFirst)).toArray(TokenClass[]::new);
+
+    private void parseStmt() {
+        if (accept(TokenClass.LBRA)) {
+            parseBlock();
+        } else if (accept(TokenClass.WHILE)) {
+            expectThese(TokenClass.WHILE, TokenClass.LPAR);
+            parseExp();
+            expect(TokenClass.RPAR);
+            parseStmt();
+        } else if (accept(TokenClass.IF)) {
+            expectThese(TokenClass.IF, TokenClass.LPAR);
+            parseExp();
+            expect(TokenClass.RPAR);
+            parseStmt();
+
+            if (expectOr(TokenClass.ELSE)) {
+                parseStmt();
+            }
+        } else if (accept(TokenClass.RETURN)) {
+            if (accept(expFirst)) {
+                parseExp();
+            }
+            expect(TokenClass.SC);
+        } else {
+            parseExp();
+            if (expectOr(TokenClass.ASSIGN)) {
+                parseExp();
+            }
+            expect(TokenClass.SC);
+        }
+    }
+
+    private void parseExp() {
+
+    }
+
+    private void parseParams() {
+        // If we can't accept typeNameFirst, epsilon out of here.
+        if (!accept(typeNameFirst)) {
+            return;
+        }
+
+        parseType();
+        expect(TokenClass.IDENTIFIER);
+
+        // Consume if available, and return true
+        while (expectOr(TokenClass.COMMA)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+        }
     }
 
     // First: STRUCT

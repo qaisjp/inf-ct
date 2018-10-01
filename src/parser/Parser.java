@@ -151,8 +151,18 @@ public class Parser {
     private void parseProgram() {
         parseIncludes();
         parseStructDecls();
-        parseVarDecls();
-        parseFunDecls();
+
+        // Both vardecls and fundecls start with these...
+        if (accept(typeNameFirst)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+        }
+
+        if (accept(TokenClass.SC, TokenClass.LBRA)) {
+            parseVarDecls(false, true);
+        }
+        parseFunDecls(true);
+
         expect(TokenClass.EOF);
     }
 
@@ -172,7 +182,7 @@ public class Parser {
 
             parseStructType();
             expect(TokenClass.LBRA);
-            parseVarDecls(true);
+            parseVarDecls(true,false);
             expect(TokenClass.RBRA);
             expect(TokenClass.SC);
 
@@ -187,11 +197,18 @@ public class Parser {
             TokenClass.STRUCT, // via structtype
     };
 
-    private void parseVarDecls(boolean mustAccept) {
-        if (mustAccept || accept(typeNameFirst)) {
-            parseType();
-            expect(TokenClass.IDENTIFIER);
+    private void parseVarDecls(boolean mustAccept, boolean preParsed) {
+        boolean shouldContinue = true;
+        if (!preParsed) {
+            if (mustAccept || accept(typeNameFirst)) {
+                parseType();
+                expect(TokenClass.IDENTIFIER);
+            } else {
+                shouldContinue = false;
+            }
+        }
 
+        if (shouldContinue) {
             // Consume a semicolon now or...
             if (!expectOr(TokenClass.SC)) {
                 // System.out.printf("Expecting LBRA...%s\n", Boolean.toString(mustAccept));
@@ -205,30 +222,44 @@ public class Parser {
                 );
             }
 
-            parseVarDecls(false);
+            if (preParsed) {
+                if (accept(typeNameFirst)) {
+                    parseType();
+                    expect(TokenClass.IDENTIFIER);
+                    if (accept(TokenClass.SC, TokenClass.LBRA)) {
+                        parseVarDecls(false, true);
+                    }
+                }
+            } else {
+                parseVarDecls(false, false);
+            }
         }
     }
 
-    private void parseVarDecls() {
-        parseVarDecls(false);
-    }
+    private void parseFunDecls(boolean preParsed) {
+        boolean shouldContinue = true;
+        if (!preParsed) {
+            if (accept(typeNameFirst)) {
+                parseType();
+                expect(TokenClass.IDENTIFIER);
+            } else {
+                shouldContinue = false;
+            }
+        }
 
-    private void parseFunDecls() {
-        if (accept(typeNameFirst)) {
-            parseType();
-            expect(TokenClass.IDENTIFIER);
+        if (shouldContinue) {
             expect(TokenClass.LPAR);
             parseParams();
             expect(TokenClass.RPAR);
             parseBlock();
 
-            parseFunDecls();
+            parseFunDecls(false);
         }
     }
 
     private void parseBlock() {
         expect(TokenClass.LBRA);
-        parseVarDecls();
+        parseVarDecls(false, false);
 
         while (accept(stmtFirst)) {
             parseStmt();

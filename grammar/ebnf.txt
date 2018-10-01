@@ -88,7 +88,7 @@ exp_mult_  ::= "%" exp_unary exp_mult_
              | "/" exp_unary exp_mult_
              | "*" exp_unary exp_mult_
              | ε
-exp_unary  ::= exp_postfix
+exp_unary  ::= exp_post
              | "sizeof" "(" type ")" exp_unary    # size of type
              | "*" exp_unary                      # Value at operator (pointer indirection)
              | "(" type ")" exp_unary             # type casting

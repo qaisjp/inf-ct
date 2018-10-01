@@ -125,7 +125,7 @@ public class Parser {
      * If the current token is equals to the expected one, accept and return true.
      * Otherwise return false.
      */
-    private boolean expectOr(TokenClass... expected) {
+    private boolean maybeExpectAny(TokenClass... expected) {
         for (TokenClass e : expected) {
             if (e == token.tokenClass) {
                 Token cur = token;
@@ -210,7 +210,7 @@ public class Parser {
 
         if (shouldContinue) {
             // Consume a semicolon now or...
-            if (!expectOr(TokenClass.SC)) {
+            if (!maybeExpectAny(TokenClass.SC)) {
                 // System.out.printf("Expecting LBRA...%s\n", Boolean.toString(mustAccept));
                 // mustExpect(TokenClass.LBRA); // don't forget to comment out LBRA a few lines below
                 // System.out.println("OK");
@@ -304,7 +304,7 @@ public class Parser {
             mustExpect(TokenClass.RPAR);
             parseStmt();
 
-            if (expectOr(TokenClass.ELSE)) {
+            if (maybeExpectAny(TokenClass.ELSE)) {
                 parseStmt();
             }
         } else if (accept(TokenClass.RETURN)) {
@@ -314,7 +314,7 @@ public class Parser {
             mustExpect(TokenClass.SC);
         } else {
             parseExp();
-            if (expectOr(TokenClass.ASSIGN)) {
+            if (maybeExpectAny(TokenClass.ASSIGN)) {
                 parseExp();
             }
             mustExpect(TokenClass.SC);
@@ -329,7 +329,7 @@ public class Parser {
         if (!prime) {
             parseExpAnd(false);
         }
-        if (expectOr(TokenClass.OR)) {
+        if (maybeExpectAny(TokenClass.OR)) {
             parseExpAnd(false);
             parseExpOr(true);
         }
@@ -339,7 +339,7 @@ public class Parser {
         if (!prime) {
             parseExpEq(false);
         }
-        if (expectOr(TokenClass.AND)) {
+        if (maybeExpectAny(TokenClass.AND)) {
             parseExpEq(false);
             parseExpAnd(true);
         }
@@ -349,7 +349,7 @@ public class Parser {
         if (!prime) {
             parseExpRel(false);
         }
-        if (expectOr(TokenClass.NE, TokenClass.EQ)) {
+        if (maybeExpectAny(TokenClass.NE, TokenClass.EQ)) {
             parseExpRel(false);
             parseExpEq(true);
         }
@@ -359,7 +359,7 @@ public class Parser {
         if (!prime) {
             parseExpAdd(false);
         }
-        if (expectOr(TokenClass.GE, TokenClass.GT, TokenClass.LE, TokenClass.LT)) {
+        if (maybeExpectAny(TokenClass.GE, TokenClass.GT, TokenClass.LE, TokenClass.LT)) {
             parseExpAdd(false);
             parseExpRel(true);
         }
@@ -369,7 +369,7 @@ public class Parser {
         if (!prime) {
             parseExpMult(false);
         }
-        if (expectOr(TokenClass.MINUS, TokenClass.PLUS)) {
+        if (maybeExpectAny(TokenClass.MINUS, TokenClass.PLUS)) {
             parseExpMult(false);
             parseExpAdd(true);
         }
@@ -379,7 +379,7 @@ public class Parser {
         if (!prime) {
             parseExpUnary();
         }
-        if (expectOr(TokenClass.REM, TokenClass.DIV, TokenClass.ASTERIX)) {
+        if (maybeExpectAny(TokenClass.REM, TokenClass.DIV, TokenClass.ASTERIX)) {
             parseExpUnary();
             parseExpMult(true);
         }
@@ -445,7 +445,7 @@ public class Parser {
 
     private void parseArgList() {
         parseExp();
-        while (expectOr(TokenClass.CHAR_LITERAL.COMMA)) {
+        while (maybeExpectAny(TokenClass.CHAR_LITERAL.COMMA)) {
             parseExp();
         }
     }
@@ -460,7 +460,7 @@ public class Parser {
         mustExpect(TokenClass.IDENTIFIER);
 
         // Consume if available, and return true
-        while (expectOr(TokenClass.COMMA)) {
+        while (maybeExpectAny(TokenClass.COMMA)) {
             parseType();
             mustExpect(TokenClass.IDENTIFIER);
         }
@@ -474,7 +474,7 @@ public class Parser {
 
     private void parseType() {
         // If we consume INT, CHAR, or VOID. We're done.. for now
-        if (expectOr(TokenClass.INT) || expectOr(TokenClass.CHAR) || expectOr(TokenClass.VOID)) {
+        if (maybeExpectAny(TokenClass.INT) || maybeExpectAny(TokenClass.CHAR) || maybeExpectAny(TokenClass.VOID)) {
             //
         } else {
             // If we didn't consume any of the above, we expect a structtype
@@ -488,18 +488,18 @@ public class Parser {
 
     private void parseBinaryOp() {
         Object _ = false ||
-                expectOr(TokenClass.ASTERIX) ||
-                expectOr(TokenClass.DIV) ||
-                expectOr(TokenClass.REM) ||
-                expectOr(TokenClass.PLUS) ||
-                expectOr(TokenClass.MINUS) ||
-                expectOr(TokenClass.LT) ||
-                expectOr(TokenClass.LE) ||
-                expectOr(TokenClass.GT) ||
-                expectOr(TokenClass.GE) ||
-                expectOr(TokenClass.EQ) ||
-                expectOr(TokenClass.NE) ||
-                expectOr(TokenClass.AND) ||
+                maybeExpectAny(TokenClass.ASTERIX) ||
+                maybeExpectAny(TokenClass.DIV) ||
+                maybeExpectAny(TokenClass.REM) ||
+                maybeExpectAny(TokenClass.PLUS) ||
+                maybeExpectAny(TokenClass.MINUS) ||
+                maybeExpectAny(TokenClass.LT) ||
+                maybeExpectAny(TokenClass.LE) ||
+                maybeExpectAny(TokenClass.GT) ||
+                maybeExpectAny(TokenClass.GE) ||
+                maybeExpectAny(TokenClass.EQ) ||
+                maybeExpectAny(TokenClass.NE) ||
+                maybeExpectAny(TokenClass.AND) ||
                 // we must end with mustExpect
                 // so that at least ONE of
                 // these are expected!

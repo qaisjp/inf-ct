@@ -1,4 +1,3 @@
-print "test"
 -- Requirements: busted, moonscript, luafilesystem
 
 PROJ = os.getenv("PROJ")

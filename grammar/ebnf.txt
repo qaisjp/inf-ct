@@ -77,7 +77,7 @@ exp_rel    ::= exp_add exp_rel_
 exp_rel_   ::= ">=" exp_add exp_rel_
              | ">" exp_add exp_rel_
              | "<=" exp_add exp_rel_
-             | ">" exp_add exp_rel_
+             | "<" exp_add exp_rel_
              | ε
 exp_add    ::= exp_mult exp_add_
 exp_add_   ::= "-" exp_mult exp_add_

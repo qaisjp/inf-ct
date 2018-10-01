@@ -98,7 +98,7 @@ public class Parser {
      * If the current token is equals to the expected one, then skip it, otherwise report an error.
      * Returns the expected token or null if an error occurred.
      */
-    private Token mustExpect(TokenClass... expected) {
+    private Token mustExpectAny(TokenClass... expected) {
         for (TokenClass e : expected) {
             if (e == token.tokenClass) {
                 Token cur = token;
@@ -116,7 +116,7 @@ public class Parser {
         Token[] tokens = new Token[expected.length];
         for (int i = 0; i < expected.length; i++) {
             tokens[i] = token;
-            mustExpect(expected[i]);
+            mustExpectAny(expected[i]);
         }
         return tokens;
     }
@@ -155,7 +155,7 @@ public class Parser {
         // Both vardecls and fundecls start with these...
         if (accept(typeNameFirst)) {
             parseType();
-            mustExpect(TokenClass.IDENTIFIER);
+            mustExpectAny(TokenClass.IDENTIFIER);
         }
 
         if (accept(TokenClass.SC, TokenClass.LBRA)) {
@@ -163,14 +163,14 @@ public class Parser {
         }
         parseFunDecls(true);
 
-        mustExpect(TokenClass.EOF);
+        mustExpectAny(TokenClass.EOF);
     }
 
     // includes are ignored, so does not need to return an AST node
     private void parseIncludes() {
         if (accept(TokenClass.INCLUDE)) {
             nextToken();
-            mustExpect(TokenClass.STRING_LITERAL);
+            mustExpectAny(TokenClass.STRING_LITERAL);
             parseIncludes();
         }
     }
@@ -181,10 +181,10 @@ public class Parser {
             nextToken();
 
             parseStructType();
-            mustExpect(TokenClass.LBRA);
+            mustExpectAny(TokenClass.LBRA);
             parseVarDecls(true,false);
-            mustExpect(TokenClass.RBRA);
-            mustExpect(TokenClass.SC);
+            mustExpectAny(TokenClass.RBRA);
+            mustExpectAny(TokenClass.SC);
 
             parseStructDecls();
         }
@@ -202,7 +202,7 @@ public class Parser {
         if (!preParsed) {
             if (mustAccept || accept(typeNameFirst)) {
                 parseType();
-                mustExpect(TokenClass.IDENTIFIER);
+                mustExpectAny(TokenClass.IDENTIFIER);
             } else {
                 shouldContinue = false;
             }
@@ -212,7 +212,7 @@ public class Parser {
             // Consume a semicolon now or...
             if (!maybeExpectAny(TokenClass.SC)) {
                 // System.out.printf("Expecting LBRA...%s\n", Boolean.toString(mustAccept));
-                // mustExpect(TokenClass.LBRA); // don't forget to comment out LBRA a few lines below
+                // mustExpectAny(TokenClass.LBRA); // don't forget to comment out LBRA a few lines below
                 // System.out.println("OK");
                 mustExpectAll(
                     TokenClass.LBRA,
@@ -225,7 +225,7 @@ public class Parser {
             if (preParsed) {
                 if (accept(typeNameFirst)) {
                     parseType();
-                    mustExpect(TokenClass.IDENTIFIER);
+                    mustExpectAny(TokenClass.IDENTIFIER);
                     if (accept(TokenClass.SC, TokenClass.LBRA)) {
                         parseVarDecls(false, true);
                     }
@@ -241,16 +241,16 @@ public class Parser {
         if (!preParsed) {
             if (accept(typeNameFirst)) {
                 parseType();
-                mustExpect(TokenClass.IDENTIFIER);
+                mustExpectAny(TokenClass.IDENTIFIER);
             } else {
                 shouldContinue = false;
             }
         }
 
         if (shouldContinue) {
-            mustExpect(TokenClass.LPAR);
+            mustExpectAny(TokenClass.LPAR);
             parseParams();
-            mustExpect(TokenClass.RPAR);
+            mustExpectAny(TokenClass.RPAR);
             parseBlock();
 
             parseFunDecls(false);
@@ -258,14 +258,14 @@ public class Parser {
     }
 
     private void parseBlock() {
-        mustExpect(TokenClass.LBRA);
+        mustExpectAny(TokenClass.LBRA);
         parseVarDecls(false, false);
 
         while (accept(stmtFirst)) {
             parseStmt();
         }
 
-        mustExpect(TokenClass.RBRA);
+        mustExpectAny(TokenClass.RBRA);
     }
 
     private TokenClass[] expFirst = {
@@ -296,12 +296,12 @@ public class Parser {
         } else if (accept(TokenClass.WHILE)) {
             mustExpectAll(TokenClass.WHILE, TokenClass.LPAR);
             parseExp();
-            mustExpect(TokenClass.RPAR);
+            mustExpectAny(TokenClass.RPAR);
             parseStmt();
         } else if (accept(TokenClass.IF)) {
             mustExpectAll(TokenClass.IF, TokenClass.LPAR);
             parseExp();
-            mustExpect(TokenClass.RPAR);
+            mustExpectAny(TokenClass.RPAR);
             parseStmt();
 
             if (maybeExpectAny(TokenClass.ELSE)) {
@@ -311,13 +311,13 @@ public class Parser {
             if (accept(expFirst)) {
                 parseExp();
             }
-            mustExpect(TokenClass.SC);
+            mustExpectAny(TokenClass.SC);
         } else {
             parseExp();
             if (maybeExpectAny(TokenClass.ASSIGN)) {
                 parseExp();
             }
-            mustExpect(TokenClass.SC);
+            mustExpectAny(TokenClass.SC);
         }
     }
 
@@ -392,15 +392,15 @@ public class Parser {
             mustExpectAll(TokenClass.RPAR);
             parseExpUnary();
         } else if (accept(TokenClass.ASTERIX)) {
-            mustExpect(TokenClass.ASTERIX);
+            mustExpectAny(TokenClass.ASTERIX);
             parseExpUnary();
         } else if (accept(TokenClass.LPAR)) {
-            mustExpect(TokenClass.LPAR);
+            mustExpectAny(TokenClass.LPAR);
             parseType();
-            mustExpect(TokenClass.RPAR);
+            mustExpectAny(TokenClass.RPAR);
             parseExpUnary();
         } else if (accept(TokenClass.MINUS)) {
-            mustExpect(TokenClass.MINUS);
+            mustExpectAny(TokenClass.MINUS);
             parseExpUnary();
         } else {
             parseExpPost(false);
@@ -416,30 +416,30 @@ public class Parser {
             mustExpectAll(TokenClass.DOT, TokenClass.IDENTIFIER);
             parseExpPost(true);
         } else if (accept(TokenClass.LBRA)) {
-            mustExpect(TokenClass.LBRA);
+            mustExpectAny(TokenClass.LBRA);
             parseExp();
-            mustExpect(TokenClass.RBRA);
+            mustExpectAny(TokenClass.RBRA);
             parseExpPost(true);
         }
     }
 
     private void parseRootExp() {
         if (accept(TokenClass.LPAR)) {
-            mustExpect(TokenClass.LPAR);
+            mustExpectAny(TokenClass.LPAR);
             parseExp();
-            mustExpect(TokenClass.RPAR);
+            mustExpectAny(TokenClass.RPAR);
         } else if (accept(TokenClass.IDENTIFIER)) {
-            mustExpect(TokenClass.IDENTIFIER);
+            mustExpectAny(TokenClass.IDENTIFIER);
             if (accept(TokenClass.LPAR)) {
                 if (accept(TokenClass.RPAR)) {
-                    mustExpect(TokenClass.RPAR);
+                    mustExpectAny(TokenClass.RPAR);
                 } else {
                     parseArgList();
-                    mustExpect(TokenClass.RPAR);
+                    mustExpectAny(TokenClass.RPAR);
                 }
             }
         } else {
-            mustExpect(TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL);
+            mustExpectAny(TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL);
         }
     }
 
@@ -457,19 +457,19 @@ public class Parser {
         }
 
         parseType();
-        mustExpect(TokenClass.IDENTIFIER);
+        mustExpectAny(TokenClass.IDENTIFIER);
 
         // Consume if available, and return true
         while (maybeExpectAny(TokenClass.COMMA)) {
             parseType();
-            mustExpect(TokenClass.IDENTIFIER);
+            mustExpectAny(TokenClass.IDENTIFIER);
         }
     }
 
     // First: STRUCT
     private void parseStructType() {
-        mustExpect(TokenClass.STRUCT);
-        mustExpect(TokenClass.IDENTIFIER);
+        mustExpectAny(TokenClass.STRUCT);
+        mustExpectAny(TokenClass.IDENTIFIER);
     }
 
     private void parseType() {
@@ -482,7 +482,7 @@ public class Parser {
         }
 
         if (accept(TokenClass.ASTERIX)) {
-            mustExpect(TokenClass.ASTERIX);
+            mustExpectAny(TokenClass.ASTERIX);
         }
     }
 
@@ -500,10 +500,10 @@ public class Parser {
                 maybeExpectAny(TokenClass.EQ) ||
                 maybeExpectAny(TokenClass.NE) ||
                 maybeExpectAny(TokenClass.AND) ||
-                // we must end with mustExpect
+                // we must end with mustExpectAny
                 // so that at least ONE of
                 // these are expected!
-                (mustExpect(TokenClass.OR) != null);
+                (mustExpectAny(TokenClass.OR) != null);
     }
 
     // to be completed ...

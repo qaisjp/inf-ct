@@ -9,6 +9,9 @@ jobs:
       - stage: test
         script:
           - ant build
+          - _SILENT_JAVA_OPTS="$_JAVA_OPTIONS"
+          - unset _JAVA_OPTIONS
+          - alias java=java "$_SILENT_JAVA_OPTS"
           - PROJ="./" busted tests
         env:
           - LUA=lua5.1

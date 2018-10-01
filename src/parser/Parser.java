@@ -192,10 +192,12 @@ public class Parser {
 
             // Consume a semicolon now or...
             if (!expectOr(TokenClass.SC)) {
-                expect(TokenClass.LBRA);
-                expect(TokenClass.INT_LITERAL);
-                expect(TokenClass.RBRA);
-                expect(TokenClass.SC);
+                expectThese(
+                    TokenClass.LBRA,
+                    TokenClass.INT_LITERAL,
+                    TokenClass.RBRA,
+                    TokenClass.SC
+                );
             }
 
             parseVarDecls(false);

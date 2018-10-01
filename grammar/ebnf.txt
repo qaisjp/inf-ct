@@ -93,10 +93,18 @@ exp_unary  ::= exp_post
              | "*" exp_unary                      # Value at operator (pointer indirection)
              | "(" type ")" exp_unary             # type casting
              | "-" exp_unary
-exp_post   ::= root_exp
-             | exp_post "." IDENT                 # structure field member access
-             | exp_post "[" exp "]"               # array access
-             | funcall
+
+# IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!
+# It is possible you have messed up funcall here!!
+#
+# Do you think funcall could be moved to rootexp?
+#
+exp_post   ::= root_exp exp_post_
+             | funcall exp_post_
+exp_post_  ::=
+             | "." IDENT exp_post_                 # structure field member access
+             | "[" exp "]" exp_post_               # array access
+             | ε
 
 
 expopt     ::= exp

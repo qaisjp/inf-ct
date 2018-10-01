@@ -396,9 +396,17 @@ public class Parser {
             parseExpUnary();
         } else if (accept(TokenClass.LPAR)) {
             mustExpectAny(TokenClass.LPAR);
-            parseType();
-            mustExpectAny(TokenClass.RPAR);
-            parseExpUnary();
+
+            // This check is needed so that funcall is called
+            // with tree exp_post -> root_exp -> funcall
+            if (accept(typeNameFirst)) {
+                parseType();
+                mustExpectAny(TokenClass.RPAR);
+                parseExpUnary();
+            } else {
+                parseExpPost(false);
+            }
+
         } else if (accept(TokenClass.MINUS)) {
             mustExpectAny(TokenClass.MINUS);
             parseExpUnary();

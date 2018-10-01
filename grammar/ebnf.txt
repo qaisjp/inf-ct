@@ -79,13 +79,15 @@ exp_rel_   ::= ">=" exp_add exp_rel_
              | "<=" exp_add exp_rel_
              | ">" exp_add exp_rel_
              | ε
-exp_add    ::= exp_mult
-             | exp_add "-" exp_mult
-             | exp_add "+" exp_mult
-exp_mult   ::= exp_unary
-             | exp_mult "%" exp_unary
-             | exp_mult "/" exp_unary
-             | exp_mult "*" exp_unary
+exp_add    ::= exp_mult exp_add_
+exp_add_   ::= "-" exp_mult exp_add_
+             | "+" exp_mult exp_add_
+             | ε
+exp_mult   ::= exp_unary exp_mult_
+exp_mult_  ::= "%" exp_unary exp_mult_
+             | "/" exp_unary exp_mult_
+             | "*" exp_unary exp_mult_
+             | ε
 exp_unary  ::= exp_postfix
              | "sizeof" "(" type ")" exp_unary    # size of type
              | "*" exp_unary                      # Value at operator (pointer indirection)

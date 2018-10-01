@@ -109,6 +109,16 @@ public class Parser {
         return null;
     }
 
+    // expectThese runs expect on each of the following token classes
+    private Token[] expectThese(TokenClass... expected) {
+        Token[] tokens = new Token[expected.length];
+        for (int i = 0; i < expected.length; i++) {
+            tokens[i] = token;
+            expect(expected[i]);
+        }
+        return tokens;
+    }
+
     /*
      * If the current token is equals to the expected one, accept and return true.
      * Otherwise return false.

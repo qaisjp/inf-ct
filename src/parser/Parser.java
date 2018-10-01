@@ -445,7 +445,7 @@ public class Parser {
 
     private void parseArgList() {
         parseExp();
-        while (maybeExpectAny(TokenClass.CHAR_LITERAL.COMMA)) {
+        while (maybeExpectAny(TokenClass.COMMA)) {
             parseExp();
         }
     }

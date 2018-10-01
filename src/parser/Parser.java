@@ -160,7 +160,7 @@ public class Parser {
 
             parseStructType();
             expect(TokenClass.LBRA);
-            parseVarDeclPep();
+            parseVarDecls(true);
             expect(TokenClass.RBRA);
             expect(TokenClass.SC);
 
@@ -168,12 +168,32 @@ public class Parser {
         }
     }
 
-    private void parseVarDeclPep() {
+    private TokenClass[] typeNameFirst = {
+            TokenClass.INT,
+            TokenClass.CHAR,
+            TokenClass.VOID,
+            TokenClass.STRUCT, // via structtype
+    };
 
+    private void parseVarDecls(boolean mustAccept) {
+        if (mustAccept || accept(typeNameFirst)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+
+            // Consume a semicolon now or...
+            if (!expectOr(TokenClass.SC)) {
+                expect(TokenClass.LBRA);
+                expect(TokenClass.INT_LITERAL);
+                expect(TokenClass.RBRA);
+                expect(TokenClass.SC);
+            }
+
+            parseVarDecls(false);
+        }
     }
 
     private void parseVarDecls() {
-        // to be completed ...
+        parseVarDecls(false);
     }
 
     private void parseFunDecls() {
@@ -186,14 +206,18 @@ public class Parser {
         expect(TokenClass.IDENTIFIER);
     }
 
-    private void parseTypeName() {
-        // If we consume INT, CHAR, or VOID. We're done.
+    private void parseType() {
+        // If we consume INT, CHAR, or VOID. We're done.. for now
         if (expectOr(TokenClass.INT) || expectOr(TokenClass.CHAR) || expectOr(TokenClass.VOID)) {
-            return;
+            //
+        } else {
+            // If we didn't consume any of the above, we expect a structtype
+            parseStructType();
         }
 
-        // If we didn't consume any of the above, we expect a structtype
-        parseStructType();
+        if (accept(TokenClass.ASTERIX)) {
+            expect(TokenClass.ASTERIX);
+        }
     }
 
     private void parseBinaryOp() {

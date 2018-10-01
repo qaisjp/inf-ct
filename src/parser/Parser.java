@@ -154,11 +154,18 @@ public class Parser {
     }
 
     private void parseStructDecls() {
-        parseStructType();
-        expect(TokenClass.LBRA);
-        parseVarDeclPep();
-        expect(TokenClass.RBRA);
-        expect(TokenClass.SC);
+        // First for parseStructType is STRUCT
+        if (accept(TokenClass.STRUCT)) {
+            nextToken();
+
+            parseStructType();
+            expect(TokenClass.LBRA);
+            parseVarDeclPep();
+            expect(TokenClass.RBRA);
+            expect(TokenClass.SC);
+
+            parseStructDecls();
+        }
     }
 
     private void parseVarDeclPep() {
@@ -173,6 +180,7 @@ public class Parser {
         // to be completed ...
     }
 
+    // First: STRUCT
     private void parseStructType() {
         expect(TokenClass.STRUCT);
         expect(TokenClass.IDENTIFIER);

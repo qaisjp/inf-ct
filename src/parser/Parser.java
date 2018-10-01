@@ -485,26 +485,4 @@ public class Parser {
             mustExpectAny(TokenClass.ASTERIX);
         }
     }
-
-    private void parseBinaryOp() {
-        Object _ = false ||
-                maybeExpectAny(TokenClass.ASTERIX) ||
-                maybeExpectAny(TokenClass.DIV) ||
-                maybeExpectAny(TokenClass.REM) ||
-                maybeExpectAny(TokenClass.PLUS) ||
-                maybeExpectAny(TokenClass.MINUS) ||
-                maybeExpectAny(TokenClass.LT) ||
-                maybeExpectAny(TokenClass.LE) ||
-                maybeExpectAny(TokenClass.GT) ||
-                maybeExpectAny(TokenClass.GE) ||
-                maybeExpectAny(TokenClass.EQ) ||
-                maybeExpectAny(TokenClass.NE) ||
-                maybeExpectAny(TokenClass.AND) ||
-                // we must end with mustExpectAny
-                // so that at least ONE of
-                // these are expected!
-                (mustExpectAny(TokenClass.OR) != null);
-    }
-
-    // to be completed ...
 }

@@ -111,8 +111,8 @@ public class Parser {
         return null;
     }
 
-    // expectThese runs expect on each of the following token classes
-    private Token[] expectThese(TokenClass... expected) {
+    // mustExpectAll runs expect on each of the following token classes
+    private Token[] mustExpectAll(TokenClass... expected) {
         Token[] tokens = new Token[expected.length];
         for (int i = 0; i < expected.length; i++) {
             tokens[i] = token;
@@ -214,7 +214,7 @@ public class Parser {
                 // System.out.printf("Expecting LBRA...%s\n", Boolean.toString(mustAccept));
                 // mustExpect(TokenClass.LBRA); // don't forget to comment out LBRA a few lines below
                 // System.out.println("OK");
-                expectThese(
+                mustExpectAll(
                     TokenClass.LBRA,
                     TokenClass.INT_LITERAL,
                     TokenClass.RBRA,
@@ -294,12 +294,12 @@ public class Parser {
         if (accept(TokenClass.LBRA)) {
             parseBlock();
         } else if (accept(TokenClass.WHILE)) {
-            expectThese(TokenClass.WHILE, TokenClass.LPAR);
+            mustExpectAll(TokenClass.WHILE, TokenClass.LPAR);
             parseExp();
             mustExpect(TokenClass.RPAR);
             parseStmt();
         } else if (accept(TokenClass.IF)) {
-            expectThese(TokenClass.IF, TokenClass.LPAR);
+            mustExpectAll(TokenClass.IF, TokenClass.LPAR);
             parseExp();
             mustExpect(TokenClass.RPAR);
             parseStmt();
@@ -387,9 +387,9 @@ public class Parser {
 
     private void parseExpUnary() {
         if (accept(TokenClass.SIZEOF)) {
-            expectThese(TokenClass.SIZEOF, TokenClass.LPAR);
+            mustExpectAll(TokenClass.SIZEOF, TokenClass.LPAR);
             parseType();
-            expectThese(TokenClass.RPAR);
+            mustExpectAll(TokenClass.RPAR);
             parseExpUnary();
         } else if (accept(TokenClass.ASTERIX)) {
             mustExpect(TokenClass.ASTERIX);
@@ -413,7 +413,7 @@ public class Parser {
         }
 
         if (accept(TokenClass.DOT)) {
-            expectThese(TokenClass.DOT, TokenClass.IDENTIFIER);
+            mustExpectAll(TokenClass.DOT, TokenClass.IDENTIFIER);
             parseExpPost(true);
         } else if (accept(TokenClass.LBRA)) {
             mustExpect(TokenClass.LBRA);

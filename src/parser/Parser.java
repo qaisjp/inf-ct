@@ -291,7 +291,132 @@ public class Parser {
     }
 
     private void parseExp() {
+        parseExpOr(false);
+    }
 
+    private void parseExpOr(boolean prime) {
+        if (!prime) {
+            parseExpAnd(false);
+        }
+        if (expectOr(TokenClass.OR)) {
+            parseExpAnd(false);
+            parseExpOr(true);
+        }
+    }
+
+    private void parseExpAnd(boolean prime) {
+        if (!prime) {
+            parseExpEq(false);
+        }
+        if (expectOr(TokenClass.AND)) {
+            parseExpEq(false);
+            parseExpAnd(true);
+        }
+    }
+
+    private void parseExpEq(boolean prime) {
+        if (!prime) {
+            parseExpRel(false);
+        }
+        if (expectOr(TokenClass.NE, TokenClass.EQ)) {
+            parseExpRel(false);
+            parseExpEq(true);
+        }
+    }
+
+    private void parseExpRel(boolean prime) {
+        if (!prime) {
+            parseExpAdd(false);
+        }
+        if (expectOr(TokenClass.GE, TokenClass.GT, TokenClass.LE, TokenClass.LT)) {
+            parseExpAdd(false);
+            parseExpRel(true);
+        }
+    }
+
+    private void parseExpAdd(boolean prime) {
+        if (!prime) {
+            parseExpMult(false);
+        }
+        if (expectOr(TokenClass.MINUS, TokenClass.PLUS)) {
+            parseExpMult(false);
+            parseExpAdd(true);
+        }
+    }
+
+    private void parseExpMult(boolean prime) {
+        if (!prime) {
+            parseExpUnary();
+        }
+        if (expectOr(TokenClass.REM, TokenClass.DIV, TokenClass.ASTERIX)) {
+            parseExpUnary();
+            parseExpMult(true);
+        }
+    }
+
+    private void parseExpUnary() {
+        if (accept(TokenClass.SIZEOF)) {
+            expectThese(TokenClass.SIZEOF, TokenClass.LPAR);
+            parseType();
+            expectThese(TokenClass.RPAR);
+            parseExpUnary();
+        } else if (accept(TokenClass.ASTERIX)) {
+            expect(TokenClass.ASTERIX);
+            parseExpUnary();
+        } else if (accept(TokenClass.LPAR)) {
+            expect(TokenClass.LPAR);
+            parseType();
+            expect(TokenClass.RPAR);
+            parseExpUnary();
+        } else if (accept(TokenClass.MINUS)) {
+            expect(TokenClass.MINUS);
+            parseExpUnary();
+        } else {
+            parseExpPost(false);
+        }
+    }
+
+    private void parseExpPost(boolean prime) {
+        if (!prime) {
+            parseRootExp();
+        }
+
+        if (accept(TokenClass.DOT)) {
+            expectThese(TokenClass.DOT, TokenClass.IDENTIFIER);
+            parseExpPost(true);
+        } else if (accept(TokenClass.LBRA)) {
+            expect(TokenClass.LBRA);
+            parseExp();
+            expect(TokenClass.RBRA);
+            parseExpPost(true);
+        }
+    }
+
+    private void parseRootExp() {
+        if (accept(TokenClass.LPAR)) {
+            expect(TokenClass.LPAR);
+            parseExp();
+            expect(TokenClass.RPAR);
+        } else if (accept(TokenClass.IDENTIFIER)) {
+            expect(TokenClass.IDENTIFIER);
+            if (accept(TokenClass.LPAR)) {
+                if (accept(TokenClass.RPAR)) {
+                    expect(TokenClass.RPAR);
+                } else {
+                    parseArgList();
+                    expect(TokenClass.RPAR);
+                }
+            }
+        } else {
+            expect(TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL);
+        }
+    }
+
+    private void parseArgList() {
+        parseExp();
+        while (expectOr(TokenClass.CHAR_LITERAL.COMMA)) {
+            parseExp();
+        }
     }
 
     private void parseParams() {

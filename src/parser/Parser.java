@@ -188,7 +188,7 @@ public class Parser {
 
     private void parseStructDecls() {
         // First for parseStructType is STRUCT
-        if (maybeExpectAny(TokenClass.STRUCT)) {
+        if (accept(TokenClass.STRUCT)) {
             parseStructType();
             mustExpectAny(TokenClass.LBRA);
             parseVarDecls(true,false);

@@ -43,7 +43,6 @@ public class Parser {
     private Token lastErrorToken;
 
     private void error(TokenClass... expected) {
-
         if (lastErrorToken == token) {
             // skip this error, same token causing trouble
             return;
@@ -56,7 +55,17 @@ public class Parser {
             sb.append(e);
             sep = "|";
         }
-        System.out.println("Parsing error: expected ("+sb+") found ("+token+") at "+token.position);
+
+        error(sb.toString());
+    }
+
+    private void error(String s) {
+        if (lastErrorToken == token) {
+            // skip this error, same token causing trouble
+            return;
+        }
+
+        System.out.println("Parsing error: expected ("+s+") found ("+token+") at "+token.position);
         // new Exception().printStackTrace();
 
         error++;

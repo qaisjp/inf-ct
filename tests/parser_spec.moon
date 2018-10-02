@@ -54,11 +54,19 @@ tests =
     -- base
     ["f.declassign.c"]: errors: 1, to: {"Parsing error: expected (LSBR) found (ASSIGN) at 2:11"}
     ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
+    ["f.array_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (INT_LITERAL) found (RSBR) at 1:7"}
+    ["f.ordering.c"]: errors: 1, to: {"Parsing error: expected (EOF) found (INCLUDE) at 5:1"}
     ["p.array_decl.c"]: to: {}
     ["p.braces.c"]: to: {}
-    ["p.comments.c"]: to: {}
-    ["p.struct_declaration.c"]: to: {}
     ["p.empty.c"]: to: {}
+    ["p.decl.c"]: to: {}
+    ["p.comments.c"]: to: {}
+    ["p.funcs.c"]: to: {}
+    ["p.identifiers.c"]: to: {}
+    ["p.include.c"]: to: {}
+    ["p.struct_both.c"]: to: {}
+    ["p.struct_declaration.c"]: to: {}
+    ["p.struct_vardecl.c"]: to: {}
 
 
 describe "#parser", ->

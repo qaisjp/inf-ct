@@ -175,6 +175,8 @@ tests =
         "ASTERIX", "IDENTIFIER", "ASSIGN",
         "Lexing error: unrecognised character (\') at 2:17",
         "INVALID"}
+    ["chars/p.assign.c"]: to: {"CHAR", "IDENTIFIER", "SC",
+        "IDENTIFIER", "ASSIGN", "CHAR_LITERAL", "SC"}
 
     -- comments
     ["comments/p.incomplete.c"]: to: {"INT", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "DIV"}

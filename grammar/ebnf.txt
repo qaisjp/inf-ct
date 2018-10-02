@@ -61,7 +61,9 @@ root_exp   ::= "(" exp ")"
              | INT_LITERAL
              | CHAR_LITERAL
              | STRING_LITERAL
-             | IDENT "(" ")"
+             | funcall
+
+funcall    ::= IDENT "(" ")"
              | IDENT "(" arglist ")"
 
 arglist      ::= exp argrep

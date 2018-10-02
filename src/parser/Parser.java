@@ -179,8 +179,7 @@ public class Parser {
 
     // includes are ignored, so does not need to return an AST node
     private void parseIncludes() {
-        if (accept(TokenClass.INCLUDE)) {
-            nextToken();
+        if (maybeExpectAny(TokenClass.INCLUDE)) {
             mustExpectAny(TokenClass.STRING_LITERAL);
             parseIncludes();
         }
@@ -188,9 +187,7 @@ public class Parser {
 
     private void parseStructDecls() {
         // First for parseStructType is STRUCT
-        if (accept(TokenClass.STRUCT)) {
-            nextToken();
-
+        if (maybeExpectAny(TokenClass.STRUCT)) {
             parseStructType();
             mustExpectAny(TokenClass.LBRA);
             parseVarDecls(true,false);
@@ -397,13 +394,12 @@ public class Parser {
     }
 
     private void parseExpUnary() {
-        if (accept(TokenClass.SIZEOF)) {
-            mustExpectAll(TokenClass.SIZEOF, TokenClass.LPAR);
+        if (maybeExpectAny(TokenClass.SIZEOF)) {
+            mustExpectAll(TokenClass.LPAR);
             parseType();
             mustExpectAll(TokenClass.RPAR);
             parseExpUnary();
-        } else if (accept(TokenClass.ASTERIX)) {
-            mustExpectAny(TokenClass.ASTERIX);
+        } else if (maybeExpectAny(TokenClass.ASTERIX)) {
             parseExpUnary();
         } else if (accept(TokenClass.LPAR)) {
             // This check is needed so that funcall is called
@@ -417,8 +413,7 @@ public class Parser {
                 parseExpPost(false);
             }
 
-        } else if (accept(TokenClass.MINUS)) {
-            mustExpectAny(TokenClass.MINUS);
+        } else if (maybeExpectAny(TokenClass.MINUS)) {
             parseExpUnary();
         } else {
             parseExpPost(false);
@@ -430,11 +425,10 @@ public class Parser {
             parseRootExp();
         }
 
-        if (accept(TokenClass.DOT)) {
-            mustExpectAll(TokenClass.DOT, TokenClass.IDENTIFIER);
+        if (maybeExpectAny(TokenClass.DOT)) {
+            mustExpectAll(TokenClass.IDENTIFIER);
             parseExpPost(true);
-        } else if (accept(TokenClass.LBRA)) {
-            mustExpectAny(TokenClass.LBRA);
+        } else if (maybeExpectAny(TokenClass.LBRA)) {
             parseExp();
             mustExpectAny(TokenClass.RBRA);
             parseExpPost(true);
@@ -442,19 +436,15 @@ public class Parser {
     }
 
     private void parseRootExp() {
-        if (accept(TokenClass.LPAR)) {
-            mustExpectAny(TokenClass.LPAR);
+        if (maybeExpectAny(TokenClass.LPAR)) {
             parseExp();
             mustExpectAny(TokenClass.RPAR);
-        } else if (accept(TokenClass.IDENTIFIER)) {
-            mustExpectAny(TokenClass.IDENTIFIER);
+        } else if (maybeExpectAny(TokenClass.IDENTIFIER)) {
             if (maybeExpectAny(TokenClass.LPAR)) {
-                if (accept(TokenClass.RPAR)) {
-                    mustExpectAny(TokenClass.RPAR);
-                } else {
+                if (!accept(TokenClass.RPAR)) {
                     parseArgList();
-                    mustExpectAny(TokenClass.RPAR);
                 }
+                mustExpectAny(TokenClass.RPAR);
             }
         } else {
             mustExpectAny(TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL);

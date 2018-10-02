@@ -147,6 +147,15 @@ public class Parser {
         return result;
     }
 
+    /*
+    * Returns true if the current token is equals to any of the expected ones.
+    */
+    private boolean lookAheadAccept(int i, TokenClass... expected) {
+        boolean result = false;
+        for (TokenClass e : expected)
+            result |= (e == lookAhead(i).tokenClass);
+        return result;
+    }
 
     private void parseProgram() {
         parseIncludes();
@@ -395,11 +404,10 @@ public class Parser {
             mustExpectAny(TokenClass.ASTERIX);
             parseExpUnary();
         } else if (accept(TokenClass.LPAR)) {
-            mustExpectAny(TokenClass.LPAR);
-
             // This check is needed so that funcall is called
             // with tree exp_post -> root_exp -> funcall
-            if (accept(typeNameFirst)) {
+            if (lookAheadAccept(1, typeNameFirst)) {
+                mustExpectAny(TokenClass.LPAR);
                 parseType();
                 mustExpectAny(TokenClass.RPAR);
                 parseExpUnary();

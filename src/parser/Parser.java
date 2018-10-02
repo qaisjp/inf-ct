@@ -429,9 +429,9 @@ public class Parser {
         if (maybeExpectAny(TokenClass.DOT)) {
             mustExpectAll(TokenClass.IDENTIFIER);
             parseExpPost(true);
-        } else if (maybeExpectAny(TokenClass.LBRA)) {
+        } else if (maybeExpectAny(TokenClass.LSBR)) {
             parseExp();
-            mustExpectAny(TokenClass.RBRA);
+            mustExpectAny(TokenClass.RSBR);
             parseExpPost(true);
         }
     }

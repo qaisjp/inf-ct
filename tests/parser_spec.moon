@@ -52,7 +52,9 @@ tests =
     ["p.tictactoe.c"]: to: {}
 
     -- base
-    ["f.declassign.c"]: errors: 1, to: {"Parsing error: expected (LSBR) found (ASSIGN) at 2:11"}
+    ["f.declassign.c"]: errors: 2, volatile: true, to:
+        {"Parsing error: expected (RBRA) found (INT) at 2:5",
+        "Parsing error: expected (LPAR) found (ASSIGN) at 2:11"}
     ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
     ["f.array_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (INT_LITERAL) found (RSBR) at 1:7"}
     ["f.ordering.c"]: errors: 1, to: {"Parsing error: expected (EOF) found (INCLUDE) at 5:1"}

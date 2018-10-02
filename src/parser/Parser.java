@@ -159,6 +159,7 @@ public class Parser {
         return result;
     }
 
+    private boolean preparsedFunDecls = true;
     private void parseProgram() {
         parseIncludes();
         parseStructDecls();
@@ -172,7 +173,7 @@ public class Parser {
             if (accept(TokenClass.SC, TokenClass.LSBR)) {
                 parseVarDecls(false, true);
             }
-            parseFunDecls(true);
+            parseFunDecls(preparsedFunDecls);
         }
 
         mustExpectAny(TokenClass.EOF);
@@ -233,11 +234,14 @@ public class Parser {
 
             if (preParsed) {
                 if (accept(typeNameFirst)) {
+                    preparsedFunDecls = true;
                     parseType();
                     mustExpectAny(TokenClass.IDENTIFIER);
                     if (accept(TokenClass.SC, TokenClass.LSBR)) {
                         parseVarDecls(false, true);
                     }
+                } else {
+                    preparsedFunDecls = false;
                 }
             } else {
                 parseVarDecls(false, false);

@@ -1,6 +1,6 @@
 struct asdf {
     int a;
-    // bool b;
+    struct f b;
     char c;
     char* str;
 }

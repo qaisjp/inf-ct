@@ -57,6 +57,7 @@ public class Parser {
             sep = "|";
         }
         System.out.println("Parsing error: expected ("+sb+") found ("+token+") at "+token.position);
+        // new Exception().printStackTrace();
 
         error++;
         lastErrorToken = token;
@@ -159,21 +160,14 @@ public class Parser {
         return result;
     }
 
-    private boolean preparsedFunDecls = true;
     private void parseProgram() {
         parseIncludes();
         parseStructDecls();
 
         // Both vardecls and fundecls start with these...
         if (accept(typeNameFirst)) {
-            parseType();
-            mustExpectAny(TokenClass.IDENTIFIER);
-
-
-            if (accept(TokenClass.SC, TokenClass.LSBR)) {
-                parseVarDecls(false, true);
-            }
-            parseFunDecls(preparsedFunDecls);
+            parseVarDecls(false);
+            parseFunDecls();
         }
 
         mustExpectAny(TokenClass.EOF);
@@ -192,7 +186,7 @@ public class Parser {
         if (accept(TokenClass.STRUCT) && lookAheadAccept(2, TokenClass.LBRA)) {
             parseStructType();
             mustExpectAny(TokenClass.LBRA);
-            parseVarDecls(true,false);
+            parseVarDecls(true);
             mustExpectAny(TokenClass.RBRA);
             mustExpectAny(TokenClass.SC);
 
@@ -207,72 +201,59 @@ public class Parser {
             TokenClass.STRUCT, // via structtype
     };
 
-    private void parseVarDecls(boolean mustAccept, boolean preParsed) {
-        boolean shouldContinue = true;
-        if (!preParsed) {
-            if (mustAccept || accept(typeNameFirst)) {
-                parseType();
-                mustExpectAny(TokenClass.IDENTIFIER);
-            } else {
-                shouldContinue = false;
+    private void parseVarDecls(boolean mustAccept) {
+        int offset = 1;
+
+        // a struct typename consists of two tokens, so look an extra token ahead
+        offset += accept(TokenClass.STRUCT) ? 1 : 0;
+
+        // a typename *can* have an asterisk following it, so append that too
+        offset += lookAheadAccept(offset, TokenClass.ASTERIX) ? 1 : 0;
+
+
+        // both vardecl and fundecl have a IDENT we need to skip
+        offset += 1;
+
+        if (!mustAccept) {
+            if (!accept(typeNameFirst) || !lookAheadAccept(offset, TokenClass.SC, TokenClass.LSBR)) {
+                return;
             }
         }
 
-        if (shouldContinue) {
-            // Consume a semicolon now or...
-            if (!maybeExpectAny(TokenClass.SC)) {
-                // System.out.printf("Expecting LSBR...%s\n", Boolean.toString(mustAccept));
-                // mustExpectAny(TokenClass.LSBR); // don't forget to comment out LSBR a few lines below
-                // System.out.println("OK");
-                mustExpectAll(
+        parseType();
+        mustExpectAny(TokenClass.IDENTIFIER);
+
+        // Consume a semicolon now or...
+        if (!maybeExpectAny(TokenClass.SC)) {
+            mustExpectAll(
                     TokenClass.LSBR,
                     TokenClass.INT_LITERAL,
                     TokenClass.RSBR,
                     TokenClass.SC
-                );
-            }
-
-            if (preParsed) {
-                if (accept(typeNameFirst)) {
-                    preparsedFunDecls = true;
-                    parseType();
-                    mustExpectAny(TokenClass.IDENTIFIER);
-                    if (accept(TokenClass.SC, TokenClass.LSBR)) {
-                        parseVarDecls(false, true);
-                    }
-                } else {
-                    preparsedFunDecls = false;
-                }
-            } else {
-                parseVarDecls(false, false);
-            }
+            );
         }
+
+        parseVarDecls(false);
     }
 
-    private void parseFunDecls(boolean preParsed) {
-        boolean shouldContinue = true;
-        if (!preParsed) {
-            if (accept(typeNameFirst)) {
-                parseType();
-                mustExpectAny(TokenClass.IDENTIFIER);
-            } else {
-                shouldContinue = false;
-            }
-        }
+    private void parseFunDecls() {
+        if (accept(typeNameFirst)) {
+            parseType();
+            mustExpectAny(TokenClass.IDENTIFIER);
 
-        if (shouldContinue) {
+
             mustExpectAny(TokenClass.LPAR);
             parseParams();
             mustExpectAny(TokenClass.RPAR);
             parseBlock();
 
-            parseFunDecls(false);
+            parseFunDecls();
         }
     }
 
     private void parseBlock() {
         mustExpectAny(TokenClass.LBRA);
-        parseVarDecls(false, false);
+        parseVarDecls(false);
 
         while (accept(stmtFirst)) {
             parseStmt();

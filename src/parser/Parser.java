@@ -446,7 +446,7 @@ public class Parser {
             mustExpectAny(TokenClass.RPAR);
         } else if (accept(TokenClass.IDENTIFIER)) {
             mustExpectAny(TokenClass.IDENTIFIER);
-            if (accept(TokenClass.LPAR)) {
+            if (maybeExpectAny(TokenClass.LPAR)) {
                 if (accept(TokenClass.RPAR)) {
                     mustExpectAny(TokenClass.RPAR);
                 } else {

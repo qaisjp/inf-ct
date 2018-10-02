@@ -92,6 +92,8 @@ public class Parser {
             token = buffer.remove();
         else
             token = tokeniser.nextToken();
+        // System.out.printf("%s:%s\n", token.toString(), token.position.toString());
+        // new Exception().printStackTrace();
     }
 
     /*
@@ -316,7 +318,7 @@ public class Parser {
             if (maybeExpectAny(TokenClass.ELSE)) {
                 parseStmt();
             }
-        } else if (accept(TokenClass.RETURN)) {
+        } else if (maybeExpectAny(TokenClass.RETURN)) {
             if (accept(expFirst)) {
                 parseExp();
             }

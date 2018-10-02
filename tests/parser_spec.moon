@@ -53,6 +53,7 @@ tests =
 
     -- base
     ["f.declassign.c"]: errors: 1, to: {"Parsing error: expected (LBRA) found (ASSIGN) at 2:11"}
+    ["p.empty.c"]: to: {}
 
 
 describe "#parser", ->

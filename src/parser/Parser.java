@@ -167,12 +167,13 @@ public class Parser {
         if (accept(typeNameFirst)) {
             parseType();
             mustExpectAny(TokenClass.IDENTIFIER);
-        }
 
-        if (accept(TokenClass.SC, TokenClass.LBRA)) {
-            parseVarDecls(false, true);
+
+            if (accept(TokenClass.SC, TokenClass.LBRA)) {
+                parseVarDecls(false, true);
+            }
+            parseFunDecls(true);
         }
-        parseFunDecls(true);
 
         mustExpectAny(TokenClass.EOF);
     }

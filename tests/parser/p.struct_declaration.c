@@ -3,4 +3,4 @@ struct asdf {
     struct f b;
     char c;
     char* str;
-}
+};

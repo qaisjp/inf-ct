@@ -253,7 +253,6 @@ public class Parser {
             parseType();
             mustExpectAny(TokenClass.IDENTIFIER);
 
-
             mustExpectAny(TokenClass.LPAR);
             parseParams();
             mustExpectAny(TokenClass.RPAR);

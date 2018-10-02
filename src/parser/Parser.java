@@ -479,9 +479,11 @@ public class Parser {
         // If we consume INT, CHAR, or VOID. We're done.. for now
         if (maybeExpectAny(TokenClass.INT) || maybeExpectAny(TokenClass.CHAR) || maybeExpectAny(TokenClass.VOID)) {
             //
-        } else {
+        } else if (accept(TokenClass.STRUCT)) {
             // If we didn't consume any of the above, we expect a structtype
             parseStructType();
+        } else {
+            error(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT);
         }
 
         if (accept(TokenClass.ASTERIX)) {

@@ -66,7 +66,10 @@ public class Parser {
         }
 
         System.out.println("Parsing error: expected ("+s+") found ("+token+") at "+token.position);
-        // new Exception().printStackTrace();
+
+        if ("true".equalsIgnoreCase(System.getenv("MINIC_TRACE_ERRORS"))) {
+            new Exception().printStackTrace();
+        }
 
         error++;
         lastErrorToken = token;

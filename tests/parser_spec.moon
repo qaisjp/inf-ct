@@ -50,6 +50,9 @@ tests =
     -- base originals
     ["p.fibonacci.c"]: to: {}
     ["p.tictactoe.c"]: to: {}
+
+    -- base
+    ["f.declassign.c"]: errors: 1, to: {"Parsing error: expected (LBRA) found (ASSIGN) at 2:11"}
     
 
 describe "#parser", ->

@@ -52,7 +52,8 @@ tests =
     ["p.tictactoe.c"]: to: {}
 
     -- base
-    ["f.declassign.c"]: errors: 1, to: {"Parsing error: expected (LBRA) found (ASSIGN) at 2:11"}
+    ["f.declassign.c"]: errors: 1, to: {"Parsing error: expected (LSBR) found (ASSIGN) at 2:11"}
+    ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {}
     ["p.array_decl.c"]: to: {}
     ["p.braces.c"]: to: {}
     ["p.comments.c"]: to: {}

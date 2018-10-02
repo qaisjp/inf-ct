@@ -169,7 +169,7 @@ public class Parser {
             mustExpectAny(TokenClass.IDENTIFIER);
 
 
-            if (accept(TokenClass.SC, TokenClass.LBRA)) {
+            if (accept(TokenClass.SC, TokenClass.LSBR)) {
                 parseVarDecls(false, true);
             }
             parseFunDecls(true);
@@ -220,13 +220,13 @@ public class Parser {
         if (shouldContinue) {
             // Consume a semicolon now or...
             if (!maybeExpectAny(TokenClass.SC)) {
-                // System.out.printf("Expecting LBRA...%s\n", Boolean.toString(mustAccept));
-                // mustExpectAny(TokenClass.LBRA); // don't forget to comment out LBRA a few lines below
+                // System.out.printf("Expecting LSBR...%s\n", Boolean.toString(mustAccept));
+                // mustExpectAny(TokenClass.LSBR); // don't forget to comment out LSBR a few lines below
                 // System.out.println("OK");
                 mustExpectAll(
-                    TokenClass.LBRA,
+                    TokenClass.LSBR,
                     TokenClass.INT_LITERAL,
-                    TokenClass.RBRA,
+                    TokenClass.RSBR,
                     TokenClass.SC
                 );
             }
@@ -235,7 +235,7 @@ public class Parser {
                 if (accept(typeNameFirst)) {
                     parseType();
                     mustExpectAny(TokenClass.IDENTIFIER);
-                    if (accept(TokenClass.SC, TokenClass.LBRA)) {
+                    if (accept(TokenClass.SC, TokenClass.LSBR)) {
                         parseVarDecls(false, true);
                     }
                 }

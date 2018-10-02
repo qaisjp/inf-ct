@@ -289,6 +289,7 @@ public class Parser {
             TokenClass.STRING_LITERAL, // via root_exp
     };
 
+    // list some stmt-specific tokens, and append the expFirst tokens too
     private TokenClass[] stmtFirst = Stream.concat(Arrays.asList(
             TokenClass.LBRA, // from block
             TokenClass.WHILE,

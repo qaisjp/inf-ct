@@ -54,6 +54,7 @@ tests =
     -- base
     ["f.declassign.c"]: errors: 1, to: {"Parsing error: expected (LBRA) found (ASSIGN) at 2:11"}
     ["p.braces.c"]: to: {}
+    ["p.comments.c"]: to: {}
     ["p.struct_declaration.c"]: to: {}
     ["p.empty.c"]: to: {}
 

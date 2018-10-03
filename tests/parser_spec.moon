@@ -60,6 +60,7 @@ tests =
     ["f.ordering.c"]: errors: 1, to: {"Parsing error: expected (EOF) found (INCLUDE) at 5:1"}
     ["f.struct_empty.c"]: errors: 1, to: {"Parsing error: expected (INT|CHAR|VOID|STRUCT) found (RBRA) at 1:11"}
     ["p.array_decl.c"]: to: {}
+    ["p.blocky.c"]: to: {}
     ["p.braces.c"]: to: {}
     ["p.empty.c"]: to: {}
     ["p.escapes.c"]: to: {}

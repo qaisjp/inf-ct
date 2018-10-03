@@ -52,12 +52,19 @@ tests =
     ["p.tictactoe.c"]: to: {}
 
     -- base
+    ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
+    ["f.array_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (INT_LITERAL) found (RSBR) at 1:7"}
+    ["f.block_ordering.1.c"]: errors: 1, to:
+        {"Parsing error: expected (RBRA) found (INT) at 6:5", "Parsing error: expected (LPAR) found (SC) at 6:10"}
+    ["f.block_ordering.2.c"]: errors: 1, to:
+        {"Parsing error: expected (RBRA) found (INT) at 6:5", "Parsing error: expected (LPAR) found (SC) at 6:10"}
     ["f.declassign.c"]: errors: 2, volatile: true, to:
         {"Parsing error: expected (RBRA) found (INT) at 2:5",
         "Parsing error: expected (LPAR) found (ASSIGN) at 2:11"}
-    ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
-    ["f.array_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (INT_LITERAL) found (RSBR) at 1:7"}
+    ["f.include_sc.c"]: errors: 1, to: {"Parsing error: expected (EOF) found (SC) at 1:16"}
     ["f.ordering.c"]: errors: 1, to: {"Parsing error: expected (EOF) found (INCLUDE) at 5:1"}
+    ["f.param.1.c"]: errors: 1, to: {"Parsing error: expected (RPAR) found (COMMA) at 1:9"}
+    ["f.param.2.c"]: errors: 1, to: {"Parsing error: expected (INT|CHAR|VOID|STRUCT) found (RPAR) at 1:19"}
     ["f.struct_empty.c"]: errors: 1, to: {"Parsing error: expected (INT|CHAR|VOID|STRUCT) found (RBRA) at 1:11"}
     ["p.array_decl.c"]: to: {}
     ["p.blocky.c"]: to: {}
@@ -66,13 +73,16 @@ tests =
     ["p.escapes.c"]: to: {}
     ["p.decl.c"]: to: {}
     ["p.comments.c"]: to: {}
+    ["p.comparisons.c"]: to: {}
     ["p.funcs.c"]: to: {}
     ["p.identifiers.c"]: to: {}
+    ["p.if.c"]: to: {}
     ["p.include.c"]: to: {}
     ["p.includes.c"]: to: {}
     ["p.struct_both.c"]: to: {}
     ["p.struct_declaration.c"]: to: {}
     ["p.struct_vardecl.c"]: to: {}
+    ["p.while_loop.c"]: to: {}
 
 
 describe "#parser", ->

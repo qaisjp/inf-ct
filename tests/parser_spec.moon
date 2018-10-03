@@ -58,6 +58,7 @@ tests =
     ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
     ["f.array_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (INT_LITERAL) found (RSBR) at 1:7"}
     ["f.ordering.c"]: errors: 1, to: {"Parsing error: expected (EOF) found (INCLUDE) at 5:1"}
+    ["f.struct_empty.c"]: errors: 1, to: {"Parsing error: expected (INT|CHAR|VOID|STRUCT) found (RBRA) at 1:11"}
     ["p.array_decl.c"]: to: {}
     ["p.braces.c"]: to: {}
     ["p.empty.c"]: to: {}

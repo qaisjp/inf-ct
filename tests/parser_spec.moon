@@ -71,6 +71,7 @@ tests =
     ["p.braces.c"]: to: {}
     ["p.empty.c"]: to: {}
     ["p.escapes.c"]: to: {}
+    ["p.everything.c"]: to: {}
     ["p.decl.c"]: to: {}
     ["p.comments.c"]: to: {}
     ["p.comparisons.c"]: to: {}

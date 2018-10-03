@@ -54,10 +54,10 @@ tests =
     -- base
     ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
     ["f.array_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (INT_LITERAL) found (RSBR) at 1:7"}
-    ["f.block_ordering.1.c"]: errors: 1, to:
+    ["f.block_ordering.1.c"]: errors: 2, to:
         {"Parsing error: expected (RBRA) found (INT) at 6:5", "Parsing error: expected (LPAR) found (SC) at 6:10"}
-    ["f.block_ordering.2.c"]: errors: 1, to:
-        {"Parsing error: expected (RBRA) found (INT) at 6:5", "Parsing error: expected (LPAR) found (SC) at 6:10"}
+    ["f.block_ordering.2.c"]: errors: 2, to:
+        {"Parsing error: expected (RBRA) found (INT) at 8:5", "Parsing error: expected (LPAR) found (SC) at 8:10"}
     ["f.declassign.c"]: errors: 2, volatile: true, to:
         {"Parsing error: expected (RBRA) found (INT) at 2:5",
         "Parsing error: expected (LPAR) found (ASSIGN) at 2:11"}

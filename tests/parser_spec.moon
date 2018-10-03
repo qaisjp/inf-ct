@@ -62,11 +62,13 @@ tests =
     ["p.array_decl.c"]: to: {}
     ["p.braces.c"]: to: {}
     ["p.empty.c"]: to: {}
+    ["p.escapes.c"]: to: {}
     ["p.decl.c"]: to: {}
     ["p.comments.c"]: to: {}
     ["p.funcs.c"]: to: {}
     ["p.identifiers.c"]: to: {}
     ["p.include.c"]: to: {}
+    ["p.includes.c"]: to: {}
     ["p.struct_both.c"]: to: {}
     ["p.struct_declaration.c"]: to: {}
     ["p.struct_vardecl.c"]: to: {}

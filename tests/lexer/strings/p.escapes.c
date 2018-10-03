@@ -1,3 +1,4 @@
 void main() {
-    char* s = "\t \b \f \' \" \\\r\n";
+    char* s;
+    s = "\t \b \f \' \" \\\r\n";
 }

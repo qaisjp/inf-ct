@@ -141,7 +141,7 @@ tests =
         "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
     ["strings/p.escapes.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
-        "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
+        "IDENTIFIER", "SC", "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
 
     -- char literals
     ["chars/f.multichar.c"]: errors: 2, volatile: true, to:

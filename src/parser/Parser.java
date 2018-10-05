@@ -396,7 +396,6 @@ public class Parser {
             mustExpectAll(TokenClass.LPAR);
             parseType();
             mustExpectAll(TokenClass.RPAR);
-            parseExpUnary();
         } else if (maybeExpectAny(TokenClass.ASTERIX)) {
             parseExpUnary();
         } else if (accept(TokenClass.LPAR)) {

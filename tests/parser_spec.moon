@@ -80,6 +80,7 @@ tests =
     ["p.if.c"]: to: {}
     ["p.include.c"]: to: {}
     ["p.includes.c"]: to: {}
+    ["p.sizeof.c"]: to: {}
     ["p.struct_both.c"]: to: {}
     ["p.struct_declaration.c"]: to: {}
     ["p.struct_vardecl.c"]: to: {}

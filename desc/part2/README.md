@@ -19,11 +19,11 @@ If you encounter any problem, have any questions or find a bug with the newly pr
 
 You will have to pull the AST class nodes and abstract grammar from the main repository.
 
-<aside class="warning">
+:warning:
 If you wish to start Part 2 before the deadline of Part 1, you execute the following commands in a separate branch!
 Otherwise, if you merge with your master branch and by accident push your changes to your remote repository, the auto-testing for Part 1 will fail.
 You must first create a new branch in your repository and switch to that branch.
-</aside>
+:warning:
 
 
 First, open a terminal and navigate to the root of your local repository.

@@ -5,7 +5,7 @@ Please note that the description of the course work might be updated from time t
 # Deadlines #
 
 1. [Part 1 (parser)](desc/part1/), Thursday 11 October 2018  at 11am, weight = 20%
-2. Part 2 (ast builder + semantic analyser),  Thursday 25 October 2018  at 11am, weight = 20%
+2. [Part 2 (ast builder + semantic analyser)](desc/part2/),  Thursday 25 October 2018  at 11am, weight = 20%
 3. Part 3 (code generator), Thursday 15 November 2018 at 11am, weight = 30%
 4. Part 4 (LLVM-based compiler pass), Monday 14 January 2019, 10am, weight = 30%
 

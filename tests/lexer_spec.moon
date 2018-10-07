@@ -182,6 +182,7 @@ tests =
         "INVALID"}
     ["chars/p.assign.c"]: to: {"CHAR", "IDENTIFIER", "SC",
         "IDENTIFIER", "ASSIGN", "CHAR_LITERAL", "SC"}
+    ["chars/p.null.c"]: to: {"CHAR_LITERAL", "STRING_LITERAL"}
 
     -- comments
     ["comments/p.incomplete.c"]: to: {"INT", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "DIV"}

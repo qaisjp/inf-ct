@@ -172,7 +172,7 @@ public class Tokeniser {
     }
 
     boolean isEscapeCharacter(char c) {
-        return (c == 't' || c == 'b' || c == 'n' || c == 'r' || c == 'f' || c == '\'' || c == '"' || c == '\\');
+        return (c == 't' || c == 'b' || c == 'n' || c == 'r' || c == 'f' || c == '\'' || c == '"' || c == '\\' || c == '0');
     }
 
     private Token next() throws IOException {

@@ -325,6 +325,14 @@ public class Tokeniser {
                 }
             }
 
+            // If we're a newline, whoops. It's all gone to pot!
+            if (c == '\n' || c == '\r') {
+                // error("expected closing quote, got newline", line, column);
+                // TODO: ask if we should print an error
+                error++;
+                return new Token(TokenClass.INVALID, line, column);
+            }
+
             if (!scanner.canPeek()) {
                 error('\'', line, column);
                 return new Token(TokenClass.INVALID, line, column);

@@ -150,10 +150,10 @@ tests =
         "Lexing error: unrecognised character (a) at 2:14",
         "INVALID", "IDENTIFIER", "Lexing error: unrecognised character (;) at 2:19",
         "INVALID", "RBRA"}
-    ["chars/f.newline.c"]: errors: 1, to:
+    ["chars/f.newline.c"]: errors: 2, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR", "IDENTIFIER",
-        "SC", "IDENTIFIER", "ASSIGN",
-        "Lexing error: unrecognised character (;) at 2:17",
+        "SC", "IDENTIFIER", "ASSIGN", "INVALID",
+        "Lexing error: unrecognised character (;) at 4:1",
         "INVALID", "RBRA"}
     ["chars/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",

@@ -79,6 +79,7 @@ tests =
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC", "RBRA"}
+    ["p.identifiers_eof.c"]: to: {"IDENTIFIER"}
     ["p.ops.c"]: to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER",
         "ASSIGN", "INT_LITERAL", "SC", "IF", "LPAR", "IDENTIFIER", "EQ",
@@ -182,6 +183,7 @@ tests =
         "INVALID"}
     ["chars/p.assign.c"]: to: {"CHAR", "IDENTIFIER", "SC",
         "IDENTIFIER", "ASSIGN", "CHAR_LITERAL", "SC"}
+    ["chars/p.digits.c"]: to: {"INT_LITERAL"}
     ["chars/p.null.c"]: to: {"CHAR_LITERAL", "STRING_LITERAL"}
 
     -- comments

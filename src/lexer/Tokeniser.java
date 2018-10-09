@@ -118,6 +118,10 @@ public class Tokeniser {
                 // System.out.print(c);
                 char i = 0;
 
+                if (!scanner.canPeek()) {
+                    break;
+                }
+
                 // While next character matches
                 while (scanner.peek() == s.charAt(i + 1)) {
                     // Consume the next character
@@ -130,6 +134,10 @@ public class Tokeniser {
 
                     // If we have consumed our string
                     if (i == s.length()-1) {
+                        if (!scanner.canPeek()) {
+                            break;
+                        }
+
                         // Return token if next is NOT identifier
                         if (!isIdentifierCharacterMid(scanner.peek())) {
                             // System.out.print(scanner.peek());
@@ -160,12 +168,20 @@ public class Tokeniser {
 
     // readIdentifier keeps scanning until we hit a non-identifier character
     private void readIdentifier() throws IOException {
+        if (!scanner.canPeek()) {
+            return;
+        }
+
         char nextChar = scanner.peek();
         while (isIdentifierCharacterMid(nextChar)) {
             // Consume the character we have peeked
             scanner.next();
 
             stringSoFar.append(nextChar);
+
+            if (!scanner.canPeek()) {
+                break;
+            }
 
             nextChar = scanner.peek();
         }
@@ -202,7 +218,7 @@ public class Tokeniser {
         // if this is / and next will be /
         if (c == '/' && scanner.canPeek() && scanner.peek() == '/') {
             // until we hit a newline
-            while (scanner.next() != '\n') {
+            while (scanner.canPeek() && scanner.next() != '\n') {
                 // do nothing
             }
             return next();
@@ -374,7 +390,7 @@ public class Tokeniser {
         } catch (EOFException e) {}
 
         // Check for logical operators
-        if ((c == '&' || c == '|') && (scanner.peek() == c)) {
+        if ((c == '&' || c == '|') && scanner.canPeek() && (scanner.peek() == c)) {
             TokenClass tok = null;
             switch (c) {
                 case '&':

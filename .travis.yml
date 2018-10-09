@@ -4,8 +4,8 @@ sudo: false
 
 jobs:
     include:
-      - stage: build
-        script: ant build
+#      - stage: build
+#        script: ant build
       - stage: test
         script:
           - ant build

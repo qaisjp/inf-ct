@@ -183,7 +183,7 @@ tests =
         "INVALID"}
     ["chars/p.assign.c"]: to: {"CHAR", "IDENTIFIER", "SC",
         "IDENTIFIER", "ASSIGN", "CHAR_LITERAL", "SC"}
-    ["chars/p.digits.c"]: to: {"INT_LITERAL"}
+    ["chars/p.digits.c"]: to: {"CHAR_LITERAL"}
     ["chars/p.null.c"]: to: {"CHAR_LITERAL", "STRING_LITERAL"}
 
     -- comments

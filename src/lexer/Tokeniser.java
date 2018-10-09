@@ -38,9 +38,6 @@ public class Tokeniser {
         Token result;
         try {
              result = next();
-            if (result.tokenClass == TokenClass.IDENTIFIER) {
-                System.out.printf("Got ID (%s)\n", stringSoFar);
-            }
              if (result.tokenClass != TokenClass.INVALID) {
                  stringSoFar.setLength(0);
              }
@@ -204,7 +201,7 @@ public class Tokeniser {
             // Put the column back a few, precisely the length of the partially read identifier
             column -= stringSoFar.length();
             readIdentifier();
-            System.out.printf("stringSoFar: \"%s\"\n", stringSoFar);
+            // System.out.printf("stringSoFar: %s\n", stringSoFar);
             return new Token(TokenClass.IDENTIFIER, line, column);
         }
 
@@ -450,7 +447,6 @@ public class Tokeniser {
         // we also reset our stringSoFar because it's an immediate problem
         stringSoFar.setLength(0);
         error(c, line, column);
-        System.out.println("AYE");
         return new Token(TokenClass.INVALID, line, column);
     }
 }

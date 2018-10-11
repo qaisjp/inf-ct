@@ -157,7 +157,8 @@ tests =
         "IDENTIFIER", "SC", "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
 
     -- char literals
-    ["chars/f.empty.c"]: errors: 1, to: {"INVALID"}
+    ["chars/f.empty.c"]: errors: 1, to: {"IF", "Lexing error: unrecognised character (') at 1:3"
+        "INVALID", "IDENTIFIER"}
     ["chars/f.multichar.c"]: errors: 2, volatile: true, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
         "CHAR", "IDENTIFIER", "ASSIGN",

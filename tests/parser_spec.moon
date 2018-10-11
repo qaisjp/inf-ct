@@ -62,6 +62,8 @@ tests =
     -- base
     ["f.array_decl_fun_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
     ["f.array_decl.c"]: errors: 1, volatile: true, to: {"Parsing error: expected (INT_LITERAL) found (RSBR) at 1:7"}
+    ["f.badpointer.c"]: errors: 2, volatile: true, to:
+        {"Parsing error: expected (IDENTIFIER) found (ASTERIX) at 1:5", "Parsing error: expected (RBRA) found (EOF) at 2:1"}
     ["f.block_ordering.1.c"]: errors: 2, to:
         {"Parsing error: expected (RBRA) found (INT) at 6:5", "Parsing error: expected (LPAR) found (SC) at 6:10"}
     ["f.block_ordering.2.c"]: errors: 2, to:

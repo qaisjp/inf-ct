@@ -57,7 +57,7 @@ check_lexes_to = (filename, t, errors) ->
 
 tests =
     -- base originals
-    ["fibonacci.c"]: to:
+    ["p.fibonacci.c"]: to:
         {"INCLUDE", "STRING_LITERAL", "VOID", "IDENTIFIER",
         "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER", "SC",
         "INT", "IDENTIFIER", "SC", "INT", "IDENTIFIER", "SC",

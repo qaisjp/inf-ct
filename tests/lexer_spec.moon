@@ -212,6 +212,9 @@ tests =
     ["includes/f.caps.c"]: errors: 1, to:
         {"Lexing error: unrecognised character (#) at 1:1",
         "INVALID", "IDENTIFIER", "STRING_LITERAL"}
+    ["includes/f.incomplete.c"]: errors: 1, to:
+        {"VOID" "IDENTIFIER" "LPAR" "RPAR" "LBRA" "RBRA",
+        "Lexing error: unrecognised character (#) at 2:1", "INVALID"}
     ["includes/f.typo.c"]: errors: 1, to:
         {"Lexing error: unrecognised character (#) at 1:1", "INVALID", "IDENTIFIER"}
     ["includes/p.multiOneLine.c"]: to: {"INCLUDE", "STRING_LITERAL", "INCLUDE", "STRING_LITERAL"}

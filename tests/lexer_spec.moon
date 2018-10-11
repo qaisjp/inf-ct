@@ -130,6 +130,8 @@ tests =
         "IDENTIFIER", 'ASSIGN', 'Lexing error: unrecognised character (q) at 2:18',
         'INVALID', 'Lexing error: unrecognised character (\\) at 2:18', 'INVALID',
         'IDENTIFIER', 'INVALID', 'RBRA'}
+    ["strings/f.three.c"]: errors: 1, to: {"STRING_LITERAL", "STRING_LITERAL",
+        "Lexing error: unrecognised character (\") at 2:3", "INVALID"}
     ["strings/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",
@@ -153,6 +155,7 @@ tests =
         "IDENTIFIER", "SC", "IDENTIFIER", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
 
     -- char literals
+    ["chars/f.empty.c"]: errors: 1, to: {"INVALID"}
     ["chars/f.multichar.c"]: errors: 2, volatile: true, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA",
         "CHAR", "IDENTIFIER", "ASSIGN",
@@ -164,6 +167,7 @@ tests =
         "SC", "IDENTIFIER", "ASSIGN", "INVALID",
         "Lexing error: unrecognised character (;) at 4:1",
         "INVALID", "RBRA"}
+    ["chars/f.three.c"]: errors: 1, to: {"CHAR_LITERAL", "INVALID"}
     ["chars/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",

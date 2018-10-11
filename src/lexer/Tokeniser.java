@@ -324,6 +324,12 @@ public class Tokeniser {
             // Read the next character
             c = scanner.next();
 
+            // If character is a closing quote then whoah wtf we have an empty char literal?
+            if (c == '\'') {
+                error(c, line, column);
+                return new Token(TokenClass.INVALID, line, column);
+            }
+
             // If current character is a backlash we're starting an escape sequence
             if (c == '\\') {
                 if (!scanner.canPeek()) {

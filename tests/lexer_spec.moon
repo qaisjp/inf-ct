@@ -170,7 +170,9 @@ tests =
         "SC", "IDENTIFIER", "ASSIGN", "INVALID",
         "Lexing error: unrecognised character (;) at 4:1",
         "INVALID", "RBRA"}
-    ["chars/f.three.c"]: errors: 1, to: {"CHAR_LITERAL", "INVALID"}
+    ["chars/f.three.c"]: errors: 2, to: {"CHAR_LITERAL",
+        "Lexing error: unrecognised character (') at 2:1", "INVALID",
+        "Lexing error: unrecognised character (') at 2:3", "INVALID"}
     ["chars/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER", "LPAR", "RPAR", "LBRA", "CHAR",
         "ASTERIX", "IDENTIFIER", "ASSIGN",

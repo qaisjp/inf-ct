@@ -23,7 +23,7 @@ check_lexes_to = (filename, t, errors) ->
     for s in output\gmatch "[^\r\n]+" do
         table.insert lines, s
 
-    if t.pending then
+    if t and t.pending then
         pending "#{t.pending}\n#{output}"
         return
 
@@ -38,9 +38,10 @@ check_lexes_to = (filename, t, errors) ->
     elseif prefix == "f" and not errors then
         error "test has no errors yet marked as should fail in filename"
 
-    it "should match", ->
-        assert.are.same t, lines
-        return
+    if t
+        it "should match", ->
+            assert.are.same t, lines
+            return
 
     if errors then
         it "should fail", ->
@@ -78,6 +79,7 @@ tests =
         "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL", "RPAR", "SC",
         "IDENTIFIER", "ASSIGN", "IDENTIFIER", "PLUS", "INT_LITERAL", "SC",
         "RBRA", "RBRA"}
+    ["p.tictactoe.c"]: to: nil
     -- base
     ["f.excl.c"]: errors: 1, to: {"Lexing error: unrecognised character (!) at 1:1", "INVALID"}
     ["p.assign.c"]: to: {"ASSIGN"}

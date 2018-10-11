@@ -30,6 +30,14 @@ check_parses_to = (filename, t, errors) ->
     outcome = lines[#lines]
     table.remove lines, #lines
 
+    lastSlashIndex = string.find(filename, "/[^/]*$") or 0
+    prefix = filename\sub(lastSlashIndex+1, lastSlashIndex+1)
+    if prefix == "p" and errors then
+        print("OK")
+        error "test has errors in spec yet should pass"
+    elseif prefix == "f" and not errors then
+        error "test has no errors yet marked as should fail in filename"
+
     it "should match", ->
         assert.are.same t, lines
         return

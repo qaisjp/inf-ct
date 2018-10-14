@@ -1,11 +1,14 @@
 package parser;
 
+import ast.*;
+
 import lexer.Token;
 import lexer.Tokeniser;
 import lexer.Token.TokenClass;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.stream.Stream;
 
@@ -28,11 +31,11 @@ public class Parser {
         this.tokeniser = tokeniser;
     }
 
-    public void parse() {
+    public Program parse() {
         // get the first token
         nextToken();
 
-        parseProgram();
+        return parseProgram();
     }
 
     public int getErrorCount() {
@@ -172,17 +175,21 @@ public class Parser {
         return result;
     }
 
-    private void parseProgram() {
+    private Program parseProgram() {
         parseIncludes();
-        parseStructDecls();
+
+        List<StructTypeDecl> stds = parseStructDecls();
+        List<VarDecl> vds;
+        List<VarDecl> fds;
 
         // Both vardecls and fundecls start with these...
         if (accept(typeNameFirst)) {
-            parseVarDecls(false);
-            parseFunDecls();
+            vds = parseVarDecls(false);
+            fds = parseFunDecls();
         }
 
         mustExpectAny(TokenClass.EOF);
+        return new Program(stds, vds, fds);
     }
 
     // includes are ignored, so does not need to return an AST node
@@ -193,7 +200,7 @@ public class Parser {
         }
     }
 
-    private void parseStructDecls() {
+    private List<StructTypeDecl> parseStructDecls() {
         // First for parseStructType is STRUCT
         if (accept(TokenClass.STRUCT) && lookAheadAccept(2, TokenClass.LBRA)) {
             parseStructType();
@@ -204,6 +211,8 @@ public class Parser {
 
             parseStructDecls();
         }
+
+        return null;
     }
 
     private TokenClass[] typeNameFirst = {
@@ -213,7 +222,7 @@ public class Parser {
             TokenClass.STRUCT, // via structtype
     };
 
-    private void parseVarDecls(boolean mustAccept) {
+    private List<VarDecl> parseVarDecls(boolean mustAccept) {
         int offset = 1;
 
         // a struct typename consists of two tokens, so look an extra token ahead
@@ -246,9 +255,11 @@ public class Parser {
         }
 
         parseVarDecls(false);
+
+        return null;
     }
 
-    private void parseFunDecls() {
+    private List<FunDecl> parseFunDecls() {
         if (accept(typeNameFirst)) {
             parseType();
             mustExpectAny(TokenClass.IDENTIFIER);
@@ -260,6 +271,8 @@ public class Parser {
 
             parseFunDecls();
         }
+
+        return null;
     }
 
     private void parseBlock() {

@@ -7,6 +7,7 @@ import lexer.Tokeniser;
 import lexer.Token.TokenClass;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -179,8 +180,8 @@ public class Parser {
         parseIncludes();
 
         List<StructTypeDecl> stds = parseStructDecls();
-        List<VarDecl> vds;
-        List<VarDecl> fds;
+        List<VarDecl> vds = new ArrayList<>();
+        List<FunDecl> fds = new ArrayList<>();
 
         // Both vardecls and fundecls start with these...
         if (accept(typeNameFirst)) {
@@ -237,7 +238,7 @@ public class Parser {
 
         if (!mustAccept) {
             if (!accept(typeNameFirst) || !lookAheadAccept(offset, TokenClass.SC, TokenClass.LSBR)) {
-                return;
+                return null;
             }
         }
 

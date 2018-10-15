@@ -10,4 +10,5 @@ public interface ASTVisitor<T> {
     public T visitVarExpr(VarExpr v);
 
     // to complete ... (should have one visit method for each concrete AST node class)
+    public T visitAssign(Assign a);
 }

@@ -336,18 +336,28 @@ public class Parser {
             }
             mustExpectAny(TokenClass.SC);
         } else {
-            parseExp();
+            Expr lhs = parseExp();
+            Expr rhs = null;
+
             if (maybeExpectAny(TokenClass.ASSIGN)) {
-                parseExp();
+                rhs = parseExp();
             }
             mustExpectAny(TokenClass.SC);
+
+            if (rhs != null) {
+                return new Assign(lhs, rhs);
+            }
+
+            return null; // todo;
         }
 
-        return null; // todo
+        return null; // todo: flatten the above "else"
     }
 
-    private void parseExp() {
+    private Expr parseExp() {
         parseExpOr(false);
+
+        return null; // todo
     }
 
     private void parseExpOr(boolean prime) {

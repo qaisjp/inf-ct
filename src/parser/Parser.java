@@ -286,7 +286,6 @@ public class Parser {
             mustExpectAny(TokenClass.RPAR);
             block = parseBlock();
 
-            // todo
             funcDecls.add(new FunDecl(type, name, params, block));
         }
 

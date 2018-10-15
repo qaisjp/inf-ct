@@ -182,7 +182,9 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitExprStmt(ExprStmt exprStmt) {
-        // todo
+        writer.print("ExprStmt(");
+        exprStmt.expr.accept(this);
+        writer.print(")");
         return null;
     }
 

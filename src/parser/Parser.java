@@ -505,11 +505,14 @@ public class Parser {
         }
     }
 
-    private void parseArgList() {
-        parseExp();
+    private List<Expr> parseArgList() {
+        List<Expr> exprs = new ArrayList<>();
+        exprs.add(parseExp());
         while (maybeExpectAny(TokenClass.COMMA)) {
-            parseExp();
+            exprs.add(parseExp());
         }
+
+        return exprs;
     }
 
     private List<VarDecl> parseParams() {

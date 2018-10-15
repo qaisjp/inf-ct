@@ -348,7 +348,7 @@ public class Parser {
                 return new Assign(lhs, rhs);
             }
 
-            return null; // todo;
+            return new ExprStmt(lhs);
         }
 
         return null; // todo: flatten the above "else"

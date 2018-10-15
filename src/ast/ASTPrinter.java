@@ -204,7 +204,12 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitArrayAccessExpr(ArrayAccessExpr arrayAccessExpr) {
-        // todo
+        writer.print("ArrayAccessExpr(");
+        arrayAccessExpr.lhs.accept(this);
+        writer.print(", ");
+        arrayAccessExpr.rhs.accept(this);
+        writer.print(")");
+
         return null;
     }
 

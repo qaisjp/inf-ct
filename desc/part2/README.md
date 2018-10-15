@@ -103,7 +103,7 @@ Please note that an identifier can either be a variable or a function.
 
 As seen during the lectures, our language only have two scopes: global and local.
 
-The global scope corresponds to the global variables declared outside any procedure and for the procedure declarations. Identifiers declared in the global scope can be accessed anywhere in the program.
+The global scope corresponds to the global variables declared outside any procedure and for the procedure declarations. Identifiers declared in the global scope can be accessed anywhere in the program (as long as their declaration preceed their use).
 
 The block scope (or local scope) is a set of statements enclosed within left and right braces ({ and } respectively). Blocks may be nested (a block may contain other blocks inside it). A variable declared in a block is accessible in the block and all inner blocks of that block, but not accessible outside the block. Procedure parameter identifiers have block scope, as if they had been declared inside the block forming the body of the procedure.
 

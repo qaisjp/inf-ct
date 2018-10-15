@@ -33,10 +33,10 @@ public class ASTPrinter implements ASTVisitor<Void> {
     public Void visitFunDecl(FunDecl fd) {
         writer.print("FunDecl(");
         fd.type.accept(this);
-        writer.print(","+fd.name+",");
+        writer.printf(", %s, ", fd.name);
         for (VarDecl vd : fd.params) {
             vd.accept(this);
-            writer.print(",");
+            writer.print(", ");
         }
         fd.block.accept(this);
         writer.print(")");

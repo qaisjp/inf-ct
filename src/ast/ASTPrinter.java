@@ -150,7 +150,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitStructType(StructType f) {
-        // todo
+        writer.printf("StructType(%s)", f.str);
         return null;
     }
 

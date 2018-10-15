@@ -396,7 +396,7 @@ public class Tokeniser {
 
         // recognises integer literals (again no accounting for string literals)
         if (Character.isDigit(c)) {
-            StringBuilder n = new StringBuilder();
+            StringBuilder n = new StringBuilder(Character.toString(c));
             try {
                 while (Character.isDigit(scanner.peek())) {
                     n.append(scanner.next());

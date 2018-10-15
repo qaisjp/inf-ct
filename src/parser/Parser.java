@@ -202,15 +202,14 @@ public class Parser {
     }
 
     private List<StructTypeDecl> parseStructDecls() {
+
         // First for parseStructType is STRUCT
-        if (accept(TokenClass.STRUCT) && lookAheadAccept(2, TokenClass.LBRA)) {
+        while (accept(TokenClass.STRUCT) && lookAheadAccept(2, TokenClass.LBRA)) {
             parseStructType();
             mustExpectAny(TokenClass.LBRA);
             parseVarDecls(true);
             mustExpectAny(TokenClass.RBRA);
             mustExpectAny(TokenClass.SC);
-
-            parseStructDecls();
         }
 
         return null; // todo

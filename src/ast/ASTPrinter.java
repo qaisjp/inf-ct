@@ -14,6 +14,17 @@ public class ASTPrinter implements ASTVisitor<Void> {
     public Void visitBlock(Block b) {
         writer.print("Block(");
         // to complete
+        String delimiter = "";
+        for (VarDecl varDecl: b.varDecls) {
+            writer.printf(delimiter);
+            varDecl.accept(this);
+            delimiter = ", ";
+        }
+        for (Stmt stmt: b.stmtList) {
+            writer.printf(delimiter);
+            stmt.accept(this);
+            delimiter = ", ";
+        }
         writer.print(")");
         return null;
     }

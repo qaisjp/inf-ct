@@ -125,7 +125,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitIntLiteral(IntLiteral f) {
-        // todo
+        writer.printf("IntLiteral(%d)", f.innerType);
         return null;
     }
 

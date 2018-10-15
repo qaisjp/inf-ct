@@ -331,10 +331,14 @@ public class Parser {
                 parseStmt();
             }
         } else if (maybeExpectAny(TokenClass.RETURN)) {
+            Expr expr = null;
+
             if (accept(expFirst)) {
-                parseExp();
+                expr = parseExp();
             }
             mustExpectAny(TokenClass.SC);
+
+            return new Return(expr);
         } else {
             Expr lhs = parseExp();
             Expr rhs = null;

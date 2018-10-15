@@ -11,5 +11,6 @@ public interface ASTVisitor<T> {
 
     // to complete ... (should have one visit method for each concrete AST node class)
     public T visitAssign(Assign a);
-    public T visitExprStmt(ExprStmt a);
+    public T visitExprStmt(ExprStmt e);
+    public T visitReturn(Return r);
 }

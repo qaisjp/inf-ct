@@ -254,12 +254,15 @@ public class Parser {
 
             // Consume a semicolon now or...
             if (!maybeExpectAny(TokenClass.SC)) {
+                mustExpectAny(TokenClass.LSBR);
+                String intData = token.data;
                 mustExpectAll(
-                        TokenClass.LSBR,
                         TokenClass.INT_LITERAL,
                         TokenClass.RSBR,
                         TokenClass.SC
                 );
+
+                type = new ArrayType(type, Integer.parseInt(intData));
             }
 
             mustAccept = false;

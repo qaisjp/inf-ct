@@ -224,6 +224,8 @@ public class Parser {
     };
 
     private List<VarDecl> parseVarDecls(boolean mustAccept) {
+        List<VarDecl> varDecls = new ArrayList<>();
+
         while (true) {
             int offset = 1;
 
@@ -243,7 +245,9 @@ public class Parser {
                 }
             }
 
-            parseType();
+            Type type = parseType();
+            String varName = token.data;
+
             mustExpectAny(TokenClass.IDENTIFIER);
 
             // Consume a semicolon now or...
@@ -257,9 +261,11 @@ public class Parser {
             }
 
             mustAccept = false;
+
+            varDecls.add(new VarDecl(type, varName));
         }
 
-        return null; // todo
+        return varDecls;
     }
 
     private List<FunDecl> parseFunDecls() {

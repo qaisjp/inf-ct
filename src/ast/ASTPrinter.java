@@ -75,7 +75,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitBaseType(BaseType bt) {
-        // todo
+        writer.print(bt.toString());
         return null;
     }
 

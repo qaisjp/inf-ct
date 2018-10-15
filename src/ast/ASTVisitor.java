@@ -21,4 +21,9 @@ public interface ASTVisitor<T> {
     public T visitStrLiteral(StrLiteral sl);
     public T visitChrLiteral(ChrLiteral cl);
     public T visitFunCallExpr(FunCallExpr f);
+    public T visitTypecastExpr(TypecastExpr te);
+    public T visitSizeOfExpr(SizeOfExpr soe);
+    public T visitValueAtExpr(ValueAtExpr vae);
+    public T visitFieldAccessExpr(FieldAccessExpr fae);
+    public T visitArrayAccessExpr(ArrayAccessExpr aae);
 }

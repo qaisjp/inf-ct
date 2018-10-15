@@ -123,6 +123,9 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitValueAtExpr(ValueAtExpr vae) {
+        writer.print("ValueAtExpr(");
+        vae.expr.accept(this);
+        writer.print(")");
         return null;
     }
 

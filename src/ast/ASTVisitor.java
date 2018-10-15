@@ -27,5 +27,5 @@ public interface ASTVisitor<T> {
     public T visitValueAtExpr(ValueAtExpr vae);
     public T visitFieldAccessExpr(FieldAccessExpr fae);
     public T visitArrayAccessExpr(ArrayAccessExpr aae);
-    public T visitBinOp(BinOp aae);
+    public T visitBinOp(BinOp bo);
 }

@@ -92,6 +92,21 @@ public class ASTPrinter implements ASTVisitor<Void> {
     }
 
     @Override
+    public Void visitTypecastExpr(TypecastExpr te) {
+        return null;
+    }
+
+    @Override
+    public Void visitSizeOfExpr(SizeOfExpr soe) {
+        return null;
+    }
+
+    @Override
+    public Void visitValueAtExpr(ValueAtExpr vae) {
+        return null;
+    }
+
+    @Override
     public Void visitIntLiteral(IntLiteral f) {
         // todo
         return null;
@@ -122,6 +137,11 @@ public class ASTPrinter implements ASTVisitor<Void> {
     }
 
     @Override
+    public Void visitArrayType(ArrayType at) {
+        return null;
+    }
+
+    @Override
     public Void visitWhile(While f) {
         // todo
         return null;
@@ -147,6 +167,24 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitAssign(Assign assign) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitBinOp(BinOp bo) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitArrayAccessExpr(ArrayAccessExpr arrayAccessExpr) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitFieldAccessExpr(FieldAccessExpr fieldAccessExpr) {
         // todo
         return null;
     }

@@ -54,6 +54,21 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	}
 
 	@Override
+	public Type visitTypecastExpr(TypecastExpr te) {
+		return null;
+	}
+
+	@Override
+	public Type visitSizeOfExpr(SizeOfExpr soe) {
+		return null;
+	}
+
+	@Override
+	public Type visitValueAtExpr(ValueAtExpr vae) {
+		return null;
+	}
+
+	@Override
 	public Type visitIntLiteral(IntLiteral f) {
 		// todo
 		return null;
@@ -84,6 +99,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	}
 
 	@Override
+	public Type visitArrayType(ArrayType at) {
+		return null;
+	}
+
+	@Override
 	public Type visitWhile(While f) {
 		// todo
 		return null;
@@ -109,6 +129,24 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitAssign(Assign assign) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitBinOp(BinOp binOp) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitArrayAccessExpr(ArrayAccessExpr arrayAccessExpr) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitFieldAccessExpr(FieldAccessExpr fieldAccessExpr) {
 		// todo
 		return null;
 	}

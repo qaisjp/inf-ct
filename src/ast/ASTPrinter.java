@@ -92,7 +92,6 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitStructTypeDecl(StructTypeDecl st) {
-        // maybe still todo
         writer.print("StructTypeDecl(");
         st.structType.accept(this);
         for (VarDecl varDecl: st.varDeclList) {

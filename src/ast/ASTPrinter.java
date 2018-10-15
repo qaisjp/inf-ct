@@ -172,7 +172,11 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitReturn(Return r) {
-        // todo
+        writer.print("Return(");
+        if (r.expr != null) {
+            r.expr.accept(this);
+        }
+        writer.print(")");
         return null;
     }
 
@@ -220,6 +224,4 @@ public class ASTPrinter implements ASTVisitor<Void> {
         writer.printf(", %s)", fieldAccessExpr.string);
         return null;
     }
-
-    // todo
 }

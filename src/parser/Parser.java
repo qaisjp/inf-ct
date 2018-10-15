@@ -446,33 +446,37 @@ public class Parser {
         }
     }
 
-    private void parseExpUnary() {
+    private Expr parseExpUnary() {
         if (maybeExpectAny(TokenClass.SIZEOF)) {
             mustExpectAll(TokenClass.LPAR);
-            parseType();
+            Type t = parseType();
             mustExpectAll(TokenClass.RPAR);
+            return new SizeOfExpr(t);
         } else if (maybeExpectAny(TokenClass.ASTERIX)) {
-            parseExpUnary();
+            return new ValueAtExpr(parseExpUnary());
         } else if (accept(TokenClass.LPAR)) {
             // This check is needed so that funcall is called
             // with tree exp_post -> root_exp -> funcall
             if (lookAheadAccept(1, typeNameFirst)) {
                 mustExpectAny(TokenClass.LPAR);
-                parseType();
+                Type t = parseType();
                 mustExpectAny(TokenClass.RPAR);
-                parseExpUnary();
+                Expr expr = parseExpUnary();
+
+                return new TypecastExpr(t, expr);
             } else {
-                parseExpPost(false);
+                return parseExpPost(false);
             }
 
         } else if (maybeExpectAny(TokenClass.MINUS)) {
-            parseExpUnary();
+            Expr e = parseExpUnary();
+            return null; // todo return new BinOp(new IntLiteral(0), e);
         } else {
-            parseExpPost(false);
+            return parseExpPost(false);
         }
     }
 
-    private void parseExpPost(boolean prime) {
+    private Expr parseExpPost(boolean prime) {
         if (!prime) {
             parseRootExp();
         }
@@ -485,6 +489,8 @@ public class Parser {
             mustExpectAny(TokenClass.RSBR);
             parseExpPost(true);
         }
+
+        return null; // todo
     }
 
     private Expr parseRootExp() {

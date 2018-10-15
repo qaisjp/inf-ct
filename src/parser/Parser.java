@@ -224,38 +224,40 @@ public class Parser {
     };
 
     private List<VarDecl> parseVarDecls(boolean mustAccept) {
-        int offset = 1;
+        while (true) {
+            int offset = 1;
 
-        // a struct typename consists of two tokens, so look an extra token ahead
-        offset += accept(TokenClass.STRUCT) ? 1 : 0;
+            // a struct typename consists of two tokens, so look an extra token ahead
+            offset += accept(TokenClass.STRUCT) ? 1 : 0;
 
-        // a typename *can* have an asterisk following it, so append that too
-        offset += lookAheadAccept(offset, TokenClass.ASTERIX) ? 1 : 0;
+            // a typename *can* have an asterisk following it, so append that too
+            offset += lookAheadAccept(offset, TokenClass.ASTERIX) ? 1 : 0;
 
 
-        // both vardecl and fundecl have a IDENT we need to skip
-        offset += 1;
+            // both vardecl and fundecl have a IDENT we need to skip
+            offset += 1;
 
-        if (!mustAccept) {
-            if (!accept(typeNameFirst) || !lookAheadAccept(offset, TokenClass.SC, TokenClass.LSBR)) {
-                return null;
+            if (!mustAccept) {
+                if (!accept(typeNameFirst) || !lookAheadAccept(offset, TokenClass.SC, TokenClass.LSBR)) {
+                    break;
+                }
             }
+
+            parseType();
+            mustExpectAny(TokenClass.IDENTIFIER);
+
+            // Consume a semicolon now or...
+            if (!maybeExpectAny(TokenClass.SC)) {
+                mustExpectAll(
+                        TokenClass.LSBR,
+                        TokenClass.INT_LITERAL,
+                        TokenClass.RSBR,
+                        TokenClass.SC
+                );
+            }
+
+            mustAccept = false;
         }
-
-        parseType();
-        mustExpectAny(TokenClass.IDENTIFIER);
-
-        // Consume a semicolon now or...
-        if (!maybeExpectAny(TokenClass.SC)) {
-            mustExpectAll(
-                    TokenClass.LSBR,
-                    TokenClass.INT_LITERAL,
-                    TokenClass.RSBR,
-                    TokenClass.SC
-            );
-        }
-
-        parseVarDecls(false);
 
         return null; // todo
     }

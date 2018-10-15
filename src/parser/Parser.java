@@ -494,6 +494,7 @@ public class Parser {
             mustExpectAny(TokenClass.RPAR);
         } else if (maybeExpectAny(TokenClass.IDENTIFIER)) {
             if (maybeExpectAny(TokenClass.LPAR)) {
+                // Only parse arg list if we aren't closing the func call
                 if (!accept(TokenClass.RPAR)) {
                     parseArgList();
                 }

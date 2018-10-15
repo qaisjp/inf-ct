@@ -470,7 +470,7 @@ public class Parser {
 
         } else if (maybeExpectAny(TokenClass.MINUS)) {
             Expr e = parseExpUnary();
-            return null; // todo return new BinOp(new IntLiteral(0), e);
+            return new BinOp(new IntLiteral(0), Op.SUB, e);
         } else {
             return parseExpPost(false);
         }

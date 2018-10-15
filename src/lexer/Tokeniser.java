@@ -202,7 +202,7 @@ public class Tokeniser {
             column -= stringSoFar.length();
             readIdentifier();
             // System.out.printf("stringSoFar: %s\n", stringSoFar);
-            return new Token(TokenClass.IDENTIFIER, line, column);
+            return new Token(TokenClass.IDENTIFIER, stringSoFar.toString(), line, column);
         }
 
         // get the next character
@@ -446,6 +446,9 @@ public class Tokeniser {
         // starts with provided character
         TokenClass tok = readString(c);
         if (tok != null) {
+            if (tok == TokenClass.IDENTIFIER) {
+                return new Token(tok, stringSoFar.toString(), line, column);
+            }
             return new Token(tok, line, column);
         }
 

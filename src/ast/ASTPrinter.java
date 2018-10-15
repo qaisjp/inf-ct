@@ -75,16 +75,81 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitBaseType(BaseType bt) {
-        // to complete ...
+        // todo
         return null;
     }
 
     @Override
     public Void visitStructTypeDecl(StructTypeDecl st) {
-        // to complete ...
+        // todo
         return null;
     }
 
-    // to complete ...
-    
+    @Override
+    public Void visitFunCallExpr(FunCallExpr f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitIntLiteral(IntLiteral f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitStrLiteral(StrLiteral f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitChrLiteral(ChrLiteral f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitPointerType(PointerType f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitStructType(StructType f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitWhile(While f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitIf(If f) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitReturn(Return r) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitExprStmt(ExprStmt exprStmt) {
+        // todo
+        return null;
+    }
+
+    @Override
+    public Void visitAssign(Assign assign) {
+        // todo
+        return null;
+    }
+
+    // todo
 }

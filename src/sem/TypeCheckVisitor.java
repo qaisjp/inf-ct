@@ -47,6 +47,72 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		return null;
 	}
 
+	@Override
+	public Type visitFunCallExpr(FunCallExpr f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitIntLiteral(IntLiteral f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitStrLiteral(StrLiteral f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitChrLiteral(ChrLiteral f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitPointerType(PointerType f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitStructType(StructType f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitWhile(While f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitIf(If f) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitReturn(Return r) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitExprStmt(ExprStmt exprStmt) {
+		// todo
+		return null;
+	}
+
+	@Override
+	public Type visitAssign(Assign assign) {
+		// todo
+		return null;
+	}
+
 	// To be completed...
 
 

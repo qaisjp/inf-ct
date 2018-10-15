@@ -488,21 +488,40 @@ public class Parser {
         }
     }
 
-    private void parseRootExp() {
+    private Expr parseRootExp() {
+        // oldToken is only "old" after consuming this token
+        Token oldToken = token;
+
         if (maybeExpectAny(TokenClass.LPAR)) {
-            parseExp();
+            Expr e = parseExp();
             mustExpectAny(TokenClass.RPAR);
+            return e;
         } else if (maybeExpectAny(TokenClass.IDENTIFIER)) {
             if (maybeExpectAny(TokenClass.LPAR)) {
+                List<Expr> exprList = new ArrayList<>();
+
                 // Only parse arg list if we aren't closing the func call
                 if (!accept(TokenClass.RPAR)) {
-                    parseArgList();
+                    exprList = parseArgList();
                 }
                 mustExpectAny(TokenClass.RPAR);
+
+                return new FunCallExpr(oldToken.data, exprList);
             }
-        } else {
-            mustExpectAny(TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL);
+
+            return new VarExpr(oldToken.data);
         }
+
+        mustExpectAny(TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL);
+
+        if (oldToken.tokenClass == TokenClass.INT_LITERAL) {
+            return new IntLiteral(Integer.parseInt(oldToken.data));
+        } else if (oldToken.tokenClass == TokenClass.CHAR_LITERAL) {
+            return new ChrLiteral(oldToken.data.charAt(0));
+        }
+
+        // Otherwise return string literal
+        return new StrLiteral(oldToken.data);
     }
 
     private List<Expr> parseArgList() {

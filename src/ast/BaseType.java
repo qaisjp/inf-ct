@@ -9,7 +9,7 @@ public enum BaseType implements Type {
         return v.visitBaseType(this);
     }
 
-    public static BaseType fromTokenClass(TokenClass t) {
+    public static BaseType fromTokenClass(Token.TokenClass t) {
         if (t == Token.TokenClass.INT) {
             return INT;
         } else if (t == Token.TokenClass.CHAR) {

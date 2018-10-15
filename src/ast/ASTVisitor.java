@@ -17,4 +17,8 @@ public interface ASTVisitor<T> {
     public T visitWhile(While w);
     public T visitStructType(StructType st);
     public T visitPointerType(PointerType pt);
+    public T visitIntLiteral(IntLiteral il);
+    public T visitStrLiteral(StrLiteral sl);
+    public T visitChrLiteral(ChrLiteral cl);
+    public T visitFunCallExpr(FunCallExpr f);
 }

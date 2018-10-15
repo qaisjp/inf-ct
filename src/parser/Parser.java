@@ -544,7 +544,7 @@ public class Parser {
         TokenClass ourToken = token.tokenClass;
 
         // If we consume INT, CHAR, or VOID. We're done.. for now
-        if (maybeExpectAny(TokenClass.INT) || maybeExpectAny(TokenClass.CHAR) || maybeExpectAny(TokenClass.VOID)) {
+        if (maybeExpectAny(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID)) {
             switch (ourToken) {
                 case INT:
                     innerType = BaseType.INT;

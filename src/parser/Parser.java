@@ -318,9 +318,11 @@ public class Parser {
             parseBlock();
         } else if (accept(TokenClass.WHILE)) {
             mustExpectAll(TokenClass.WHILE, TokenClass.LPAR);
-            parseExp();
+            Expr exp = parseExp();
             mustExpectAny(TokenClass.RPAR);
-            parseStmt();
+            Stmt stmt = parseStmt();
+
+            return new While(exp, stmt);
         } else if (accept(TokenClass.IF)) {
             Expr exp;
             Stmt stmt;

@@ -261,17 +261,26 @@ public class Parser {
     }
 
     private List<FunDecl> parseFunDecls() {
-        while (accept(typeNameFirst)) {
-            parseType();
-            mustExpectAny(TokenClass.IDENTIFIER);
+        List<FunDecl> funcDecls = new ArrayList<FunDecl>();
 
+        while (accept(typeNameFirst)) {
+            Type type;
+            List<VarDecl> params;
+            Block block;
+
+            type = parseType();
+            // String name = token.data;
+            mustExpectAny(TokenClass.IDENTIFIER);
             mustExpectAny(TokenClass.LPAR);
-            parseParams();
+            params = parseParams();
             mustExpectAny(TokenClass.RPAR);
-            parseBlock();
+            block = parseBlock();
+
+            // todo
+            funcDecls.add(new FunDecl(type, "todo", params, block));
         }
 
-        return null; // todo
+        return funcDecls;
     }
 
     private Block parseBlock() {
@@ -492,10 +501,10 @@ public class Parser {
         }
     }
 
-    private void parseParams() {
+    private List<VarDecl> parseParams() {
         // If we can't accept typeNameFirst, epsilon out of here.
         if (!accept(typeNameFirst)) {
-            return;
+            return null; // todo
         }
 
         parseType();
@@ -506,6 +515,8 @@ public class Parser {
             parseType();
             mustExpectAny(TokenClass.IDENTIFIER);
         }
+
+        return null; // todo
     }
 
     // First: STRUCT
@@ -514,7 +525,7 @@ public class Parser {
         mustExpectAny(TokenClass.IDENTIFIER);
     }
 
-    private void parseType() {
+    private Type parseType() {
         // If we consume INT, CHAR, or VOID. We're done.. for now
         if (maybeExpectAny(TokenClass.INT) || maybeExpectAny(TokenClass.CHAR) || maybeExpectAny(TokenClass.VOID)) {
             //
@@ -528,5 +539,7 @@ public class Parser {
         if (accept(TokenClass.ASTERIX)) {
             mustExpectAny(TokenClass.ASTERIX);
         }
+
+        return null; // todo
     }
 }

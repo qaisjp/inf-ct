@@ -393,63 +393,81 @@ public class Parser {
     }
 
     private Expr parseExpOr() {
-        parseExpAnd();
+        Expr lhs = parseExpAnd();
 
         while (maybeExpectAny(TokenClass.OR)) {
-            parseExpAnd();
+            Expr rhs = parseExpAnd();
+            lhs = new BinOp(lhs, Op.OR, rhs);
         }
 
-        return null; // todo
+        return lhs;
     }
 
     private Expr parseExpAnd() {
-        parseExpEq();
+        Expr lhs = parseExpEq();
 
         while (maybeExpectAny(TokenClass.AND)) {
-            parseExpEq();
+            Expr rhs = parseExpEq();
+            lhs = new BinOp(lhs, Op.AND, rhs);
         }
 
-        return null; // todo
+        return lhs;
     }
 
     private Expr parseExpEq() {
-        parseExpRel();
+        Expr lhs = parseExpRel();
 
+        Op op = Op.fromTokenClass(token.tokenClass);
         while (maybeExpectAny(TokenClass.NE, TokenClass.EQ)) {
-            parseExpRel();
+            Expr rhs = parseExpRel();
+            lhs = new BinOp(lhs, op, rhs);
+
+            op = Op.fromTokenClass(token.tokenClass);
         }
 
-        return null; // todo
+        return lhs;
     }
 
     private Expr parseExpRel() {
-        parseExpAdd();
+        Expr lhs = parseExpAdd();
 
+        Op op = Op.fromTokenClass(token.tokenClass);
         while (maybeExpectAny(TokenClass.GE, TokenClass.GT, TokenClass.LE, TokenClass.LT)) {
-            parseExpAdd();
+            Expr rhs = parseExpAdd();
+            lhs = new BinOp(lhs, op, rhs);
+
+            op = Op.fromTokenClass(token.tokenClass);
         }
 
-        return null; // todo
+        return lhs;
     }
 
     private Expr parseExpAdd() {
-        parseExpMult();
+        Expr lhs = parseExpMult();
 
+        Op op = Op.fromTokenClass(token.tokenClass);
         while (maybeExpectAny(TokenClass.MINUS, TokenClass.PLUS)) {
-            parseExpMult();
+            Expr rhs = parseExpMult();
+            lhs = new BinOp(lhs, op, rhs);
+
+            op = Op.fromTokenClass(token.tokenClass);
         }
 
-        return null; // todo
+        return lhs;
     }
 
     private Expr parseExpMult() {
-        parseExpUnary();
+        Expr lhs = parseExpUnary();
 
+        Op op = Op.fromTokenClass(token.tokenClass);
         while (maybeExpectAny(TokenClass.REM, TokenClass.DIV, TokenClass.ASTERIX)) {
-            parseExpUnary();
+            Expr rhs = parseExpUnary();
+            lhs = new BinOp(lhs, op, rhs);
+
+            op = Op.fromTokenClass(token.tokenClass);
         }
 
-        return null; // todo
+        return lhs;
     }
 
     private Expr parseExpUnary() {
@@ -483,20 +501,21 @@ public class Parser {
     }
 
     private Expr parseExpPost(boolean prime) {
-        if (!prime) {
-            parseRootExp();
+        Expr lhs = parseRootExp();
+
+        while (accept(TokenClass.DOT, TokenClass.LSBR)) {
+            if (maybeExpectAny(TokenClass.DOT)) {
+                String fieldName = token.data;
+                mustExpectAll(TokenClass.IDENTIFIER);
+                lhs = new FieldAccessExpr(lhs, fieldName);
+            } else if (maybeExpectAny(TokenClass.LSBR)) {
+                Expr rhs = parseExp();
+                mustExpectAny(TokenClass.RSBR);
+                lhs = new ArrayAccessExpr(lhs, rhs);
+            }
         }
 
-        if (maybeExpectAny(TokenClass.DOT)) {
-            mustExpectAll(TokenClass.IDENTIFIER);
-            parseExpPost(true);
-        } else if (maybeExpectAny(TokenClass.LSBR)) {
-            parseExp();
-            mustExpectAny(TokenClass.RSBR);
-            parseExpPost(true);
-        }
-
-        return null; // todo
+        return lhs;
     }
 
     private Expr parseRootExp() {

@@ -6,6 +6,10 @@ public class BinOp extends Expr {
     public final Expr rhs;
 
     public BinOp(Expr lhs, Op op, Expr rhs) {
+        if (op == null) {
+            throw new NullPointerException();
+        }
+
         this.lhs = lhs;
         this.op = op;
         this.rhs = rhs;

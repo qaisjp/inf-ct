@@ -107,7 +107,7 @@ tests =
         "CHAR", "IDENTIFIER(elser)", "SC", "CHAR", "IDENTIFIER(returner)", "SC", "RBRA"}
     ["p.twocharint.c"]: to: {
         "VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER(c)", "ASSIGN",
-        "INT_LITERAL", "SC", "RBRA"}
+        "INT_LITERAL(00)", "SC", "RBRA"}
     ["p.types.c"]: to:
         {"VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "INT",
         "IDENTIFIER(a)", "SC", "CHAR", "IDENTIFIER(b)", "SC", "RBRA"}

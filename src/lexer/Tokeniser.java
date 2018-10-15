@@ -396,12 +396,13 @@ public class Tokeniser {
 
         // recognises integer literals (again no accounting for string literals)
         if (Character.isDigit(c)) {
+            StringBuilder n = new StringBuilder();
             try {
                 while (Character.isDigit(scanner.peek())) {
-                    scanner.next();
+                    n.append(scanner.next());
                 }
             } catch (EOFException e) {}
-            return new Token(TokenClass.INT_LITERAL, line, column);
+            return new Token(TokenClass.INT_LITERAL, n.toString(), line, column);
         }
 
         // Quickly check for comparisons

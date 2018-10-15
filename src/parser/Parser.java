@@ -213,7 +213,7 @@ public class Parser {
             parseStructDecls();
         }
 
-        return null;
+        return null; // todo
     }
 
     private TokenClass[] typeNameFirst = {
@@ -257,7 +257,7 @@ public class Parser {
 
         parseVarDecls(false);
 
-        return null;
+        return null; // todo
     }
 
     private List<FunDecl> parseFunDecls() {
@@ -273,18 +273,21 @@ public class Parser {
             parseFunDecls();
         }
 
-        return null;
+        return null; // todo
     }
 
-    private void parseBlock() {
+    private Block parseBlock() {
         mustExpectAny(TokenClass.LBRA);
-        parseVarDecls(false);
+        List<VarDecl> varDecls = parseVarDecls(false);
 
+        List<Stmt> stmtList = new ArrayList<Stmt>();
         while (accept(stmtFirst)) {
-            parseStmt();
+            stmtList.add(parseStmt());
         }
 
         mustExpectAny(TokenClass.RBRA);
+
+        return new Block(varDecls, stmtList);
     }
 
     private TokenClass[] expFirst = {
@@ -310,7 +313,7 @@ public class Parser {
             TokenClass.RETURN
     ).stream(), Arrays.stream(expFirst)).toArray(TokenClass[]::new);
 
-    private void parseStmt() {
+    private Stmt parseStmt() {
         if (accept(TokenClass.LBRA)) {
             parseBlock();
         } else if (accept(TokenClass.WHILE)) {
@@ -339,6 +342,8 @@ public class Parser {
             }
             mustExpectAny(TokenClass.SC);
         }
+
+        return null; // todo
     }
 
     private void parseExp() {

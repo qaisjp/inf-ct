@@ -110,6 +110,11 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitTypecastExpr(TypecastExpr te) {
+        writer.print("TypecastExpr(");
+        te.type.accept(this);
+        writer.print(", ");
+        te.expr.accept(this);
+        writer.print(")");
         return null;
     }
 

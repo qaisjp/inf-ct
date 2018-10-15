@@ -160,7 +160,11 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitWhile(While f) {
-        // todo
+        writer.print("While(");
+        f.expr.accept(this);
+        writer.print(", ");
+        f.stmt.accept(this);
+        writer.print(")");
         return null;
     }
 

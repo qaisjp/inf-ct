@@ -269,7 +269,7 @@ public class Parser {
             Block block;
 
             type = parseType();
-            // String name = token.data;
+            String name = token.data;
             mustExpectAny(TokenClass.IDENTIFIER);
             mustExpectAny(TokenClass.LPAR);
             params = parseParams();
@@ -277,7 +277,7 @@ public class Parser {
             block = parseBlock();
 
             // todo
-            funcDecls.add(new FunDecl(type, "todo", params, block));
+            funcDecls.add(new FunDecl(type, name, params, block));
         }
 
         return funcDecls;

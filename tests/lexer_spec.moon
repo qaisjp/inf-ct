@@ -58,17 +58,17 @@ check_lexes_to = (filename, t, errors) ->
 tests =
     -- base originals
     ["p.fibonacci.c"]: to:
-        {"INCLUDE", "STRING_LITERAL", "VOID", "IDENTIFIER(main)",
+        {"INCLUDE", "STRING_LITERAL(minic-stdlib.h)", "VOID", "IDENTIFIER(main)",
         "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER(n)", "SC",
         "INT", "IDENTIFIER(first)", "SC", "INT", "IDENTIFIER(second)", "SC",
         "INT", "IDENTIFIER(next)", "SC", "INT", "IDENTIFIER(c)", "SC",
         "CHAR", "IDENTIFIER(t)", "SC", "IDENTIFIER(n)", "ASSIGN", "IDENTIFIER(read_i)",
         "LPAR", "RPAR", "SC", "IDENTIFIER(first)", "ASSIGN", "INT_LITERAL",
         "SC", "IDENTIFIER(second)", "ASSIGN", "INT_LITERAL", "SC", "IDENTIFIER(print_s)",
-        "LPAR", "LPAR", "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL",
+        "LPAR", "LPAR", "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL(First )",
         "RPAR", "SC", "IDENTIFIER(print_i)", "LPAR", "IDENTIFIER(n)", "RPAR",
         "SC", "IDENTIFIER(print_s)", "LPAR", "LPAR", "CHAR", "ASTERIX", "RPAR",
-        "STRING_LITERAL", "RPAR", "SC", "IDENTIFIER(c)", "ASSIGN",
+        "STRING_LITERAL( terms of Fibonacci series are : )", "RPAR", "SC", "IDENTIFIER(c)", "ASSIGN",
         "INT_LITERAL", "SC", "WHILE", "LPAR", "IDENTIFIER(c)", "LT",
         "IDENTIFIER(n)", "RPAR", "LBRA", "IF", "LPAR", "IDENTIFIER(c)", "LE",
         "INT_LITERAL", "RPAR", "IDENTIFIER(next)", "ASSIGN", "IDENTIFIER(c)", "SC",
@@ -76,7 +76,7 @@ tests =
         "IDENTIFIER(second)", "SC", "IDENTIFIER(first)", "ASSIGN", "IDENTIFIER(second)", "SC",
         "IDENTIFIER(second)", "ASSIGN", "IDENTIFIER(next)", "SC", "RBRA", "IDENTIFIER(print_i)",
         "LPAR", "IDENTIFIER(next)", "RPAR", "SC", "IDENTIFIER(print_s)", "LPAR", "LPAR",
-        "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL", "RPAR", "SC",
+        "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL( )", "RPAR", "SC",
         "IDENTIFIER(c)", "ASSIGN", "IDENTIFIER(c)", "PLUS", "INT_LITERAL", "SC",
         "RBRA", "RBRA"}
     ["p.tictactoe.c"]: to: nil
@@ -132,7 +132,7 @@ tests =
         "IDENTIFIER(s)", 'ASSIGN', 'Lexing error: unrecognised character (q) at 2:18',
         'INVALID', 'Lexing error: unrecognised character (\\) at 2:18', 'INVALID',
         'IDENTIFIER(s)', 'INVALID', 'RBRA'}
-    ["strings/f.three.c"]: errors: 1, to: {"STRING_LITERAL", "STRING_LITERAL",
+    ["strings/f.three.c"]: errors: 1, to: {"STRING_LITERAL(\")", "STRING_LITERAL",
         "Lexing error: unrecognised character (\") at 2:3", "INVALID"}
     ["strings/f.unclosed.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "CHAR",
@@ -154,7 +154,7 @@ tests =
         "IDENTIFIER(v)", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
     ["strings/p.escapes.c"]: to:
         {"VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
-        "IDENTIFIER(s)", "SC", "IDENTIFIER(s)", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
+        "IDENTIFIER(s)", "SC", "IDENTIFIER(s)", "ASSIGN", "STRING_LITERAL(\t \b \f \' \" \\", ")", "SC", "RBRA"}
 
     -- char literals
     ["chars/f.empty.c"]: errors: 1, to: {"IF", "Lexing error: unrecognised character (') at 1:3"
@@ -170,7 +170,7 @@ tests =
         "SC", "IDENTIFIER(a)", "ASSIGN", "INVALID",
         "Lexing error: unrecognised character (;) at 4:1",
         "INVALID", "RBRA"}
-    ["chars/f.three.c"]: errors: 2, to: {"CHAR_LITERAL",
+    ["chars/f.three.c"]: errors: 2, to: {"CHAR_LITERAL(')",
         "Lexing error: unrecognised character (') at 2:1", "INVALID",
         "Lexing error: unrecognised character (') at 2:3", "INVALID"}
     ["chars/f.unclosed.c"]: errors: 1, to:
@@ -199,9 +199,9 @@ tests =
         "Lexing error: unrecognised character (\') at 2:17",
         "INVALID"}
     ["chars/p.assign.c"]: to: {"CHAR", "IDENTIFIER(a)", "SC",
-        "IDENTIFIER(a)", "ASSIGN", "CHAR_LITERAL", "SC"}
-    ["chars/p.digits.c"]: to: {"CHAR_LITERAL"}
-    ["chars/p.null.c"]: to: {"CHAR_LITERAL", "STRING_LITERAL"}
+        "IDENTIFIER(a)", "ASSIGN", "CHAR_LITERAL(t)", "SC"}
+    ["chars/p.digits.c"]: to: {"CHAR_LITERAL(0)"}
+    ["chars/p.null.c"]: to: {"CHAR_LITERAL(\0)", "STRING_LITERAL(\0)"}
 
     -- comments
     ["comments/p.incomplete.c"]: to: {"INT", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "DIV"}
@@ -213,16 +213,16 @@ tests =
     -- includes
     ["includes/f.caps.c"]: errors: 1, to:
         {"Lexing error: unrecognised character (#) at 1:1",
-        "INVALID", "IDENTIFIER(incLUDE)", "STRING_LITERAL"}
+        "INVALID", "IDENTIFIER(incLUDE)", "STRING_LITERAL(minic-stdlib.h)"}
     ["includes/f.incomplete.c"]: errors: 1, to:
         {"VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "RBRA",
         "Lexing error: unrecognised character (#) at 2:1", "INVALID"}
     ["includes/f.typo.c"]: errors: 1, to:
         {"Lexing error: unrecognised character (#) at 1:1", "INVALID", "IDENTIFIER(includEDACUK)"}
-    ["includes/p.multiOneLine.c"]: to: {"INCLUDE", "STRING_LITERAL", "INCLUDE", "STRING_LITERAL"}
-    ["includes/p.nospace.c"]: to: {"INCLUDE", "STRING_LITERAL"}
-    ["includes/p.space.c"]: to: {"INCLUDE", "STRING_LITERAL"}
-    ["includes/p.spaces.c"]: to: {"INCLUDE", "STRING_LITERAL"}
+    ["includes/p.multiOneLine.c"]: to: {"INCLUDE", "STRING_LITERAL(minic-stdlib.h)", "INCLUDE", "STRING_LITERAL(minic-stdlib.h)"}
+    ["includes/p.nospace.c"]: to: {"INCLUDE", "STRING_LITERAL(minic-stdlib.h)"}
+    ["includes/p.space.c"]: to: {"INCLUDE", "STRING_LITERAL(minic-stdlib.h)"}
+    ["includes/p.spaces.c"]: to: {"INCLUDE", "STRING_LITERAL(minic-stdlib.h)"}
 
 
 describe "#lexer", ->

@@ -194,7 +194,11 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitBinOp(BinOp bo) {
-        // todo
+        writer.print("BinOp(");
+        bo.lhs.accept(this);
+        writer.printf(", %s, ", bo.op.toString());
+        bo.rhs.accept(this);
+        writer.print(")");
         return null;
     }
 

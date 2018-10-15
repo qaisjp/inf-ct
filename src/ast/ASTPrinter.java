@@ -166,7 +166,15 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitIf(If f) {
-        // todo
+        writer.print("If(");
+        f.expr.accept(this);
+        writer.print(", ");
+        f.stmt.accept(this);
+        if (f.elseStmt != null) {
+            writer.print(", ");
+            f.elseStmt.accept(this);
+        }
+        writer.print(")");
         return null;
     }
 

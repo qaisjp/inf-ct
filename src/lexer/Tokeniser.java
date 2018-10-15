@@ -187,8 +187,20 @@ public class Tokeniser {
         }
     }
 
+    Map<Character, Character> escapeCharacters = new HashMap<Character, Character>(){{
+        put('t', '\t');
+        put('b', '\b');
+        put('n', '\n');
+        put('r', '\r');
+        put('f', '\f');
+        put('\'', '\'');
+        put('"', '"');
+        put('\\', '\\');
+        put('0', (char)0);
+    }};
+
     boolean isEscapeCharacter(char c) {
-        return (c == 't' || c == 'b' || c == 'n' || c == 'r' || c == 'f' || c == '\'' || c == '"' || c == '\\' || c == '0');
+        return escapeCharacters.containsKey(c);
     }
 
     private Token next() throws IOException {
@@ -272,7 +284,7 @@ public class Tokeniser {
             // Read the next character
             c = scanner.next();
 
-            // System.out.print(c);
+            StringBuilder data = new StringBuilder();
 
             // keep scanning until we've hit a quote
             while (c != '"') {
@@ -291,6 +303,10 @@ public class Tokeniser {
                         error(c, line, scanner.getColumn());
                         return new Token(TokenClass.INVALID, line, column);
                     }
+
+                    data.append(escapeCharacters.get(c));
+                } else {
+                    data.append(c);
                 }
 
                 if (!scanner.canPeek()) {
@@ -311,7 +327,7 @@ public class Tokeniser {
                     return new Token(TokenClass.INVALID, line, column);
                 }
             }
-            return new Token(TokenClass.STRING_LITERAL, line, column);
+            return new Token(TokenClass.STRING_LITERAL, data.toString(), line, column);
         }
 
         // If open character literal
@@ -323,6 +339,8 @@ public class Tokeniser {
 
             // Read the next character
             c = scanner.next();
+
+            String data;
 
             // If character is a closing quote then whoah wtf we have an empty char literal?
             if (c == '\'') {
@@ -345,6 +363,10 @@ public class Tokeniser {
                     error(c, line, column);
                     return new Token(TokenClass.INVALID, line, column);
                 }
+
+                data = Character.toString(escapeCharacters.get(c));
+            } else {
+                data = Character.toString(c);
             }
 
             // If we're a newline, whoops. It's all gone to pot!
@@ -364,7 +386,7 @@ public class Tokeniser {
             if (scanner.peek() == '\'') {
                 scanner.consume();
 
-                return new Token(TokenClass.CHAR_LITERAL, line, column);
+                return new Token(TokenClass.CHAR_LITERAL, data, line, column);
             }
 
             // If we're here, then there's a mistake. Uh oh!

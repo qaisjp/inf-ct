@@ -63,21 +63,21 @@ tests =
         "INT", "IDENTIFIER(first)", "SC", "INT", "IDENTIFIER(second)", "SC",
         "INT", "IDENTIFIER(next)", "SC", "INT", "IDENTIFIER(c)", "SC",
         "CHAR", "IDENTIFIER(t)", "SC", "IDENTIFIER(n)", "ASSIGN", "IDENTIFIER(read_i)",
-        "LPAR", "RPAR", "SC", "IDENTIFIER(first)", "ASSIGN", "INT_LITERAL",
-        "SC", "IDENTIFIER(second)", "ASSIGN", "INT_LITERAL", "SC", "IDENTIFIER(print_s)",
+        "LPAR", "RPAR", "SC", "IDENTIFIER(first)", "ASSIGN", "INT_LITERAL(0)",
+        "SC", "IDENTIFIER(second)", "ASSIGN", "INT_LITERAL(1)", "SC", "IDENTIFIER(print_s)",
         "LPAR", "LPAR", "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL(First )",
         "RPAR", "SC", "IDENTIFIER(print_i)", "LPAR", "IDENTIFIER(n)", "RPAR",
         "SC", "IDENTIFIER(print_s)", "LPAR", "LPAR", "CHAR", "ASTERIX", "RPAR",
         "STRING_LITERAL( terms of Fibonacci series are : )", "RPAR", "SC", "IDENTIFIER(c)", "ASSIGN",
-        "INT_LITERAL", "SC", "WHILE", "LPAR", "IDENTIFIER(c)", "LT",
+        "INT_LITERAL(0)", "SC", "WHILE", "LPAR", "IDENTIFIER(c)", "LT",
         "IDENTIFIER(n)", "RPAR", "LBRA", "IF", "LPAR", "IDENTIFIER(c)", "LE",
-        "INT_LITERAL", "RPAR", "IDENTIFIER(next)", "ASSIGN", "IDENTIFIER(c)", "SC",
+        "INT_LITERAL(1)", "RPAR", "IDENTIFIER(next)", "ASSIGN", "IDENTIFIER(c)", "SC",
         "ELSE", "LBRA", "IDENTIFIER(next)", "ASSIGN", "IDENTIFIER(first)", "PLUS",
         "IDENTIFIER(second)", "SC", "IDENTIFIER(first)", "ASSIGN", "IDENTIFIER(second)", "SC",
         "IDENTIFIER(second)", "ASSIGN", "IDENTIFIER(next)", "SC", "RBRA", "IDENTIFIER(print_i)",
         "LPAR", "IDENTIFIER(next)", "RPAR", "SC", "IDENTIFIER(print_s)", "LPAR", "LPAR",
         "CHAR", "ASTERIX", "RPAR", "STRING_LITERAL( )", "RPAR", "SC",
-        "IDENTIFIER(c)", "ASSIGN", "IDENTIFIER(c)", "PLUS", "INT_LITERAL", "SC",
+        "IDENTIFIER(c)", "ASSIGN", "IDENTIFIER(c)", "PLUS", "INT_LITERAL(1)", "SC",
         "RBRA", "RBRA"}
     ["p.tictactoe.c"]: to: nil
     -- base
@@ -92,16 +92,16 @@ tests =
     ["p.identifiers_eof.c"]: to: {"IDENTIFIER(ch4r)"}
     ["p.ops.c"]: to:
         {"VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "INT", "IDENTIFIER(c)",
-        "ASSIGN", "INT_LITERAL", "SC", "IF", "LPAR", "IDENTIFIER(c)", "EQ",
-        "INT_LITERAL", "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR",
-        "IDENTIFIER(c)", "GE", "INT_LITERAL", "RPAR", "LBRA", "RBRA", "ELSE",
-        "IF", "LPAR", "INT_LITERAL", "LE", "IDENTIFIER(c)", "RPAR", "LBRA",
-        "RBRA", "ELSE", "IF", "LPAR", "IDENTIFIER(c)", "GT", "INT_LITERAL",
+        "ASSIGN", "INT_LITERAL(1)", "SC", "IF", "LPAR", "IDENTIFIER(c)", "EQ",
+        "INT_LITERAL(1)", "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR",
+        "IDENTIFIER(c)", "GE", "INT_LITERAL(2)", "RPAR", "LBRA", "RBRA", "ELSE",
+        "IF", "LPAR", "INT_LITERAL(3)", "LE", "IDENTIFIER(c)", "RPAR", "LBRA",
+        "RBRA", "ELSE", "IF", "LPAR", "IDENTIFIER(c)", "GT", "INT_LITERAL(1)",
         "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR", "IDENTIFIER(c)", "LT",
-        "INT_LITERAL", "RPAR", "LBRA", "RBRA","ELSE", "IF", "LPAR", "INT_LITERAL",
-        "GT", "IDENTIFIER(c)", "RPAR", "LBRA", "RBRA", "IF", "LPAR", "INT_LITERAL",
-        "AND", "INT_LITERAL", "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR",
-        "INT_LITERAL", "OR", "INT_LITERAL", "RPAR", "LBRA", "RBRA", "RBRA"}
+        "INT_LITERAL(2)", "RPAR", "LBRA", "RBRA","ELSE", "IF", "LPAR", "INT_LITERAL(3)",
+        "GT", "IDENTIFIER(c)", "RPAR", "LBRA", "RBRA", "IF", "LPAR", "INT_LITERAL(1)",
+        "AND", "INT_LITERAL(0)", "RPAR", "LBRA", "RBRA", "ELSE", "IF", "LPAR",
+        "INT_LITERAL(0)", "OR", "INT_LITERAL(0)", "RPAR", "LBRA", "RBRA", "RBRA"}
     ["p.partial.c"]: to:
         {"VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "CHAR", "IDENTIFIER(ifner)", "SC",
         "CHAR", "IDENTIFIER(elser)", "SC", "CHAR", "IDENTIFIER(returner)", "SC", "RBRA"}

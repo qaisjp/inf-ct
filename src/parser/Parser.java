@@ -384,12 +384,10 @@ public class Parser {
     }
 
     private Expr parseExp() {
-        parseExpOr(false);
-
-        return null; // todo
+        return parseExpOr(false);
     }
 
-    private void parseExpOr(boolean prime) {
+    private Expr parseExpOr(boolean prime) {
         if (!prime) {
             parseExpAnd(false);
         }
@@ -397,9 +395,12 @@ public class Parser {
             parseExpAnd(false);
             parseExpOr(true);
         }
+
+        return null; // todo
     }
 
-    private void parseExpAnd(boolean prime) {
+    private Expr parseExpAnd(boolean prime) {
+
         if (!prime) {
             parseExpEq(false);
         }
@@ -407,9 +408,11 @@ public class Parser {
             parseExpEq(false);
             parseExpAnd(true);
         }
+
+        return null; // todo
     }
 
-    private void parseExpEq(boolean prime) {
+    private Expr parseExpEq(boolean prime) {
         if (!prime) {
             parseExpRel(false);
         }
@@ -417,9 +420,11 @@ public class Parser {
             parseExpRel(false);
             parseExpEq(true);
         }
+
+        return null; // todo
     }
 
-    private void parseExpRel(boolean prime) {
+    private Expr parseExpRel(boolean prime) {
         if (!prime) {
             parseExpAdd(false);
         }
@@ -427,9 +432,11 @@ public class Parser {
             parseExpAdd(false);
             parseExpRel(true);
         }
+
+        return null; // todo
     }
 
-    private void parseExpAdd(boolean prime) {
+    private Expr parseExpAdd(boolean prime) {
         if (!prime) {
             parseExpMult(false);
         }
@@ -437,9 +444,11 @@ public class Parser {
             parseExpMult(false);
             parseExpAdd(true);
         }
+
+        return null; // todo
     }
 
-    private void parseExpMult(boolean prime) {
+    private Expr parseExpMult(boolean prime) {
         if (!prime) {
             parseExpUnary();
         }
@@ -447,6 +456,8 @@ public class Parser {
             parseExpUnary();
             parseExpMult(true);
         }
+
+        return null; // todo
     }
 
     private Expr parseExpUnary() {

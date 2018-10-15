@@ -539,20 +539,36 @@ public class Parser {
     }
 
     private Type parseType() {
+        Type innerType = null;
+
+        TokenClass ourToken = token.tokenClass;
+
         // If we consume INT, CHAR, or VOID. We're done.. for now
         if (maybeExpectAny(TokenClass.INT) || maybeExpectAny(TokenClass.CHAR) || maybeExpectAny(TokenClass.VOID)) {
-            //
+            switch (ourToken) {
+                case INT:
+                    innerType = BaseType.INT;
+                    break;
+                case CHAR:
+                    innerType = BaseType.CHAR;
+                    break;
+                case VOID:
+                    innerType = BaseType.VOID;
+                    break;
+            }
         } else if (accept(TokenClass.STRUCT)) {
             // If we didn't consume any of the above, we expect a structtype
-            parseStructType();
+            innerType = parseStructType();
         } else {
             error(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT);
+            return null;
         }
 
         if (accept(TokenClass.ASTERIX)) {
             mustExpectAny(TokenClass.ASTERIX);
+            return new PointerType(innerType);
         }
 
-        return null; // todo
+        return innerType;
     }
 }

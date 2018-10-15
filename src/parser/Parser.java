@@ -389,77 +389,64 @@ public class Parser {
     }
 
     private Expr parseExp() {
-        return parseExpOr(false);
+        return parseExpOr();
     }
 
-    private Expr parseExpOr(boolean prime) {
-        if (!prime) {
-            parseExpAnd(false);
-        }
-        if (maybeExpectAny(TokenClass.OR)) {
-            parseExpAnd(false);
-            parseExpOr(true);
+    private Expr parseExpOr() {
+        parseExpAnd();
+
+        while (maybeExpectAny(TokenClass.OR)) {
+            parseExpAnd();
         }
 
         return null; // todo
     }
 
-    private Expr parseExpAnd(boolean prime) {
+    private Expr parseExpAnd() {
+        parseExpEq();
 
-        if (!prime) {
-            parseExpEq(false);
-        }
-        if (maybeExpectAny(TokenClass.AND)) {
-            parseExpEq(false);
-            parseExpAnd(true);
+        while (maybeExpectAny(TokenClass.AND)) {
+            parseExpEq();
         }
 
         return null; // todo
     }
 
-    private Expr parseExpEq(boolean prime) {
-        if (!prime) {
-            parseExpRel(false);
-        }
-        if (maybeExpectAny(TokenClass.NE, TokenClass.EQ)) {
-            parseExpRel(false);
-            parseExpEq(true);
+    private Expr parseExpEq() {
+        parseExpRel();
+
+        while (maybeExpectAny(TokenClass.NE, TokenClass.EQ)) {
+            parseExpRel();
         }
 
         return null; // todo
     }
 
-    private Expr parseExpRel(boolean prime) {
-        if (!prime) {
-            parseExpAdd(false);
-        }
-        if (maybeExpectAny(TokenClass.GE, TokenClass.GT, TokenClass.LE, TokenClass.LT)) {
-            parseExpAdd(false);
-            parseExpRel(true);
+    private Expr parseExpRel() {
+        parseExpAdd();
+
+        while (maybeExpectAny(TokenClass.GE, TokenClass.GT, TokenClass.LE, TokenClass.LT)) {
+            parseExpAdd();
         }
 
         return null; // todo
     }
 
-    private Expr parseExpAdd(boolean prime) {
-        if (!prime) {
-            parseExpMult(false);
-        }
-        if (maybeExpectAny(TokenClass.MINUS, TokenClass.PLUS)) {
-            parseExpMult(false);
-            parseExpAdd(true);
+    private Expr parseExpAdd() {
+        parseExpMult();
+
+        while (maybeExpectAny(TokenClass.MINUS, TokenClass.PLUS)) {
+            parseExpMult();
         }
 
         return null; // todo
     }
 
-    private Expr parseExpMult(boolean prime) {
-        if (!prime) {
+    private Expr parseExpMult() {
+        parseExpUnary();
+
+        while (maybeExpectAny(TokenClass.REM, TokenClass.DIV, TokenClass.ASTERIX)) {
             parseExpUnary();
-        }
-        if (maybeExpectAny(TokenClass.REM, TokenClass.DIV, TokenClass.ASTERIX)) {
-            parseExpUnary();
-            parseExpMult(true);
         }
 
         return null; // todo

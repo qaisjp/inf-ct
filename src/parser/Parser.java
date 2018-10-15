@@ -261,7 +261,7 @@ public class Parser {
     }
 
     private List<FunDecl> parseFunDecls() {
-        if (accept(typeNameFirst)) {
+        while (accept(typeNameFirst)) {
             parseType();
             mustExpectAny(TokenClass.IDENTIFIER);
 
@@ -269,8 +269,6 @@ public class Parser {
             parseParams();
             mustExpectAny(TokenClass.RPAR);
             parseBlock();
-
-            parseFunDecls();
         }
 
         return null; // todo

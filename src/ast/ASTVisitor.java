@@ -15,4 +15,5 @@ public interface ASTVisitor<T> {
     public T visitReturn(Return r);
     public T visitIf(If i);
     public T visitWhile(While w);
+    public T visitStructType(StructType st);
 }

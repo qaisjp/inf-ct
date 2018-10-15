@@ -202,17 +202,20 @@ public class Parser {
     }
 
     private List<StructTypeDecl> parseStructDecls() {
+        List<StructTypeDecl> decls = new ArrayList<StructTypeDecl>();
 
         // First for parseStructType is STRUCT
         while (accept(TokenClass.STRUCT) && lookAheadAccept(2, TokenClass.LBRA)) {
-            parseStructType();
+            StructType t = parseStructType();
             mustExpectAny(TokenClass.LBRA);
-            parseVarDecls(true);
+            List<VarDecl> varDeclList = parseVarDecls(true);
             mustExpectAny(TokenClass.RBRA);
             mustExpectAny(TokenClass.SC);
+
+            decls.add(new StructTypeDecl(t, varDeclList));
         }
 
-        return null; // todo
+        return decls;
     }
 
     private TokenClass[] typeNameFirst = {
@@ -527,9 +530,12 @@ public class Parser {
     }
 
     // First: STRUCT
-    private void parseStructType() {
+    private StructType parseStructType() {
         mustExpectAny(TokenClass.STRUCT);
+        String name = token.data;
         mustExpectAny(TokenClass.IDENTIFIER);
+
+        return new StructType(name);
     }
 
     private Type parseType() {

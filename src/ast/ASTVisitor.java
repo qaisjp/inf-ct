@@ -13,4 +13,5 @@ public interface ASTVisitor<T> {
     public T visitAssign(Assign a);
     public T visitExprStmt(ExprStmt e);
     public T visitReturn(Return r);
+    public T visitIf(If i);
 }

@@ -322,14 +322,20 @@ public class Parser {
             mustExpectAny(TokenClass.RPAR);
             parseStmt();
         } else if (accept(TokenClass.IF)) {
+            Expr exp;
+            Stmt stmt;
+            Stmt elseStmt = null;
+
             mustExpectAll(TokenClass.IF, TokenClass.LPAR);
-            parseExp();
+            exp = parseExp();
             mustExpectAny(TokenClass.RPAR);
-            parseStmt();
+            stmt = parseStmt();
 
             if (maybeExpectAny(TokenClass.ELSE)) {
-                parseStmt();
+                elseStmt = parseStmt();
             }
+
+            return new If(exp, stmt, elseStmt);
         } else if (maybeExpectAny(TokenClass.RETURN)) {
             Expr expr = null;
 

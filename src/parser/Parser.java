@@ -549,17 +549,7 @@ public class Parser {
 
         // If we consume INT, CHAR, or VOID. We're done.. for now
         if (maybeExpectAny(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID)) {
-            switch (ourToken) {
-                case INT:
-                    innerType = BaseType.INT;
-                    break;
-                case CHAR:
-                    innerType = BaseType.CHAR;
-                    break;
-                case VOID:
-                    innerType = BaseType.VOID;
-                    break;
-            }
+            innerType = BaseType.fromTokenClass(ourToken);
         } else if (accept(TokenClass.STRUCT)) {
             // If we didn't consume any of the above, we expect a structtype
             innerType = parseStructType();

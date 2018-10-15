@@ -184,7 +184,11 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitAssign(Assign assign) {
-        // todo
+        writer.print("Assign(");
+        assign.lhs.accept(this);
+        writer.print(", ");
+        assign.rhs.accept(this);
+        writer.print(")");
         return null;
     }
 

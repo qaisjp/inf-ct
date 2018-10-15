@@ -262,6 +262,11 @@ public class Parser {
                         TokenClass.SC
                 );
 
+                // Dummy value for intData if it failed and is the empty string
+                if (intData == "") {
+                    intData = "-1";
+                }
+
                 type = new ArrayType(type, Integer.parseInt(intData));
             }
 

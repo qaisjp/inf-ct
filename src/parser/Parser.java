@@ -315,7 +315,7 @@ public class Parser {
 
     private Stmt parseStmt() {
         if (accept(TokenClass.LBRA)) {
-            parseBlock();
+            return parseBlock();
         } else if (accept(TokenClass.WHILE)) {
             mustExpectAll(TokenClass.WHILE, TokenClass.LPAR);
             Expr exp = parseExp();
@@ -347,23 +347,21 @@ public class Parser {
             mustExpectAny(TokenClass.SC);
 
             return new Return(expr);
-        } else {
-            Expr lhs = parseExp();
-            Expr rhs = null;
-
-            if (maybeExpectAny(TokenClass.ASSIGN)) {
-                rhs = parseExp();
-            }
-            mustExpectAny(TokenClass.SC);
-
-            if (rhs != null) {
-                return new Assign(lhs, rhs);
-            }
-
-            return new ExprStmt(lhs);
         }
 
-        return null; // todo: flatten the above "else"
+        Expr lhs = parseExp();
+        Expr rhs = null;
+
+        if (maybeExpectAny(TokenClass.ASSIGN)) {
+            rhs = parseExp();
+        }
+        mustExpectAny(TokenClass.SC);
+
+        if (rhs != null) {
+            return new Assign(lhs, rhs);
+        }
+
+        return new ExprStmt(lhs);
     }
 
     private Expr parseExp() {

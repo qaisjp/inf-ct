@@ -535,21 +535,29 @@ public class Parser {
     }
 
     private List<VarDecl> parseParams() {
+        List<VarDecl> varDeclList = new ArrayList<>();
+
         // If we can't accept typeNameFirst, epsilon out of here.
         if (!accept(typeNameFirst)) {
-            return null; // todo
+            return varDeclList;
         }
 
-        parseType();
+        Type t = parseType();
+        String varName = token.data;
         mustExpectAny(TokenClass.IDENTIFIER);
+
+        varDeclList.add(new VarDecl(t, varName));
 
         // Consume if available, and return true
         while (maybeExpectAny(TokenClass.COMMA)) {
-            parseType();
+            t = parseType();
+            varName = token.data;
             mustExpectAny(TokenClass.IDENTIFIER);
+
+            varDeclList.add(new VarDecl(t, varName));
         }
 
-        return null; // todo
+        return varDeclList;
     }
 
     // First: STRUCT

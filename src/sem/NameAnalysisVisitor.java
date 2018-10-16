@@ -2,6 +2,8 @@ package sem;
 
 import ast.*;
 
+import java.util.List;
+
 public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	Scope scope;
@@ -12,6 +14,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	public NameAnalysisVisitor(Scope scope) {
 		this.scope = scope;
+	}
+
+	public void visitEach(List<ASTNode> list) {
+		for (ASTNode l : list) {
+			l.accept(this);
+		}
 	}
 
 	@Override

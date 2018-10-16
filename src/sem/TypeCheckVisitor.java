@@ -197,7 +197,32 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFieldAccessExpr(FieldAccessExpr fieldAccessExpr) {
-		// todo
-		return null;
+		Type exprType = fieldAccessExpr.expr.accept(this);
+
+		// Make sure our expression returns a struct
+		if (!(exprType instanceof StructType)) {
+			error("Expression is not a struct");
+			return BaseType.VOID;
+		}
+
+		StructTypeDecl decl = ((StructType) exprType).decl;
+
+		// First get the variable declaration in the struct
+		VarDecl varDecl = null;
+		for (VarDecl v : decl.varDeclList) {
+			if (v.varName.equals(fieldAccessExpr.string)) {
+				varDecl = v;
+				break;
+			}
+		}
+
+		// Check if the varDeclaration exists in the first place
+		if (varDecl == null) {
+			error("Field %s does not exist in struct", fieldAccessExpr.string);
+			return BaseType.VOID;
+		}
+
+		fieldAccessExpr.type = varDecl.type.accept(this);
+		return fieldAccessExpr.type;
 	}
 }

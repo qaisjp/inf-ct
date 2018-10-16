@@ -19,6 +19,9 @@
 		  -->
 <!-- Replace the value of the attribute "name" with the name of YOUR project. -->
 <project basedir="." default="build" name="ct-18-19">
+
+  <assertions><enable/></assertions>
+
   <!-- You do not need to touch anything below this comment -->
   <property name="src" location="src"/>
   <property name="bin" location="bin"/>

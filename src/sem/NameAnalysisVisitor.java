@@ -6,6 +6,10 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	Scope scope;
 
+	public NameAnalysisVisitor() {
+		this(new Scope());
+	}
+
 	public NameAnalysisVisitor(Scope scope) {
 		this.scope = scope;
 	}

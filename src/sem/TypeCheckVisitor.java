@@ -6,8 +6,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitBaseType(BaseType bt) {
-		// To be completed...
-		return null;
+		return bt;
 	}
 
 	@Override
@@ -94,13 +93,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitStructType(StructType f) {
-		// todo
-		return null;
+		return f;
 	}
 
 	@Override
 	public Type visitArrayType(ArrayType at) {
-		return null;
+		return at;
 	}
 
 	@Override
@@ -150,8 +148,4 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		// todo
 		return null;
 	}
-
-	// To be completed...
-
-
 }

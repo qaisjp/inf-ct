@@ -16,7 +16,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		this.scope = scope;
 	}
 
-	public void visitEach(List<ASTNode> list) {
+	public void visitEach(List<? extends ASTNode> list) {
 		for (ASTNode l : list) {
 			l.accept(this);
 		}

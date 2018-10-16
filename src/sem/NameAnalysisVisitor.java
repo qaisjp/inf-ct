@@ -47,18 +47,26 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitBlock(Block b) {
-		// Store the original scope so we can go back up
-		Scope scope = this.scope;
+		return visitBlock(b, true);
+	}
 
-		// Set the new scope with our old one as the parent
-		this.scope = new Scope(scope);
+	public Void visitBlock(Block b, boolean newScope) {
+		if (newScope) {
+			// Store the original scope so we can go back up
+			Scope scope = this.scope;
+
+			// Set the new scope with our old one as the parent
+			this.scope = new Scope(scope);
+		}
 
 		// Visit each variable declaration, statement in our block
 		visitEach(b.varDecls);
 		visitEach(b.stmtList);
 
-		// Revert the scope for infinity and beyond
-		this.scope = scope;
+		if (newScope) {
+			// Revert the scope for infinity and beyond
+			this.scope = scope;
+		}
 
 		return null;
 	}

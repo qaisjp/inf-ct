@@ -166,48 +166,57 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitArrayType(ArrayType at) {
+		at.innerType.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitWhile(While f) {
-		// todo
+		f.expr.accept(this);
+		f.stmt.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitIf(If f) {
-		// todo
+		f.expr.accept(this);
+		f.stmt.accept(this); // todo: check validity
+		f.elseStmt.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitReturn(Return r) {
-		// todo
+		if (r.expr != null) {
+			r.expr.accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Void visitExprStmt(ExprStmt exprStmt) {
-		// todo
+		exprStmt.expr.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitAssign(Assign assign) {
-		// todo
+		assign.lhs.accept(this);
+		assign.rhs.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitBinOp(BinOp binOp) {
-		// todo
+		binOp.lhs.accept(this);
+		binOp.rhs.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitArrayAccessExpr(ArrayAccessExpr arrayAccessExpr) {
-		// todo
+		arrayAccessExpr.lhs.accept(this);
+		arrayAccessExpr.rhs.accept(this);
 		return null;
 	}
 
@@ -216,8 +225,4 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		// todo
 		return null;
 	}
-
-	// To be completed...
-
-
 }

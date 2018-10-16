@@ -11,8 +11,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitStructTypeDecl(StructTypeDecl st) {
-		// To be completed...
-		return null;
+		return st.structType;
 	}
 
 	@Override

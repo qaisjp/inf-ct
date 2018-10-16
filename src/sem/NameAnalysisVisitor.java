@@ -21,7 +21,21 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructTypeDecl(StructTypeDecl sts) {
-		// To be completed...
+		// Accept the struct type
+		sts.structType.accept(this);
+
+		// Backup and create scope
+		Scope scope = this.scope;
+		this.scope = new Scope(scope);
+
+		// Visit each var decl
+		for (VarDecl varDecl : sts.varDeclList) {
+			varDecl.accept(this);
+		}
+
+		// Revert the scope
+		this.scope = scope;
+
 		return null;
 	}
 

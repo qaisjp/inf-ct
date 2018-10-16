@@ -18,8 +18,8 @@ public abstract class BaseSemanticVisitor<T> implements SemanticVisitor<T> {
 		return errors;
 	}
 	
-	protected void error(String message) {
-		System.err.println("semantic error: " + message);
+	protected void error(String format, Object... args) {
+		System.err.printf("semantic error: " + format, args);
 		errors++;
 	}
 }

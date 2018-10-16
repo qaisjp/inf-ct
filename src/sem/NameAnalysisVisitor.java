@@ -4,6 +4,12 @@ import ast.*;
 
 public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
+	Scope scope;
+
+	public NameAnalysisVisitor(Scope scope) {
+		this.scope = scope;
+	}
+
 	@Override
 	public Void visitBaseType(BaseType bt) {
 		// To be completed...

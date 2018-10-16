@@ -11,7 +11,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitStructTypeDecl(StructTypeDecl st) {
-		return st.structType;
+		return st.structType.accept(this);
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			case LE:
 				if (lhs == BaseType.INT && rhs == BaseType.INT) {
 					binOp.type = BaseType.INT;
-					return binOp.type;
+					return binOp.type.accept(this);
 				}
 
 				error("Operation %s expects INT and INT, got %s and %s", binOp.op, lhs, rhs);
@@ -157,7 +157,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			case EQ:
 				if (lhs == rhs && !(lhs instanceof StructType) && !(lhs instanceof ArrayType) && lhs != BaseType.VOID) {
 					binOp.type = BaseType.INT;
-					return binOp.type;
+					return binOp.type.accept(this);
 				}
 
 				error("Operation %s expects matching non-void, non-struct, non-array types, got %s and %s", binOp.op, lhs, rhs);
@@ -192,7 +192,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			assert false;
 		}
 
-		return innerType;
+		return innerType.accept(this);
 	}
 
 	@Override

@@ -113,8 +113,10 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitReturn(Return r) {
-		// todo
-		return null;
+		if (r.expr == null) {
+			return BaseType.VOID;
+		}
+		return r.expr.accept(this);
 	}
 
 	@Override

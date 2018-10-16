@@ -139,8 +139,18 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitAssign(Assign assign) {
-		// todo
-		return null;
+		Type lhs = assign.lhs.accept(this);
+		Type rhs = assign.rhs.accept(this);
+
+		if (lhs == BaseType.VOID || lhs instanceof ArrayType) {
+			error("lvalue cannot be void or array");
+		}
+
+		if (lhs != rhs) {
+			error("Type mismatch in assignment");
+		}
+
+		return lhs;
 	}
 
 	@Override

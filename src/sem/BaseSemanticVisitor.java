@@ -1,6 +1,10 @@
 package sem;
 
 
+import ast.ASTNode;
+
+import java.util.List;
+
 /**
  * 
  * @author dhil
@@ -21,5 +25,11 @@ public abstract class BaseSemanticVisitor<T> implements SemanticVisitor<T> {
 	protected void error(String format, Object... args) {
 		System.err.printf("semantic error: " + format, args);
 		errors++;
+	}
+
+	public void visitEach(List<? extends ASTNode> list) {
+		for (ASTNode l : list) {
+			l.accept(this);
+		}
 	}
 }

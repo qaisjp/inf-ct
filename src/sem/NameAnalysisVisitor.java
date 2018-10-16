@@ -222,7 +222,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitFieldAccessExpr(FieldAccessExpr fieldAccessExpr) {
-		// todo
+		fieldAccessExpr.expr.accept(this);
+		/*
+		todo: fieldAccessExpr.string is the field to access.
+		todo: at some point you also need to make sure that the field to access
+		todo: even exists in the struct (probably typechecker)
+		*/
 		return null;
 	}
 }

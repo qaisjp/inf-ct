@@ -154,7 +154,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitPointerType(PointerType f) {
-		// todo
+		f.innerType.accept(this);
 		return null;
 	}
 

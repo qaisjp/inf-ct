@@ -171,8 +171,28 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitArrayAccessExpr(ArrayAccessExpr arrayAccessExpr) {
-		// todo
-		return null;
+		Type lhs = arrayAccessExpr.lhs.accept(this);
+		Type rhs = arrayAccessExpr.rhs.accept(this);
+
+		if (rhs != BaseType.INT) {
+			error("Expected INT got %s", rhs);
+		}
+
+		if (!(lhs instanceof ArrayType) && !(lhs instanceof PointerType)) {
+			error("Expected ArrayType or PointerType, got something else");
+			return lhs;
+		}
+
+		Type innerType = null;
+		if (lhs instanceof ArrayType) {
+			innerType = ((ArrayType) lhs).innerType;
+		} else if (lhs instanceof PointerType) {
+			innerType = ((PointerType) lhs).innerType;
+		} else {
+			assert false;
+		}
+
+		return innerType;
 	}
 
 	@Override

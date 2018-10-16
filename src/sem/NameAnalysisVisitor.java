@@ -160,7 +160,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructType(StructType structType) {
-		Symbol s = scope.lookupCurrent(structType.str);
+		Symbol s = scope.lookup(structType.str);
 		if (s == null) {
 			error("Struct " + structType.str + " does not exist!");
 			return null;

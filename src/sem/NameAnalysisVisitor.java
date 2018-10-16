@@ -29,6 +29,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructTypeDecl(StructTypeDecl sts) {
+		Symbol s = scope.lookupCurrent(sts.structType.str);
+		if (s != null) {
+			error("Symbol %s already exists!", sts.structType.str);
+			return null;
+		}
+
 		// Accept the struct type
 		sts.structType.accept(this);
 
@@ -200,7 +206,14 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		if (s == null) {
 			error("Struct " + structType.str + " does not exist!");
 			return null;
+		} else if (!s.isStruct()) {
+			// Error if it's not a struct
+			error("%s is not a struct", structType.str);
+		} else {
+			// Link function call to declaration of function
+			structType.decl = ((StructSymbol) s).decl;
 		}
+
 		return null;
 	}
 

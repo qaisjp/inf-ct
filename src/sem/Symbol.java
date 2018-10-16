@@ -15,4 +15,6 @@ public abstract class Symbol {
 	boolean isFun() {
 		return this instanceof FunSymbol;
 	}
+
+	boolean isStruct() { return this instanceof StructSymbol; }
 }

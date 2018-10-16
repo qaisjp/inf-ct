@@ -30,27 +30,37 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitFunDecl(FunDecl p) {
-		// To be completed...
+		Symbol s = scope.lookupCurrent(p.name);
+		if (s != null) {
+			error("Symbol " + p.name + " already exists!");
+		} else {
+			scope.put(new FunSymbol(p));
+		}
 		return null;
 	}
 
 
 	@Override
 	public Void visitProgram(Program p) {
-		// To be completed...
+		// todo
 		return null;
 	}
 
 	@Override
 	public Void visitVarDecl(VarDecl vd) {
-		// To be completed...
+		Symbol s = scope.lookupCurrent(vd.varName);
+		if (s != null) {
+			error("Symbol " + vd.varName + " already exists!");
+		} else {
+			scope.put(new VarSymbol(vd));
+		}
+
 		return null;
 	}
 
 	@Override
 	public Void visitVarExpr(VarExpr v) {
-		// To be completed...
-		return null;
+		return null; // todo
 	}
 
 	@Override

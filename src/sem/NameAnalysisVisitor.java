@@ -50,10 +50,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		return visitBlock(b, true);
 	}
 
-	public Void visitBlock(Block b, boolean newScope) {
+	public Void visitBlock(Block b, final boolean newScope) {
+		Scope scope = null;
+
 		if (newScope) {
 			// Store the original scope so we can go back up
-			Scope scope = this.scope;
+			scope = this.scope;
 
 			// Set the new scope with our old one as the parent
 			this.scope = new Scope(scope);
@@ -64,6 +66,8 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		visitEach(b.stmtList);
 
 		if (newScope) {
+			assert scope != null;
+
 			// Revert the scope for infinity and beyond
 			this.scope = scope;
 		}

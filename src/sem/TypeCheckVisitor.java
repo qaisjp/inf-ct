@@ -27,10 +27,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		return null;
 	}
 
-
 	@Override
 	public Type visitProgram(Program p) {
-		// To be completed...
 		return null;
 	}
 

@@ -113,7 +113,21 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitVarExpr(VarExpr v) {
-		return null; // todo
+		// Check the symbol exists & grab symbol
+		Symbol s = scope.lookup(v.name);
+
+		if (s == null) {
+			// Error if it doesn't exist
+			error("Symbol " + v.name + " does not exist!");
+		} else if (!s.isVar()) {
+			// Error if it's not a variable
+			error(v.name + " is not a variable");
+		} else {
+			// Link variable expression to the variable type
+			v.vd = ((VarSymbol) s).vd;
+		}
+
+		return null;
 	}
 
 	@Override

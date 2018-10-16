@@ -77,7 +77,9 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitProgram(Program p) {
-		// todo
+		visitEach(p.structTypeDecls);
+		visitEach(p.varDecls);
+		visitEach(p.funDecls);
 		return null;
 	}
 

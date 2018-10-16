@@ -67,20 +67,20 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitIntLiteral(IntLiteral f) {
-		// todo
-		return null;
+		f.type = BaseType.INT;
+		return f.type;
 	}
 
 	@Override
 	public Type visitStrLiteral(StrLiteral f) {
-		// todo
-		return null;
+		f.type = new PointerType(BaseType.CHAR);
+		return f.type;
 	}
 
 	@Override
 	public Type visitChrLiteral(ChrLiteral f) {
-		// todo
-		return null;
+		f.type = BaseType.CHAR;
+		return f.type;
 	}
 
 	@Override

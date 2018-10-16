@@ -139,6 +139,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitTypecastExpr(TypecastExpr te) {
+		te.expr.accept(this);
 		return null;
 	}
 
@@ -149,6 +150,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitValueAtExpr(ValueAtExpr vae) {
+		vae.expr.accept(this);
 		return null;
 	}
 

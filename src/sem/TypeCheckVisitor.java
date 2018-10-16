@@ -152,7 +152,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				}
 
 				error("Operation %s expects INT and INT, got %s and %s", binOp.op, lhs, rhs);
-				break;
+				return BaseType.INT;
 			case NE:
 			case EQ:
 				if (lhs == rhs && !(lhs instanceof StructType) && !(lhs instanceof ArrayType) && lhs != BaseType.VOID) {
@@ -161,7 +161,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				}
 
 				error("Operation %s expects matching non-void, non-struct, non-array types, got %s and %s", binOp.op, lhs, rhs);
-				break;
+				return BaseType.INT;
 			default:
 				break;
 		}

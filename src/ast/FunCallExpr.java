@@ -5,7 +5,7 @@ import java.util.List;
 public class FunCallExpr  extends Expr {
     public final String name;
     public final List<Expr> exprList;
-    public VarDecl vd; // to be filled in by the name analyser
+    public FunDecl decl; // to be filled in by the name analyser
 
     public FunCallExpr(String name, List<Expr> exprList) {
         this.name = name;

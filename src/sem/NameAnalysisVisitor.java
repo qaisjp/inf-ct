@@ -37,9 +37,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		this.scope = new Scope(scope);
 
 		// Visit each var decl
-		for (VarDecl varDecl : sts.varDeclList) {
-			varDecl.accept(this);
-		}
+		visitEach(sts.varDeclList);
 
 		// Revert the scope
 		this.scope = scope;
@@ -55,15 +53,9 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		// Set the new scope with our old one as the parent
 		this.scope = new Scope(scope);
 
-		// Visit each variable declaration in our block
-		for (VarDecl varDecl : b.varDecls) {
-			varDecl.accept(this);
-		}
-
-		// Visit each statement in our block
-		for (Stmt stmt : b.stmtList) {
-			stmt.accept(this);
-		}
+		// Visit each variable declaration, statement in our block
+		visitEach(b.varDecls);
+		visitEach(b.stmtList);
 
 		// Revert the scope for infinity and beyond
 		this.scope = scope;

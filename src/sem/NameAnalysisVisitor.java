@@ -76,9 +76,17 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		Symbol s = scope.lookupCurrent(p.name);
 		if (s != null) {
 			error("Symbol " + p.name + " already exists!");
-		} else {
-			scope.put(new FunSymbol(p));
+			return null;
 		}
+
+		scope.put(new FunSymbol(p));
+
+		Scope scope = this.scope;
+		this.scope = new Scope(scope);
+
+		visitEach(p.params);
+		visitBlock(p.block, false);
+
 		return null;
 	}
 

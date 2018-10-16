@@ -118,7 +118,22 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitFunCallExpr(FunCallExpr f) {
-		// todo
+		// Check the symbol exists & grab symbol
+		Symbol s = scope.lookup(f.name);
+
+		if (s == null) {
+			// Error if it doesn't exist
+			error("Symbol " + f.name + " does not exist!");
+		} else if (!s.isFun()) {
+			// Error if it's not a function
+			error(f.name + " is not a function");
+		} else {
+			// Link function call to declaration of function
+			f.decl = ((FunSymbol) s).funDecl;
+		}
+
+		// Visit the argument expressions
+		visitEach(f.exprList);
 		return null;
 	}
 

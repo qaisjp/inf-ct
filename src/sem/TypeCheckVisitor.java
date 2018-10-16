@@ -85,8 +85,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitPointerType(PointerType f) {
-		// todo
-		return null;
+		return f.innerType.accept(this);
 	}
 
 	@Override

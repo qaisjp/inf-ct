@@ -113,8 +113,14 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitIf(If f) {
-		// todo
-		return null;
+		Type e = f.expr.accept(this);
+		if (e != BaseType.INT) {
+			error("Expression should be of type INT, currently of type %s", e);
+		}
+
+		f.stmt.accept(this);
+		f.elseStmt.accept(this);
+		return BaseType.INT;
 	}
 
 	@Override

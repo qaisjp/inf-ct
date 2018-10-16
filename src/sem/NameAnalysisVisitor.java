@@ -145,6 +145,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitSizeOfExpr(SizeOfExpr soe) {
+		soe.typeToCheck.accept(this);
 		return null;
 	}
 

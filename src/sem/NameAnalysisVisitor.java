@@ -16,8 +16,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitBaseType(BaseType bt) {
-		// To be completed...
-		return null;
+		return null; // don't do anything
 	}
 
 	@Override

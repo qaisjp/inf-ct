@@ -159,8 +159,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	@Override
-	public Void visitStructType(StructType f) {
-		// todo
+	public Void visitStructType(StructType structType) {
+		Symbol s = scope.lookupCurrent(structType.str);
+		if (s == null) {
+			error("Struct " + structType.str + " does not exist!");
+			return null;
+		}
 		return null;
 	}
 

@@ -139,19 +139,16 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitIntLiteral(IntLiteral f) {
-		// todo
 		return null;
 	}
 
 	@Override
 	public Void visitStrLiteral(StrLiteral f) {
-		// todo
 		return null;
 	}
 
 	@Override
 	public Void visitChrLiteral(ChrLiteral f) {
-		// todo
 		return null;
 	}
 

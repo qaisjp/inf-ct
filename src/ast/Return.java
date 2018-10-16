@@ -1,7 +1,7 @@
 package ast;
 
 public class Return extends Stmt {
-    public final Expr expr;
+    public final Expr expr; // optional!
 
     public Return(Expr expr) {
         this.expr = expr;

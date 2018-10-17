@@ -42,8 +42,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitVarExpr(VarExpr v) {
-		// To be completed...
-		return null;
+		v.type = v.vd.type;
+		return v.type;
 	}
 
 	@Override

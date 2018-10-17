@@ -12,4 +12,9 @@ public class ArrayType implements Type {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitArrayType(this);
     }
+
+    @Override
+    public String toString() {
+        return innerType.toString() + "[" + String.valueOf(elements) + "]";
+    }
 }

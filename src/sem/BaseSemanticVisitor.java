@@ -1,7 +1,7 @@
 package sem;
 
 
-import ast.ASTNode;
+import ast.*;
 
 import java.util.List;
 
@@ -31,5 +31,28 @@ public abstract class BaseSemanticVisitor<T> implements SemanticVisitor<T> {
 		for (ASTNode l : list) {
 			l.accept(this);
 		}
+	}
+
+	public boolean eq(Type a, Type b) {
+		if (a instanceof BaseType && b instanceof BaseType) {
+			return a == b;
+		}
+
+		if (a instanceof PointerType && b instanceof PointerType) {
+			return eq(((PointerType) a).innerType, ((PointerType) b).innerType);
+		}
+
+		if (a instanceof StructType && b instanceof StructType) {
+			// Make name not equal then fail
+			if (!((StructType) a).str.equals(((StructType) b).str)) {
+				return false;
+			}
+
+			// In our version of C we can only do struct declarations at the top of the file.
+			// The name analysis visitor will prevent two struct declarations from being declared in the same name here
+			return true;
+		}
+
+		return false;
 	}
 }

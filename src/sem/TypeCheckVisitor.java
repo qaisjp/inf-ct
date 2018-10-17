@@ -73,7 +73,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		}
 
 		// Make sure the right thing is being returned
-		if (!p.type.equals(realReturnType)) {
+		if (!eq(p.type, realReturnType)) {
 			error("Function %s returns %s when it should be returning %s\n", p.name, realReturnType, p.type);
 		}
 
@@ -133,7 +133,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			VarDecl param = params.get(i);
 
 			Type argType = arg.accept(this);
-			if (!argType.equals(param.type)) {
+			if (!eq(argType, param.type)) {
 				error("Could not call %s, param `%s` was incorrectly given %s, expected %s (from expr %s, param code %d, arg code %d) \n", f.decl, param, argType, arg.type, arg, param.hashCode(), arg.hashCode());
 			}
 		}
@@ -155,7 +155,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			ArrayType from = (ArrayType) castFrom;
 			PointerType to = (PointerType) castTo;
 
-			ok = from.innerType.equals(to.innerType);
+			ok = eq(from.innerType, to.innerType);
 		} else if (castFrom instanceof PointerType && castTo instanceof PointerType) {
 			ok = true; // Does pointer to pointer mean the inner types aren't checked? todo
 		}
@@ -242,7 +242,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			Type b = f.elseStmt.accept(this);
 
 			// If only the first one returns we don't want to type check; but if b exists we need to check equals
-			if (b != null && !a.equals(b)) {
+			if (b != null && !eq(a, b)) {
 				error("stmt and elseStmt return differing types, %s and %s respectively\n", a, b);
 			}
 		}
@@ -277,7 +277,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("lvalue cannot be %s\n", lhs);
 		}
 
-		if (!lhs.equals(rhs)) {
+		if (!eq(lhs, rhs)) {
 			error("Type mismatch in assignment (%s != %s)\n", lhs, rhs);
 		}
 
@@ -310,7 +310,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				return BaseType.INT;
 			case NE:
 			case EQ:
-				if (lhs.equals(rhs) && !(lhs instanceof StructType) && !(lhs instanceof ArrayType) && lhs != BaseType.VOID) {
+				if (eq(lhs, rhs) && !(lhs instanceof StructType) && !(lhs instanceof ArrayType) && lhs != BaseType.VOID) {
 					binOp.type = BaseType.INT;
 					return binOp.type.accept(this);
 				}

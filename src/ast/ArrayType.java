@@ -1,10 +1,11 @@
 package ast;
 
-public class ArrayType extends ContainerType<Type> {
+public class ArrayType implements Type {
+    public final Type innerType;
     public final int elements;
 
     public ArrayType(Type innerType, int elements) {
-        super(innerType);
+        this.innerType = innerType;
         this.elements = elements;
     }
 
@@ -17,7 +18,15 @@ public class ArrayType extends ContainerType<Type> {
         return innerType.toString() + "[" + String.valueOf(elements) + "]";
     }
 
-    public boolean equals(Object o) {
-        return super.equals(o);
+    public boolean equals(Type t) {
+        if (!(t instanceof ArrayType)) {
+            return false;
+        }
+
+        return equals((ArrayType) t);
+    }
+
+    public boolean equals(ArrayType t) {
+        return innerType.equals(t.innerType) && (elements == t.elements);
     }
 }

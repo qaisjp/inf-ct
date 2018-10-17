@@ -2,6 +2,7 @@ package sem;
 
 import ast.*;
 
+import java.awt.*;
 import java.util.List;
 
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
@@ -94,7 +95,28 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitTypecastExpr(TypecastExpr te) {
-		return null;
+		// Only three valid kinds of typecast
+		Type castTo = te.type;
+		Type castFrom = te.expr.accept(this);
+
+		boolean ok = false;
+
+		if (castFrom == BaseType.INT && castTo == BaseType.INT) {
+			ok = true;
+		} else if (castFrom instanceof ArrayType && castTo instanceof PointerType) {
+			ArrayType from = (ArrayType) castFrom;
+			PointerType to = (PointerType) castTo;
+
+			ok = from.innerType == to.innerType;
+		} else if (castFrom instanceof PointerType && castTo instanceof PointerType) {
+			ok = true; // Does pointer to pointer mean the inner types aren't checked? todo
+		}
+
+		if (!ok) {
+			error("Invalid cast from %s to %s", castFrom, castTo);
+		}
+
+		return castTo;
 	}
 
 	@Override

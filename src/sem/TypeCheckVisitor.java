@@ -18,6 +18,10 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		return st.structType.accept(this);
 	}
 
+	public boolean returnableStmt(Stmt s) {
+		return s instanceof Block || s instanceof If || s instanceof While || s instanceof Return;
+	}
+
 	@Override
 	public Type visitBlock(Block b) {
 		// Visit each variable declaration, statement in our block
@@ -31,7 +35,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			Type returned = s.accept(this);
 
 			// We only care about the types of blocks (and parents of blocks), oh and return
-			if (!(s instanceof Block || s instanceof If || s instanceof While || s instanceof Return)) {
+			if (!returnableStmt(s)) {
 				continue;
 			}
 
@@ -39,6 +43,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			if (returned == null) {
 				continue;
 			}
+
+			System.out.printf("Block from %s returns %s\n", s, returned);
 
 			returns.add(returned);
 		}
@@ -227,7 +233,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("Expression should be of type INT, currently of type %s\n", e);
 		}
 
-		return f.stmt.accept(this);
+		Type returned = f.stmt.accept(this);
+
+		return returnableStmt(f.stmt) ? returned : null;
 	}
 
 	@Override
@@ -238,16 +246,25 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		}
 
 		Type a = f.stmt.accept(this);
+		Type returned = returnableStmt(f.stmt) ? a : null;
 		if (f.elseStmt != null) {
 			Type b = f.elseStmt.accept(this);
+			boolean bReturnable = returnableStmt(f.elseStmt);
 
-			// If only the first one returns we don't want to type check; but if b exists we need to check equals
-			if (b != null && !eq(a, b)) {
-				error("stmt and elseStmt return differing types, %s and %s respectively\n", a, b);
+			// If b exists we need to check for equality
+			if (b != null) {
+				if (returned == null) {
+					// If a is not a returnable statement, we set our If return value appropriately
+					returned = bReturnable ? b : null;
+				} else if (bReturnable && !eq(a, b)) {
+					// If b can return, and a can return (we checked this by checking returned==null)
+					// Make sure both return types are equal
+					error("stmt and elseStmt return differing types, %s and %s respectively\n", a, b);
+				}
 			}
 		}
 
-		return a;
+		return returned;
 	}
 
 	@Override
@@ -281,7 +298,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("Type mismatch in assignment (%s != %s)\n", lhs, rhs);
 		}
 
-		return lhs;
+		return null;
 	}
 
 	@Override

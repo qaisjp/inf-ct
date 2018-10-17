@@ -25,6 +25,7 @@ public class PointerType implements Type {
     }
 
     public boolean equals(PointerType t) {
+        System.out.printf("=Comparison called for %s against %s=", innerType, t.innerType);
         return innerType.equals(t.innerType);
     }
 }

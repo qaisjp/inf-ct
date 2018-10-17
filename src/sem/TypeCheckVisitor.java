@@ -44,7 +44,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		// Special magic for no reason at all: return type is return type of main
 		for (FunDecl f : p.funDecls) {
-			if (f.name == "main") {
+			if (f.name.equals("main")) {
 				return f.type.accept(this);
 			}
 		}
@@ -85,7 +85,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			VarDecl param = params.get(i);
 
 			Type argType = arg.accept(this);
-			if (!argType.equals(param.type)) {
+			if (argType != param.type) {
 				error("Could not call %s, arg %d does not match params", f.name, i+1);
 			}
 		}

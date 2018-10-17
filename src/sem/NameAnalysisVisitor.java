@@ -211,7 +211,6 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		Symbol s = scope.lookup(structType.str);
 		if (s == null) {
 			error("Struct " + structType.str + " does not exist!\n");
-			return null;
 		} else if (!s.isStruct()) {
 			// Error if it's not a struct
 			error("%s is not a struct\n", structType.str);

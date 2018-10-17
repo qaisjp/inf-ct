@@ -264,6 +264,10 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("lvalue cannot be void or array");
 		}
 
+		if (!(lhs instanceof VarExpr || lhs instanceof FieldAccessExpr || lhs instanceof ArrayAccessExpr || lhs instanceof ValueAtExpr)) {
+			error("lvalue must be a variable, field access, array access or pointer dereference");
+		}
+
 		if (lhs != rhs) {
 			error("Type mismatch in assignment");
 		}

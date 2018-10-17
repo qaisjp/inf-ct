@@ -43,15 +43,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			returns.add(returned);
 		}
 
-		// Ensure all returned types are the same type
-		boolean allEqual = returns.stream().distinct().limit(2).count() <= 1;
-		if (!allEqual) {
-			error("Block returns differing types (%s)\n", Arrays.toString(returns.toArray()));
-		}
-
-		// If returns is empty, this block doesn't return anything
 		if (returns.isEmpty()) {
+			// If returns is empty, this block doesn't return anything
 			return null; // no return anywhere
+		} else if (!returns.stream().allMatch(returns.get(0)::equals)) {
+			// Ensure all returned types are the same type (if not all equal)
+			error("Block returns differing types (%s)\n", Arrays.toString(returns.toArray()));
 		}
 
 		// Since we have atleast one return value, make the block return something "random" (first return value)
@@ -76,7 +73,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		}
 
 		// Make sure the right thing is being returned
-		if (p.type != realReturnType) {
+		if (!p.type.equals(realReturnType)) {
 			error("Function %s returns %s when it should be returning %s\n", p.name, realReturnType, p.type);
 		}
 
@@ -136,7 +133,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			VarDecl param = params.get(i);
 
 			Type argType = arg.accept(this);
-			if (argType != param.type) {
+			if (!argType.equals(param.type)) {
 				error("Could not call %s, param `%s %s` was incorrectly given %s (from expr %s\n)", f.decl, param.type, param.varName, argType, arg);
 			}
 		}
@@ -158,7 +155,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			ArrayType from = (ArrayType) castFrom;
 			PointerType to = (PointerType) castTo;
 
-			ok = from.innerType == to.innerType;
+			ok = from.innerType.equals(to.innerType);
 		} else if (castFrom instanceof PointerType && castTo instanceof PointerType) {
 			ok = true; // Does pointer to pointer mean the inner types aren't checked? todo
 		}
@@ -245,7 +242,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			Type b = f.elseStmt.accept(this);
 
 			// If only the first one returns we don't want to type check; but if b exists we need to check equals
-			if (b != null && a != b) {
+			if (b != null && !a.equals(b)) {
 				error("stmt and elseStmt return differing types, %s and %s respectively\n", a, b);
 			}
 		}
@@ -280,7 +277,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("lvalue cannot be %s\n", lhs);
 		}
 
-		if (lhs != rhs) {
+		if (!lhs.equals(rhs)) {
 			error("Type mismatch in assignment (%s != %s)\n", lhs, rhs);
 		}
 
@@ -313,7 +310,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				return BaseType.INT;
 			case NE:
 			case EQ:
-				if (lhs == rhs && !(lhs instanceof StructType) && !(lhs instanceof ArrayType) && lhs != BaseType.VOID) {
+				if (lhs.equals(rhs) && !(lhs instanceof StructType) && !(lhs instanceof ArrayType) && lhs != BaseType.VOID) {
 					binOp.type = BaseType.INT;
 					return binOp.type.accept(this);
 				}

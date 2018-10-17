@@ -154,7 +154,8 @@ tests =
         "IDENTIFIER(v)", "ASSIGN", "STRING_LITERAL", "SC", "RBRA"}
     ["strings/p.escapes.c"]: to:
         {"VOID", "IDENTIFIER(main)", "LPAR", "RPAR", "LBRA", "CHAR", "ASTERIX",
-        "IDENTIFIER(s)", "SC", "IDENTIFIER(s)", "ASSIGN", "STRING_LITERAL(\t \b \f \' \" \\", "\0)", "SC", "RBRA"}
+        "IDENTIFIER(s)", "SC", "IDENTIFIER(s)", "ASSIGN", "LPAR", "CHAR", "ASTERIX", "RPAR",
+        "STRING_LITERAL(\t \b \f \' \" \\", "\0)", "SC", "RBRA"}
 
     -- char literals
     ["chars/f.empty.c"]: errors: 1, to: {"IF", "Lexing error: unrecognised character (') at 1:3"

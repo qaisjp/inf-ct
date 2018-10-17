@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class FunDecl implements ASTNode {
 
         this.params = new ArrayList<>();
         if (maybeParam != null) {
-            params.add(new VarDecl(maybeParam, "_"));
+            params.add(new VarDecl(maybeParam, "unk"));
         }
 
         this.block = new Block(Collections.emptyList(), Collections.emptyList());
@@ -35,5 +36,10 @@ public class FunDecl implements ASTNode {
 
     public <T> T accept(ASTVisitor<T> v) {
 	return v.visitFunDecl(this);
+    }
+
+    @Override
+    public String toString() {
+        return this.name + Arrays.toString(params.toArray());
     }
 }

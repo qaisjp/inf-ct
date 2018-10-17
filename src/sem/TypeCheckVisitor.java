@@ -3,6 +3,7 @@ package sem;
 import ast.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
@@ -45,7 +46,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		// Ensure all returned types are the same type
 		boolean allEqual = returns.stream().distinct().limit(2).count() <= 1;
 		if (!allEqual) {
-			error("Block returns differing types");
+			error("Block returns differing types (%s)\n", Arrays.toString(returns.toArray()));
 		}
 
 		// If returns is empty, this block doesn't return anything
@@ -76,7 +77,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		// Make sure the right thing is being returned
 		if (p.type != realReturnType) {
-			error("Function %s returns %s when it should be returning %s", p.name, realReturnType, p.type);
+			error("Function %s returns %s when it should be returning %s\n", p.name, realReturnType, p.type);
 		}
 
 		// Should you be able to do `return exprThatReturnsVoid` right?
@@ -105,7 +106,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitVarDecl(VarDecl vd) {
 		if (vd.type == BaseType.VOID) {
-			error("Cannot declare variable %s as VOID", vd.varName);
+			error("Cannot declare variable %s as VOID\n", vd.varName);
 		}
 
 		return vd.type;
@@ -126,7 +127,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		f.type = f.decl.type;
 
 		if (args.size() != params.size()) {
-			error("Could not call %s, expected %d arguments, got %d", f.name, params.size(), args.size());
+			error("Could not call %s, expected %d arguments, got %d\n", f.decl, params.size(), args.size());
 			return f.type;
 		}
 
@@ -136,7 +137,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 			Type argType = arg.accept(this);
 			if (argType != param.type) {
-				error("Could not call %s, arg %d does not match params", f.name, i+1);
+				error("Could not call %s, arg %d does not match params (should be of type %s)\n", f.decl, i+1, param.type);
 			}
 		}
 
@@ -163,7 +164,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		}
 
 		if (!ok) {
-			error("Invalid cast from %s to %s", castFrom, castTo);
+			error("Invalid cast from %s to %s\n", castFrom, castTo);
 		}
 
 		return castTo;
@@ -179,7 +180,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		vae.type = vae.expr.accept(this);
 
 		if (!(vae.type instanceof PointerType)) {
-			error("Expression should have type PointerType, got %s", vae.type);
+			error("Expression should have type PointerType, got %s\n", vae.type);
 		}
 
 		return vae.type;
@@ -223,7 +224,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitWhile(While f) {
 		Type e = f.expr.accept(this);
 		if (e != BaseType.INT) {
-			error("Expression should be of type INT, currently of type %s", e);
+			error("Expression should be of type INT, currently of type %s\n", e);
 		}
 
 		return f.stmt.accept(this);
@@ -233,14 +234,14 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitIf(If f) {
 		Type e = f.expr.accept(this);
 		if (e != BaseType.INT) {
-			error("Expression should be of type INT, currently of type %s", e);
+			error("Expression should be of type INT, currently of type %s\n", e);
 		}
 
 		Type a = f.stmt.accept(this);
 		if (f.elseStmt != null) {
 			Type b = f.elseStmt.accept(this);
 			if (a != b) {
-				error("stmt and elseStmt return differing types, %s and %s respectively", a, b);
+				error("stmt and elseStmt return differing types, %s and %s respectively\n", a, b);
 			}
 		}
 
@@ -266,15 +267,16 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		Type rhs = assign.rhs.accept(this);
 
 		if (lhs == BaseType.VOID || lhs instanceof ArrayType) {
-			error("lvalue cannot be void or array");
+			error("lvalue cannot be %s\n", lhs);
 		}
 
+		// todo: move to top of this method. should do assign.lhs NOT the type of the lhs expression
 		if (!(lhs instanceof VarExpr || lhs instanceof FieldAccessExpr || lhs instanceof ArrayAccessExpr || lhs instanceof ValueAtExpr)) {
-			error("lvalue must be a variable, field access, array access or pointer dereference");
+			error("lvalue cannot be %s (must be a variable, field access, array access or pointer dereference)\n", assign.lhs);
 		}
 
 		if (lhs != rhs) {
-			error("Type mismatch in assignment");
+			error("Type mismatch in assignment (%s != %s)\n", lhs, rhs);
 		}
 
 		return lhs;
@@ -302,7 +304,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 					return binOp.type.accept(this);
 				}
 
-				error("Operation %s expects INT and INT, got %s and %s", binOp.op, lhs, rhs);
+				error("Operation %s expects INT and INT, got %s and %s\n", binOp.op, lhs, rhs);
 				return BaseType.INT;
 			case NE:
 			case EQ:
@@ -311,7 +313,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 					return binOp.type.accept(this);
 				}
 
-				error("Operation %s expects matching non-void, non-struct, non-array types, got %s and %s", binOp.op, lhs, rhs);
+				error("Operation %s expects matching non-void, non-struct, non-array types, got %s and %s\n", binOp.op, lhs, rhs);
 				return BaseType.INT;
 			default:
 				break;
@@ -327,11 +329,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		Type rhs = arrayAccessExpr.rhs.accept(this);
 
 		if (rhs != BaseType.INT) {
-			error("Expected INT got %s", rhs);
+			error("Expected INT got %s\n", rhs);
 		}
 
 		if (!(lhs instanceof ArrayType) && !(lhs instanceof PointerType)) {
-			error("Expected ArrayType or PointerType, got something else");
+			error("Expected ArrayType or PointerType, got %s\n", lhs);
 			return lhs;
 		}
 
@@ -353,7 +355,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		// Make sure our expression returns a struct
 		if (!(exprType instanceof StructType)) {
-			error("Expression is not a struct");
+			error("Expression is not a struct\n");
 			return BaseType.VOID;
 		}
 
@@ -370,7 +372,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		// Check if the varDeclaration exists in the first place
 		if (varDecl == null) {
-			error("Field %s does not exist in struct", fieldAccessExpr.string);
+			error("Field %s does not exist in struct\n", fieldAccessExpr.string);
 			return BaseType.VOID;
 		}
 

@@ -10,4 +10,9 @@ public class PointerType implements Type {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitPointerType(this);
     }
+
+    @Override
+    public String toString() {
+        return "*" + innerType.toString();
+    }
 }

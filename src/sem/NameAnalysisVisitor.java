@@ -25,7 +25,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitStructTypeDecl(StructTypeDecl sts) {
 		Symbol s = scope.lookupCurrent(sts.structType.str);
 		if (s != null) {
-			error("Symbol %s already exists!", sts.structType.str);
+			error("Symbol %s already exists!\n", sts.structType.str);
 			return null;
 		}
 
@@ -107,7 +107,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitVarDecl(VarDecl vd) {
 		Symbol s = scope.lookupCurrent(vd.varName);
 		if (s != null) {
-			error("Symbol " + vd.varName + " already exists!");
+			error("Symbol %s already exists!\n", vd.varName);
 		} else {
 			scope.put(new VarSymbol(vd));
 		}
@@ -122,10 +122,10 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 		if (s == null) {
 			// Error if it doesn't exist
-			error("Symbol " + v.name + " does not exist!");
+			error("Symbol %s does not exist!\n", v.name);
 		} else if (!s.isVar()) {
 			// Error if it's not a variable
-			error(v.name + " is not a variable");
+			error("%s is not a variable\n", v.name);
 		} else {
 			// Link variable expression to the variable type
 			v.vd = ((VarSymbol) s).vd;
@@ -141,10 +141,10 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 		if (s == null) {
 			// Error if it doesn't exist
-			error("Symbol " + f.name + " does not exist!");
+			error("Symbol " + f.name + " does not exist!\n");
 		} else if (!s.isFun()) {
 			// Error if it's not a function
-			error(f.name + " is not a function");
+			error(f.name + " is not a function\n");
 		} else {
 			// Link function call to declaration of function
 			f.decl = ((FunSymbol) s).funDecl;
@@ -198,11 +198,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitStructType(StructType structType) {
 		Symbol s = scope.lookup(structType.str);
 		if (s == null) {
-			error("Struct " + structType.str + " does not exist!");
+			error("Struct " + structType.str + " does not exist!\n");
 			return null;
 		} else if (!s.isStruct()) {
 			// Error if it's not a struct
-			error("%s is not a struct", structType.str);
+			error("%s is not a struct\n", structType.str);
 		} else {
 			// Link function call to declaration of function
 			structType.decl = ((StructSymbol) s).decl;

@@ -59,6 +59,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFunDecl(FunDecl p) {
+		// If inbuilt function don't declaration validity
+		if (p.isInbuilt) {
+			return p.type;
+		}
+
 		// Visit each parameter (this ensures that none are of type void... and maybe more. Check visitVarDecl!)
 		visitEach(p.params);
 

@@ -30,11 +30,16 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFunDecl(FunDecl p) {
+		// Visit each parameter (this ensures that none are of type void... and maybe more. Check visitVarDecl!)
 		visitEach(p.params);
-		visitBlock(p.block);
 
-		// todo!
-		return null;
+		Type realReturnType = visitBlock(p.block);
+
+		if (p.type != realReturnType) {
+			error("Function %s returns %s when it should be returning %s", p.name, realReturnType, p.type);
+		}
+
+		return p.type;
 	}
 
 	@Override
@@ -259,6 +264,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			default:
 				break;
 		}
+
 		assert false;
 		return null;
 	}

@@ -2,6 +2,8 @@ package sem;
 
 import ast.*;
 
+import java.util.List;
+
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
@@ -48,7 +50,26 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFunCallExpr(FunCallExpr f) {
-		// todo
+		List<Expr> args = f.exprList;
+		List<VarDecl> params = f.decl.params;
+
+		// Set the return type of this function call to the return type of the decl
+		f.type = f.decl.type;
+
+		if (args.size() != params.size()) {
+			error("Could not call %s, expected %d arguments, got %d", f.name, params.size(), args.size());
+			return f.type;
+		}
+
+		for (int i = 0; i < args.size(); i++) {
+			Expr arg = args.get(i);
+			VarDecl param = params.get(i);
+
+			Type argType = arg.accept(this);
+			if (!argType.equals(param.type)) {
+				error("Could not call %s, arg %d does not match params", f.name, i+1);
+			}
+		}
 		return null;
 	}
 

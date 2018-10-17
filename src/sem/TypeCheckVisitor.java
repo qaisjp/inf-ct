@@ -173,7 +173,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitValueAtExpr(ValueAtExpr vae) {
 		vae.type = vae.expr.accept(this);
 
-		if (!(vae.expr instanceof PointerType)) {
+		if (!(vae.type instanceof PointerType)) {
 			error("Expression should have type PointerType, got %s", vae.type);
 		}
 

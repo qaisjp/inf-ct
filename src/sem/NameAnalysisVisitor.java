@@ -2,6 +2,7 @@ package sem;
 
 import ast.*;
 
+import java.util.Collections;
 import java.util.List;
 
 public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
@@ -120,7 +121,6 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		// Check the symbol exists & grab symbol
 		Symbol s = scope.lookup(v.name);
 
-		boolean success = false;
 		if (s == null) {
 			// Error if it doesn't exist
 			error("Symbol %s does not exist!\n", v.name);
@@ -128,14 +128,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 			// Error if it's not a variable
 			error("%s is not a variable\n", v.name);
 		} else {
-			success = true;
-
 			// Link variable expression to the variable type
 			v.vd = ((VarSymbol) s).vd;
 		}
 
-		if (!success) {
-			// Dummy link
+		// Dummy link
+		if (v.vd == null) {
 			v.vd = new VarDecl(BaseType.VOID, v.name);
 		}
 
@@ -156,6 +154,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		} else {
 			// Link function call to declaration of function
 			f.decl = ((FunSymbol) s).funDecl;
+		}
+
+		// Dummy link
+		if (f.decl == null) {
+			List empty = Collections.emptyList();
+			f.decl = new FunDecl(BaseType.VOID, f.name, empty, new Block(empty, empty));
 		}
 
 		// Visit the argument expressions
@@ -214,6 +218,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		} else {
 			// Link function call to declaration of function
 			structType.decl = ((StructSymbol) s).decl;
+		}
+
+		// Dummy link
+		if (structType.decl == null) {
+			structType.decl = new StructTypeDecl(new StructType(structType.str), Collections.emptyList());
 		}
 
 		return null;

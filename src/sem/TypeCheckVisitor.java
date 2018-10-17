@@ -165,7 +165,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		if (!ok) {
 			error("Invalid cast from %s to %s\n", castFrom, castTo);
-		}
+		} /*else {
+			System.out.printf("Casted from %s to %s\n", castFrom, castTo);
+		}*/
 
 		return castTo;
 	}

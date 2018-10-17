@@ -195,7 +195,10 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		}
 
 		f.stmt.accept(this);
-		f.elseStmt.accept(this);
+		if (f.elseStmt != null) {
+			f.elseStmt.accept(this);
+		}
+
 		return BaseType.INT;
 	}
 

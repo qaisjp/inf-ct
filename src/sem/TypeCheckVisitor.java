@@ -18,13 +18,21 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitBlock(Block b) {
-		// To be completed...
-		return null;
+		// Visit each variable declaration, statement in our block
+		visitEach(b.varDecls);
+		visitEach(b.stmtList);
+
+		// todo
+
+		return BaseType.VOID;
 	}
 
 	@Override
 	public Type visitFunDecl(FunDecl p) {
-		// To be completed...
+		visitEach(p.params);
+		visitBlock(p.block);
+
+		// todo!
 		return null;
 	}
 

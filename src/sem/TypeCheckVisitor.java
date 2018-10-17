@@ -147,7 +147,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitTypecastExpr(TypecastExpr te) {
 		// Only three valid kinds of typecast
-		Type castTo = te.type;
+		Type castTo = te.castTo;
 		Type castFrom = te.expr.accept(this);
 
 		boolean ok = false;
@@ -169,7 +169,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			System.out.printf("Casted from %s to %s\n", castFrom, castTo);
 		}*/
 
-		return castTo;
+		te.type = castTo;
+		return te.type;
 	}
 
 	@Override

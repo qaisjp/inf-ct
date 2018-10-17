@@ -1,4 +1,4 @@
 void main() {
     char* s;
-    s = "\t \b \f \' \" \\\r\n\0";
+    s = (char*) "\t \b \f \' \" \\\r\n\0";
 }

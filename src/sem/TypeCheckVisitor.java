@@ -90,7 +90,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				error("Could not call %s, arg %d does not match params", f.name, i+1);
 			}
 		}
-		return null;
+
+		return f.type;
 	}
 
 	@Override

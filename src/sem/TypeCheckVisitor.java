@@ -123,6 +123,15 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFunCallExpr(FunCallExpr f) {
+		if (!(f.decl instanceof FunDecl)) {
+			String reason = "does not exist";
+			if (f.decl != null) {
+				reason = "has type " + f.decl.toString();
+			}
+			error("Could not perform funcall %s%s, %s %s\n", f.name, Arrays.toString(f.exprList.toArray()), f.name, reason);
+			return BaseType.VOID;
+		}
+
 		List<Expr> args = f.exprList;
 		List<VarDecl> params = f.decl.params;
 

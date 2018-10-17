@@ -79,6 +79,7 @@ tests =
     ["p.array_decl.c"]: to: {}
     ["p.blocky.c"]: to: {}
     ["p.braces.c"]: to: {}
+    ["p.calls.c"]: to: {}
     ["p.empty.c"]: to: {}
     ["p.escapes.c"]: to: {}
     ["p.everything.c"]: to: {}

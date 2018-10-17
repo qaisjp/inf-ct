@@ -33,8 +33,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitVarDecl(VarDecl vd) {
-		// To be completed...
-		return null;
+		if (vd.type == BaseType.VOID) {
+			error("Cannot declare variable %s as VOID", vd.varName);
+		}
+
+		return vd.type;
 	}
 
 	@Override

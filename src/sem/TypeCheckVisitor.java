@@ -44,7 +44,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				continue;
 			}
 
-			System.out.printf("Block from %s returns %s\n", s, returned);
+//			System.out.printf("Block from %s returns %s\n", s, returned);
 
 			returns.add(returned);
 		}

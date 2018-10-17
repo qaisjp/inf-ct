@@ -1,10 +1,9 @@
 package ast;
 
-public class PointerType implements Type {
-    public final Type innerType;
+public class PointerType extends ContainerType<Type> {
 
     public PointerType(Type innerType) {
-        this.innerType = innerType;
+        super(innerType);
     }
 
     public <T> T accept(ASTVisitor<T> v) {
@@ -13,19 +12,10 @@ public class PointerType implements Type {
 
     @Override
     public String toString() {
-        return "*" + innerType.toString();
+        return "*" + this.innerType.toString();
     }
 
-    public boolean equals(Type t) {
-        if (!(t instanceof PointerType)) {
-            return false;
-        }
-
-        return equals((PointerType) t);
-    }
-
-    public boolean equals(PointerType t) {
-        System.out.printf("=Comparison called for %s against %s=", innerType, t.innerType);
-        return innerType.equals(t.innerType);
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 }

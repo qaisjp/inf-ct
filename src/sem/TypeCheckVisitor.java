@@ -2,7 +2,7 @@ package sem;
 
 import ast.*;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
@@ -21,11 +21,40 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitBlock(Block b) {
 		// Visit each variable declaration, statement in our block
 		visitEach(b.varDecls);
-		visitEach(b.stmtList);
 
-		// todo
+		// Returned types
+		List<Type> returns = new ArrayList<>();
 
-		return BaseType.VOID;
+		for (Stmt s : b.stmtList) {
+			// Visit each statement
+			Type returned = s.accept(this);
+
+			// We only care about the types of blocks (and parents of blocks), oh and return
+			if (!(s instanceof Block || s instanceof If || s instanceof While || s instanceof Return)) {
+				continue;
+			}
+
+			// If the type returned is nil then there was no `return` forced, so we ignore this block
+			if (returned == null) {
+				continue;
+			}
+
+			returns.add(returned);
+		}
+
+		// Ensure all returned types are the same type
+		boolean allEqual = returns.stream().distinct().limit(2).count() <= 1;
+		if (!allEqual) {
+			error("Block returns differing types");
+		}
+
+		// If returns is empty, this block doesn't return anything
+		if (returns.isEmpty()) {
+			return null; // no return anywhere
+		}
+
+		// Since we have atleast one return value, make the block return something "random" (first return value)
+		return returns.get(0);
 	}
 
 	@Override
@@ -35,10 +64,20 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		Type realReturnType = visitBlock(p.block);
 
+		// If no return was called, assume returning void
+		if (realReturnType == null) {
+			realReturnType = BaseType.VOID;
+		}
+
+		// Make sure the right thing is being returned
 		if (p.type != realReturnType) {
 			error("Function %s returns %s when it should be returning %s", p.name, realReturnType, p.type);
 		}
 
+		// Should you be able to do `return exprThatReturnsVoid` right?
+		// Answer according to gcc: yes
+
+		// Return the type declared in the function declaration
 		return p.type;
 	}
 
@@ -182,9 +221,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("Expression should be of type INT, currently of type %s", e);
 		}
 
-		f.stmt.accept(this);
-
-		return BaseType.INT;
+		return f.stmt.accept(this);
 	}
 
 	@Override
@@ -194,12 +231,15 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("Expression should be of type INT, currently of type %s", e);
 		}
 
-		f.stmt.accept(this);
+		Type a = f.stmt.accept(this);
 		if (f.elseStmt != null) {
-			f.elseStmt.accept(this);
+			Type b = f.elseStmt.accept(this);
+			if (a != b) {
+				error("stmt and elseStmt return differing types, %s and %s respectively", a, b);
+			}
 		}
 
-		return BaseType.INT;
+		return a;
 	}
 
 	@Override

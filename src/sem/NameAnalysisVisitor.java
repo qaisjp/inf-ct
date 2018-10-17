@@ -120,6 +120,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		// Check the symbol exists & grab symbol
 		Symbol s = scope.lookup(v.name);
 
+		boolean success = false;
 		if (s == null) {
 			// Error if it doesn't exist
 			error("Symbol %s does not exist!\n", v.name);
@@ -127,8 +128,15 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 			// Error if it's not a variable
 			error("%s is not a variable\n", v.name);
 		} else {
+			success = true;
+
 			// Link variable expression to the variable type
 			v.vd = ((VarSymbol) s).vd;
+		}
+
+		if (!success) {
+			// Dummy link
+			v.vd = new VarDecl(BaseType.VOID, v.name);
 		}
 
 		return null;

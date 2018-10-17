@@ -240,7 +240,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		Type a = f.stmt.accept(this);
 		if (f.elseStmt != null) {
 			Type b = f.elseStmt.accept(this);
-			if (a != b) {
+
+			// If only the first one returns we don't want to type check; but if b exists we need to check equals
+			if (b != null && a != b) {
 				error("stmt and elseStmt return differing types, %s and %s respectively\n", a, b);
 			}
 		}

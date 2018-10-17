@@ -15,4 +15,16 @@ public class PointerType implements Type {
     public String toString() {
         return "*" + innerType.toString();
     }
+
+    public boolean equals(Type t) {
+        if (!(t instanceof PointerType)) {
+            return false;
+        }
+
+        return equals((PointerType) t);
+    }
+
+    public boolean equals(PointerType t) {
+        return innerType.equals(t.innerType);
+    }
 }

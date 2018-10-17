@@ -17,4 +17,16 @@ public class ArrayType implements Type {
     public String toString() {
         return innerType.toString() + "[" + String.valueOf(elements) + "]";
     }
+
+    public boolean equals(Type t) {
+        if (!(t instanceof ArrayType)) {
+            return false;
+        }
+
+        return equals((ArrayType) t);
+    }
+
+    public boolean equals(ArrayType t) {
+        return innerType.equals(t.innerType) && (elements == t.elements);
+    }
 }

@@ -38,7 +38,18 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitProgram(Program p) {
-		return null;
+		visitEach(p.structTypeDecls);
+		visitEach(p.varDecls);
+		visitEach(p.funDecls);
+
+		// Special magic for no reason at all: return type is return type of main
+		for (FunDecl f : p.funDecls) {
+			if (f.name == "main") {
+				return f.type.accept(this);
+			}
+		}
+
+		return BaseType.VOID;
 	}
 
 	@Override

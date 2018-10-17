@@ -126,8 +126,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitValueAtExpr(ValueAtExpr vae) {
-		// todo: this is wrong. you need to make sure it's a PointerType and then return the inner type
 		vae.type = vae.expr.accept(this);
+
+		if (!(vae.expr instanceof PointerType)) {
+			error("Expression should have type PointerType, got %s", vae.type);
+		}
+
 		return vae.type;
 	}
 

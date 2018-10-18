@@ -30,6 +30,8 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 			return null;
 		}
 
+		scope.put(new StructSymbol(sts));
+
 		// Accept the struct type
 		sts.structType.accept(this);
 

@@ -17,6 +17,18 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		this.scope = scope;
 	}
 
+	// symbolDeclare will tell the caller if you can declare this symbol here
+	public boolean symbolDeclare(String name) {
+		Symbol s = scope.lookupCurrent(name);
+		if (s != null) {
+			error("Symbol %s already exists!\n", name);
+			return false;
+		}
+		return true;
+	}
+
+	// symbolFind w
+
 	@Override
 	public Void visitBaseType(BaseType bt) {
 		return null; // don't do anything
@@ -24,9 +36,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructTypeDecl(StructTypeDecl sts) {
-		Symbol s = scope.lookupCurrent(sts.structType.str);
-		if (s != null) {
-			error("Symbol %s already exists!\n", sts.structType.str);
+		if (!symbolDeclare(sts.structType.str)) {
 			return null;
 		}
 
@@ -80,9 +90,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitFunDecl(FunDecl p) {
-		Symbol s = scope.lookupCurrent(p.name);
-		if (s != null) {
-			error("Symbol " + p.name + " already exists!");
+		if (!symbolDeclare(p.name)) {
 			return null;
 		}
 
@@ -108,12 +116,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitVarDecl(VarDecl vd) {
-		Symbol s = scope.lookupCurrent(vd.varName);
-		if (s != null) {
-			error("Symbol %s already exists!\n", vd.varName);
-		} else {
-			scope.put(new VarSymbol(vd));
+		if (!symbolDeclare(vd.varName)) {
+			return null;
 		}
+
+		scope.put(new VarSymbol(vd));
 
 		return null;
 	}

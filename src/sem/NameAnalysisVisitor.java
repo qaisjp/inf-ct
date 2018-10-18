@@ -31,8 +31,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public <S extends Symbol> S symbolRequest(String name, Class<S> ofClass) {
 		// Developer note:
 		// An example of a similar method that derives the return type based
-		// on a type argument is member method Class.getAnnotation
+		// on a type parameter is member method Class.getAnnotation
 		// (jump using ofClass.getAnnotation)
+		//
+		// More accurately, the parameter is derived
+		// from the return type, but potatoh-potahto.
 
 		// Check the symbol exists & grab symbol
 		Symbol s = scope.lookup(name);

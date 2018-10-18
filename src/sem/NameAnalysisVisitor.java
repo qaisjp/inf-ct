@@ -27,6 +27,30 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		return true;
 	}
 
+	// symbolRequest will request for a symbol of a certain type
+	public <S extends Symbol> S symbolRequest(String name, Class<S> ofClass) {
+		// Developer note:
+		// An example of a similar method that derives the return type based
+		// on a type argument is member method Class.getAnnotation
+		// (jump using ofClass.getAnnotation)
+
+		// Check the symbol exists & grab symbol
+		Symbol s = scope.lookup(name);
+
+		// Error if it doesn't exist
+		if (s == null) {
+			error("Symbol %s does not exist!\n", name);
+			return null;
+		}
+
+		if (!ofClass.isInstance(s)) {
+			error("%s is not a %s\n", name, ofClass);
+			return null;
+		}
+
+		return ofClass.cast(s);
+	}
+
 	// symbolFind w
 
 	@Override

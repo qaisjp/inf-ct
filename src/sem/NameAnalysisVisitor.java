@@ -151,18 +151,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitVarExpr(VarExpr v) {
-		// Check the symbol exists & grab symbol
-		Symbol s = scope.lookup(v.name);
+		VarSymbol s = symbolRequest(v.name, VarSymbol.class);
 
-		if (s == null) {
-			// Error if it doesn't exist
-			error("Symbol %s does not exist!\n", v.name);
-		} else if (!s.isVar()) {
-			// Error if it's not a variable
-			error("%s is not a variable\n", v.name);
-		} else {
+		if (s != null) {
 			// Link variable expression to the variable type
-			v.vd = ((VarSymbol) s).vd;
+			v.vd = s.vd;
 		}
 
 		// Dummy link
@@ -176,17 +169,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	@Override
 	public Void visitFunCallExpr(FunCallExpr f) {
 		// Check the symbol exists & grab symbol
-		Symbol s = scope.lookup(f.name);
+		FunSymbol s = symbolRequest(f.name, FunSymbol.class);
 
-		if (s == null) {
-			// Error if it doesn't exist
-			error("Symbol " + f.name + " does not exist!\n");
-		} else if (!s.isFun()) {
-			// Error if it's not a function
-			error(f.name + " is not a function\n");
-		} else {
+		if (s != null) {
 			// Link function call to declaration of function
-			f.decl = ((FunSymbol) s).funDecl;
+			f.decl = s.funDecl;
 		}
 
 		// Dummy link
@@ -241,15 +228,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructType(StructType structType) {
-		Symbol s = scope.lookup(structType.str);
-		if (s == null) {
-			error("Struct " + structType.str + " does not exist!\n");
-		} else if (!s.isStruct()) {
-			// Error if it's not a struct
-			error("%s is not a struct\n", structType.str);
-		} else {
+		StructSymbol s = symbolRequest(structType.str, StructSymbol.class);
+
+		if (s != null) {
 			// Link function call to declaration of function
-			structType.decl = ((StructSymbol) s).decl;
+			structType.decl = s.decl;
 		}
 
 		// Dummy link

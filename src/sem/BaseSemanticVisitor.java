@@ -3,6 +3,7 @@ package sem;
 
 import ast.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,10 +28,13 @@ public abstract class BaseSemanticVisitor<T> implements SemanticVisitor<T> {
 		errors++;
 	}
 
-	public void visitEach(List<? extends ASTNode> list) {
+	public List<T> visitEach(List<? extends ASTNode> list) {
+		List<T> results = new ArrayList<>();
 		for (ASTNode l : list) {
-			l.accept(this);
+			results.add(l.accept(this));
 		}
+
+		return results;
 	}
 
 	public boolean eq(Type a, Type b) {

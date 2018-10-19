@@ -149,7 +149,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 			Type argType = arg.accept(this);
 			if (!eq(argType, param.type)) {
-				error("Could not call %s, param `%s` was incorrectly given %s, expected %s (from expr %s, param code %d, arg code %d) \n", f.decl, param, argType, arg.type, arg, param.hashCode(), arg.hashCode());
+				error("Could not call %s, param `%s` was incorrectly given type %s\n", f.decl, param, argType);
 			}
 		}
 

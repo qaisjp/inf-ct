@@ -129,6 +129,9 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		visitEach(p.params);
 		visitBlock(p.block, false);
 
+		// Revert scope
+		this.scope = scope;
+
 		return null;
 	}
 

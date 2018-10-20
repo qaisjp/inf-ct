@@ -151,8 +151,6 @@ As seen during the course, the typing rule of our miniC language are defined usi
 You can find all the typing rules [here](./typing-rules/rules.pdf).
 As usual, if you notice an error or if something is not clear, please post your question on Piazza.
 
-Please note that when checking for type equivalence for arrays, it is important to ensure that the lenght matches.
-
 Your task consists of extending the `sem.TypeCheckVisitor` class and implement the type checking mechanism following the typing rules.
 
 ### Structures

@@ -57,6 +57,6 @@ public abstract class BaseSemanticVisitor<T> implements SemanticVisitor<T> {
 			return true;
 		}
 
-		return false;
+		return a == b;
 	}
 }

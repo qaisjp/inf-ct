@@ -67,6 +67,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 			return null;
 		}
 
+		// todo: THIS IS WRONG
 		scope.put(new StructSymbol(sts));
 
 		// Accept the struct type

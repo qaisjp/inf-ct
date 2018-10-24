@@ -35,7 +35,7 @@ func main() {
 	// about the original source formatting and can add additional
 	// line breaks where they were present in the source.
 	var buf bytes.Buffer
-	ast.Fprint(&buf, fset, funcAST.Body.List[0].(*ast.ReturnStmt), nil)
+	ast.Fprint(&buf, fset, funcAST.Body, nil)
 
 	// Remove braces {} enclosing the function body, unindent,
 	// and trim leading and trailing white space.

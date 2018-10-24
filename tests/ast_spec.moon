@@ -27,10 +27,6 @@ firstAstLine = "Parsing: pass"
 secondAstLine = "Printing out AST:"
 
 simplify = (s) -> s\gsub(" ", "")\gsub("\n", "")\gsub("\t", "")
-validate_ast = (canonical, ours) ->
-    simplify(canonical) == simplify(ours)
-
--- print(validate_ast("Parser\t( this, \nthat)", "Parser(this,that)"))
 
 check_parses_to = (filename, astFilename, t={}) ->
     output = lexfile filename
@@ -42,7 +38,9 @@ check_parses_to = (filename, astFilename, t={}) ->
 
     parses = lines[1] == firstAstLine and lines[2] == secondAstLine
 
-    it "should parse", -> assert.true parses
+    it "should parse", ->
+        assert.true parses
+        return
 
     table.remove lines, 1
     table.remove lines, 1

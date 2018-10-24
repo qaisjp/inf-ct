@@ -18,19 +18,21 @@ string.splitlines = =>
     lines
 
 lexfile = (filename) ->
-    f = assert(io.popen "java -cp $PROJ/bin Main -ast $PROJ/tests/parser/#{filename} out", "r")
+    f = assert(io.popen "java -cp $PROJ/bin Main -ast $PROJ/tests/ast/#{filename} out", "r")
     t = f\read "*all"
     f\close!
     t
 
 firstAstLine = "Parsing: pass"
 secondAstLine = "Printing out AST:"
+
+simplify = (s) -> s\gsub(" ", "")\gsub("\n", "")\gsub("\t", "")
 validate_ast = (canonical, ours) ->
-    canonical\gsub(" ", "")\gsub("\n", "")\gsub("\t", "") == ours\gsub(" ", "")\gsub("\t", "")\gsub("\n", "")
+    simplify(canonical) == simplify(ours)
 
 -- print(validate_ast("Parser\t( this, \nthat)", "Parser(this,that)"))
 
-check_parses_to = (filename, t, errors) ->
+check_parses_to = (filename, astFilename, t={}) ->
     output = lexfile filename
     lines = output\splitlines!
 
@@ -38,32 +40,18 @@ check_parses_to = (filename, t, errors) ->
         pending "#{t.pending}\n#{output}"
         return
 
-    outcome = lines[#lines]
-    table.remove lines, #lines
+    parses = lines[1] == firstAstLine and lines[2] == secondAstLine
 
-    lastSlashIndex = string.find(filename, "/[^/]*$") or 0
-    prefix = filename\sub(lastSlashIndex+1, lastSlashIndex+1)
-    if prefix == "p" and errors then
-        print("OK")
-        error "test has errors in spec yet should pass"
-    elseif prefix == "f" and not errors then
-        error "test has no errors yet marked as should fail in filename"
+    it "should parse", -> assert.true parses
 
-    it "should match", ->
-        assert.are.same t, lines
+    table.remove lines, 1
+    table.remove lines, 1
+
+    ours = table.concat(lines, "\n")
+
+    it "should match ast file", ->
+        assert.are.same(simplify(ours), simplify(getfile(astFilename)))
         return
-
-    if errors then
-        it "should fail", ->
-            assert.equal(
-                (string.format "Parsing: failed (%d errors)", errors),
-                outcome
-            )
-            return
-    else
-        it "should pass", ->
-            assert.equal "Parsing: pass", outcome
-            return
 
 tests = {}
 
@@ -76,24 +64,21 @@ describe "#ast", ->
                 filename = "#{f}#{d}"
                 if not isDir and d\sub(-2,-1) == ".c"
                     baseHash = if base == "" then "root" else base
-                    tests[filename] = {"#{filename}#{(testData and testData.volatile or false) and " #volatile" or ""}", ->
-                        if testData
-                            testData.visited = true
-                            check_parses_to filename, testData.to, testData.errors
+
+                    astFilename = "#{PROJ}/tests/#{base}/#{filename\gsub(".c$", ".ast")}"
+                    data = lfs.attributes(astFilename)
+
+                    tests[filename] = ->
+                        if data
+                            check_parses_to filename, astFilename
                         else
-                            it "should have test", ->
-                                check_parses_to filename, pending: "file exists but not test"
+                            it "should have ast file", ->
+                                check_parses_to filename, astFilename, pending: "c exists but not ast"
                                 return
-                    }
+
                 elseif isDir
                     iterate base, filename.."/"
     iterate "ast"
 
-    for filename, test in pairs tests do
-        {description, testFn} = test
-
-        describe description, -> it "should have ast file", ->
-            print(lfs.attributes(filename\gsub(".c^", ".ast")))
-            unless test.visited
-                pending "test exists but not file"
-            return
+    for filename, testFn in pairs tests do
+        describe filename, testFn

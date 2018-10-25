@@ -26,7 +26,7 @@ lexfile = (filename) ->
 firstAstLine = "Parsing: pass"
 secondAstLine = "Printing out AST:"
 
-simplify = (s) -> s\gsub(" ", "")\gsub("\n", "")\gsub("\t", "")
+simplify = (s) -> s\gsub(" ", "")\gsub("\n", "")\gsub("\t", "")\gsub("%s+", "")
 
 check_parses_to = (filename, astFilename, t={}) ->
     output = lexfile filename

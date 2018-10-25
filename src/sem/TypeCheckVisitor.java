@@ -164,12 +164,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		boolean ok = false;
 
-		if (castFrom == BaseType.INT && castTo == BaseType.INT) {
+		if (castFrom == BaseType.CHAR && castTo == BaseType.INT) {
 			ok = true;
 		} else if (castFrom instanceof ArrayType && castTo instanceof PointerType) {
 			ArrayType from = (ArrayType) castFrom;
 			PointerType to = (PointerType) castTo;
-
 			ok = eq(from.innerType, to.innerType);
 		} else if (castFrom instanceof PointerType && castTo instanceof PointerType) {
 			ok = true; // Does pointer to pointer mean the inner types aren't checked? todo

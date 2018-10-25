@@ -1,0 +1,5 @@
+Program(
+    FunDecl(VOID, main,
+        Block(
+            ExprStmt(FunCallExpr(print,
+                ArrayAccessExpr(VarExpr(a), IntLiteral(1)))))))

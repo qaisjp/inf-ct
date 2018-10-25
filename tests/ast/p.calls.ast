@@ -1,0 +1,10 @@
+Program(
+    FunDecl(VOID, that, VarDecl(INT, a), Block()),
+    FunDecl(VOID, this, Block()),
+    FunDecl(VOID, main, Block(
+        VarDecl(INT, a),
+        Assign(VarExpr(a), IntLiteral(1)),
+        ExprStmt(FunCallExpr(that, VarExpr(a))),
+        ExprStmt(FunCallExpr(this))
+    ))
+)

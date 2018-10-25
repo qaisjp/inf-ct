@@ -1,0 +1,17 @@
+Program(
+    FunDecl(VOID, main, Block(
+        VarDecl(INT, x),
+        Assign(VarExpr(x), 
+            BinOp(
+                IntLiteral(0), SUB,
+                BinOp(
+                    IntLiteral(0), SUB,
+                    BinOp(
+                        IntLiteral(0), SUB,
+                        BinOp(IntLiteral(0), SUB, IntLiteral(1))
+                    )
+                )
+            )
+        )
+    ))
+)

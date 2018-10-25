@@ -1,0 +1,11 @@
+Program(
+    FunDecl(VOID, main,
+        Block(
+            Block(Block(Block(Block(Block(Block(Block(Block(Block(Block(Block(Block(
+                Block(Block(
+                    VarDecl(INT, blocky)
+                )))))))))))))
+            )
+        )
+    )
+)

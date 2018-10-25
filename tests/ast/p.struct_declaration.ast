@@ -1,0 +1,16 @@
+Program(
+    StructTypeDecl(
+        StructType(asdf),
+        VarDecl(INT, a),
+        VarDecl(StructType(f), b),
+        VarDecl(CHAR, c),
+        VarDecl(PointerType(CHAR), str),
+        VarDecl(PointerType(StructType(a)), b),
+        VarDecl(ArrayType(INT, 100), numbers)
+    ),
+
+    StructTypeDecl(
+        StructType(________),
+        VarDecl(INT, a)
+    )
+)

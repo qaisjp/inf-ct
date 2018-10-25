@@ -1,0 +1,7 @@
+Program(
+    FunDecl(VOID, main, Block(
+        Return(
+            SizeOfExpr(INT)
+        )
+    ))
+)

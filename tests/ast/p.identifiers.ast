@@ -1,0 +1,10 @@
+Program(
+    FunDecl(VOID, main, Block(
+        VarDecl(INT, _asdf),
+        VarDecl(INT, _00),
+        VarDecl(INT, a0),
+        VarDecl(INT, a),
+        VarDecl(INT, _),
+        VarDecl(INT, _0______________asdfasdf_)
+    ))
+)

@@ -1,0 +1,7 @@
+Program(
+    StructTypeDecl(
+        StructType(a),
+        VarDecl(INT, b)
+    ),
+    VarDecl(StructType(a), b)
+)

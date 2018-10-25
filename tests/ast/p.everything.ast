@@ -1,0 +1,110 @@
+Program(
+    StructTypeDecl(StructType(a),
+        VarDecl(INT, b),
+        VarDecl(INT, c),
+        VarDecl(ArrayType(CHAR, 2), d),
+        VarDecl(CHAR, e),
+        VarDecl(VOID, f)
+    ),
+
+    StructTypeDecl(
+        StructType(cont),
+        VarDecl(ArrayType(StructType(a), 5), a)
+    ),
+
+    FunDecl(VOID, this, Block()),
+
+    FunDecl(INT, that, VarDecl(CHAR, t), Block(
+        Return(
+            BinOp(TypecastExpr(INT, VarExpr(t)), ADD, IntLiteral(1))
+        )
+    )),
+
+    FunDecl(PointerType(CHAR), m, Block()),
+
+    FunDecl(StructType(a), b, Block()),
+
+    FunDecl(PointerType(StructType(a)), b, Block()),
+
+    FunDecl(INT, main, Block(
+        VarDecl(INT, a),
+        VarDecl(ArrayType(INT, 2), b),
+        VarDecl(INT, temp),
+        VarDecl(StructType(a), str),
+        VarDecl(StructType(cont), container),
+
+        Assign(
+            ArrayAccessExpr(VarExpr(b), IntLiteral(0)),
+            VarExpr(a)
+        ),
+        Assign(
+            VarExpr(a), BinOp(VarExpr(a), ADD, IntLiteral(1))
+        ),
+        Assign(
+            VarExpr(temp),
+            ArrayAccessExpr(VarExpr(b), IntLiteral(0))
+        ),
+        Assign(
+            ArrayAccessExpr(VarExpr(b), IntLiteral(0)),
+            VarExpr(a)
+        ),
+        Assign(
+            ArrayAccessExpr(VarExpr(b), IntLiteral(1)),
+            VarExpr(temp)
+        ),
+
+        Assign(
+            ArrayAccessExpr(
+                FieldAccessExpr(VarExpr(str), d),
+                IntLiteral(0)
+            ),
+            TypecastExpr(
+                CHAR,
+                ArrayAccessExpr(
+                    VarExpr(b),
+                    IntLiteral(0)
+                )
+            )
+        ),
+
+        Assign(
+            ArrayAccessExpr(
+                FieldAccessExpr(VarExpr(container), a),
+                IntLiteral(0)
+            ),
+            VarExpr(str)
+        ),
+
+        If(
+            BinOp(
+                ArrayAccessExpr(FieldAccessExpr(ArrayAccessExpr(
+                    FieldAccessExpr(VarExpr(container), a),
+                    IntLiteral(0)
+                ), d), IntLiteral(0)),
+                EQ,
+                IntLiteral(1)
+            ),
+
+            Block(
+                Assign(
+                    VarExpr(temp),
+                    BinOp(
+                        VarExpr(temp),
+                        ADD,
+                        ArrayAccessExpr(FieldAccessExpr(ArrayAccessExpr(
+                            FieldAccessExpr(VarExpr(container), a),
+                            IntLiteral(0)
+                        ), d), IntLiteral(0))
+                    )
+                )
+            )
+        ),
+
+        Return(
+            ArrayAccessExpr(FieldAccessExpr(ArrayAccessExpr(
+                FieldAccessExpr(VarExpr(container), a),
+                IntLiteral(0)
+            ), d), IntLiteral(0))
+        )
+    ))
+)

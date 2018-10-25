@@ -1,0 +1,6 @@
+Program(
+    VarDecl(INT, number),
+    VarDecl(CHAR, c),
+    VarDecl(VOID, d),
+    VarDecl(StructType(g), a)
+)

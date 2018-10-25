@@ -1,0 +1,7 @@
+Program(
+    FunDecl(VOID, main, Block(
+        VarDecl(INT, true),
+        Assign(VarExpr(true), IntLiteral(1)),
+        While(VarExpr(true), Block())
+    ))
+)

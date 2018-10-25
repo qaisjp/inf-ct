@@ -1,0 +1,56 @@
+Program(FunDecl(VOID, main, Block(
+    VarDecl(INT, a), VarDecl(INT, b), VarDecl(INT, c),
+    Assign(VarExpr(a), IntLiteral(0)),
+    Assign(VarExpr(b), IntLiteral(1)),
+    Assign(VarExpr(c), IntLiteral(2)),
+
+    If(BinOp(VarExpr(a), GE, VarExpr(b)), Block()),
+    
+    If(BinOp(VarExpr(a), LE, VarExpr(b)), Block()),
+    
+    If(BinOp(VarExpr(a), LT, VarExpr(b)), Block()),
+    
+    If(BinOp(VarExpr(a), GT, VarExpr(b)), Block()),
+    
+    If(BinOp(VarExpr(a), EQ, VarExpr(b)), Block()),
+    
+    If(BinOp(VarExpr(a), NE, VarExpr(b)), Block()),
+    
+    If(BinOp(BinOp(VarExpr(a), AND, VarExpr(b)), AND, VarExpr(c)), Block()),
+    
+    If(
+        BinOp(
+            BinOp(
+                BinOp(
+                    VarExpr(a),
+                    OR,
+                    BinOp(
+                        VarExpr(b), AND, VarExpr(c)
+                    )
+                ),
+                OR,
+                VarExpr(c)
+            ),
+            OR,
+            VarExpr(a)
+        ),
+        Block()
+    ),
+
+    If(
+        BinOp(
+            BinOp(
+                VarExpr(a), OR, VarExpr(b)
+            ),
+            OR,
+            VarExpr(c)
+        ),
+        Block()
+    ),
+
+    If(
+        BinOp(BinOp(BinOp(VarExpr(a), ADD, VarExpr(b)), SUB, VarExpr(c)), OR, VarExpr(c)),
+        Block()
+    )
+
+)))

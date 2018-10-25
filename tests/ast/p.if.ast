@@ -1,0 +1,35 @@
+Program(
+    FunDecl(
+        VOID, main,
+        Block(
+            VarDecl(INT, t),
+            Assign(VarExpr(t), IntLiteral(1)),
+
+            If(VarExpr(t), Block(
+                If(VarExpr(t), Block(
+                    If(VarExpr(t), Block(
+                        If(VarExpr(t), Block(
+                            If(VarExpr(t), Block(
+                
+                            )),
+                            If(VarExpr(t), Block(
+                
+                            )),
+                            If(VarExpr(t), Block(
+                
+                            )),
+                            If(VarExpr(t), Block(
+                
+                            )),
+                            If(VarExpr(t), Block(
+                                If(VarExpr(t), Block(
+                                    Assign(VarExpr(t), IntLiteral(0))
+                                ))
+                            ))
+                        ))
+                    ))
+                ))    
+            ))
+        )
+    )
+)

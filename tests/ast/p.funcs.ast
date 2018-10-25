@@ -1,0 +1,11 @@
+Program(
+    FunDecl(VOID, main, Block()),
+
+    FunDecl(INT, intFunc, Block()),
+
+    FunDecl(PointerType(CHAR), charPointer, Block()),
+
+    FunDecl(StructType(that), structFunc, Block()),
+
+    FunDecl(PointerType(StructType(this)), structPointer, Block())
+)

@@ -1,0 +1,8 @@
+Program(FunDecl(VOID, main, Block(ExprStmt(
+
+ArrayAccessExpr(FieldAccessExpr(ArrayAccessExpr(
+                    FieldAccessExpr(VarExpr(container), a),
+                    IntLiteral(0)
+                ), d), IntLiteral(0))
+
+		))))

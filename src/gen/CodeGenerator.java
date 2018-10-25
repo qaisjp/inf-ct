@@ -156,7 +156,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitIntLiteral(IntLiteral il) {
         Register register = getRegister();
-        writer.printf("li\t%s\t%d", register, il.innerType);
+        writer.printf("li\t%s, %d", register, il.innerType);
         return register;
     }
 

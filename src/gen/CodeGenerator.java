@@ -88,4 +88,94 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // TODO: to complete
         return null;
     }
+
+    @Override
+    public Register visitAssign(Assign a) {
+        return null;
+    }
+
+    @Override
+    public Register visitExprStmt(ExprStmt e) {
+        return null;
+    }
+
+    @Override
+    public Register visitReturn(Return r) {
+        return null;
+    }
+
+    @Override
+    public Register visitIf(If i) {
+        return null;
+    }
+
+    @Override
+    public Register visitWhile(While w) {
+        return null;
+    }
+
+    @Override
+    public Register visitStructType(StructType st) {
+        return null;
+    }
+
+    @Override
+    public Register visitArrayType(ArrayType at) {
+        return null;
+    }
+
+    @Override
+    public Register visitPointerType(PointerType pt) {
+        return null;
+    }
+
+    @Override
+    public Register visitIntLiteral(IntLiteral il) {
+        return null;
+    }
+
+    @Override
+    public Register visitStrLiteral(StrLiteral sl) {
+        return null;
+    }
+
+    @Override
+    public Register visitChrLiteral(ChrLiteral cl) {
+        return null;
+    }
+
+    @Override
+    public Register visitFunCallExpr(FunCallExpr f) {
+        return null;
+    }
+
+    @Override
+    public Register visitTypecastExpr(TypecastExpr te) {
+        return null;
+    }
+
+    @Override
+    public Register visitSizeOfExpr(SizeOfExpr soe) {
+        return null;
+    }
+
+    @Override
+    public Register visitValueAtExpr(ValueAtExpr vae) {
+        return null;
+    }
+
+    @Override
+    public Register visitFieldAccessExpr(FieldAccessExpr fae) {
+        return null;
+    }
+
+    @Override
+    public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
+        return null;
+    }
+
+    @Override
+    public Register visitBinOp(BinOp bo) {
+        return null;
+    }
 }

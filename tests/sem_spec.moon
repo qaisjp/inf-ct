@@ -85,12 +85,23 @@ tests =
         "Function mcmalloc returns VOID when it should be returning *VOID" -- unavoidable
     }
     ["f.charray.c"]: to: {"lvalue cannot be CHAR[6]"}
+    ["f.cond.c"]: to: {
+        "Expression should be of type INT, currently of type CHAR[1]"
+        "Expression should be of type INT, currently of type CHAR"
+        "Expression should be of type INT, currently of type *VOID"
+    }
     ["f.return.mismatch.c"]: to: {
         "Block returns differing types ([VOID, INT])"
         "Function main returns VOID when it should be returning INT"
         "Block returns differing types ([INT, VOID])"
         "Block returns differing types ([INT, VOID])"
         "Function mine returns INT when it should be returning VOID"}
+    ["f.return.mixed.c"]: to: {
+        "stmt and elseStmt return differing types, CHAR and VOID respectively"
+        "Block returns differing types ([CHAR, INT])"
+        "Block returns differing types ([CHAR, CHAR[13]])"
+        "Function main returns CHAR when it should be returning VOID"
+    }
     ["f.glob_decl.func.c"]: to: {"Symbol main already exists!"}
     ["f.glob_decl.mixed.c"]: to: {
         "Symbol MyStruct already exists!", "Symbol MyStruct already exists!"}
@@ -145,6 +156,7 @@ tests =
     ["p.cast.c"]: to: {}
     ["p.fibonacci.c"]: to: {}
     ["p.return_void.c"]: to: {}
+    ["p.return_voids.c"]: to: {}
     ["p.sizeof.c"]: to: {}
     ["p.struct_and_decl.c"]: to: {}
     ["p.struct_and_vardecl.c"]: to: {}

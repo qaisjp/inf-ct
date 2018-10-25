@@ -132,6 +132,7 @@ tests =
         "Could not call test[INT example], param `INT example` was incorrectly given type VOID"
         "Expected ArrayType or PointerType, got VOID"
         "Could not call test[INT example], param `INT example` was incorrectly given type VOID"}
+    ["f.vardecl.void.c"]: to: {"Cannot declare variable a as VOID"}
 
     ["p.array.access.c"]: to: {}
     ["p.assign.c"]: to: {}

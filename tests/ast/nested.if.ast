@@ -1,0 +1,7 @@
+Program(FunDecl(INT,main,Block(
+    If(IntLiteral(1),
+        If(IntLiteral(2),
+            Block(),
+            If(IntLiteral(3),
+                Block(),
+                Return(IntLiteral(1))))))))

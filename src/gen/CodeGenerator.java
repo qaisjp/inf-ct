@@ -67,19 +67,36 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitBlock(Block b) {
-        // TODO: to complete
+        visitEach(b.varDecls); // todo: scratch
+        visitEach(b.stmtList);// todo: scratch
         return null;
     }
 
     @Override
     public Register visitFunDecl(FunDecl p) {
-        // TODO: to complete
+        // TODO: check if return null is ok
+        if (p.isInbuilt) { return null; }
+
+        // todo: scratch
+        writer.write(p.name + ":\n");
+
+        // todo: scratch
+        visitEach(p.params);
+        p.block.accept(this);// todo: scratch
+
         return null;
     }
 
     @Override
     public Register visitProgram(Program p) {
-        // TODO: to complete
+        // todo: empty program should generate empty asm file
+
+        writer.write(".data\n"); // todo: scratch
+//        visitEach(p.structTypeDecls);
+//        visitEach(p.varDecls);
+
+        writer.write(".text\n"); // todo: scratch
+        visitEach(p.funDecls); // todo: scratch
         return null;
     }
 
@@ -102,6 +119,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitExprStmt(ExprStmt e) {
+        e.expr.accept(this); // todo: scratch
         return null;
     }
 
@@ -152,6 +170,16 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
+        if (f.decl.isInbuilt) {
+            // todo: scratch
+            System.out.println("IS INBUILT");
+            writer.printf("-- %s\n", f);
+            writer.printf("\tli\t$v0, 1\n");
+            writer.printf("\tli\t$a0, %d\n", ((IntLiteral) f.exprList.get(0)).innerType);
+            writer.printf("\tsyscall\n");
+            return null; // todo fix this
+        }
+        System.out.println("NOT INBUILT");
         return null;
     }
 

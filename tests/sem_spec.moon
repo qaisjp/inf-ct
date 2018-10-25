@@ -76,6 +76,18 @@ tests =
         "lvalue cannot be `main()` (must be a variable, field access, array access or pointer dereference)"
         "lvalue cannot be VOID"
         "Type mismatch in assignment (VOID != INT)"}
+    ["f.builtins.c"]: to: {
+        "Symbol print_s already exists!", "Symbol print_i already exists!", "Symbol print_c already exists!"
+        "Symbol read_c already exists!", "Symbol read_i already exists!", "Symbol mcmalloc already exists!"
+        "Function mcmalloc returns VOID when it should be returning *VOID" -- unavoidable
+    }
+    ["f.charray.c"]: to: {"lvalue cannot be CHAR[6]"}
+    ["f.return.mismatch.c"]: to: {
+        "Block returns differing types ([VOID, INT])"
+        "Function main returns VOID when it should be returning INT"
+        "Block returns differing types ([INT, VOID])"
+        "Block returns differing types ([INT, VOID])"
+        "Function mine returns INT when it should be returning VOID"}
     ["f.glob_decl.func.c"]: to: {"Symbol main already exists!"}
     ["f.glob_decl.mixed.c"]: to: {
         "Symbol MyStruct already exists!", "Symbol MyStruct already exists!"}
@@ -87,6 +99,8 @@ tests =
     ["f.return.auto.c"]: to: {
         "Function main returns VOID when it should be returning INT"}
     ["f.strong.typed.c"]: to: {"Type mismatch in assignment (INT != CHAR)"}
+    ["f.struct.access.c"]: to: {"Type mismatch in assignment (INT != CHAR)"}
+    ["f.struct.var.redef.c"]: to: {"Symbol bar already exists!"}
     ["f.undeclared_parameter.c"]: to: {
         "Symbol d already exists!"
         "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], expected 5 arguments, got 3"
@@ -117,6 +131,7 @@ tests =
         "Could not call test[INT example], param `INT example` was incorrectly given type VOID"}
 
     ["p.assign.c"]: to: {}
+    ["p.builtins.c"]: to: {}
     ["p.cast.c"]: to: {}
     ["p.fibonacci.c"]: to: {}
     ["p.return_void.c"]: to: {}

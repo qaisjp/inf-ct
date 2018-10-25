@@ -18,17 +18,22 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	// symbolDeclare will tell the caller if you can declare this symbol here
-	public boolean symbolDeclare(String name) {
-		Symbol s = scope.lookupCurrent(name);
+	public boolean symbolDeclare(String name, boolean isStruct) {
+		Symbol s = scope.lookupCurrent(name, isStruct);
 		if (s != null) {
 			error("Symbol %s already exists!\n", name);
 			return false;
 		}
+//		System.out.printf("%s is declared %s\n", name, isStruct ? "as struct" : "");
 		return true;
 	}
 
+	public boolean symbolDeclare(String name) {
+	    return symbolDeclare(name, false);
+    }
+
 	// symbolRequest will request for a symbol of a certain type
-	public <S extends Symbol> S symbolRequest(String name, Class<S> ofClass) {
+	public <S extends Symbol> S symbolRequest(String name, Class<S> ofClass, boolean isStruct) {
 		// Developer note:
 		// An example of a similar method that derives the return type based
 		// on a type parameter is member method Class.getAnnotation
@@ -38,7 +43,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		// from the return type, but potatoh-potahto.
 
 		// Check the symbol exists & grab symbol
-		Symbol s = scope.lookup(name);
+		Symbol s = scope.lookup(name, isStruct);
 
 		// Error if it doesn't exist
 		if (s == null) {
@@ -54,7 +59,9 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		return ofClass.cast(s);
 	}
 
-	// symbolFind w
+	public <S extends Symbol> S symbolRequest(String name, Class<S> ofClass) {
+	    return symbolRequest(name, ofClass, false);
+    }
 
 	@Override
 	public Void visitBaseType(BaseType bt) {
@@ -63,12 +70,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructTypeDecl(StructTypeDecl sts) {
-		if (!symbolDeclare(sts.structType.str)) {
+		if (!symbolDeclare(sts.structType.str, true)) {
 			return null;
 		}
 
-		// todo: THIS IS WRONG
-		scope.put(new StructSymbol(sts));
+		scope.putStruct(new StructSymbol(sts));
 
 		// Accept the struct type
 		sts.structType.accept(this);
@@ -235,7 +241,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructType(StructType structType) {
-		StructSymbol s = symbolRequest(structType.str, StructSymbol.class);
+		StructSymbol s = symbolRequest(structType.str, StructSymbol.class, true);
 
 		if (s != null) {
 			// Link function call to declaration of function

@@ -1,0 +1,6 @@
+Program(
+    FunDecl(VOID, main, Block(
+        VarDecl(PointerType(CHAR), s),
+        Assign(VarExpr(s), TypecastExpr(PointerType(CHAR), StrLiteral('"\)))
+    ))
+)

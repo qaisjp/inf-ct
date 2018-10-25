@@ -197,7 +197,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("Expression should have type PointerType, got %s\n", vae.type);
 		}
 
-		return vae.type;
+		return ((PointerType)vae.type).innerType;
 	}
 
 	@Override

@@ -17,9 +17,16 @@ string.splitlines = =>
         table.insert lines, s
     lines
 
+string.split = (sep) =>
+   sep, fields = sep or ":", {}
+   pattern = string.format("([^%s]+)", sep)
+   self\gsub(pattern, (c) -> fields[#fields+1] = c)
+   fields
+
 lexfile = (filename) ->
     f = assert(io.popen "java -cp $PROJ/bin Main -ast $PROJ/tests/ast/#{filename} out", "r")
     t = f\read "*all"
+    -- print("OI")
     f\close!
     t
 
@@ -29,23 +36,29 @@ secondAstLine = "Printing out AST:"
 simplify = (s) -> s\gsub(" ", "")\gsub("\n", "")\gsub("\t", "")\gsub("%s+", "")
 
 check_parses_to = (filename, astFilename, t={}) ->
-    output = lexfile filename
-    lines = output\splitlines!
 
     if t.pending then
         pending "#{t.pending}\n#{output}"
         return
 
-    parses = lines[1] == firstAstLine and lines[2] == secondAstLine
+
+    local ours, parses
+
+    lazy_setup ->
+        output = lexfile filename
+        lines = output\splitlines!
+
+        parses = lines[1] == firstAstLine and lines[2] == secondAstLine
+        table.remove lines, 1
+        table.remove lines, 1
+        ours = table.concat(lines, "\n")
+        return
 
     it "should parse", ->
         assert.true parses
         return
 
-    table.remove lines, 1
-    table.remove lines, 1
 
-    ours = table.concat(lines, "\n")
 
     it "should match ast file", ->
         assert.are.same(simplify(ours), simplify(getfile(astFilename)))

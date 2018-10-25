@@ -65,16 +65,24 @@ tests =
     ["p.tictactoe.c"]: to: {}
 
     -- base
+    ["f.assign.c"]: to: {
+        "lvalue cannot be `i+2` (must be a variable, field access, array access or pointer dereference)"
+        "lvalue cannot be `4` (must be a variable, field access, array access or pointer dereference)"
+        "lvalue cannot be `sizeof(INT)` (must be a variable, field access, array access or pointer dereference)"
+        "lvalue cannot be `main()` (must be a variable, field access, array access or pointer dereference)"
+        "lvalue cannot be VOID"
+        "Type mismatch in assignment (VOID != INT)"}
     ["f.glob_decl.func.c"]: to: {"Symbol main already exists!"}
     ["f.glob_decl.mixed.c"]: to: {
         "Symbol MyStruct already exists!", "Symbol MyStruct already exists!"}
     ["f.glob_decl.struct.c"]: to: {"Symbol MyStruct already exists!"}
     ["f.improper.return.c"]: to: {"Function main returns INT when it should be returning VOID"}
-    ["f.missing.symbol.c"]: to: {"Symbol true does not exist!"}
+    ["f.missing.symbol.c"]: to: {"Symbol true does not exist!", "Expression should be of type INT, currently of type VOID"}
     ["f.repeat_vardecl.c"]: to: {
         "Symbol a already exists!", "Symbol a already exists!", "Symbol c already exists!"}
     ["f.return.auto.c"]: to: {
         "Function main returns VOID when it should be returning INT"}
+    ["f.strong.typed.c"]: to: {"Type mismatch in assignment (INT != CHAR)"}
     ["f.undeclared_parameter.c"]: to: {
         "Symbol d already exists!"
         "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], expected 5 arguments, got 3"
@@ -93,7 +101,7 @@ tests =
         "Symbol a does not exist!"
         "Symbol a does not exist!"
         "Expected ArrayType or PointerType, got VOID"
-        "Expression is not sa struct"
+        "Expression is not a struct"
         "lvalue cannot be VOID"
         "Type mismatch in assignment (VOID != INT)"
         "Expression is not a struct"
@@ -104,6 +112,8 @@ tests =
         "Expected ArrayType or PointerType, got VOID"
         "Could not call test[INT example], param `INT example` was incorrectly given type VOID"}
 
+    ["p.assign.c"]: to: {}
+    ["p.cast.c"]: to: {}
     ["p.fibonacci.c"]: to: {}
     ["p.return_void.c"]: to: {}
     ["p.struct_and_decl.c"]: to: {}

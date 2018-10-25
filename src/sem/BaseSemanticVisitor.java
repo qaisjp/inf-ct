@@ -58,6 +58,7 @@ public abstract class BaseSemanticVisitor<T> implements SemanticVisitor<T> {
 		}
 
 		if (a instanceof ArrayType && b instanceof ArrayType) {
+
 			return (((ArrayType) a).elements == ((ArrayType) b).elements) && eq(((ArrayType) a).innerType, ((ArrayType) b).innerType);
 		}
 

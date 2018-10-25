@@ -52,9 +52,22 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		if (returns.isEmpty()) {
 			// If returns is empty, this block doesn't return anything
 			return null; // no return anywhere
-		} else if (!returns.stream().allMatch(returns.get(0)::equals)) {
-			// Ensure all returned types are the same type (if not all equal)
-			error("Block returns differing types (%s)\n", Arrays.toString(returns.toArray()));
+		} else {
+			Type a = null;
+			boolean same = true;
+			for (Type t : returns) {
+				if (a == null) {
+					a = t;
+					continue;
+				} else if (!eq(t, a)) {
+					same = false;
+					break;
+				}
+			}
+			if (!same) {
+				// Ensure all returned types are the same type (if not all equal)
+				error("Block returns differing types (%s)\n", Arrays.toString(returns.toArray()));
+			}
 		}
 
 		// Since we have atleast one return value, make the block return something "random" (first return value)

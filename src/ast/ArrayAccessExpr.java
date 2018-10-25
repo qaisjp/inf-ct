@@ -12,4 +12,9 @@ public class ArrayAccessExpr extends Expr {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitArrayAccessExpr(this);
     }
+
+    @Override
+    public String toString() {
+        return lhs.toString() + "[" + rhs.toString() + "]";
+    }
 }

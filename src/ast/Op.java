@@ -23,4 +23,23 @@ public enum Op {
             default: return null;
         }
     }
+
+    public String toLang() {
+        switch (this) {
+            case GE:return ">=";
+            case EQ:return "==";
+            case GT:return ">";
+            case LE:return "<=";
+            case LT:return "<";
+            case NE:return "!=";
+            case OR:return "||";
+            case ADD:return "+";
+            case AND:return "&&";
+            case DIV:return "/";
+            case MOD:return "%";
+            case MUL:return "*";
+            case SUB:return "-";
+            default:return "??";
+        }
+    }
 }

@@ -12,4 +12,9 @@ public class TypecastExpr extends Expr {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitTypecastExpr(this);
     }
+
+    @Override
+    public String toString() {
+        return "(" + castTo.toString() + ") " + expr.toString();
+    }
 }

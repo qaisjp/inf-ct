@@ -12,4 +12,9 @@ public class FieldAccessExpr extends Expr {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitFieldAccessExpr(this);
     }
+
+    @Override
+    public String toString() {
+        return expr.toString() + "." + string;
+    }
 }

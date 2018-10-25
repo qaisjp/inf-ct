@@ -10,4 +10,9 @@ public class IntLiteral extends Expr {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitIntLiteral(this);
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(innerType);
+    }
 }

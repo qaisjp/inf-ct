@@ -11,4 +11,9 @@ public class VarExpr extends Expr {
     public <T> T accept(ASTVisitor<T> v) {
 	    return v.visitVarExpr(this);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

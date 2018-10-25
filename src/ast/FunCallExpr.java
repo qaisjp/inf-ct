@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class FunCallExpr  extends Expr {
@@ -14,5 +16,12 @@ public class FunCallExpr  extends Expr {
 
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitFunCallExpr(this);
+    }
+
+    @Override
+    public String toString() {
+
+        String args = Arrays.toString(exprList.toArray()).substring(1, -1);
+        return name + "(" + args.substring(1, args.length()-1) + ")";
     }
 }

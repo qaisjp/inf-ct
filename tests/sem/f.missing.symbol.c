@@ -1,4 +1,4 @@
-void main() {
+int main() {
 	if (true) {
 		return 1;
 	}

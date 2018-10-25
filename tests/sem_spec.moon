@@ -17,7 +17,7 @@ lexfile = (filename) ->
     f\close!
     t
 
-check_parses_to = (filename, t, errors) ->
+check_parses_to = (filename, t) ->
     output = lexfile filename
     lines = {}
     for s in output\gmatch "[^\r\n]+" do
@@ -29,6 +29,11 @@ check_parses_to = (filename, t, errors) ->
 
     outcome = lines[#lines]
     table.remove lines, #lines
+
+    for i in ipairs t do
+        t[i] = "semantic error: " .. t[i]
+
+    errors = if #t > 0 then #t else nil
 
     lastSlashIndex = string.find(filename, "/[^/]*$") or 0
     prefix = filename\sub(lastSlashIndex+1, lastSlashIndex+1)
@@ -60,7 +65,44 @@ tests =
     ["p.tictactoe.c"]: to: {}
 
     -- base
-    ["f.glob_decl.func.c"]: errors: 1, to: {"Parsing error: expected (EOF) found (LPAR) at 1:15"}
+    ["f.glob_decl.func.c"]: to: {"Symbol main already exists!"}
+    ["f.glob_decl.mixed.c"]: to: {
+        "Symbol MyStruct already exists!", "Symbol MyStruct already exists!"}
+    ["f.glob_decl.struct.c"]: to: {"Symbol MyStruct already exists!"}
+    ["f.improper.return.c"]: to: {"Function main returns INT when it should be returning VOID"}
+    ["f.missing.symbol.c"]: to: {"Symbol true does not exist!"}
+    ["f.repeat_vardecl.c"]: to: {
+        "Symbol a already exists!", "Symbol a already exists!", "Symbol c already exists!"}
+    ["f.return.auto.c"]: to: {
+        "Function main returns VOID when it should be returning INT"}
+    ["f.undeclared_parameter.c"]: to: {
+        "Symbol d already exists!"
+        "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], expected 5 arguments, got 3"
+        "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], expected 5 arguments, got 4"
+        "Invalid cast from INT to CHAR"
+        "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], param `*VOID c` was incorrectly given type *INT"
+        "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], param `*INT d` was incorrectly given type *CHAR"
+        "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], param `*CHAR d` was incorrectly given type CHAR[5]",
+        "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], expected 5 arguments, got 0",
+        "Could not call test_params[INT a, CHAR b, *VOID c, *INT d, *CHAR d], expected 5 arguments, got 1"}
+    ["f.unk.c"]: to: {
+        "Symbol a does not exist!"
+        "Symbol a does not exist!"
+        "Symbol a does not exist!"
+        "Symbol a does not exist!"
+        "Symbol a does not exist!"
+        "Symbol a does not exist!"
+        "Expected ArrayType or PointerType, got VOID"
+        "Expression is not sa struct"
+        "lvalue cannot be VOID"
+        "Type mismatch in assignment (VOID != INT)"
+        "Expression is not a struct"
+        "Type mismatch in assignment (INT != VOID)"
+        "Could not call a[], expected 0 arguments, got 1"
+        "Expression is not a struct"
+        "Could not call test[INT example], param `INT example` was incorrectly given type VOID"
+        "Expected ArrayType or PointerType, got VOID"
+        "Could not call test[INT example], param `INT example` was incorrectly given type VOID"}
 
     ["p.fibonacci.c"]: to: {}
     ["p.return_void.c"]: to: {}
@@ -83,7 +125,7 @@ describe "#sem", ->
                     describe "#{filename}#{(testData and testData.volatile or false) and " #volatile" or ""}", ->
                         if testData
                             testData.visited = true
-                            check_parses_to filename, testData.to, testData.errors
+                            check_parses_to filename, testData.to
                         else
                             it "should have test", ->
                                 check_parses_to filename, pending: "file exists but not test"

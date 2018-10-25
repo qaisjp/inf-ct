@@ -18,30 +18,34 @@ lexfile = (filename) ->
     t
 
 check_parses_to = (filename, t) ->
-    output = lexfile filename
-    lines = {}
-    for s in output\gmatch "[^\r\n]+" do
-        table.insert lines, s
 
     if t.pending then
         pending "#{t.pending}\n#{output}"
         return
 
-    outcome = lines[#lines]
-    table.remove lines, #lines
-
-    for i in ipairs t do
-        t[i] = "semantic error: " .. t[i]
+    local lines, outcome
 
     errors = if #t > 0 then #t else nil
 
-    lastSlashIndex = string.find(filename, "/[^/]*$") or 0
-    prefix = filename\sub(lastSlashIndex+1, lastSlashIndex+1)
-    if prefix == "p" and errors then
-        print("OK")
-        error "test has errors in spec yet should pass"
-    elseif prefix == "f" and not errors then
-        error "test has no errors yet marked as should fail in filename"
+    lazy_setup ->
+        output = lexfile filename
+        lines = {}
+        for s in output\gmatch "[^\r\n]+" do
+            table.insert lines, s
+
+        outcome = lines[#lines]
+        table.remove lines, #lines
+
+        for i in ipairs t do
+            t[i] = "semantic error: " .. t[i]
+
+        lastSlashIndex = string.find(filename, "/[^/]*$") or 0
+        prefix = filename\sub(lastSlashIndex+1, lastSlashIndex+1)
+        if prefix == "p" and errors then
+            print("OK")
+            error "test has errors in spec yet should pass"
+        elseif prefix == "f" and not errors then
+            error "test has no errors yet marked as should fail in filename"
 
     it "should match", ->
         assert.are.same t, lines

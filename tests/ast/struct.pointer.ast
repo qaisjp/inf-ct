@@ -1,0 +1,3 @@
+Program(
+    StructTypeDecl(StructType(person), VarDecl(PointerType(StructType(person)), children))
+)

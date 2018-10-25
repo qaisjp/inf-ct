@@ -195,6 +195,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		if (!(vae.type instanceof PointerType)) {
 			error("Expression should have type PointerType, got %s\n", vae.type);
+			return BaseType.VOID;
 		}
 
 		return ((PointerType)vae.type).innerType;

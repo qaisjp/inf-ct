@@ -293,7 +293,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitAssign(Assign assign) {
 		Expr lex = assign.lhs;
 		if (!(lex instanceof VarExpr || lex instanceof FieldAccessExpr || lex instanceof ArrayAccessExpr || lex instanceof ValueAtExpr)) {
-			error("lvalue cannot be %s (must be a variable, field access, array access or pointer dereference)\n", assign.lhs);
+			error("lvalue cannot be `%s` (must be a variable, field access, array access or pointer dereference)\n", assign.lhs);
 		}
 
 		Type lhs = assign.lhs.accept(this);

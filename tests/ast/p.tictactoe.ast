@@ -1,0 +1,76 @@
+Program(
+    VarDecl(CHAR, a11),
+    VarDecl(CHAR, a12),
+    VarDecl(CHAR, a13),
+    VarDecl(CHAR, empty),
+
+    FunDecl(VOID, reset, Block(
+        Assign(VarExpr(a11), VarExpr(empty)),
+        Assign(VarExpr(a12), VarExpr(empty)),
+        Assign(VarExpr(a13), VarExpr(empty)),
+        Assign(VarExpr(a21), VarExpr(empty)),
+        Assign(VarExpr(a22), VarExpr(empty)),
+        Assign(VarExpr(a23), VarExpr(empty)),
+        Assign(VarExpr(a31), VarExpr(empty)),
+        Assign(VarExpr(a32), VarExpr(empty)),
+        Assign(VarExpr(a33), VarExpr(empty)),
+    )),
+
+    FunDecl(INT, full, Block(
+        VarDecl(INT, n),
+        Assign(VarExpr(n), IntLiteral(0)),
+
+        If(
+            BinOp(VarExpr(a11), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+        If(
+            BinOp(VarExpr(a21), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+        If(
+            BinOp(VarExpr(a31), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+
+        If(
+            BinOp(VarExpr(a12), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+        If(
+            BinOp(VarExpr(a22), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+        If(
+            BinOp(VarExpr(a32), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+
+        If(
+            BinOp(VarExpr(a13), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+        If(
+            BinOp(VarExpr(a23), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+        If(
+            BinOp(VarExpr(a33), NE, VarExpr(empty)),
+            Assign(VarExpr(n), BinOp(VarExpr(n), ADD, IntLiteral(1)))
+        ),
+
+        If(
+            BinOp(VarExpr(n), EQ, IntLiteral(8)),
+            Return(IntLiteral(1)),
+            Return(IntLiteral(0))
+        )
+    ))
+
+    FunDecl(INT, set, VarDecl(CHAR, row), VarDecl(INT, col), VarDecl(CHAR, mark),
+        Block(
+            VarDecl(INT, r),
+            Assign(VarExpr(r), IntLiteral(1)),
+            ... todo from line 56
+        )
+    )
+)

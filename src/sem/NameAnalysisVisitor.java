@@ -272,7 +272,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	@Override
 	public Void visitIf(If f) {
 		f.expr.accept(this);
-		f.stmt.accept(this); // todo: check validity
+		f.stmt.accept(this);
 		if (f.elseStmt != null) {
 			f.elseStmt.accept(this);
 		}

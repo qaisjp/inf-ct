@@ -171,7 +171,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			PointerType to = (PointerType) castTo;
 			ok = eq(from.innerType, to.innerType);
 		} else if (castFrom instanceof PointerType && castTo instanceof PointerType) {
-			ok = true; // Does pointer to pointer mean the inner types aren't checked? todo
+			ok = true;
 		}
 
 		if (!ok) {

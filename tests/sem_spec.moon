@@ -145,6 +145,7 @@ tests =
     ["p.cast.c"]: to: {}
     ["p.fibonacci.c"]: to: {}
     ["p.return_void.c"]: to: {}
+    ["p.sizeof.c"]: to: {}
     ["p.struct_and_decl.c"]: to: {}
     ["p.struct_and_vardecl.c"]: to: {}
     ["p.struct.access.c"]: to: {}

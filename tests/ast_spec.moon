@@ -48,7 +48,7 @@ check_parses_to = (filename, astFilename, t={}) ->
     ours = table.concat(lines, "\n")
 
     it "should match ast file", ->
-        assert.are.same(simplify(getfile(astFilename)), simplify(ours))
+        assert.are.same(simplify(ours), simplify(getfile(astFilename)))
         return
 
 tests = {}

@@ -21,7 +21,7 @@ public class FunCallExpr  extends Expr {
     @Override
     public String toString() {
 
-        String args = Arrays.toString(exprList.toArray()).substring(1, -1);
+        String args = Arrays.toString(exprList.toArray());
         return name + "(" + args.substring(1, args.length()-1) + ")";
     }
 }

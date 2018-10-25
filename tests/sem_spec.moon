@@ -69,6 +69,9 @@ tests =
     ["p.tictactoe.c"]: to: {}
 
     -- base
+    ["f.array.access.c"]: to: {
+        "Expected INT got CHAR"
+    }
     ["f.assign.c"]: to: {
         "lvalue cannot be `i+2` (must be a variable, field access, array access or pointer dereference)"
         "lvalue cannot be `4` (must be a variable, field access, array access or pointer dereference)"
@@ -130,6 +133,7 @@ tests =
         "Expected ArrayType or PointerType, got VOID"
         "Could not call test[INT example], param `INT example` was incorrectly given type VOID"}
 
+    ["p.array.access.c"]: to: {}
     ["p.assign.c"]: to: {}
     ["p.builtins.c"]: to: {}
     ["p.cast.c"]: to: {}

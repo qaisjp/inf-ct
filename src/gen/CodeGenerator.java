@@ -5,7 +5,9 @@ import ast.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.List;
 import java.util.Stack;
 
 public class CodeGenerator implements ASTVisitor<Register> {
@@ -35,18 +37,22 @@ public class CodeGenerator implements ASTVisitor<Register> {
         freeRegs.push(reg);
     }
 
-
-
-
-
     private PrintWriter writer; // use this writer to output the assembly instructions
-
 
     public void emitProgram(Program program, File outputFile) throws FileNotFoundException {
         writer = new PrintWriter(outputFile);
 
         visitProgram(program);
         writer.close();
+    }
+
+    public List<Register> visitEach(List<? extends ASTNode> list) {
+        List<Register> results = new ArrayList<>();
+        for (ASTNode l : list) {
+            results.add(l.accept(this));
+        }
+
+        return results;
     }
 
     @Override

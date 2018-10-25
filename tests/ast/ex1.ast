@@ -1,0 +1,3 @@
+Program(FunDecl(VOID, main, Block(
+    Assign(VarExpr(y),BinOp(IntLiteral(3), MUL, VarExpr(x)))
+)))

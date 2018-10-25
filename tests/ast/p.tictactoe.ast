@@ -2,6 +2,12 @@ Program(
     VarDecl(CHAR, a11),
     VarDecl(CHAR, a12),
     VarDecl(CHAR, a13),
+    VarDecl(CHAR, a21),
+    VarDecl(CHAR, a22),
+    VarDecl(CHAR, a23),
+    VarDecl(CHAR, a31),
+    VarDecl(CHAR, a32),
+    VarDecl(CHAR, a33),
     VarDecl(CHAR, empty),
 
     FunDecl(VOID, reset, Block(
@@ -13,7 +19,7 @@ Program(
         Assign(VarExpr(a23), VarExpr(empty)),
         Assign(VarExpr(a31), VarExpr(empty)),
         Assign(VarExpr(a32), VarExpr(empty)),
-        Assign(VarExpr(a33), VarExpr(empty)),
+        Assign(VarExpr(a33), VarExpr(empty))
     )),
 
     FunDecl(INT, full, Block(
@@ -60,17 +66,229 @@ Program(
         ),
 
         If(
-            BinOp(VarExpr(n), EQ, IntLiteral(8)),
+            BinOp(VarExpr(n), EQ, IntLiteral(9)),
             Return(IntLiteral(1)),
             Return(IntLiteral(0))
         )
-    ))
+    )),
 
     FunDecl(INT, set, VarDecl(CHAR, row), VarDecl(INT, col), VarDecl(CHAR, mark),
         Block(
             VarDecl(INT, r),
             Assign(VarExpr(r), IntLiteral(1)),
-            ... todo from line 56
+
+            If(
+                BinOp(VarExpr(row), EQ, ChrLiteral(a)),
+                Block(
+                    If(
+                        BinOp(VarExpr(col), EQ, IntLiteral(1)),
+                        Block(
+                            If(
+                                BinOp(VarExpr(a11), EQ, VarExpr(empty)),
+                                Assign(VarExpr(a11), VarExpr(mark)),
+                                Assign(
+                                    VarExpr(r),
+                                    BinOp(IntLiteral(0), SUB, IntLiteral(1))
+                                )
+                            )
+                        ),
+                        Block(
+                            If(
+                                BinOp(VarExpr(col), EQ, IntLiteral(2)),
+                                Block(
+                                    If(
+                                        BinOp(VarExpr(a12), EQ, VarExpr(empty)),
+                                        Assign(VarExpr(a12), VarExpr(mark)),
+                                        Assign(
+                                            VarExpr(r),
+                                            BinOp(IntLiteral(0), SUB, IntLiteral(1))
+                                        )
+                                    )
+                                ),
+                                Block(
+                                    If(
+                                        BinOp(VarExpr(col), EQ, IntLiteral(3)),
+                                        Block(
+                                            If(
+                                                BinOp(VarExpr(a13), EQ, VarExpr(empty)),
+                                                Assign(VarExpr(a13), VarExpr(mark)),
+                                                Assign(
+                                                    VarExpr(r),
+                                                    BinOp(IntLiteral(0), SUB, IntLiteral(1))
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                Block(
+                    If(
+                        BinOp(VarExpr(col), EQ, IntLiteral(1)),
+                        Block(
+                            If(
+                                BinOp(VarExpr(a21), EQ, VarExpr(empty)),
+                                Assign(VarExpr(a21), VarExpr(mark)),
+                                Assign(
+                                    VarExpr(r),
+                                    BinOp(IntLiteral(0), SUB, IntLiteral(1))
+                                )
+                            )
+                        ),
+                        Block(
+                            If(
+                                BinOp(VarExpr(col), EQ, IntLiteral(2)),
+                                Block(
+                                    If(
+                                        BinOp(VarExpr(a22), EQ, VarExpr(empty)),
+                                        Assign(VarExpr(a22), VarExpr(mark)),
+                                        Assign(
+                                            VarExpr(r),
+                                            BinOp(IntLiteral(0), SUB, IntLiteral(1))
+                                        )
+                                    )
+                                ),
+                                Block(
+                                    If(
+                                        BinOp(VarExpr(col), EQ, IntLiteral(3)),
+                                        Block(
+                                            If(
+                                                BinOp(VarExpr(a23), EQ, VarExpr(empty)),
+                                                Assign(VarExpr(a23), VarExpr(mark)),
+                                                Assign(
+                                                    VarExpr(r),
+                                                    BinOp(IntLiteral(0), SUB, IntLiteral(1))
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ),
+        Return(VarExpr(r))
+    ),
+
+    FunDecl(VOID, printGame,
+        Block(
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral())),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(123))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(+---+---+---+))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(a|))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(+---+---+---+))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(b|))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(+---+---+---+))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(c|))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(+---+---+---+))),
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral()))
+        )
+    ),
+
+    FunDecl(VOID, printWinner, VarDecl(INT, player),
+        Block(
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(Player)))
+            FunCall(print_s, VarExpr(player))
+            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(haswon!)))
+        )
+    ),
+
+    FunDecl(INT, switchPlayer, VarDecl(INT, currentPlayer),
+        Block(
+            If(
+                BinOp(VarExpr(currentPlayer), EQ, IntLiteral(1)),
+                Return(IntLiteral(2)),
+                Return(IntLiteral(1))
+            )
+        )
+    ),
+
+    FunDecl(CHAR, get_mark, VarDecl(INT, player),
+        Block(
+            If(
+                BinOp(VarExpr(player), EQ, IntLiteral(1)),
+                Return(ChrLiteral(X)),
+                Return(ChrLiteral(O))
+            )
+        )
+    ),
+
+    FunDecl(VOID, selectMove, VarDecl(INT, player),
+        Block(
+            VarDecl(CHAR, row),
+            VarDecl(INT, col),
+            VarDecl(INT, selected),
+            VarDecl(INT, success),
+            VarDecl(CHAR, mark),
+            Assign(VarExpr(selected), IntLiteral(1)),
+
+            While(
+                VarExpr(selected),
+                Block(
+                    FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(Player))),
+                    FunCall(print_s, VarExpr(player)),
+                    FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(selectmove(e.g.a2)>))),
+                    
+                    Assign(VarExpr(row), FunCall(read_c)),
+                    Assign(VarExpr(col), FunCall(read_i)),
+
+                    Assign(VarExpr(mark), FunCall(get_mark, VarExpr(player))),
+                    Assign(VarExpr(success), FunCall(set, VarExpr(row), VarExpr(col), VarExpr(mark))),
+
+                    If(
+                        BinOp(VarExpr(success), EQ, IntLiteral(0)),
+                        Block(FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(Thatisnotavalidmove!)))),
+                        If(
+                            BinOp(VarExpr(success), EQ, BinOp(IntLiteral(0), SUB, IntLiteral(1))),
+                            FunCall(print_s, TypecastExpr(PointerType(CHAR), StringLiteral(Thatisnotavalidmove!))),
+                            Assign(VarExpr(selected), IntLiteral(0))
+                        )
+                    )
+                )
+            )
+        )
+    )
+
+    FunDecl(INT, won, VarDecl(CHAR, mark),
+        Block(
+            VarDecl(INT, r),
+            Assign(VarExpr(r), IntLiteral(0)),
+
+            If(
+                BinOp(VarExpr(a11), EQ, VarExpr(mark)),
+                Block(If(
+                    BinOp(VarExpr(a21), EQ, VarExpr(mark)),
+                    Block(
+                        If(
+                            BinOp(VarExpr(a31), EQ, VarExpr(mark)),
+                            Block(Assign(VarExpr(r), IntLiteral(1)))
+                        )
+                    ),
+                    Block(
+                        If(
+                            BinOp(VarExpr(a22), EQ, VarExpr(mark)),
+                            If(
+                                BinOp(VarExpr(a33), EQ, VarExpr(mark)),
+                                Block(Assign(VarExpr(r), IntLiteral(1)))
+                            ),
+                            If(
+                                BinOp(VarExpr(a12), EQ, VarExpr(mark)),
+                                Block(
+                                    If(
+                                        BinOp(VarExpr(a13), EQ, VarExpr(mark)),
+                                        Block(Assign(VarExpr(r), IntLiteral(1)))
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ))
+            )
         )
     )
 )
+NOTDONEYET

@@ -1,0 +1,3 @@
+Program(FunDecl(VOID, main, Block(
+    Return(BinOp(IntLiteral(0),SUB,VarExpr(x)))
+)))

@@ -1,0 +1,3 @@
+Program(FunDecl(VOID, main, Block(
+    ExprStmt(BinOp(IntLiteral(0),SUB,IntLiteral(1)))
+)))

@@ -1,0 +1,3 @@
+Program(
+    VarDecl(StructType(node_t), n)
+)

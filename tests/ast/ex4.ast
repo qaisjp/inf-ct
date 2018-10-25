@@ -1,0 +1,5 @@
+Program(FunDecl(INT, main, Block(
+    Return(
+        BinOp(BinOp(IntLiteral(2), ADD, IntLiteral(3)), ADD, IntLiteral(4))
+    )
+)))

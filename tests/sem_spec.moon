@@ -114,6 +114,7 @@ tests =
         "Function main returns VOID when it should be returning INT"}
     ["f.strong.typed.c"]: to: {"Type mismatch in assignment (INT != CHAR)"}
     ["f.struct.access.c"]: to: {"Field c does not exist in struct", "Function main returns VOID when it should be returning INT"}
+    ["f.struct.return.c"]: to: {"Function name returns struct sb when it should be returning struct sa"}
     ["f.struct.var.redef.c"]: to: {"Symbol bar already exists!"}
     ["f.undeclared_parameter.c"]: to: {
         "Symbol d already exists!"
@@ -161,6 +162,7 @@ tests =
     ["p.struct_and_decl.c"]: to: {}
     ["p.struct_and_vardecl.c"]: to: {}
     ["p.struct.access.c"]: to: {}
+    ["p.struct.return.c"]: to: {}
     ["p.struct.self.c"]: to: {}
 
 

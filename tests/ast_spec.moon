@@ -24,7 +24,7 @@ string.split = (sep) =>
    fields
 
 lexfile = (filename) ->
-    f = assert(io.popen "java -cp $PROJ/bin Main -ast $PROJ/tests/ast/#{filename} out", "r")
+    f = assert(io.popen "java -ea -cp $PROJ/bin Main -ast $PROJ/tests/ast/#{filename} out", "r")
     t = f\read "*all"
     -- print("OI")
     f\close!

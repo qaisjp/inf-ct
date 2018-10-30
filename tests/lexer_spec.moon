@@ -12,7 +12,7 @@ getfile = (filename) ->
     t
 
 lexfile = (filename) ->
-    f = assert(io.popen "java -cp $PROJ/bin Main -lexer $PROJ/tests/lexer/#{filename} out", "r")
+    f = assert(io.popen "java -ea -cp $PROJ/bin Main -lexer $PROJ/tests/lexer/#{filename} out", "r")
     t = f\read "*all"
     f\close!
     t

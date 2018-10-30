@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 public class IndentWriter {
     private PrintWriter writer;
     private int level = 0;
+    private static final int width = 4;
 
     public IndentWriter(PrintWriter writer) {
         this.writer = writer;
@@ -19,7 +20,7 @@ public class IndentWriter {
     }
 
     public void printf(String format, Object... args) {
-        String indentation = new String(new char[level]).replace("\0", "\t");
+        String indentation = new String(new char[level*width]).replace("\0", " ");
 
         writer.printf(indentation + format + "\n", args);
     }

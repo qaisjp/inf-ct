@@ -21,4 +21,10 @@ public class DataVisitor extends TraverseVisitor<Void> {
         assert writer.getLevel() == 0;
         return null;
     }
+
+    @Override
+    public Void visitStrLiteral(StrLiteral s) {
+        writer.printf(".asciiz \"%s\"", s.escapedString());
+        return null;
+    }
 }

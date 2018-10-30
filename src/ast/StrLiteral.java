@@ -15,4 +15,16 @@ public class StrLiteral extends Expr {
     public String toString() {
         return "\"...\"";
     }
+
+    public String escapedString() {
+        return innerType
+                .replace("\\", "\\\\")
+                .replace("\t", "\\t")
+                .replace("\b", "\\b")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\f", "\\f")
+                .replace("\"", "\\\"")
+                .replace("\0", "\\0");
+    }
 }

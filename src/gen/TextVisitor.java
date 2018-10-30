@@ -10,7 +10,7 @@ import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
-public class TextVisitor implements ASTVisitor<Register> {
+public class TextVisitor extends TraverseVisitor<Register> {
     private PrintWriter writer; // use this writer to output the assembly instructions
 
     /*
@@ -50,16 +50,6 @@ public class TextVisitor implements ASTVisitor<Register> {
     }
 
     @Override
-    public Register visitBaseType(BaseType bt) {
-        return null;
-    }
-
-    @Override
-    public Register visitStructTypeDecl(StructTypeDecl st) {
-        return null;
-    }
-
-    @Override
     public Register visitBlock(Block b) {
         visitEach(b.varDecls); // todo: scratch
         visitEach(b.stmtList);// todo: scratch
@@ -91,55 +81,8 @@ public class TextVisitor implements ASTVisitor<Register> {
     }
 
     @Override
-    public Register visitVarDecl(VarDecl vd) {
-        // TODO: to complete
-        return null;
-    }
-
-    @Override
-    public Register visitVarExpr(VarExpr v) {
-        // TODO: to complete
-        return null;
-    }
-
-    @Override
-    public Register visitAssign(Assign a) {
-        return null;
-    }
-
-    @Override
     public Register visitExprStmt(ExprStmt e) {
         e.expr.accept(this); // todo: scratch
-        return null;
-    }
-
-    @Override
-    public Register visitReturn(Return r) {
-        return null;
-    }
-
-    @Override
-    public Register visitIf(If i) {
-        return null;
-    }
-
-    @Override
-    public Register visitWhile(While w) {
-        return null;
-    }
-
-    @Override
-    public Register visitStructType(StructType st) {
-        return null;
-    }
-
-    @Override
-    public Register visitArrayType(ArrayType at) {
-        return null;
-    }
-
-    @Override
-    public Register visitPointerType(PointerType pt) {
         return null;
     }
 
@@ -150,15 +93,6 @@ public class TextVisitor implements ASTVisitor<Register> {
         return register;
     }
 
-    @Override
-    public Register visitStrLiteral(StrLiteral sl) {
-        return null;
-    }
-
-    @Override
-    public Register visitChrLiteral(ChrLiteral cl) {
-        return null;
-    }
 
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
@@ -172,36 +106,6 @@ public class TextVisitor implements ASTVisitor<Register> {
             return null; // todo fix this
         }
         System.out.println("NOT INBUILT");
-        return null;
-    }
-
-    @Override
-    public Register visitTypecastExpr(TypecastExpr te) {
-        return null;
-    }
-
-    @Override
-    public Register visitSizeOfExpr(SizeOfExpr soe) {
-        return null;
-    }
-
-    @Override
-    public Register visitValueAtExpr(ValueAtExpr vae) {
-        return null;
-    }
-
-    @Override
-    public Register visitFieldAccessExpr(FieldAccessExpr fae) {
-        return null;
-    }
-
-    @Override
-    public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
-        return null;
-    }
-
-    @Override
-    public Register visitBinOp(BinOp bo) {
         return null;
     }
 }

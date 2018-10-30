@@ -85,10 +85,6 @@ public class TextVisitor implements ASTVisitor<Register> {
     public Register visitProgram(Program p) {
         // todo: empty program should generate empty asm file
 
-        writer.write(".data\n"); // todo: scratch
-//        visitEach(p.structTypeDecls);
-//        visitEach(p.varDecls);
-
         writer.write(".text\n"); // todo: scratch
         visitEach(p.funDecls); // todo: scratch
         return null;

@@ -5,10 +5,10 @@ import ast.*;
 import java.io.PrintWriter;
 
 public class DataVisitor implements ASTVisitor<Void> {
-    private PrintWriter writer;
+    private IndentWriter writer;
 
     public DataVisitor(PrintWriter writer) {
-        this.writer = writer;
+        this.writer = new IndentWriter(writer);
     }
 
     @Override
@@ -33,6 +33,8 @@ public class DataVisitor implements ASTVisitor<Void> {
 
     @Override
     public Void visitProgram(Program p) {
+        writer.printf(".data");
+        assert writer.getLevel() == 0;
         return null;
     }
 

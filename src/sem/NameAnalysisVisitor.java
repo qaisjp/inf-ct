@@ -133,6 +133,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		Scope scope = this.scope;
 		this.scope = new Scope(scope);
 
+		p.type.accept(this);
 		visitEach(p.params);
 		visitBlock(p.block, false);
 

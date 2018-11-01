@@ -5,6 +5,7 @@ import ast.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class CodeGenerator {
 
@@ -16,11 +17,16 @@ public class CodeGenerator {
     public void emitProgram(Program program, File outputFile) throws FileNotFoundException {
         writer = new PrintWriter(outputFile);
 
-        DataVisitor dataVisitor = new DataVisitor(writer);
-        TextVisitor textVisitor = new TextVisitor(writer);
+        // List of visitors
+        ArrayList<ASTVisitor> visitors = new ArrayList<ASTVisitor>() {{
+            add(new DataVisitor(writer));
+            add(new TextVisitor(writer));
+        }};
 
-        program.accept(dataVisitor);
-        program.accept(textVisitor);
+        // Apply each visitor to the AST
+        for (ASTVisitor v : visitors) {
+            program.accept(v);
+        }
 
         writer.close();
     }

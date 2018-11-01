@@ -17,10 +17,12 @@ public class CodeGenerator {
     public void emitProgram(Program program, File outputFile) throws FileNotFoundException {
         writer = new PrintWriter(outputFile);
 
+        IndentWriter indentWriter = new IndentWriter(writer);
+
         // List of visitors
         ArrayList<ASTVisitor> visitors = new ArrayList<ASTVisitor>() {{
-            add(new DataVisitor(writer));
-            add(new TextVisitor(writer));
+            add(new DataVisitor(indentWriter));
+            add(new TextVisitor(indentWriter));
         }};
 
         // Apply each visitor to the AST

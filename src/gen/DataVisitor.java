@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 public class DataVisitor extends TraverseVisitor<Void> {
     private IndentWriter writer;
 
-    public DataVisitor(PrintWriter writer) {
-        this.writer = new IndentWriter(writer);
+    public DataVisitor(IndentWriter writer) {
+        this.writer = writer;
     }
 
     @Override

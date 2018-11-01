@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class TextVisitor extends TraverseVisitor<Register> {
-    private PrintWriter writer; // use this writer to output the assembly instructions
+    private IndentWriter writer; // use this writer to output the assembly instructions
 
     /*
      * Simple register allocator.
@@ -20,7 +20,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     // contains all the free temporary registers
     private Stack<Register> freeRegs = new Stack<Register>();
 
-    public TextVisitor(PrintWriter writer) {
+    public TextVisitor(IndentWriter writer) {
         this.writer = writer;
 
         freeRegs.addAll(Register.tmpRegs);
@@ -62,7 +62,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         if (p.isInbuilt) { return null; }
 
         // todo: scratch
-        writer.write(p.name + ":\n");
+        writer.printf(p.name + ":\n");
 
         // todo: scratch
         visitEach(p.params);
@@ -75,7 +75,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register visitProgram(Program p) {
         // todo: empty program should generate empty asm file
 
-        writer.write(".text\n"); // todo: scratch
+        writer.printf(".text\n"); // todo: scratch
         visitEach(p.funDecls); // todo: scratch
         return null;
     }

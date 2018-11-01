@@ -15,6 +15,16 @@ elif [ "$2" = "-c" ]; then
     SHOULD_COMPILE=true;
 fi
 
+# Check if args provided
+if [ "$FILENAME" = "" ]; then
+    echo "$0 filename.c";
+    echo "";
+    echo "Provide flag -c anywhere to compile as well";
+    echo "Note: \$PROJ environment variable must be defined";
+    echo "";
+    exit 0;
+fi
+
 # Check if file exists
 if [ ! -f "$FILENAME" ]; then
     echo "Filname \"$FILENAME\" does not exist";

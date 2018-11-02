@@ -22,7 +22,7 @@ public class CodeGenerator {
         // List of visitors
         ArrayList<ASTVisitor> visitors = new ArrayList<ASTVisitor>() {{
             add(new DataVisitor(indentWriter));
-            add(new TextVisitor(indentWriter));
+//            add(new TextVisitor(indentWriter));
         }};
 
         // Apply each visitor to the AST

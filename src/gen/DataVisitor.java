@@ -40,16 +40,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
     public Void visitVarDeclGlobal(VarDecl varDecl) {
         super.visitVarDecl(varDecl);
 
-        int size;
-        if (varDecl.varType instanceof ChrLiteral) {
-            size = 1;
-        } else if (varDecl.varType instanceof IntLiteral) {
-            size = 4;
-        } else if (varDecl.varType instanceof PointerType) {
-            size = 4;
-        } else {
-            throw new RuntimeException("Encountered unknown variable type in global variable declaration " + varDecl.varType.toString());
-        }
+        int size = varDecl.varType.sizeof(); // todo round up to 4byte (but only if necessary: if array + not on edge)
 
         writer.printf("%s: .space %d", globalLabeller.makeLabel(varDecl.varName), size);
         return null;

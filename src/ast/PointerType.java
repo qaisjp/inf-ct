@@ -15,4 +15,9 @@ public class PointerType implements Type {
     public String toString() {
         return "*" + innerType.toString();
     }
+
+    @Override
+    public int sizeof() {
+        return BaseType.INT.sizeof(); // size of pointer are size of INT
+    }
 }

@@ -13,6 +13,10 @@ public class ArrayType implements Type {
         return v.visitArrayType(this);
     }
 
+    public int sizeof() {
+        return elements * elemType.sizeof();
+    }
+
     @Override
     public String toString() {
         return elemType.toString() + "[" + String.valueOf(elements) + "]";

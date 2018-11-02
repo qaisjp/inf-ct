@@ -20,4 +20,16 @@ public enum BaseType implements Type {
 
         return null;
     }
+
+    @Override
+    public int sizeof() {
+        switch (this) {
+            case INT:
+                return 4;
+            case CHAR:
+                return 1;
+            default:
+                throw new RuntimeException("Sizeof called on " + this.toString());
+        }
+    }
 }

@@ -24,7 +24,7 @@ public class Labeller {
     }
 
     public String makeLabel() {
-        String label = String.format("%03d", prefix, count);
+        String label = String.format("%03d", count);
         count++;
 
         return makeLabel(label);

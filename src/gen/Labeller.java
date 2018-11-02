@@ -12,15 +12,21 @@ public class Labeller {
         this.prefix = prefix;
     }
 
-    public String getLabel() {
-        String label = String.format("%s_%03d", prefix, count);
+    public String makeLabel(String label) {
+        label = prefix + "_" + label;
 
         if (labels.contains(label)) {
             throw new RuntimeException("Somehow generated duplicate label " + label);
         }
 
         labels.add(label);
-        count++;
         return label;
+    }
+
+    public String makeLabel() {
+        String label = String.format("%03d", prefix, count);
+        count++;
+
+        return makeLabel(label);
     }
 }

@@ -23,7 +23,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
 
     @Override
     public Void visitStrLiteral(StrLiteral s) {
-        s.genLabel = strLabeller.getLabel();
+        s.genLabel = strLabeller.makeLabel();
         writer.printf("%s: .asciiz \"%s\"", s.genLabel, s.escapedString());
         return null;
     }

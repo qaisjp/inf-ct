@@ -2,6 +2,7 @@ package ast;
 
 public class StrLiteral extends Expr {
     public final String innerType;
+    public String genLabel;
 
     public StrLiteral(String innerType) {
         this.innerType = innerType;

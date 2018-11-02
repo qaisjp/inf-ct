@@ -2,10 +2,9 @@ package gen;
 
 import ast.*;
 
-import java.io.PrintWriter;
-
 public class DataVisitor extends TraverseVisitor<Void> {
     private IndentWriter writer;
+    private Labeller strLabeller = new Labeller("str");
 
     public DataVisitor(IndentWriter writer) {
         this.writer = writer;
@@ -24,7 +23,8 @@ public class DataVisitor extends TraverseVisitor<Void> {
 
     @Override
     public Void visitStrLiteral(StrLiteral s) {
-        writer.printf(".asciiz \"%s\"", s.escapedString());
+        s.genLabel = strLabeller.getLabel();
+        writer.printf("%s: .asciiz \"%s\"", s.genLabel, s.escapedString());
         return null;
     }
 }

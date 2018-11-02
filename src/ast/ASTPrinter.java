@@ -70,7 +70,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
     @Override
     public Void visitVarDecl(VarDecl vd){
         writer.print("VarDecl(");
-        vd.type.accept(this);
+        vd.varType.accept(this);
         writer.print(","+vd.varName);
         writer.print(")");
         return null;

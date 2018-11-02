@@ -158,7 +158,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 			return null;
 		}
 
-		vd.type.accept(this);
+		vd.varType.accept(this);
 
 		scope.put(new VarSymbol(vd));
 

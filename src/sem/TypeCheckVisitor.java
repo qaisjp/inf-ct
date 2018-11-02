@@ -121,16 +121,16 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitVarDecl(VarDecl vd) {
-		if (vd.type == BaseType.VOID) {
+		if (vd.varType == BaseType.VOID) {
 			error("Cannot declare variable %s as VOID\n", vd.varName);
 		}
 
-		return vd.type;
+		return vd.varType;
 	}
 
 	@Override
 	public Type visitVarExpr(VarExpr v) {
-		v.type = v.vd.type;
+		v.type = v.vd.varType;
 		return v.type;
 	}
 
@@ -161,7 +161,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			VarDecl param = params.get(i);
 
 			Type argType = arg.accept(this);
-			if (!eq(argType, param.type)) {
+			if (!eq(argType, param.varType)) {
 				error("Could not call %s, param `%s` was incorrectly given type %s\n", f.decl, param, argType);
 			}
 		}
@@ -417,7 +417,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			return BaseType.VOID;
 		}
 
-		fieldAccessExpr.type = varDecl.type.accept(this);
+		fieldAccessExpr.type = varDecl.varType.accept(this);
 		return fieldAccessExpr.type;
 	}
 }

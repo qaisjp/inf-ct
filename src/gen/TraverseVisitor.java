@@ -55,7 +55,7 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
 
     @Override
     public T visitVarDecl(VarDecl vd) {
-        vd.type.accept(this);
+        vd.varType.accept(this);
         return null;
     }
 

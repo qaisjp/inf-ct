@@ -27,4 +27,9 @@ public class DataVisitor extends TraverseVisitor<Void> {
         writer.printf("%s: .asciiz \"%s\"", s.genLabel, s.escapedString());
         return null;
     }
+
+    @Override
+    public Void visitVarDecl(VarDecl varDecl) {
+        return null;
+    }
 }

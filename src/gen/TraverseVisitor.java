@@ -61,7 +61,7 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
 
     @Override
     public T visitFunDecl(FunDecl p) {
-        p.type.accept(this);
+        p.result.accept(this);
         visitEach(p.params);
         p.block.accept(this);
         return null;

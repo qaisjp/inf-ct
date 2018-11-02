@@ -78,7 +78,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitFunDecl(FunDecl p) {
 		// If inbuilt function don't declaration validity
 		if (p.isInbuilt) {
-			return p.type;
+			return p.result;
 		}
 
 		// Visit each parameter (this ensures that none are of type void... and maybe more. Check visitVarDecl!)
@@ -92,15 +92,15 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		}
 
 		// Make sure the right thing is being returned
-		if (!eq(p.type, realReturnType)) {
-			error("Function %s returns %s when it should be returning %s\n", p.name, realReturnType, p.type);
+		if (!eq(p.result, realReturnType)) {
+			error("Function %s returns %s when it should be returning %s\n", p.name, realReturnType, p.result);
 		}
 
 		// Should you be able to do `return exprThatReturnsVoid` right?
 		// Answer according to gcc: yes
 
 		// Return the type declared in the function declaration
-		return p.type;
+		return p.result;
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		// Special magic for no reason at all: return type is return type of main
 		for (FunDecl f : p.funDecls) {
 			if (f.name.equals("main")) {
-				return f.type.accept(this);
+				return f.result.accept(this);
 			}
 		}
 
@@ -149,7 +149,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		List<VarDecl> params = f.decl.params;
 
 		// Set the return type of this function call to the return type of the decl
-		f.type = f.decl.type;
+		f.type = f.decl.result;
 
 		if (args.size() != params.size()) {
 			error("Could not call %s, expected %d arguments, got %d\n", f.decl, params.size(), args.size());

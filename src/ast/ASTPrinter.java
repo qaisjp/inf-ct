@@ -32,7 +32,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
     @Override
     public Void visitFunDecl(FunDecl fd) {
         writer.print("FunDecl(");
-        fd.type.accept(this);
+        fd.result.accept(this);
         writer.printf(", %s, ", fd.name);
         for (VarDecl vd : fd.params) {
             vd.accept(this);

@@ -142,19 +142,19 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitIntLiteral(IntLiteral f) {
-        writer.printf("IntLiteral(%d)", f.innerType);
+        writer.printf("IntLiteral(%d)", f.value);
         return null;
     }
 
     @Override
     public Void visitStrLiteral(StrLiteral f) {
-        writer.printf("StrLiteral(%s)", f.innerType);
+        writer.printf("StrLiteral(%s)", f.value);
         return null;
     }
 
     @Override
     public Void visitChrLiteral(ChrLiteral f) {
-        writer.printf("ChrLiteral(%c)", f.innerType);
+        writer.printf("ChrLiteral(%c)", f.value);
         return null;
     }
 

@@ -2,9 +2,6 @@ package gen;
 
 import ast.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
@@ -89,7 +86,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitIntLiteral(IntLiteral il) {
         Register register = getRegister();
-        writer.printf("li\t%s, %d", register, il.innerType);
+        writer.printf("li\t%s, %d", register, il.value);
         return register;
     }
 
@@ -101,7 +98,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
             System.out.println("IS INBUILT");
             writer.printf("-- %s\n", f);
             writer.printf("\tli\t$v0, 1\n");
-            writer.printf("\tli\t$a0, %d\n", ((IntLiteral) f.exprList.get(0)).innerType);
+            writer.printf("\tli\t$a0, %d\n", ((IntLiteral) f.exprList.get(0)).value);
             writer.printf("\tsyscall\n");
             return null; // todo fix this
         }

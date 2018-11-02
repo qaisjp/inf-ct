@@ -1,10 +1,10 @@
 package ast;
 
 public class IntLiteral extends Expr {
-    public final int innerType;
+    public final int value;
 
-    public IntLiteral(int innerType) {
-        this.innerType = innerType;
+    public IntLiteral(int value) {
+        this.value = value;
     }
 
     public <T> T accept(ASTVisitor<T> v) {
@@ -13,6 +13,6 @@ public class IntLiteral extends Expr {
 
     @Override
     public String toString() {
-        return Integer.toString(innerType);
+        return Integer.toString(value);
     }
 }

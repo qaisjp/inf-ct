@@ -222,7 +222,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitStrLiteral(StrLiteral f) {
-		f.type = new ArrayType(BaseType.CHAR, f.innerType.length() + 1); // +1 for null byte
+		f.type = new ArrayType(BaseType.CHAR, f.value.length() + 1); // +1 for null byte
 		return f.type;
 	}
 

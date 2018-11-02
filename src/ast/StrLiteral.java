@@ -1,11 +1,11 @@
 package ast;
 
 public class StrLiteral extends Expr {
-    public final String innerType;
+    public final String value;
     public String genLabel;
 
-    public StrLiteral(String innerType) {
-        this.innerType = innerType;
+    public StrLiteral(String value) {
+        this.value = value;
     }
 
     public <T> T accept(ASTVisitor<T> v) {
@@ -18,7 +18,7 @@ public class StrLiteral extends Expr {
     }
 
     public String escapedString() {
-        return innerType
+        return value
                 .replace("\\", "\\\\")
                 .replace("\t", "\\t")
                 .replace("\b", "\\b")

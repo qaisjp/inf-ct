@@ -16,4 +16,13 @@ public class StructType implements Type {
     public String toString() {
         return "struct " + str;
     }
+
+    @Override
+    public int sizeof() {
+        int size = 0;
+        for (VarDecl v : decl.varDeclList) {
+            size += v.varType.sizeof();
+        }
+        return size;
+    }
 }

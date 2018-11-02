@@ -95,8 +95,8 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
 
     @Override
     public T visitBinOp(BinOp bo) {
-        bo.lhs.accept(this);
-        bo.rhs.accept(this);
+        bo.x.accept(this);
+        bo.y.accept(this);
         return null;
     }
 

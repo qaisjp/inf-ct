@@ -1,18 +1,18 @@
 package ast;
 
 public class BinOp extends Expr {
-    public final Expr lhs;
+    public final Expr x;
     public final Op op;
-    public final Expr rhs;
+    public final Expr y;
 
-    public BinOp(Expr lhs, Op op, Expr rhs) {
+    public BinOp(Expr x, Op op, Expr y) {
         if (op == null) {
             throw new NullPointerException();
         }
 
-        this.lhs = lhs;
+        this.x = x;
         this.op = op;
-        this.rhs = rhs;
+        this.y = y;
     }
 
     public <T> T accept(ASTVisitor<T> v) {
@@ -21,6 +21,6 @@ public class BinOp extends Expr {
 
     @Override
     public String toString() {
-        return lhs.toString() + op.toLang() + rhs.toString();
+        return x.toString() + op.toLang() + y.toString();
     }
 }

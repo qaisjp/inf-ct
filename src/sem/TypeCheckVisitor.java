@@ -325,8 +325,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitBinOp(BinOp binOp) {
-		Type lhs = binOp.lhs.accept(this);
-		Type rhs = binOp.rhs.accept(this);
+		Type x = binOp.x.accept(this);
+		Type y = binOp.y.accept(this);
 
 		switch (binOp.op) {
 			case ADD:
@@ -340,21 +340,21 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			case LT:
 			case GE:
 			case LE:
-				if (lhs == BaseType.INT && rhs == BaseType.INT) {
+				if (x == BaseType.INT && y == BaseType.INT) {
 					binOp.type = BaseType.INT;
 					return binOp.type.accept(this);
 				}
 
-				error("Operation %s expects INT and INT, got %s and %s\n", binOp.op, lhs, rhs);
+				error("Operation %s expects INT and INT, got %s and %s\n", binOp.op, x, y);
 				return BaseType.INT;
 			case NE:
 			case EQ:
-				if (eq(lhs, rhs) && !(lhs instanceof StructType) && !(lhs instanceof ArrayType) && lhs != BaseType.VOID) {
+				if (eq(x, y) && !(x instanceof StructType) && !(x instanceof ArrayType) && x != BaseType.VOID) {
 					binOp.type = BaseType.INT;
 					return binOp.type.accept(this);
 				}
 
-				error("Operation %s expects matching non-void, non-struct, non-array types, got %s and %s\n", binOp.op, lhs, rhs);
+				error("Operation %s expects matching non-void, non-struct, non-array types, got %s and %s\n", binOp.op, x, y);
 				return BaseType.INT;
 			default:
 				break;

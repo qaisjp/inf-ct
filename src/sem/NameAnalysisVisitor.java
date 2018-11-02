@@ -305,8 +305,8 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitBinOp(BinOp binOp) {
-		binOp.lhs.accept(this);
-		binOp.rhs.accept(this);
+		binOp.x.accept(this);
+		binOp.y.accept(this);
 		return null;
 	}
 

@@ -1,11 +1,11 @@
 package ast;
 
 public class ArrayType implements Type {
-    public final Type innerType;
+    public final Type elemType;
     public final int elements;
 
-    public ArrayType(Type innerType, int elements) {
-        this.innerType = innerType;
+    public ArrayType(Type elemType, int elements) {
+        this.elemType = elemType;
         this.elements = elements;
     }
 
@@ -15,6 +15,6 @@ public class ArrayType implements Type {
 
     @Override
     public String toString() {
-        return innerType.toString() + "[" + String.valueOf(elements) + "]";
+        return elemType.toString() + "[" + String.valueOf(elements) + "]";
     }
 }

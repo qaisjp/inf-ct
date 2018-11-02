@@ -182,7 +182,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		} else if (castFrom instanceof ArrayType && castTo instanceof PointerType) {
 			ArrayType from = (ArrayType) castFrom;
 			PointerType to = (PointerType) castTo;
-			ok = eq(from.innerType, to.innerType);
+			ok = eq(from.elemType, to.innerType);
 		} else if (castFrom instanceof PointerType && castTo instanceof PointerType) {
 			ok = true;
 		}
@@ -380,7 +380,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		Type innerType = null;
 		if (expr instanceof ArrayType) {
-			innerType = ((ArrayType) expr).innerType;
+			innerType = ((ArrayType) expr).elemType;
 		} else if (expr instanceof PointerType) {
 			innerType = ((PointerType) expr).innerType;
 		} else {

@@ -261,7 +261,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitArrayType(ArrayType at) {
-		at.innerType.accept(this);
+		at.elemType.accept(this);
 		return null;
 	}
 

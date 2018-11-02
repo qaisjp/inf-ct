@@ -42,7 +42,7 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
 
     @Override
     public T visitArrayType(ArrayType at) {
-        at.innerType.accept(this);
+        at.elemType.accept(this);
         return null;
     }
 

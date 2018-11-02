@@ -40,7 +40,12 @@ public class DataVisitor extends TraverseVisitor<Void> {
     public Void visitVarDeclGlobal(VarDecl varDecl) {
         super.visitVarDecl(varDecl);
 
-        int size = varDecl.varType.sizeof(); // todo round up to 4byte (but only if necessary: if array + not on edge)
+        int size = varDecl.varType.sizeof();
+
+        // Round up to 4 byte boundary if Struct or Array
+        if (varDecl.varType instanceof StructType || varDecl.varType instanceof ArrayType) {
+            size = (size + 3) / 4 * 4;
+        }
 
         writer.printf("%s: .space %d", globalLabeller.makeLabel(varDecl.varName), size);
         return null;

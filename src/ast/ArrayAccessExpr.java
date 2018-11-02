@@ -1,12 +1,12 @@
 package ast;
 
 public class ArrayAccessExpr extends Expr {
-    public final Expr lhs;
-    public final Expr rhs;
+    public final Expr expr;
+    public final Expr index;
 
-    public ArrayAccessExpr(Expr lhs, Expr rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+    public ArrayAccessExpr(Expr expr, Expr index) {
+        this.expr = expr;
+        this.index = index;
     }
 
     public <T> T accept(ASTVisitor<T> v) {
@@ -15,6 +15,6 @@ public class ArrayAccessExpr extends Expr {
 
     @Override
     public String toString() {
-        return lhs.toString() + "[" + rhs.toString() + "]";
+        return expr.toString() + "[" + index.toString() + "]";
     }
 }

@@ -312,8 +312,8 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitArrayAccessExpr(ArrayAccessExpr arrayAccessExpr) {
-		arrayAccessExpr.lhs.accept(this);
-		arrayAccessExpr.rhs.accept(this);
+		arrayAccessExpr.expr.accept(this);
+		arrayAccessExpr.index.accept(this);
 		return null;
 	}
 

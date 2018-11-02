@@ -102,8 +102,8 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
 
     @Override
     public T visitArrayAccessExpr(ArrayAccessExpr aae) {
-        aae.lhs.accept(this);
-        aae.rhs.accept(this);
+        aae.expr.accept(this);
+        aae.index.accept(this);
         return null;
     }
 

@@ -245,9 +245,9 @@ public class ASTPrinter implements ASTVisitor<Void> {
     @Override
     public Void visitArrayAccessExpr(ArrayAccessExpr arrayAccessExpr) {
         writer.print("ArrayAccessExpr(");
-        arrayAccessExpr.lhs.accept(this);
+        arrayAccessExpr.expr.accept(this);
         writer.print(", ");
-        arrayAccessExpr.rhs.accept(this);
+        arrayAccessExpr.index.accept(this);
         writer.print(")");
 
         return null;

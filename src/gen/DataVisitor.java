@@ -7,6 +7,7 @@ import java.util.List;
 public class DataVisitor extends TraverseVisitor<Void> {
     private IndentWriter writer;
     private Labeller strLabeller = new Labeller("str");
+    private Labeller chrLabeller = new Labeller("chr");
     private Labeller globalLabeller = new Labeller("g");
 
     public DataVisitor(IndentWriter writer) {
@@ -37,6 +38,15 @@ public class DataVisitor extends TraverseVisitor<Void> {
 
         s.genLabel = strLabeller.makeLabel();
         writer.withLabel(s.genLabel).dataAsciiNullTerminated(s.escapedString());
+        return null;
+    }
+
+    @Override
+    public Void visitChrLiteral(ChrLiteral c) {
+        super.visitChrLiteral(c);
+
+        c.genLabel = chrLabeller.makeLabel();
+        writer.withLabel(c.genLabel).dataAsciiWithoutNull(Character.toString(c.value));
         return null;
     }
 

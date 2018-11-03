@@ -45,9 +45,14 @@ public class IndentWriter {
         printf(".space %d", space);
     }
 
-    // .asciiz "Hello, world!"
+    // .asciiz "Hello, world!" # (trailing nul byte)
     public void dataAsciiNullTerminated(String s) {
         printf(".asciiz \"%s\"", s);
+    }
+
+    // .ascii "Hello," # (no trailing nul byte)
+    public void dataAsciiWithoutNull(String s) {
+        printf(".ascii \"%s\"", s);
     }
 
     public int getLevel() {

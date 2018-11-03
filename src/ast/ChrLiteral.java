@@ -2,6 +2,7 @@ package ast;
 
 public class ChrLiteral extends Expr {
     public final char value;
+    public String genLabel;
 
     public ChrLiteral(char value) {
         this.value = value;

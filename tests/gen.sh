@@ -43,11 +43,14 @@ if [ "$?" -ne "0" ]; then
 fi
 
 echo "";
-echo "=== Generation output below ==="
+echo "=== Generation debug output below ==="
 
 TARGET="$(mktemp)"
 
 java -ea -cp $PROJ/bin Main -gen "$FILENAME" "$TARGET"
+
+echo "";
+echo "=== Generation MIPS output below ==="
 
 # Print out the target
 cat "$TARGET"

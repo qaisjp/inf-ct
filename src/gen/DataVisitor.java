@@ -2,6 +2,8 @@ package gen;
 
 import ast.*;
 
+import java.util.List;
+
 public class DataVisitor extends TraverseVisitor<Void> {
     private IndentWriter writer;
     private Labeller strLabeller = new Labeller("str");
@@ -37,11 +39,19 @@ public class DataVisitor extends TraverseVisitor<Void> {
         return null;
     }
 
-    public Void visitVarDeclGlobal(VarDecl varDecl) {
+    public void visitStructDeclGlobal(String varName, List<VarDecl> varDeclList) {
+        // todo
+    }
+
+    public void visitVarDeclGlobal(VarDecl varDecl) {
         super.visitVarDecl(varDecl);
+
+        if (varDecl.varType instanceof StructTypeDecl) {
+            visitStructDeclGlobal(varDecl.varName, ((StructTypeDecl) varDecl.varType).varDeclList);
+            return;
+        }
 
         int size = varDecl.varType.sizeof();
         writer.printf("%s: .space %d", globalLabeller.makeLabel(varDecl.varName), size);
-        return null;
     }
 }

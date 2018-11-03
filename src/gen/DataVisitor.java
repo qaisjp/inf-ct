@@ -40,15 +40,31 @@ public class DataVisitor extends TraverseVisitor<Void> {
         return null;
     }
 
-    public void visitStructDeclGlobal(String varName, List<VarDecl> varDeclList) {
-        // todo
+    public void visitStructDeclGlobal(String varName, StructType structType) {
+        List<VarDecl> varDeclList = structType.decl.varDeclList;
+
+        // Comment the list of declarations
+        writer.leadNewline().comment("'%s' (struct %s) [size %d]", varName, structType.str, structType.sizeof());
+
+        // Prep varName to be a prefix
+        varName += "_";
+
+        writer.push();
+        for (VarDecl v : varDeclList) {
+            String label = globalLabeller.makeLabel(varName + v.varName);
+
+            writer.withLabel(label).dataSpace(GenUtils.byteAlign(v.varType.sizeof()));
+        }
+        writer.pop();
+
+        writer.newline();
     }
 
     public void visitVarDeclGlobal(VarDecl varDecl) {
         super.visitVarDecl(varDecl);
 
-        if (varDecl.varType instanceof StructTypeDecl) {
-            visitStructDeclGlobal(varDecl.varName, ((StructTypeDecl) varDecl.varType).varDeclList);
+        if (varDecl.varType instanceof StructType) {
+            visitStructDeclGlobal(varDecl.varName, (StructType) varDecl.varType);
             return;
         }
 

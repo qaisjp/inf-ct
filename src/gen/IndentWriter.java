@@ -37,6 +37,16 @@ public class IndentWriter {
         label = "";
     }
 
+    // .space 4
+    public void dataSpace(int space) {
+        printf(".space %d", space);
+    }
+
+    // .asciiz "Hello, world!"
+    public void dataAsciiNullTerminated(String s) {
+        printf(".asciiz \"%s\"", s);
+    }
+
     public int getLevel() {
         return level;
     }

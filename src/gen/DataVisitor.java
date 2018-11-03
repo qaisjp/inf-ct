@@ -35,7 +35,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
         super.visitStrLiteral(s);
 
         s.genLabel = strLabeller.makeLabel();
-        writer.withLabel(s.genLabel).printf(".asciiz \"%s\"", s.escapedString());
+        writer.withLabel(s.genLabel).dataAsciiNullTerminated(s.escapedString());
         return null;
     }
 
@@ -53,6 +53,6 @@ public class DataVisitor extends TraverseVisitor<Void> {
 
         int size = varDecl.varType.sizeof();
         String label = globalLabeller.makeLabel(varDecl.varName);
-        writer.withLabel(label).printf(".space %d", size);
+        writer.withLabel(label).dataSpace(size);
     }
 }

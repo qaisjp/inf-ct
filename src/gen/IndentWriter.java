@@ -6,7 +6,7 @@ public class IndentWriter {
     private PrintWriter writer;
     private int level = 0;
     private static final int width = 4;
-    private String label; // current label
+    private String label = ""; // current label
 
     public IndentWriter(PrintWriter writer) {
         this.writer = writer;
@@ -32,7 +32,7 @@ public class IndentWriter {
             label += ": ";
         }
 
-        writer.printf(indentation + format + "\n", args);
+        writer.printf(indentation + label + format + "\n", args);
 
         label = "";
     }

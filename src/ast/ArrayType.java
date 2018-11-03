@@ -1,5 +1,7 @@
 package ast;
 
+import gen.GenUtils;
+
 public class ArrayType implements Type {
     public final Type elemType;
     public final int elements;
@@ -14,7 +16,7 @@ public class ArrayType implements Type {
     }
 
     public int sizeof() {
-        return elements * elemType.sizeof();
+        return GenUtils.byteAlign(elements * elemType.sizeof());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ast;
 
+import gen.GenUtils;
+
 public class StructType implements Type {
     public final String str;
     public StructTypeDecl decl; // to be filled in by the type analyser
@@ -23,6 +25,6 @@ public class StructType implements Type {
         for (VarDecl v : decl.varDeclList) {
             size += v.varType.sizeof();
         }
-        return size;
+        return GenUtils.byteAlign(size);
     }
 }

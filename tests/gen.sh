@@ -33,6 +33,7 @@ fi
 
 # Attempt build
 if $SHOULD_COMPILE; then
+    echo "=== Build output below ==="
     ant build -f "$PROJ/build.xml";
 fi
 
@@ -50,6 +51,11 @@ java -ea -cp $PROJ/bin Main -gen "$FILENAME" "$TARGET"
 
 # Print out the target
 cat "$TARGET"
+
+# Print out the mips simulation
+echo "";
+echo "=== MIPS simulated output below ==="
+java -jar "$PROJ/desc/part3/Mars4_5.jar" nc sm "$TARGET"
 
 # Delete the target
 rm "$TARGET"

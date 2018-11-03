@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Colors
+GREY='\033[0;37m' # Well, light grey.
+RED='\033[1;31m' # It's actually light red
+NC='\033[0m' # No Color
+CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
+
 # First check if environment variable PROJ is set
 if [ -z "$PROJ" ]; then
     echo "PROJ has not been set yet.";
@@ -33,7 +40,7 @@ fi
 
 # Attempt build
 if $SHOULD_COMPILE; then
-    echo "=== Build output below ==="
+    echo -e "${GREY}=== Build output below ===${NC}"
     ant build -f "$PROJ/build.xml";
 fi
 
@@ -43,21 +50,21 @@ if [ "$?" -ne "0" ]; then
 fi
 
 echo "";
-echo "=== Generation debug output below ==="
+echo -e "${CYAN}=== Generation debug output below ===${NC}"
 
 TARGET="$(mktemp)"
 
 java -ea -cp $PROJ/bin Main -gen "$FILENAME" "$TARGET"
 
 echo "";
-echo "=== Generation MIPS output below ==="
+echo -e "${RED}=== Generation MIPS output below ===${NC}"
 
 # Print out the target
 cat "$TARGET"
 
 # Print out the mips simulation
 echo "";
-echo "=== MIPS simulated output below ==="
+echo -e "${YELLOW}=== MIPS simulated output below ===${NC}"
 java -jar "$PROJ/desc/part3/Mars4_5.jar" nc sm "$TARGET"
 
 # Delete the target

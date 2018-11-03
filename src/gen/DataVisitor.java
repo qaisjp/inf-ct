@@ -52,6 +52,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
         writer.push();
         for (VarDecl v : varDeclList) {
             String label = globalLabeller.makeLabel(varName + v.varName);
+            v.setGlobalLabel(label);
 
             writer.withLabel(label).dataSpace(GenUtils.byteAlign(v.varType.sizeof()));
         }
@@ -68,8 +69,10 @@ public class DataVisitor extends TraverseVisitor<Void> {
             return;
         }
 
-        int size = varDecl.varType.sizeof();
         String label = globalLabeller.makeLabel(varDecl.varName);
+        varDecl.setGlobalLabel(label);
+
+        int size = varDecl.varType.sizeof();
         writer.withLabel(label).dataSpace(size);
     }
 }

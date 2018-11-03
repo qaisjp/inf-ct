@@ -40,8 +40,9 @@ public class DataVisitor extends TraverseVisitor<Void> {
         return null;
     }
 
-    public void visitStructDeclGlobal(String varName, StructType structType) {
+    public void visitStructDeclGlobal(VarDecl varDecl, StructType structType) {
         List<VarDecl> varDeclList = structType.decl.varDeclList;
+        String varName = varDecl.varName;
 
         // Comment the list of declarations
         writer.leadNewline().comment("'%s' (struct %s) [size %d]", varName, structType.str, structType.sizeof());
@@ -52,7 +53,8 @@ public class DataVisitor extends TraverseVisitor<Void> {
         writer.push();
         for (VarDecl v : varDeclList) {
             String label = globalLabeller.makeLabel(varName + v.varName);
-            v.setGlobalLabel(label);
+            // v.setGlobalLabel(label); // we can't use this. each `v` is global to all declarations of this struct
+            varDecl.setStructFieldLabel(v.varName, label);
 
             writer.withLabel(label).dataSpace(GenUtils.byteAlign(v.varType.sizeof()));
         }
@@ -65,7 +67,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
         super.visitVarDecl(varDecl);
 
         if (varDecl.varType instanceof StructType) {
-            visitStructDeclGlobal(varDecl.varName, (StructType) varDecl.varType);
+            visitStructDeclGlobal(varDecl, (StructType) varDecl.varType);
             return;
         }
 

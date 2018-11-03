@@ -13,10 +13,10 @@ int* intPointer;
 char* charPointer;
 
 // Test 4-byte boundaries
-char charArray_be_1_01[1]; // should be 1
-char charArray_be_4_01[2]; // should be 4
-char charArray_be_4_02[3]; // should be 4
-char charArray_be_4_03[4]; // should be 4
+char charArray_be_4_01[1]; // should be 4
+char charArray_be_4_02[2]; // should be 4
+char charArray_be_4_03[3]; // should be 4
+char charArray_be_4_04[4]; // should be 4
 char charArray_be_8_01[5]; // should be 8
 char charArray_be_8_02[7]; // should be 8
 char charArray_be_8_03[8]; // should be 8

@@ -6,7 +6,10 @@ public class IndentWriter {
     private PrintWriter writer;
     private int level = 0;
     private static final int width = 4;
+
+    // Magic stuff
     private String label = ""; // current label
+    private boolean wasNewline = false;
 
     public IndentWriter(PrintWriter writer) {
         this.writer = writer;
@@ -49,5 +52,22 @@ public class IndentWriter {
 
     public int getLevel() {
         return level;
+    }
+
+    public IndentWriter leadNewline() {
+        if (!wasNewline) {
+            writer.printf("\n");
+            wasNewline = true;
+        }
+        return this;
+    }
+
+    public void newline() {
+        wasNewline = true;
+        writer.printf("\n");
+    }
+
+    public void comment(String format, Object... args) {
+        printf("# " + format, args);
     }
 }

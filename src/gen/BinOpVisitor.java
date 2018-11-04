@@ -22,6 +22,8 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
             throw new RuntimeException("unsupported operation"); // todo
         }
 
+        writer.leadNewline().comment("%s", binOp);
+
         Register x = binOp.x.accept(V.text);
         Register y = binOp.y.accept(V.text);
         Register result;

@@ -30,6 +30,7 @@ public class CodeGenerator {
         V.text = new TextVisitor();
         V.inbuilt = new InbuiltVisitor();
         V.binOp = new BinOpVisitor();
+        V.assign = new AssignVisitor();
 
         // Visit the text visitor
         program.accept(V.text);

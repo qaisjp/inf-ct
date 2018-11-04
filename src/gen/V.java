@@ -10,4 +10,5 @@ public class V {
     public static TextVisitor text;
     public static InbuiltVisitor inbuilt;
     public static BinOpVisitor binOp;
+    public static AssignVisitor assign;
 }

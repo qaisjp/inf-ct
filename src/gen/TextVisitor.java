@@ -5,7 +5,7 @@ import ast.*;
 public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer;
 
-    private static RuntimeException ExceptionVarTypeNotImplemented = new RuntimeException(
+    public static final RuntimeException ExceptionVarTypeNotImplemented = new RuntimeException(
             "STUB! arrays, structs (& maybe strings) haven't been implemented yet");
 
     public TextVisitor() {
@@ -28,7 +28,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
         if (f.decl.isInbuilt) {
-            V.inbuilt.visitFunCallExpr(f);
+            f.accept(V.inbuilt);
             return null; // todo
         }
 
@@ -50,34 +50,11 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register visitAssign(Assign a) {
         writer.leadNewline().comment("%s", a);
         writer.suppressNextNewline();
+
         try (IndentWriter scope = writer.scope()) {
-
-            Register rReg = a.rhs.accept(this);
-
-            if (a.lhs instanceof VarExpr) {
-                try (Register lReg = getVarExprAddress((VarExpr) a.lhs)) {
-                    VarDecl decl = ((VarExpr) a.lhs).vd;
-
-                    Type varType = decl.varType;
-                    if (varType == BaseType.CHAR) {
-                        rReg.storeByteAt(lReg, 0);
-                    } else if (varType == BaseType.INT) {
-                        rReg.storeWordAt(lReg, 0);
-                    } else {
-                        // arrays and structs need SPECIAL treatment!
-                        // oh and strings too topKEKKER
-                        // todo
-                        throw ExceptionVarTypeNotImplemented;
-                    }
-                }
-            } else {
-                // todo
-                throw new RuntimeException("structs, pointers, etc etc not implemented yet");
-            }
-
-            rReg.free();
-            return null;
+            a.accept(V.assign);
         }
+        return null;
     }
 
     public Register getVarExprAddress(VarExpr v) {

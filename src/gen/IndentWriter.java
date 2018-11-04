@@ -61,6 +61,11 @@ public class IndentWriter {
         printf(".byte %d", (int) c);
     }
 
+    // syscall
+    public void syscall() {
+        printf("syscall");
+    }
+
     public int getLevel() {
         return level;
     }

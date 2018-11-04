@@ -23,8 +23,8 @@ string.split = (sep) =>
    self\gsub(pattern, (c) -> fields[#fields+1] = c)
    fields
 
-lexfile = (filename, input) ->
-    f = assert(io.popen "$PROJ/tests/gen.sh $PROJ/tests/gen/#{filename} out 2>&1", "r")
+lexfile = (filepath, input) ->
+    f = assert(io.popen "\"$PROJ/tests/gen.sh\" \"#{filepath}\" out 2>&1", "r")
     f\write input
     t = f\read "*all"
     f\close!
@@ -92,7 +92,7 @@ check_parses_to = (filename, filepath) ->
             pending filename
             return
 
-        output = lexfile filename, table.concat(input, "\n")
+        output = lexfile filepath, table.concat(input, "\n")
         lines = output\splitlines!
         their_output = extract_simulated_output lines
         -- print filename, table.concat(their_output, "\n")
@@ -104,7 +104,7 @@ tests = {}
 
 describe "#gen", ->
     -- We need to lex some random file first because myMARS generates some unavoidable shit
-    lexfile os.tmpname!, ""
+    output = lexfile os.tmpname!, ""
 
     local iterate
     iterate = (base, f="") ->

@@ -16,9 +16,6 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private Register print_i(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
 
-
-        writer.leadNewline().comment("%s", f);
-
         Register.v0.loadImmediate(1);
 
         if (arg instanceof IntLiteral) {
@@ -39,6 +36,8 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         if (!f.decl.isInbuilt) {
             return null;
         }
+
+        writer.leadNewline().comment("%s", f);
 
         switch (f.decl.name) {
             case "print_i":

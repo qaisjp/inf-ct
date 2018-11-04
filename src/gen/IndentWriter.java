@@ -129,6 +129,11 @@ public class IndentWriter implements java.lang.AutoCloseable {
         wasNewline = true;
     }
 
+    public IndentWriter suppressNextNewline() {
+        wasNewline = true;
+        return this;
+    }
+
     public void comment(String format, Object... args) {
         printf("# " + format, args);
     }

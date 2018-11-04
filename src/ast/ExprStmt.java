@@ -10,4 +10,9 @@ public class ExprStmt extends Stmt {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitExprStmt(this);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s;", expr);
+    }
 }

@@ -6,7 +6,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer;
 
     private static RuntimeException ExceptionVarTypeNotImplemented = new RuntimeException(
-            "STUB! arrays and structs haven't been implemented yet");
+            "STUB! arrays, structs (& maybe strings) haven't been implemented yet");
 
     public TextVisitor() {
         this.writer = V.writer;
@@ -15,6 +15,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitProgram(Program p) {
         writer.leadNewline().printf(".text");
+        writer.suppressNextNewline();
 
         try (IndentWriter scope = writer.scope()) {
             super.visitProgram(p);
@@ -48,32 +49,35 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     public Register visitAssign(Assign a) {
         writer.leadNewline().comment("%s", a);
+        writer.suppressNextNewline();
+        try (IndentWriter scope = writer.scope()) {
 
-        Register rReg = a.rhs.accept(this);
+            Register rReg = a.rhs.accept(this);
 
-        if (a.lhs instanceof VarExpr) {
-            try (Register lReg = getVarExprAddress((VarExpr) a.lhs)) {
-                VarDecl decl = ((VarExpr) a.lhs).vd;
+            if (a.lhs instanceof VarExpr) {
+                try (Register lReg = getVarExprAddress((VarExpr) a.lhs)) {
+                    VarDecl decl = ((VarExpr) a.lhs).vd;
 
-                Type varType = decl.varType;
-                if (varType == BaseType.CHAR) {
-                    rReg.storeByteAt(lReg, 0);
-                } else if (varType == BaseType.INT) {
-                    rReg.storeWordAt(lReg, 0);
-                } else {
-                    // arrays and structs need SPECIAL treatment!
-                    // oh and strings too topKEKKER
-                    // todo
-                    throw ExceptionVarTypeNotImplemented;
+                    Type varType = decl.varType;
+                    if (varType == BaseType.CHAR) {
+                        rReg.storeByteAt(lReg, 0);
+                    } else if (varType == BaseType.INT) {
+                        rReg.storeWordAt(lReg, 0);
+                    } else {
+                        // arrays and structs need SPECIAL treatment!
+                        // oh and strings too topKEKKER
+                        // todo
+                        throw ExceptionVarTypeNotImplemented;
+                    }
                 }
+            } else {
+                // todo
+                throw new RuntimeException("structs, pointers, etc etc not implemented yet");
             }
-        } else {
-            // todo
-            throw new RuntimeException("structs, pointers, etc etc not implemented yet");
-        }
 
-        rReg.free();
-        return null;
+            rReg.free();
+            return null;
+        }
     }
 
     public Register getVarExprAddress(VarExpr v) {
@@ -123,6 +127,14 @@ public class TextVisitor extends TraverseVisitor<Register> {
         }
 
         return value;
+    }
+
+    @Override
+    public Register visitExprStmt(ExprStmt e) {
+        writer.leadNewline().comment("%s", e);
+        try (IndentWriter scope = writer.scope().suppressNextNewline()) {
+            return super.visitExprStmt(e);
+        }
     }
 
 }

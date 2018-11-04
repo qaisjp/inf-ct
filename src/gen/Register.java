@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author cdubach
  */
-public class Register {
+public class Register implements java.lang.AutoCloseable {
 
 
     /*
@@ -79,5 +79,10 @@ public class Register {
 
     public void free() {
         V.registers.free(this);
+    }
+
+    @Override
+    public void close() {
+        free();
     }
 }

@@ -49,23 +49,21 @@ public class TextVisitor extends TraverseVisitor<Register> {
         Register rReg = a.rhs.accept(this);
 
         if (a.lhs instanceof VarExpr) {
-            Register lReg = getVarExprAddress((VarExpr) a.lhs);
+            try (Register lReg = getVarExprAddress((VarExpr) a.lhs)) {
+                VarDecl decl = ((VarExpr) a.lhs).vd;
 
-            VarDecl decl = ((VarExpr) a.lhs).vd;
-
-            Type varType = decl.varType;
-            if (varType == BaseType.CHAR) {
-                rReg.storeByteAt(lReg, 0);
-            } else if (varType == BaseType.INT) {
-                rReg.storeWordAt(lReg, 0);
-            } else {
-                // arrays and structs need SPECIAL treatment!
-                // oh and strings too topKEKKER
-                // todo
-                throw ExceptionVarTypeNotImplemented;
+                Type varType = decl.varType;
+                if (varType == BaseType.CHAR) {
+                    rReg.storeByteAt(lReg, 0);
+                } else if (varType == BaseType.INT) {
+                    rReg.storeWordAt(lReg, 0);
+                } else {
+                    // arrays and structs need SPECIAL treatment!
+                    // oh and strings too topKEKKER
+                    // todo
+                    throw ExceptionVarTypeNotImplemented;
+                }
             }
-
-            lReg.free();
         } else {
             // todo
             throw new RuntimeException("structs, pointers, etc etc not implemented yet");

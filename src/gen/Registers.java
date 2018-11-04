@@ -18,7 +18,9 @@ public class Registers {
 
     public Register get() {
         try {
-            return freeRegs.pop();
+            Register reg = freeRegs.pop();
+//            System.out.printf("Getting %s\n", reg);
+            return reg;
         } catch (EmptyStackException ese) {
             throw new RegisterAllocationError(); // no more free registers, bad luck!
         }
@@ -26,5 +28,6 @@ public class Registers {
 
     public void free(Register reg) {
         freeRegs.push(reg);
+//        System.out.printf("Freeing %s\n", reg);
     }
 }

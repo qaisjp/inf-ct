@@ -14,29 +14,34 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         this.registers = registers;
     }
 
+    private void print_i(FunDecl f, List<Expr> args) {
+        Expr arg = args.get(0);
+        if (!(arg instanceof IntLiteral)) {
+            writer.comment("stub: %s", f); // todo
+            return;
+        }
+
+        writer.leadNewline().comment("%s", f);
+
+        writer.li(Register.v0, 1);
+        writer.li(Register.paramRegs[0], ((IntLiteral) arg).value);
+        writer.syscall();
+    }
+
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
-        if (f.decl.isInbuilt) {
-            if (!f.decl.name.equals("print_i")) {
-                writer.comment("stub: %s", f); // todo
-                return null;
-            }
-
-            Expr arg = f.exprList.get(0);
-            if (!(arg instanceof IntLiteral)) {
-                writer.comment("stub: %s", f); // todo
-                return null;
-            }
-
-            writer.leadNewline().comment("%s", f);
-
-            writer.li(Register.v0, 1);
-            writer.li(Register.paramRegs[0], ((IntLiteral) arg).value);
-            writer.syscall();
-
-            return null; // todo fix this
+        if (!f.decl.isInbuilt) {
+            return null;
         }
-        System.out.println("NOT INBUILT");
-        return null;
+
+        switch (f.decl.name) {
+            case "print_i":
+                print_i(f.decl, f.exprList);
+                return null;
+        }
+
+        writer.comment("stub: %s", f); // todo: replace with RuntimeException
+
+        return null; // todo fix this
     }
 }

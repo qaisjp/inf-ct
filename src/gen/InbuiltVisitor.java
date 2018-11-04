@@ -17,6 +17,10 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
         if (f.decl.isInbuilt) {
+            if (!f.decl.name.equals("print_i")) {
+                writer.comment("stub: %s", f); // todo
+                return null;
+            }
             // todo: scratch
             System.out.println("IS INBUILT");
             writer.printf("-- %s\n", f);

@@ -1,3 +1,11 @@
+/*gen:expect/*
+3
+/*gen:expect*/
+
+/*gen:put/*
+SOMETHING GOES IN
+/*gen:put*/
+
 int a;
 int b;
 int c;

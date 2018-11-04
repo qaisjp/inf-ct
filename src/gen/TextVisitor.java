@@ -15,9 +15,10 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitProgram(Program p) {
         writer.leadNewline().printf(".text");
-        writer.push();
-        super.visitProgram(p);
-        writer.pop();
+
+        try (IndentWriter scope = writer.scope()) {
+            super.visitProgram(p);
+        }
 
         assert writer.getLevel() == 0;
         return null;

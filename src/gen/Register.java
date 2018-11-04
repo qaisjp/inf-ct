@@ -81,6 +81,7 @@ public class Register implements java.lang.AutoCloseable {
         V.registers.free(this);
     }
 
+    // Allows try-with-resources to be used to free registers
     @Override
     public void close() {
         free();

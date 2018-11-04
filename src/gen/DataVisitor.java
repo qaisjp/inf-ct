@@ -18,15 +18,14 @@ public class DataVisitor extends TraverseVisitor<Void> {
     public Void visitProgram(Program p) {
         writer.printf(".data");
         writer.newline();
-        writer.push();
 
-        visitEach(p.structTypeDecls);
-        for (VarDecl v : p.varDecls) {
-            visitVarDeclGlobal(v);
+        try (IndentWriter scope = writer.scope()) {
+            visitEach(p.structTypeDecls);
+            for (VarDecl v : p.varDecls) {
+                visitVarDeclGlobal(v);
+            }
+            visitEach(p.funDecls);
         }
-        visitEach(p.funDecls);
-
-        writer.pop();
 
         assert writer.getLevel() == 0;
         return null;
@@ -60,15 +59,15 @@ public class DataVisitor extends TraverseVisitor<Void> {
         // Prep varName to be a prefix
         varName += "_";
 
-        writer.push();
-        for (VarDecl v : varDeclList) {
-            String label = globalLabeller.makeLabel(varName + v.varName);
-            // v.setGlobalLabel(label); // we can't use this. each `v` is global to all declarations of this struct
-            varDecl.setStructFieldLabel(v.varName, label);
+        try (IndentWriter scope = writer.scope()) {
+            for (VarDecl v : varDeclList) {
+                String label = globalLabeller.makeLabel(varName + v.varName);
+                // v.setGlobalLabel(label); // we can't use this. each `v` is global to all declarations of this struct
+                varDecl.setStructFieldLabel(v.varName, label);
 
-            writer.withLabel(label).dataSpace(GenUtils.byteAlign(v.varType.sizeof()));
+                writer.withLabel(label).dataSpace(GenUtils.byteAlign(v.varType.sizeof()));
+            }
         }
-        writer.pop();
 
         writer.newline();
     }

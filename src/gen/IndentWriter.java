@@ -2,7 +2,7 @@ package gen;
 
 import java.io.PrintWriter;
 
-public class IndentWriter {
+public class IndentWriter implements java.lang.AutoCloseable {
     private PrintWriter writer;
     private int level = 0;
     private static final int width = 4;
@@ -15,11 +15,15 @@ public class IndentWriter {
         this.writer = writer;
     }
 
-    public void push() {
+    // For try-with-resources scoping
+    public IndentWriter scope() {
         level += 1;
+        return this;
     }
 
-    public void pop() {
+    // Allows try-with-resources to be used for scoping
+    @Override
+    public void close() {
         level -= 1;
     }
 

@@ -1,5 +1,5 @@
 /*gen:expect/*
-30-10101
+30-1010106
 /*gen:expect*/
 
 /*gen:put/*
@@ -35,4 +35,11 @@ void main() {
 	// ne
 	c = c != 1337;
 	print_i(c); // 1
+
+	print_i(0); // 0
+
+	// mul
+	c = 3;
+	c = c * b; // 3 * 2
+	print_i(c); // 6
 }

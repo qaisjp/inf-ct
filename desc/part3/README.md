@@ -22,7 +22,7 @@ For a more detailed explanation about the MIPS architecture, please have a look 
 
 - [x] Next, we suggest that you implement the print_i function using the corresponding system calls (check the lecture notes and the link above to the MARS documentation that explain how to do this).
 
-- [ ] You can then starts implementing simple arithmetic operations operating on literals, following the examples from the lectures.
+- [x] You can then starts implementing simple arithmetic operations operating on literals, following the examples from the lectures.
 
 Please note that we expect your programs to have one main function which should be the assembly entry point for the simulator. 
 

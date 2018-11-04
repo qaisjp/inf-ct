@@ -97,9 +97,14 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("seq %s, %s, %s", value, x, y);
     }
 
-    // sne: value = x == y
+    // sne: value = x != y
     public void sne(Register value, Register x, Register y) {
         printf("sne %s, %s, %s", value, x, y);
+    }
+
+    // mul: value = x * y (with some weird HI LO behaviour lol)
+    public void mul(Register value, Register x, Register y) {
+        printf("mul %s, %s, %s", value, x, y);
     }
 
     // load byte: lb $target, $offset($from)

@@ -34,6 +34,13 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
+    // todo: check if this a legal boi because of hi lo stuff
+    private Register mul(Register x, Register y) {
+        Register result = V.registers.get();
+        writer.mul(result, x, y);
+        return result;
+    }
+
     @Override
     public Register visitBinOp(BinOp binOp) {
         writer.leadNewline().comment("%s", binOp);
@@ -57,9 +64,11 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
                 case NE:
                     result = ne(x, y);
                     break;
+                case MUL:
+                    result = mul(x, y);
+                    break;
 
                 // todo
-                case MUL:
                 case MOD:
                 case DIV:
                 case AND:

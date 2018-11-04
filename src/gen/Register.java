@@ -66,7 +66,7 @@ public class Register {
     }
 
     public void storeByte(Register toAddress, int offset) {
-        V.writer.sw(this, toAddress, offset);
+        V.writer.sb(this, toAddress, offset);
     }
 
     public void storeWord(Register toAddress, int offset) {

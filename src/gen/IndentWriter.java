@@ -92,6 +92,11 @@ public class IndentWriter {
         printf("lw %s, %d(%s)", target, offset, from);
     }
 
+    // move: move $target, $from
+    public void move(Register target, Register from) {
+        printf("move %s, %s", target, from);
+    }
+
     public int getLevel() {
         return level;
     }

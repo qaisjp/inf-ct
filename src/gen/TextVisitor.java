@@ -61,6 +61,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
             return value;
         }
 
-        return null;//todo
+        // todo: if not global!!!!!!
+
+        return null;
     }
 }

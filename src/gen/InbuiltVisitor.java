@@ -15,15 +15,20 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
     private Register print_i(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
-        if (!(arg instanceof IntLiteral)) {
-            writer.comment("stub: %s", f); // todo
-            return null;
-        }
+
 
         writer.leadNewline().comment("%s", f);
 
-        writer.li(Register.v0, 1);
-        writer.li(Register.arg[0], ((IntLiteral) arg).value);
+        Register.v0.loadImmediate(1);
+
+        if (arg instanceof IntLiteral) {
+            writer.li(Register.arg[0], ((IntLiteral) arg).value);
+        } else {
+            Register val = arg.accept(V.text);
+            Register.arg[0].set(val);
+            val.free();
+        }
+
         writer.syscall();
 
         return null;

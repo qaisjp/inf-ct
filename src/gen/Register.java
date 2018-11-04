@@ -49,6 +49,10 @@ public class Register {
         return "$"+name;
     }
 
+    public void loadImmediate(int i) {
+        V.writer.li(this, i);
+    }
+
     public void loadAddress(String label) {
         V.writer.la(this, label);
     }
@@ -59,6 +63,10 @@ public class Register {
 
     public void loadWord(Register from, int offset) {
         V.writer.lw(this, from, offset);
+    }
+
+    public void set(Register from) {
+        V.writer.move(this, from);
     }
 
     public void free() {

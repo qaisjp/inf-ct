@@ -9,9 +9,9 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer; // use this writer to output the assembly instructions
     private Registers registers;
 
-    public InbuiltVisitor(IndentWriter writer, Registers registers) {
-        this.writer = writer;
-        this.registers = registers;
+    public InbuiltVisitor() {
+        this.writer = V.writer;
+        this.registers = V.registers;
     }
 
     private void print_i(FunDecl f, List<Expr> args) {

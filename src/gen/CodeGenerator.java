@@ -9,23 +9,29 @@ import java.util.ArrayList;
 
 public class CodeGenerator {
 
-    private PrintWriter writer; // use this writer to output the assembly instructions
-
     public CodeGenerator() {
     }
 
     public void emitProgram(Program program, File outputFile) throws FileNotFoundException {
-        writer = new PrintWriter(outputFile);
+        PrintWriter writer = new PrintWriter(outputFile);
 
+        // Create the writer
         IndentWriter indentWriter = new IndentWriter(writer);
+        V.writer = indentWriter;
+
+        // Create registers
         Registers registers = new Registers();
+        V.registers = registers;
 
         // Visit the data visitor
         program.accept(new DataVisitor(indentWriter));
 
+        // Create text visitor and other auxiliary visitors
+        V.text = new TextVisitor();
+        V.inbuilt = new InbuiltVisitor();
+
         // Visit the text visitor
-        TextVisitor textVisitor = new TextVisitor(indentWriter, registers);
-        program.accept(textVisitor);
+        program.accept(V.text);
 
         writer.close();
     }

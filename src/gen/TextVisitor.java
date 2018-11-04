@@ -5,15 +5,9 @@ import ast.Program;
 
 public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer;
-    private Registers registers;
 
-    private InbuiltVisitor inbuiltVisitor;
-
-    public TextVisitor(IndentWriter writer, Registers registers) {
-        this.writer = writer;
-        this.registers = registers;
-
-        inbuiltVisitor = new InbuiltVisitor(writer, registers);
+    public TextVisitor() {
+        this.writer = V.writer;
     }
 
     @Override
@@ -30,7 +24,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
         if (f.decl.isInbuilt) {
-            inbuiltVisitor.visitFunCallExpr(f);
+            V.inbuilt.visitFunCallExpr(f);
             return null; // todo
         }
 

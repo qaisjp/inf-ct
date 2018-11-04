@@ -14,20 +14,20 @@ public class Register {
      */
 
     public static final Register v0 = new Register(2,"v0");
-    public static final Register[] paramRegs = {
+    public static final Register[] arg = {
             new Register(4,"a0"),
             new Register(5,"a1"),
             new Register(6,"a2"),
             new Register(7,"a3")};
 
-    public static final List<Register> tmpRegs = new ArrayList<Register>();
+    public static final List<Register> tmp = new ArrayList<Register>();
     static {
         for (int i=8; i<=15; i++)
-            tmpRegs.add(new Register(i,"t"+(i-8)));
+            tmp.add(new Register(i,"t"+(i-8)));
         for (int i=16; i<=23; i++)
-            tmpRegs.add(new Register(i,"s"+(i-16)));
+            tmp.add(new Register(i,"s"+(i-16)));
         for (int i=24; i<=25; i++)
-            tmpRegs.add(new Register(i,"t"+(i-24+8)));
+            tmp.add(new Register(i,"t"+(i-24+8)));
     }
 
     public static final Register gp = new Register(28,"gp");

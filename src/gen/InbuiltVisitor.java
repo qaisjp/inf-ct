@@ -2,7 +2,6 @@ package gen;
 
 import ast.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InbuiltVisitor extends TraverseVisitor<Register> {
@@ -24,7 +23,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         writer.leadNewline().comment("%s", f);
 
         writer.li(Register.v0, 1);
-        writer.li(Register.paramRegs[0], ((IntLiteral) arg).value);
+        writer.li(Register.arg[0], ((IntLiteral) arg).value);
         writer.syscall();
     }
 

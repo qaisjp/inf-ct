@@ -11,7 +11,7 @@ public class Registers {
     private Stack<Register> freeRegs = new Stack<Register>();
 
     public Registers() {
-        freeRegs.addAll(Register.tmpRegs);
+        freeRegs.addAll(Register.tmp);
     }
 
     public class RegisterAllocationError extends Error {}

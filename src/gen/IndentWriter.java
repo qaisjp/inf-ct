@@ -55,6 +55,11 @@ public class IndentWriter {
         printf(".ascii \"%s\"", s);
     }
 
+    // .byte 2
+    public void dataByte(char c) {
+        printf(".byte %d", (int) c);
+    }
+
     public int getLevel() {
         return level;
     }

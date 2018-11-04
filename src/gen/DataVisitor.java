@@ -46,7 +46,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
         super.visitChrLiteral(c);
 
         c.genLabel = chrLabeller.makeLabel();
-        writer.withLabel(c.genLabel).dataAsciiWithoutNull(Character.toString(c.value));
+        writer.withLabel(c.genLabel).dataByte(c.value);
         return null;
     }
 

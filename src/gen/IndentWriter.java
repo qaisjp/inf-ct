@@ -100,12 +100,12 @@ public class IndentWriter {
 
     // store word: sw $from, offset($target)
     public void sw(Register from, Register target, int offset) {
-        printf("sw %s %d(%s)", from, target, offset);
+        printf("sw %s %d(%s)", from, offset, target);
     }
 
     // store byte: sw $from, offset($target)
     public void sb(Register from, Register target, int offset) {
-        printf("sb %s %d(%s)", from, target, offset);
+        printf("sb %s %d(%s)", from, offset, target);
     }
 
     public int getLevel() {

@@ -47,6 +47,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
     }
 
     public Register visitAssign(Assign a) {
+        writer.leadNewline().comment("%s", a);
+
         Register rReg = a.rhs.accept(this);
 
         if (a.lhs instanceof VarExpr) {

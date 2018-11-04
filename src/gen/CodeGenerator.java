@@ -23,22 +23,9 @@ public class CodeGenerator {
         // Visit the data visitor
         program.accept(new DataVisitor(indentWriter));
 
-        // Prep for text
-        indentWriter.printf(".text");
-        indentWriter.push();
-
-        // List of text visitors
-        ArrayList<ASTVisitor> visitors = new ArrayList<ASTVisitor>() {{
-            add(new InbuiltVisitor(indentWriter, registers));
-        }};
-
-        // Apply each text visitor to the AST
-        for (ASTVisitor v : visitors) {
-            program.accept(v);
-        }
-
-        // Pop the text
-        indentWriter.pop();
+        // Visit the text visitor
+        TextVisitor textVisitor = new TextVisitor(indentWriter, registers);
+        program.accept(textVisitor);
 
         writer.close();
     }

@@ -64,6 +64,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
                 // todo
                 throw ExceptionVarTypeNotImplemented;
             }
+
+            lReg.free();
         } else {
             // todo
             throw new RuntimeException("structs, pointers, etc etc not implemented yet");

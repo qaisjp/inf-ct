@@ -5,36 +5,14 @@ import ast.*;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
-import java.util.Stack;
 
 public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer; // use this writer to output the assembly instructions
+    private Registers registers;
 
-    /*
-     * Simple register allocator.
-     */
-
-    // contains all the free temporary registers
-    private Stack<Register> freeRegs = new Stack<Register>();
-
-    public TextVisitor(IndentWriter writer) {
+    public TextVisitor(IndentWriter writer, Registers registers) {
         this.writer = writer;
-
-        freeRegs.addAll(Register.tmpRegs);
-    }
-
-    private class RegisterAllocationError extends Error {}
-
-    private Register getRegister() {
-        try {
-            return freeRegs.pop();
-        } catch (EmptyStackException ese) {
-            throw new RegisterAllocationError(); // no more free registers, bad luck!
-        }
-    }
-
-    private void freeRegister(Register reg) {
-        freeRegs.push(reg);
+        this.registers = registers;
     }
 
     public List<Register> visitEach(List<? extends ASTNode> list) {
@@ -85,7 +63,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitIntLiteral(IntLiteral il) {
-        Register register = getRegister();
+        Register register = registers.get();
         writer.printf("li\t%s, %d", register, il.value);
         return register;
     }

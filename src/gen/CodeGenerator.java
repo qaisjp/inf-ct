@@ -18,11 +18,12 @@ public class CodeGenerator {
         writer = new PrintWriter(outputFile);
 
         IndentWriter indentWriter = new IndentWriter(writer);
+        Registers registers = new Registers();
 
         // List of visitors
         ArrayList<ASTVisitor> visitors = new ArrayList<ASTVisitor>() {{
             add(new DataVisitor(indentWriter));
-//            add(new TextVisitor(indentWriter));
+//            add(new TextVisitor(indentWriter, registers));
         }};
 
         // Apply each visitor to the AST

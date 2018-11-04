@@ -32,6 +32,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
             return null; // todo
         }
 
+        super.visitFunCallExpr(f);
         return null; // todo
     }
 

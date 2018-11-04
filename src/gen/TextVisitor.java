@@ -46,19 +46,21 @@ public class TextVisitor extends TraverseVisitor<Register> {
     }
 
     public Register visitAssign(Assign a) {
-        Register lReg = a.lhs.accept(this);
         Register rReg = a.rhs.accept(this);
 
         if (a.lhs instanceof VarExpr) {
+            Register lReg = getVarExprAddress((VarExpr) a.lhs);
+
             VarDecl decl = ((VarExpr) a.lhs).vd;
 
-            int size = decl.varType.sizeof();
-            if (size == 1) {
-                lReg.storeByte(rReg, 0);
-            } else if (size == 4) {
-                lReg.storeWord(rReg, 0);
+            Type varType = decl.varType;
+            if (varType == BaseType.CHAR) {
+                rReg.storeByteAt(lReg, 0);
+            } else if (varType == BaseType.INT) {
+                rReg.storeWordAt(lReg, 0);
             } else {
                 // arrays and structs need SPECIAL treatment!
+                // oh and strings too topKEKKER
                 // todo
                 throw ExceptionVarTypeNotImplemented;
             }
@@ -71,8 +73,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return null;
     }
 
-    @Override
-    public Register visitVarExpr(VarExpr v) {
+    public Register getVarExprAddress(VarExpr v) {
         VarDecl decl = v.vd;
 
         if (decl.isGlobal()) {
@@ -82,14 +83,10 @@ public class TextVisitor extends TraverseVisitor<Register> {
             String label = decl.getGlobalLabel();
             value.loadAddress(label);
 
-            // Load the word or byte now from the register
-            int size = decl.varType.sizeof(); // sizes are 4, 1, or other (in case of arrays, structs)
-            if (size == 1) {
-                value.loadByte(value, 0);
-            } else if (size == 4) {
-                value.loadWord(value, 0);
-            } else {
+            Type t = decl.varType;
+            if (t != BaseType.CHAR && t != BaseType.INT) {
                 // arrays and structs need SPECIAL treatment!
+                // oh and strings too topKEK
                 // todo
                 throw ExceptionVarTypeNotImplemented;
             }
@@ -101,4 +98,28 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
         return null;
     }
+
+    @Override
+    public Register visitVarExpr(VarExpr v) {
+        VarDecl decl = v.vd;
+
+        // Get address of variable expression
+        Register value = getVarExprAddress(v);
+
+        // Load the word or byte now from the register
+        Type t = decl.varType;
+        if (t == BaseType.CHAR) {
+            value.loadByte(value, 0);
+        } else if (t == BaseType.INT) {
+            value.loadWord(value, 0);
+        } else {
+            // arrays and structs need SPECIAL treatment!
+            // and strings too
+            // todo
+            throw ExceptionVarTypeNotImplemented;
+        }
+
+        return value;
+    }
+
 }

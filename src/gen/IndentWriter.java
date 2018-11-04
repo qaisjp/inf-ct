@@ -142,6 +142,11 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("mfhi %s", target);
     }
 
+    // move from lo to target: mflo $target
+    public void mflo(Register target) {
+        printf("mflo %s", target);
+    }
+
     public int getLevel() {
         return level;
     }

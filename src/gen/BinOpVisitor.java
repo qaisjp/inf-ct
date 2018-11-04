@@ -35,6 +35,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
     }
 
     // todo: check if this a legal boi because of hi lo stuff
+    // andrius says it is legal
     private Register mul(Register x, Register y) {
         Register result = V.registers.get();
         writer.mul(result, x, y);
@@ -42,10 +43,20 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
     }
 
     // todo: check if this legal
+    // andrius says it is legal
     private Register mod(Register num, Register dividedBy) {
         Register result = V.registers.get();
         writer.div(num, dividedBy);
         writer.mfhi(result);
+        return result;
+    }
+
+    // todo check if this is legal because of hi low stuff
+    // andrius says it is legal
+    private Register div(Register num, Register dividedBy) {
+        Register result = V.registers.get();
+        writer.div(num, dividedBy);
+        writer.mflo(result);
         return result;
     }
 
@@ -78,9 +89,11 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
                 case MOD:
                     result = mod(x, y);
                     break;
+                case DIV:
+                    result = div(x, y);
+                    break;
 
                 // todo
-                case DIV:
                 case AND:
                 case OR:
                 case LT:

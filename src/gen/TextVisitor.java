@@ -5,6 +5,9 @@ import ast.*;
 public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer;
 
+    private static RuntimeException ExceptionVarTypeNotImplemented = new RuntimeException(
+            "STUB! arrays and structs haven't been implemented yet");
+
     public TextVisitor() {
         this.writer = V.writer;
     }
@@ -35,6 +38,32 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return binOp.accept(V.binOp);
     }
 
+    public Register visitAssign(Assign a) {
+        Register lReg = a.lhs.accept(this);
+        Register rReg = a.rhs.accept(this);
+
+        if (a.lhs instanceof VarExpr) {
+            VarDecl decl = ((VarExpr) a.lhs).vd;
+
+            int size = decl.varType.sizeof();
+            if (size == 1) {
+                lReg.storeByte(rReg, 0);
+            } else if (size == 4) {
+                lReg.storeWord(rReg, 0);
+            } else {
+                // arrays and structs need SPECIAL treatment!
+                // todo
+                throw ExceptionVarTypeNotImplemented;
+            }
+        } else {
+            // todo
+            throw new RuntimeException("structs, pointers, etc etc not implemented yet");
+        }
+
+        rReg.free();
+        return null;
+    }
+
     @Override
     public Register visitVarExpr(VarExpr v) {
         VarDecl decl = v.vd;
@@ -55,7 +84,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
             } else {
                 // arrays and structs need SPECIAL treatment!
                 // todo
-                throw new RuntimeException("STUB! arrays and structs haven't been implemented yet");
+                throw ExceptionVarTypeNotImplemented;
             }
 
             return value;

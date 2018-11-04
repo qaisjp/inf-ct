@@ -82,12 +82,12 @@ public class IndentWriter {
         printf("add %s, %s, %s", value, x, y);
     }
 
-    // load byte: lb $target, $from
+    // load byte: lb $target, $offset($from)
     public void lb(Register target, Register from, int offset) {
         printf("lb %s, %d(%s)", target, offset, from);
     }
 
-    // load word: lw $target, $from
+    // load word: lw $target, $offset($from)
     public void lw(Register target, Register from, int offset) {
         printf("lw %s, %d(%s)", target, offset, from);
     }
@@ -95,6 +95,16 @@ public class IndentWriter {
     // move: move $target, $from
     public void move(Register target, Register from) {
         printf("move %s, %s", target, from);
+    }
+
+    // store word: sw $from, offset($target)
+    public void sw(Register from, Register target, int offset) {
+        printf("sw %s %d(%s)", from, target, offset);
+    }
+
+    // store byte: sw $from, offset($target)
+    public void sb(Register from, Register target, int offset) {
+        printf("sb %s %d(%s)", from, target, offset);
     }
 
     public int getLevel() {

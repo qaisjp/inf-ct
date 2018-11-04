@@ -12,7 +12,7 @@ jobs:
           - _SILENT_JAVA_OPTS="$_JAVA_OPTIONS"
           - unset _JAVA_OPTIONS
           - alias java='java "$_SILENT_JAVA_OPTS"'
-          - PROJ="./" busted tests -o TAP
+          - PROJ="./" busted tests
         env:
           - LUA=lua5.1
           - LUAROCKS=2.3.0

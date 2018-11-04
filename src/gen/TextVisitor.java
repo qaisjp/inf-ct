@@ -38,6 +38,13 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return binOp.accept(V.binOp);
     }
 
+    @Override
+    public Register visitIntLiteral(IntLiteral i) {
+        Register val = V.registers.get();
+        val.loadImmediate(i.value);
+        return val;
+    }
+
     public Register visitAssign(Assign a) {
         Register lReg = a.lhs.accept(this);
         Register rReg = a.rhs.accept(this);

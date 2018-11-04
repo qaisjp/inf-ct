@@ -13,11 +13,11 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         this.registers = V.registers;
     }
 
-    private void print_i(FunDecl f, List<Expr> args) {
+    private Register print_i(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
         if (!(arg instanceof IntLiteral)) {
             writer.comment("stub: %s", f); // todo
-            return;
+            return null;
         }
 
         writer.leadNewline().comment("%s", f);
@@ -25,6 +25,8 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         writer.li(Register.v0, 1);
         writer.li(Register.arg[0], ((IntLiteral) arg).value);
         writer.syscall();
+
+        return null;
     }
 
     @Override
@@ -35,8 +37,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
         switch (f.decl.name) {
             case "print_i":
-                print_i(f.decl, f.exprList);
-                return null;
+                return print_i(f.decl, f.exprList);
         }
 
         writer.comment("stub: %s", f); // todo: replace with RuntimeException

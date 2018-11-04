@@ -16,12 +16,26 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
+    private Register sub(Register x, Register y) {
+        Register result = V.registers.get();
+        writer.sub(result, x, y);
+        return result;
+    }
+
+    private Register eq(Register x, Register y) {
+        Register result = V.registers.get();
+        writer.seq(result, x, y);
+        return result;
+    }
+
+    private Register ne(Register x, Register y) {
+        Register result = V.registers.get();
+        writer.sne(result, x, y);
+        return result;
+    }
+
     @Override
     public Register visitBinOp(BinOp binOp) {
-        if (binOp.op != Op.ADD) {
-            throw new RuntimeException("unsupported operation"); // todo
-        }
-
         writer.leadNewline().comment("%s", binOp);
 
         Register result;
@@ -34,6 +48,26 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
                 case ADD:
                     result = add(x, y);
                     break;
+                case SUB:
+                    result = sub(x, y);
+                    break;
+                case EQ:
+                    result = eq(x, y);
+                    break;
+                case NE:
+                    result = ne(x, y);
+                    break;
+
+                // todo
+                case MUL:
+                case MOD:
+                case DIV:
+                case AND:
+                case OR:
+                case LT:
+                case GT:
+                case LE:
+                case GE:
                 default:
                     throw new RuntimeException("unsupported operation");
             }

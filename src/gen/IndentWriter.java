@@ -87,6 +87,21 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("add %s, %s, %s", value, x, y);
     }
 
+    // sub: value = x - y
+    public void sub(Register value, Register x, Register y) {
+        printf("sub %s, %s, %s", value, x, y);
+    }
+
+    // seq: value = x == y
+    public void seq(Register value, Register x, Register y) {
+        printf("seq %s, %s, %s", value, x, y);
+    }
+
+    // sne: value = x == y
+    public void sne(Register value, Register x, Register y) {
+        printf("sne %s, %s, %s", value, x, y);
+    }
+
     // load byte: lb $target, $offset($from)
     public void lb(Register target, Register from, int offset) {
         printf("lb %s, %d(%s)", target, offset, from);

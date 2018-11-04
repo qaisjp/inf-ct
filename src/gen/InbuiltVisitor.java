@@ -21,12 +21,18 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
                 writer.comment("stub: %s", f); // todo
                 return null;
             }
-            // todo: scratch
-            System.out.println("IS INBUILT");
-            writer.printf("-- %s\n", f);
-            writer.printf("\tli\t$v0, 1\n");
-            writer.printf("\tli\t$a0, %d\n", ((IntLiteral) f.exprList.get(0)).value);
-            writer.printf("\tsyscall\n");
+
+            writer.leadNewline().comment("%s", f);
+            writer.printf("li\t$v0, 1");
+
+            Expr arg = f.exprList.get(0);
+            if (!(arg instanceof IntLiteral)) {
+                writer.comment("stub: %s", f); // todo
+                return null;
+            }
+
+            writer.printf("li\t$a0, %d", ((IntLiteral) arg).value);
+            writer.syscall();
             return null; // todo fix this
         }
         System.out.println("NOT INBUILT");

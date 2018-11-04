@@ -14,7 +14,21 @@ if [ -z "$PROJ" ]; then
 fi
 
 SHOULD_COMPILE=false;
+SHOULD_EDIT=false;
 FILENAME="$1";
+
+if [ "$1" = "-e" ]; then
+    SHOULD_EDIT=true;
+    FILENAME="$2";
+elif [ "$2" = "-e" ]; then
+    SHOULD_EDIT=true;
+fi
+
+if $SHOULD_EDIT; then
+    "$EDITOR" "$FILENAME";
+    exit 0;
+fi
+
 if [ "$1" = "-c" ]; then
     SHOULD_COMPILE=true;
     FILENAME="$2";
@@ -34,7 +48,7 @@ fi
 
 # Check if file exists
 if [ ! -f "$FILENAME" ]; then
-    echo "Filname \"$FILENAME\" does not exist";
+    echo "Filename \"$FILENAME\" does not exist";
     exit 1;
 fi
 

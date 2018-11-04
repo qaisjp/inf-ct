@@ -36,6 +36,7 @@ public class IndentWriter {
         }
 
         writer.printf(indentation + label + format + "\n", args);
+        writer.flush();
 
         label = "";
         wasNewline = false;

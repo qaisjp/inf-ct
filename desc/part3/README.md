@@ -18,7 +18,7 @@ For a more detailed explanation about the MIPS architecture, please have a look 
 
 ## 1. Generating a simple program
 
-- [ ] Your next task should consists of producing an empty program (e.g. just an empty main function) and see that you can produce an assembly file.
+- [x] Your next task should consists of producing an empty program (e.g. just an empty main function) and see that you can produce an assembly file.
 
 - [ ] Next, we suggest that you implement the print_i function using the corresponding system calls (check the lecture notes and the link above to the MARS documentation that explain how to do this).
 

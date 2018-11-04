@@ -49,4 +49,11 @@ public class Register {
         return "$"+name;
     }
 
+    public void loadAddress(String label) {
+        V.writer.la(this, label);
+    }
+
+    public void free() {
+        V.registers.free(this);
+    }
 }

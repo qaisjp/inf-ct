@@ -66,9 +66,20 @@ public class IndentWriter {
         printf("syscall");
     }
 
-    // load immediate: $register, 1
+    // load immediate: li $register, 1
     public void li(Register r, int i) {
-        printf("li %s %d", r, i);
+        printf("li %s, %d", r, i);
+    }
+
+    // load address from label: la $register, some_global
+    public void la(Register r, String label) {
+        Labeller.verifyLabel(label);
+        printf("la %s, %s", r, label);
+    }
+
+    // add
+    public void add(Register value, Register x, Register y) {
+        printf("add %s, %s, %s", value, x, y);
     }
 
     public int getLevel() {

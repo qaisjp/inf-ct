@@ -9,4 +9,5 @@ public class V {
     // Actual visitors
     public static TextVisitor text;
     public static InbuiltVisitor inbuilt;
+    public static BinOpVisitor binOp;
 }

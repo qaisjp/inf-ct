@@ -29,4 +29,10 @@ public class Labeller {
 
         return makeLabel(label);
     }
+
+    public static void verifyLabel(String label) {
+        if (!labels.contains(label)) {
+            throw new RuntimeException("Attempting to use label, but could not be found!");
+        }
+    }
 }

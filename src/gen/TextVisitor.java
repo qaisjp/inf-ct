@@ -1,5 +1,6 @@
 package gen;
 
+import ast.BinOp;
 import ast.FunCallExpr;
 import ast.Program;
 
@@ -29,5 +30,10 @@ public class TextVisitor extends TraverseVisitor<Register> {
         }
 
         return null; // todo
+    }
+
+    @Override
+    public Register visitBinOp(BinOp binOp) {
+        return binOp.accept(V.binOp);
     }
 }

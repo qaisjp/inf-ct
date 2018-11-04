@@ -38,6 +38,7 @@ public class IndentWriter {
         writer.printf(indentation + label + format + "\n", args);
 
         label = "";
+        wasNewline = false;
     }
 
     // .space 4
@@ -73,8 +74,8 @@ public class IndentWriter {
     }
 
     public void newline() {
-        wasNewline = true;
         writer.printf("\n");
+        wasNewline = true;
     }
 
     public void comment(String format, Object... args) {

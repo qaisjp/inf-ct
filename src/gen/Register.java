@@ -53,6 +53,14 @@ public class Register {
         V.writer.la(this, label);
     }
 
+    public void loadByte(Register from, int offset) {
+        V.writer.lb(this, from, offset);
+    }
+
+    public void loadWord(Register from, int offset) {
+        V.writer.lw(this, from, offset);
+    }
+
     public void free() {
         V.registers.free(this);
     }

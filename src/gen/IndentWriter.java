@@ -82,6 +82,16 @@ public class IndentWriter {
         printf("add %s, %s, %s", value, x, y);
     }
 
+    // load byte: lb $target, $from
+    public void lb(Register target, Register from, int offset) {
+        printf("lb %s, %d(%s)", target, offset, from);
+    }
+
+    // load word: lw $target, $from
+    public void lw(Register target, Register from, int offset) {
+        printf("lw %s, %d(%s)", target, offset, from);
+    }
+
     public int getLevel() {
         return level;
     }

@@ -22,16 +22,19 @@ public class VarDecl implements ASTNode {
         return varType.toString() + " " + varName;
     }
 
+    public boolean isGlobal() {
+        return genLabel != null;
+    }
 
     public void setGlobalLabel(String label) {
-        if (genLabel != null) {
+        if (isGlobal()) {
             throw new RuntimeException("Can't set label if already set to "  + genLabel);
         }
         genLabel = label;
     }
 
     public String getGlobalLabel() {
-        if (genLabel == null) {
+        if (!isGlobal()) {
             throw new NullPointerException("Can't get global label if not a global label (genLabel is null)");
         }
         return genLabel;

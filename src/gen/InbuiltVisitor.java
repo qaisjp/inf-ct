@@ -21,9 +21,9 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         if (arg instanceof IntLiteral) {
             writer.li(Register.arg[0], ((IntLiteral) arg).value);
         } else {
-            Register val = arg.accept(V.text);
-            Register.arg[0].set(val);
-            val.free();
+            try (Register val = arg.accept(V.text)) {
+                Register.arg[0].set(val);
+            }
         }
 
         writer.syscall();

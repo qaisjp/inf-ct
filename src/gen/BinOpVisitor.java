@@ -24,21 +24,20 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
         writer.leadNewline().comment("%s", binOp);
 
-        Register x = binOp.x.accept(V.text);
-        Register y = binOp.y.accept(V.text);
         Register result;
 
-        switch (binOp.op) {
-            case ADD:
-                result = add(x, y);
-                break;
-            default:
-                throw new RuntimeException("unsupported operation");
+        try (
+            Register x = binOp.x.accept(V.text);
+            Register y = binOp.y.accept(V.text)
+        ) {
+            switch (binOp.op) {
+                case ADD:
+                    result = add(x, y);
+                    break;
+                default:
+                    throw new RuntimeException("unsupported operation");
+            }
         }
-
-        // Free intermediary registers
-        x.free();
-        y.free();
 
         return result;
     }

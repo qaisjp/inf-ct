@@ -66,6 +66,11 @@ public class IndentWriter {
         printf("syscall");
     }
 
+    // load immediate: $register, 1
+    public void li(Register r, int i) {
+        printf("li %s %d", r, i);
+    }
+
     public int getLevel() {
         return level;
     }

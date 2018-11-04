@@ -132,6 +132,16 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("sb %s %d(%s)", from, offset, target);
     }
 
+    // divide: div $number, $dividedBy (lo = quotient, hi = remainder)
+    public void div(Register number, Register dividedBy) {
+        printf("div %s %s", number, dividedBy);
+    }
+
+    // move from hi to target: mfhi $target
+    public void mfhi(Register target) {
+        printf("mfhi %s", target);
+    }
+
     public int getLevel() {
         return level;
     }

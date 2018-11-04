@@ -1,5 +1,5 @@
 /*gen:expect/*
-30-1010106
+30-10101064
 /*gen:expect*/
 
 /*gen:put/*
@@ -42,4 +42,10 @@ void main() {
 	c = 3;
 	c = c * b; // 3 * 2
 	print_i(c); // 6
+
+	// mod
+	c = 9; // c is now 9
+	b = 5; // b is now 5
+	a = c % b; // c mod b = 9 mod 5 = 4
+	print_i(a); // 4
 }

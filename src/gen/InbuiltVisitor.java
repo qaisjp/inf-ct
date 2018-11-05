@@ -132,7 +132,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
         if (!inbuilts.containsKey(f.decl.name)) {
             writer.comment("stub: %s", f);
-            throw new RuntimeException("attempt to call undefined inbuilt " + f.decl.name); // todo: ensure all impls
+            throw new RuntimeException("attempt to call undefined inbuilt " + f.decl.name);
         }
 
         return inbuilts.get(f.decl.name).apply(f.decl, f.exprList);

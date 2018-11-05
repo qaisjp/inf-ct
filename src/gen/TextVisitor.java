@@ -28,8 +28,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
         if (f.decl.isInbuilt) {
-            f.accept(V.inbuilt);
-            return null; // todo
+            return f.accept(V.inbuilt);
         }
 
         super.visitFunCallExpr(f);

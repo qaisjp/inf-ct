@@ -118,8 +118,9 @@ check_parses_to = (filename, filepath) ->
 tests = {}
 
 describe "#gen", ->
-    -- We need to lex some random file first because myMARS generates some unavoidable shit
-    output = lexfile os.tmpname!, ""
+    if os.getenv("CI") then
+        -- We need to lex some random file first because myMARS generates some unavoidable shit
+        lexfile os.tmpname!, ""
 
     local iterate
     iterate = (base, f="") ->

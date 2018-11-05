@@ -15,7 +15,6 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
         return results;
     }
 
-
     @Override
     public T visitProgram(Program p) {
         visitEach(p.structTypeDecls);

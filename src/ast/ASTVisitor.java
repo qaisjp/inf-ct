@@ -1,37 +1,37 @@
 package ast;
 
 public interface ASTVisitor<T> {
-    public T visitProgram(Program p);
+    T visitProgram(Program p);
 
     // Types
-    public T visitBaseType(BaseType bt);
-    public T visitPointerType(PointerType pt);
-    public T visitStructType(StructType st);
-    public T visitArrayType(ArrayType at);
+    T visitBaseType(BaseType bt);
+    T visitPointerType(PointerType pt);
+    T visitStructType(StructType st);
+    T visitArrayType(ArrayType at);
 
     // Declarations
-    public T visitStructTypeDecl(StructTypeDecl st);
-    public T visitVarDecl(VarDecl vd);
-    public T visitFunDecl(FunDecl p);
+    T visitStructTypeDecl(StructTypeDecl st);
+    T visitVarDecl(VarDecl vd);
+    T visitFunDecl(FunDecl p);
 
     // Expressions
-    public T visitIntLiteral(IntLiteral il);
-    public T visitStrLiteral(StrLiteral sl);
-    public T visitChrLiteral(ChrLiteral cl);
-    public T visitVarExpr(VarExpr v);
-    public T visitFunCallExpr(FunCallExpr f);
-    public T visitBinOp(BinOp bo);
-    public T visitArrayAccessExpr(ArrayAccessExpr aae);
-    public T visitFieldAccessExpr(FieldAccessExpr fae);
-    public T visitValueAtExpr(ValueAtExpr vae);
-    public T visitSizeOfExpr(SizeOfExpr soe);
-    public T visitTypecastExpr(TypecastExpr te);
+    T visitIntLiteral(IntLiteral il);
+    T visitStrLiteral(StrLiteral sl);
+    T visitChrLiteral(ChrLiteral cl);
+    T visitVarExpr(VarExpr v);
+    T visitFunCallExpr(FunCallExpr f);
+    T visitBinOp(BinOp bo);
+    T visitArrayAccessExpr(ArrayAccessExpr aae);
+    T visitFieldAccessExpr(FieldAccessExpr fae);
+    T visitValueAtExpr(ValueAtExpr vae);
+    T visitSizeOfExpr(SizeOfExpr soe);
+    T visitTypecastExpr(TypecastExpr te);
 
     // Statements
-    public T visitBlock(Block b);
-    public T visitWhile(While w);
-    public T visitIf(If i);
-    public T visitAssign(Assign a);
-    public T visitReturn(Return r);
-    public T visitExprStmt(ExprStmt e);
+    T visitBlock(Block b);
+    T visitWhile(While w);
+    T visitIf(If i);
+    T visitAssign(Assign a);
+    T visitReturn(Return r);
+    T visitExprStmt(ExprStmt e);
 }

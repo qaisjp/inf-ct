@@ -29,6 +29,9 @@ public class IndentWriter implements java.lang.AutoCloseable {
     }
 
     public IndentWriter withLabel(String label) {
+        if (!this.label.isEmpty()) {
+            throw new RuntimeException("withLabel overwritten");
+        }
         this.label = label;
         return this;
     }

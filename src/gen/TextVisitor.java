@@ -58,6 +58,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return val;
     }
 
+    @Override
     public Register visitAssign(Assign a) {
         writer.leadNewline().comment("%s", a);
         writer.suppressNextNewline();
@@ -66,6 +67,13 @@ public class TextVisitor extends TraverseVisitor<Register> {
             a.accept(V.assign);
         }
         return null;
+    }
+
+    @Override
+    public Register visitStrLiteral(StrLiteral s) {
+        Register address = V.registers.get();
+        address.loadAddress(s.genLabel);
+        return address;
     }
 
     public Register getVarExprAddress(VarExpr v) {

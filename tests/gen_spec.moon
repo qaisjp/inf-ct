@@ -24,16 +24,22 @@ string.split = (sep) =>
    fields
 
 lexfile = (filepath, input) ->
-    inputPath = os.tmpname!
-    inputFile = io.open inputPath
-    inputFile\write input
-    inputFile\close!
+    cmd = "\"$PROJ/tests/gen.sh\" \"#{filepath}\" out 2>&1"
 
-    f = assert(io.popen "cat \"#{inputPath}\" | \"$PROJ/tests/gen.sh\" \"#{filepath}\" out 2>&1", "r")
+    local inputPath
+    if input then
+        inputPath = os.tmpname!
+        inputFile = io.open inputPath
+        inputFile\write input
+        inputFile\close!
+        cmd = "cat \"#{inputPath}\" | #{cmd}"
+
+    f = assert(io.popen cmd, "r")
     t = f\read "*all"
     f\close!
 
-    os.execute("rm \"#{inputPath}\"")
+    if inputPath
+        os.execute("rm \"#{inputPath}\"")
     return t
 
 -- Extracts the directive and returns the contents
@@ -79,6 +85,7 @@ check_parses_to = (filename, filepath) ->
         c_lines = getfile(filepath)\splitlines!
         input = extract_directive "put", c_lines
         has_input = #input != 0
+        input = nil unless has_input
     
         -- if has_input then
         --     print "input:", table.concat(input, "\n")
@@ -98,7 +105,9 @@ check_parses_to = (filename, filepath) ->
             pending filename
             return
 
-        output = lexfile filepath, table.concat(input, "\n")
+        input = table.concat(input, "\n") if input
+
+        output = lexfile filepath, input
         lines = output\splitlines!
         their_output = extract_simulated_output lines
         -- print filename, table.concat(their_output, "\n")

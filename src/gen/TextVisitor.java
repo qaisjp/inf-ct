@@ -37,6 +37,31 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
+    private Labeller funcLabeller = new Labeller("func");
+    @Override
+    public Register visitFunDecl(FunDecl f) {
+        // Ignore inbuilt declarations
+        if (f.isInbuilt) {
+            return null;
+        }
+
+        String label = funcLabeller.label(f.name);
+        writer.leadNewline().withLabel(label).comment("%s", f);
+
+        writer.suppressNextNewline();
+        try (IndentWriter scope = writer.scope()) {
+            // If this is the main function, we need a second labels!
+            if (f.name.equals("main")) {
+                writer.withLabel("main").printf(".globl main");
+            }
+
+            // do some stuff (todo)
+            super.visitFunDecl(f);
+        }
+
+        return null; // no register returned for function declarations
+    }
+
     @Override
     public Register visitBinOp(BinOp binOp) {
         return binOp.accept(V.binOp);

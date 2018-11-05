@@ -24,12 +24,12 @@ string.split = (sep) =>
    fields
 
 lexfile = (filepath, input) ->
-    cmd = "\"$PROJ/tests/gen.sh\" \"#{filepath}\" out 2>&1"
+    cmd = "\"$PROJ/tests/gen.sh\" \"#{filepath}\" 2>&1"
 
     local inputPath
     if input then
         inputPath = os.tmpname!
-        inputFile = io.open inputPath
+        inputFile = io.open inputPath, "w"
         inputFile\write input
         inputFile\close!
         cmd = "cat \"#{inputPath}\" | #{cmd}"

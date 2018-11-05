@@ -30,6 +30,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             InbuiltVisitor.inbuilts.put("print_s", InbuiltVisitor::print_s);
             InbuiltVisitor.inbuilts.put("read_i", InbuiltVisitor::read_i);
             InbuiltVisitor.inbuilts.put("mcmalloc", InbuiltVisitor::mcmalloc); // todo this needs testing
+            InbuiltVisitor.inbuilts.put("print_c", InbuiltVisitor::print_c);
         }
     }
 
@@ -89,6 +90,25 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             Register.v0.moveTo(value);
             return value;
         }
+    }
+
+    private static Register print_c(FunDecl f, List<Expr> args) {
+        Expr arg = args.get(0);
+
+        Register.v0.loadImmediate(11);
+
+        if (arg instanceof ChrLiteral) {
+            // this is left here for efficiency. removing this will just make an extra intermediary register.
+            V.writer.li(Register.arg[0], ((ChrLiteral) arg).value);
+        } else {
+            try (Register val = arg.accept(V.text)) {
+                Register.arg[0].set(val);
+            }
+        }
+
+        V.writer.syscall();
+
+        return null;
     }
 
     @Override

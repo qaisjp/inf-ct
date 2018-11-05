@@ -35,6 +35,17 @@ public class Register implements java.lang.AutoCloseable {
     public static final Register fp = new Register(30,"fp");
     public static final Register ra = new Register(31,"ra");
 
+    public static final Register[] unfreeable = {
+            // syscall register
+            v0,
+
+            // argument registers
+            arg[0], arg[1], arg[2], arg[3],
+
+            // pointers and return address
+            gp, sp, fp, ra,
+    };
+
 
     private final int num;      // register number
     private final String name;  // register name
@@ -78,6 +89,11 @@ public class Register implements java.lang.AutoCloseable {
     }
 
     public void free() {
+        for (Register r : unfreeable) {
+            if (r == this) {
+                throw new RuntimeException("Attempted to free non-freeable register.");
+            }
+        }
         V.registers.free(this);
     }
 

@@ -28,6 +28,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             InbuiltVisitor.inbuilts = new HashMap<>();
             InbuiltVisitor.inbuilts.put("print_i", InbuiltVisitor::print_i);
             InbuiltVisitor.inbuilts.put("print_s", InbuiltVisitor::print_s);
+            InbuiltVisitor.inbuilts.put("read_i", InbuiltVisitor::read_i);
         }
     }
 
@@ -66,6 +67,16 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
         writer.syscall();
         return null;
+    }
+
+    private static Register read_i(FunDecl f, List<Expr> args) {
+        // Call syscall 5 - this sets the read integer to v0
+        Register.v0.loadImmediate(5);
+        writer.syscall();
+
+        Register value = V.registers.get();
+        Register.v0.moveTo(value);
+        return value;
     }
 
     @Override

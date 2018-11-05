@@ -15,16 +15,12 @@ public class CodeGenerator {
     public void emitProgram(Program program, File outputFile) throws FileNotFoundException {
         PrintWriter writer = new PrintWriter(outputFile);
 
-        // Create the writer
-        IndentWriter indentWriter = new IndentWriter(writer);
-        V.writer = indentWriter;
-
-        // Create registers
-        Registers registers = new Registers();
-        V.registers = registers;
+        // Create some utility items
+        V.writer = new IndentWriter(writer);
+        V.registers = new Registers();
 
         // Visit the data visitor
-        program.accept(new DataVisitor(indentWriter));
+        program.accept(new DataVisitor(V.writer));
 
         // Create text visitor and other auxiliary visitors
         V.text = new TextVisitor();

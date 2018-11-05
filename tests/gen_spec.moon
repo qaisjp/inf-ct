@@ -109,7 +109,7 @@ check_parses_to = (filename, filepath) ->
 
         output = lexfile filepath, input
         lines = output\splitlines!
-        their_output = extract_simulated_output linesq
+        their_output = extract_simulated_output lines
         -- print filename, table.concat(their_output, "\n")
         
         assert.are.same expected_output, their_output

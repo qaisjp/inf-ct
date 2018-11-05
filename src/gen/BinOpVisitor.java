@@ -3,32 +3,63 @@ package gen;
 import ast.BinOp;
 import ast.Op;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 public class BinOpVisitor extends TraverseVisitor<Register> {
-    IndentWriter writer;
+    private static IndentWriter writer;
+    private static Map<Op, Function<Register,Register>> functions = null;
+    private static Map<Op, BiFunction<Register,Register,Register>> biFunctions = null;
 
     public BinOpVisitor() {
-        this.writer = V.writer;
+        if (biFunctions != null) {
+            return;
+        }
+
+        BinOpVisitor.writer = V.writer;
+
+        // Pour functions
+        functions = new HashMap<>();
+        // todo
+//        functions.put(Op.AND, BinOpVisitor::AND);
+//        functions.put(Op.OR, BinOpVisitor::OR);
+//        functions.put(Op.LT, BinOpVisitor::LT);
+//        functions.put(Op.GT, BinOpVisitor::GT);
+//        functions.put(Op.LE, BinOpVisitor::LE);
+//        functions.put(Op.GE, BinOpVisitor::GE);
+
+        // Pour biFunctions
+        biFunctions = new HashMap<>();
+        biFunctions.put(Op.ADD, BinOpVisitor::add);
+        biFunctions.put(Op.SUB, BinOpVisitor::sub);
+        biFunctions.put(Op.EQ, BinOpVisitor::eq);
+        biFunctions.put(Op.NE, BinOpVisitor::ne);
+        biFunctions.put(Op.MUL, BinOpVisitor::mul);
+        biFunctions.put(Op.MOD, BinOpVisitor::mod);
+        biFunctions.put(Op.DIV, BinOpVisitor::div);
     }
 
-    private Register add(Register x, Register y) {
+    private static Register add(Register x, Register y) {
         Register result = V.registers.get();
         writer.add(result, x, y);
         return result;
     }
 
-    private Register sub(Register x, Register y) {
+    private static Register sub(Register x, Register y) {
         Register result = V.registers.get();
         writer.sub(result, x, y);
         return result;
     }
 
-    private Register eq(Register x, Register y) {
+    private static Register eq(Register x, Register y) {
         Register result = V.registers.get();
         writer.seq(result, x, y);
         return result;
     }
 
-    private Register ne(Register x, Register y) {
+    private static Register ne(Register x, Register y) {
         Register result = V.registers.get();
         writer.sne(result, x, y);
         return result;
@@ -36,7 +67,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
     // todo: check if this a legal boi because of hi lo stuff
     // andrius says it is legal
-    private Register mul(Register x, Register y) {
+    private static Register mul(Register x, Register y) {
         Register result = V.registers.get();
         writer.mul(result, x, y);
         return result;
@@ -44,7 +75,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
     // todo: check if this legal
     // andrius says it is legal
-    private Register mod(Register num, Register dividedBy) {
+    private static Register mod(Register num, Register dividedBy) {
         Register result = V.registers.get();
         writer.div(num, dividedBy);
         writer.mfhi(result);
@@ -53,7 +84,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
     // todo check if this is legal because of hi low stuff
     // andrius says it is legal
-    private Register div(Register num, Register dividedBy) {
+    private static Register div(Register num, Register dividedBy) {
         Register result = V.registers.get();
         writer.div(num, dividedBy);
         writer.mflo(result);
@@ -64,47 +95,19 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
     public Register visitBinOp(BinOp binOp) {
         writer.leadNewline().comment("%s", binOp);
 
-        Register result;
-
-        try (
-            Register x = binOp.x.accept(V.text);
-            Register y = binOp.y.accept(V.text)
-        ) {
-            switch (binOp.op) {
-                case ADD:
-                    result = add(x, y);
-                    break;
-                case SUB:
-                    result = sub(x, y);
-                    break;
-                case EQ:
-                    result = eq(x, y);
-                    break;
-                case NE:
-                    result = ne(x, y);
-                    break;
-                case MUL:
-                    result = mul(x, y);
-                    break;
-                case MOD:
-                    result = mod(x, y);
-                    break;
-                case DIV:
-                    result = div(x, y);
-                    break;
-
-                // todo
-                case AND:
-                case OR:
-                case LT:
-                case GT:
-                case LE:
-                case GE:
-                default:
-                    throw new RuntimeException("unsupported operation");
+        if (functions.containsKey(binOp.op)) {
+            try (Register x = binOp.x.accept(V.text)) {
+                return functions.get(binOp.op).apply(x);
+            }
+        } else if (biFunctions.containsKey(binOp.op)) {
+            try (
+                    Register x = binOp.x.accept(V.text);
+                    Register y = binOp.y.accept(V.text)
+            ) {
+                return biFunctions.get(binOp.op).apply(x, y);
             }
         }
 
-        return result;
+        throw new RuntimeException("unsupported operation");
     }
 }

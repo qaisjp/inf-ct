@@ -156,6 +156,29 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("mflo %s", target);
     }
 
+    // branch if equal zero: beq $x, $zero, label
+    public void beqz(Register value, String label) {
+        Labeller.verifyLabel(label);
+        printf("beq %s, $zero, %s", value, label);
+    }
+
+    // branch if greater than zero: bgtz $x, label
+    public void bgtz(Register value, String label) {
+        Labeller.verifyLabel(label);
+        printf("bgtz %s, %s", value, label);
+    }
+
+    // jump to label: j label
+    public void j(String label) {
+        Labeller.verifyLabel(label);
+        printf("j %s", label);
+    }
+
+    // nop: nope!
+    public void nop() {
+        printf("nop");
+    }
+
     public int getLevel() {
         return level;
     }

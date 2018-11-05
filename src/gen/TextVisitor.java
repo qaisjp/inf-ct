@@ -32,7 +32,9 @@ public class TextVisitor extends TraverseVisitor<Register> {
         }
 
         super.visitFunCallExpr(f);
-        return null; // todo
+        writer.comment("stub! %s", f); // todo
+        Register result = V.registers.get();
+        return result;
     }
 
     @Override

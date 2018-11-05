@@ -1,6 +1,7 @@
 package gen;
 
 import ast.BinOp;
+import ast.Expr;
 import ast.Op;
 
 import java.util.HashMap;
@@ -10,8 +11,9 @@ import java.util.function.Function;
 
 public class BinOpVisitor extends TraverseVisitor<Register> {
     private static IndentWriter writer;
-    private static Map<Op, Function<Register,Register>> functions = null;
     private static Map<Op, BiFunction<Register,Register,Register>> biFunctions = null;
+
+    private static Labeller labeller = new Labeller("binop");
 
     public BinOpVisitor() {
         if (biFunctions != null) {
@@ -19,16 +21,6 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         }
 
         BinOpVisitor.writer = V.writer;
-
-        // Pour functions
-        functions = new HashMap<>();
-        // todo
-//        functions.put(Op.AND, BinOpVisitor::AND);
-//        functions.put(Op.OR, BinOpVisitor::OR);
-//        functions.put(Op.LT, BinOpVisitor::LT);
-//        functions.put(Op.GT, BinOpVisitor::GT);
-//        functions.put(Op.LE, BinOpVisitor::LE);
-//        functions.put(Op.GE, BinOpVisitor::GE);
 
         // Pour biFunctions
         biFunctions = new HashMap<>();
@@ -39,6 +31,10 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         biFunctions.put(Op.MUL, BinOpVisitor::mul);
         biFunctions.put(Op.MOD, BinOpVisitor::mod);
         biFunctions.put(Op.DIV, BinOpVisitor::div);
+//        functions.put(Op.LT, BinOpVisitor::LT);
+//        functions.put(Op.GT, BinOpVisitor::GT);
+//        functions.put(Op.LE, BinOpVisitor::LE);
+//        functions.put(Op.GE, BinOpVisitor::GE);
     }
 
     private static Register add(Register x, Register y) {
@@ -91,14 +87,61 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
+    // todo: needs testing
+    private static Register and(Register x, Expr yExpr) {
+        // Generate a result register
+        Register result = V.registers.get();
+
+        // Generate a "false", "true", "end" label ahead of time
+        String falseLabel = labeller.num("and_false");
+        String trueLabel = labeller.num("and_true");
+        String finishLabel = labeller.num("and_finish");
+
+        // Plan:
+        // - jump to FALSE if X fails, otherwise continue (CHECK Y)
+        // - CHECK_Y: jump to TRUE if Y success, otherwise continue (FALSE)
+        // - FALSE  : set result to 0, jump to FINISH
+        // - TRUE   : set result to 1
+        // - FINISH : return the result
+
+        // Jump to FALSE if X is zero
+        writer.beqz(x, falseLabel);
+
+        // Jump to TRUE if Y success
+        try (Register y = yExpr.accept(V.text)) {
+            // If y is greater than zero, we want to skip to the true label
+            writer.bgtz(y, trueLabel);
+        }
+
+        // FALSE: Set result to 0, jump to finish
+        writer.withLabel(falseLabel).li(result, 0);
+        writer.j(finishLabel);
+
+        // TRUE : Set result to 1
+        writer.withLabel(trueLabel).li(result, 1);
+
+        // Emit finish label
+        writer.withLabel(finishLabel).nop();
+
+        return result;
+    }
+
     @Override
     public Register visitBinOp(BinOp binOp) {
         writer.leadNewline().comment("%s", binOp);
 
-        if (functions.containsKey(binOp.op)) {
-            try (Register x = binOp.x.accept(V.text)) {
-                return functions.get(binOp.op).apply(x);
+        if (binOp.op == Op.AND) {
+            writer.comment("%s", binOp);
+            try (
+                    Register x = binOp.x.accept(V.text);
+                    IndentWriter scope = writer.scope()
+            ) {
+                return and(x, binOp.y);
             }
+//        } else if (binOp.op == Op.OR) {
+//            try (Register x = binOp.x.accept(V.text)) {
+//                or(x);
+//            }
         } else if (biFunctions.containsKey(binOp.op)) {
             try (
                     Register x = binOp.x.accept(V.text);

@@ -1,6 +1,7 @@
 package gen;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class IndentWriter implements java.lang.AutoCloseable {
     private PrintWriter writer;
@@ -33,6 +34,11 @@ public class IndentWriter implements java.lang.AutoCloseable {
     }
 
     public void printf(String format, Object... args) {
+        if (Arrays.asList(args).contains(null)) {
+            String message = String.format("Cannot print with null argument. Would be (see next line, between brackets):\n\n\t[" + format + "]\n\n", args);
+            throw new NullPointerException(message);
+        }
+
         String indentation = new String(new char[level*width]).replace("\0", " ");
 
         if (!label.isEmpty()) {

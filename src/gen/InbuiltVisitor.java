@@ -27,6 +27,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             // Initialise inbuilts
             InbuiltVisitor.inbuilts = new HashMap<>();
             InbuiltVisitor.inbuilts.put("print_i", InbuiltVisitor::print_i);
+            InbuiltVisitor.inbuilts.put("print_s", InbuiltVisitor::print_s);
         }
     }
 
@@ -45,6 +46,25 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
         V.writer.syscall();
 
+        return null;
+    }
+
+    private static Register print_s(FunDecl f, List<Expr> args) {
+        Expr arg = args.get(0);
+
+        Register.v0.loadImmediate(4);
+
+        if (arg instanceof StrLiteral) {
+            System.out.println("YES");
+            writer.la(Register.arg[0], ((StrLiteral) arg).genLabel);
+        } else {
+            try (Register val = arg.accept(V.text)) {
+                // todo: DEFINITELY NEEDS TESTING. Are we sure this value is an address? It definitely should be.
+                Register.arg[0].set(val);
+            }
+        }
+
+        writer.syscall();
         return null;
     }
 

@@ -30,6 +30,13 @@ public class Labeller {
         return label(label);
     }
 
+    public String num(String context) {
+        String label = String.format("%s_%03d", context, count);
+        count++;
+
+        return label(label);
+    }
+
     public static void verifyLabel(String label) {
         if (!labels.contains(label)) {
             throw new RuntimeException("Attempting to use label, but could not be found!");

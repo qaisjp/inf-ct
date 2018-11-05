@@ -35,7 +35,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
     public Void visitStrLiteral(StrLiteral s) {
         super.visitStrLiteral(s);
 
-        s.genLabel = strLabeller.makeLabel();
+        s.genLabel = strLabeller.num();
         writer.withLabel(s.genLabel).dataAsciiNullTerminated(s.escapedString());
         return null;
     }
@@ -44,7 +44,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
     public Void visitChrLiteral(ChrLiteral c) {
         super.visitChrLiteral(c);
 
-        c.genLabel = chrLabeller.makeLabel();
+        c.genLabel = chrLabeller.num();
         writer.withLabel(c.genLabel).dataByte(c.value);
         return null;
     }
@@ -61,7 +61,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
 
         try (IndentWriter scope = writer.scope()) {
             for (VarDecl v : varDeclList) {
-                String label = globalLabeller.makeLabel(varName + v.varName);
+                String label = globalLabeller.label(varName + v.varName);
                 // v.setGlobalLabel(label); // we can't use this. each `v` is global to all declarations of this struct
                 varDecl.setStructFieldLabel(v.varName, label);
 
@@ -80,7 +80,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
             return;
         }
 
-        String label = globalLabeller.makeLabel(varDecl.varName);
+        String label = globalLabeller.label(varDecl.varName);
         varDecl.setGlobalLabel(label);
 
         int size = varDecl.varType.sizeof();

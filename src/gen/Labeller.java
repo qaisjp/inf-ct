@@ -12,7 +12,7 @@ public class Labeller {
         this.prefix = prefix;
     }
 
-    public String makeLabel(String label) {
+    public String label(String label) {
         label = prefix + "_" + label;
 
         if (labels.contains(label)) {
@@ -23,11 +23,11 @@ public class Labeller {
         return label;
     }
 
-    public String makeLabel() {
+    public String num() {
         String label = String.format("%03d", count);
         count++;
 
-        return makeLabel(label);
+        return label(label);
     }
 
     public static void verifyLabel(String label) {

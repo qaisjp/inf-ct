@@ -64,21 +64,30 @@ if [ "$?" -ne "0" ]; then
 fi
 
 echo "";
-echo -e "${CYAN}=== Generation debug output below ===${NC}"
+echo -e "${CYAN}=== Codegen debug output below ===${NC}"
 
 TARGET="$(mktemp)"
 
 java -ea -cp $PROJ/bin Main -gen "$FILENAME" "$TARGET"
 
+CODEGEN_CODE="$?"
+
 echo "";
-echo -e "${RED}=== Generation MIPS output below ===${NC}"
+echo -e "${RED}=== Codegen MIPS output below ===${NC}"
 
 # Print out the target
 cat "$TARGET"
 
 # Print out the mips simulation
 echo "";
-echo -e "${YELLOW}=== MIPS simulated output below ===${NC}"
+echo -e "${YELLOW}=== MARS output below ===${NC}"
+
+# Don't run MARS simulator if we couldn't generate MIPS
+if [ "$CODEGEN_CODE" -ne "0" ]; then
+    echo "Code generation status code non-zero: $CODEGEN_CODE"
+    exit 1;
+fi
+
 java -jar "$PROJ/desc/part3/Mars4_5.jar" nc sm "$TARGET"
 
 # Delete the target

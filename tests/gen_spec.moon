@@ -65,7 +65,7 @@ extract_simulated_output = (lines) ->
     read_mips = false
     out = {}
     for i, v in ipairs(lines) do
-        if v\find "MIPS simulated output below" then
+        if v\find "MARS output below" then
             read_mips = true
         elseif read_mips then
             out[#out+1] = v
@@ -109,7 +109,7 @@ check_parses_to = (filename, filepath) ->
 
         output = lexfile filepath, input
         lines = output\splitlines!
-        their_output = extract_simulated_output lines
+        their_output = extract_simulated_output linesq
         -- print filename, table.concat(their_output, "\n")
         
         assert.are.same expected_output, their_output

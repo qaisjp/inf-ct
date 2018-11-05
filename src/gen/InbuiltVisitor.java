@@ -56,14 +56,8 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
         Register.v0.loadImmediate(4);
 
-        if (arg instanceof StrLiteral) {
-            System.out.println("YES");
-            writer.la(Register.arg[0], ((StrLiteral) arg).genLabel);
-        } else {
-            try (Register val = arg.accept(V.text)) {
-                // todo: DEFINITELY NEEDS TESTING. Are we sure this value is an address? It definitely should be.
-                Register.arg[0].set(val);
-            }
+        try (Register val = arg.accept(V.text)) {
+            Register.arg[0].set(val);
         }
 
         writer.syscall();

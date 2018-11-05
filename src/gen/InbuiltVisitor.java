@@ -29,6 +29,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             InbuiltVisitor.inbuilts.put("print_i", InbuiltVisitor::print_i);
             InbuiltVisitor.inbuilts.put("print_s", InbuiltVisitor::print_s);
             InbuiltVisitor.inbuilts.put("read_i", InbuiltVisitor::read_i);
+            InbuiltVisitor.inbuilts.put("mcmalloc", InbuiltVisitor::mcmalloc); // todo this needs testing
         }
     }
 
@@ -77,6 +78,22 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         Register value = V.registers.get();
         Register.v0.moveTo(value);
         return value;
+    }
+
+    private static Register mcmalloc(FunDecl f, List<Expr> args) {
+        // Get the bytes required to allocate
+        try (Register byteCount = args.get(0).accept(V.text)) {
+            // Set the argument of the syscall to these bytes
+            Register.arg[0].set(byteCount);
+
+            // Call syscall 9 - this puts the address in v0
+            Register.v0.loadImmediate(5);
+            writer.syscall();
+
+            Register value = V.registers.get();
+            Register.v0.moveTo(value);
+            return value;
+        }
     }
 
     @Override

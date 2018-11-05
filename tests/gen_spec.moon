@@ -24,11 +24,17 @@ string.split = (sep) =>
    fields
 
 lexfile = (filepath, input) ->
-    f = assert(io.popen "\"$PROJ/tests/gen.sh\" \"#{filepath}\" out 2>&1", "r")
-    f\write input
+    inputPath = os.tmpname!
+    inputFile = io.open inputPath
+    inputFile\write input
+    inputFile\close!
+
+    f = assert(io.popen "cat \"#{inputPath}\" | \"$PROJ/tests/gen.sh\" \"#{filepath}\" out 2>&1", "r")
     t = f\read "*all"
     f\close!
-    t
+
+    os.execute("rm \"#{inputPath}\"")
+    return t
 
 -- Extracts the directive and returns the contents
 extract_directive = (directive, lines) ->

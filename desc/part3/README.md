@@ -99,7 +99,7 @@ You should also initialise the frame pointer to the value of the stack pointer.
 
 ## 7. stdLib functions
 
-- [ ] Finally, you should add support for all the standard library functions found in the file `minic-stdlib.h` provided in the tests folder.
+- [x] Finally, you should add support for all the standard library functions found in the file `minic-stdlib.h` provided in the tests folder.
 These should all be implemented using [system calls](http://courses.missouristate.edu/KenVollmar/mars/Help/SyscallHelp.html).
 
 

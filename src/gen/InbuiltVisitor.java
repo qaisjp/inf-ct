@@ -39,6 +39,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         Register.v0.loadImmediate(1);
 
         if (arg instanceof IntLiteral) {
+            // this is left here for efficiency. removing this will just make an extra intermediary register.
             V.writer.li(Register.arg[0], ((IntLiteral) arg).value);
         } else {
             try (Register val = arg.accept(V.text)) {

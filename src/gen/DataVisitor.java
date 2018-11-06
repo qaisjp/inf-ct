@@ -20,11 +20,11 @@ public class DataVisitor extends TraverseVisitor<Void> {
         writer.suppressNextNewline();
 
         try (IndentWriter scope = writer.scope()) {
-            visitEach(p.structTypeDecls);
+            visitEach(this, p.structTypeDecls);
             for (VarDecl v : p.varDecls) {
                 visitVarDeclGlobal(v);
             }
-            visitEach(p.funDecls);
+            visitEach(this, p.funDecls);
         }
 
         assert writer.getLevel() == 0;

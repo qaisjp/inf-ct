@@ -16,7 +16,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         }
 
         // Store arguments on stack
-        visitEach(f.exprList); // todo
+        visitEach(V.text, f.exprList); // todo
 
         // Store return value on stack
         ;

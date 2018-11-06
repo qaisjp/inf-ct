@@ -7,7 +7,11 @@ import java.util.List;
 
 public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
 
-    public List<T> visitEach(List<? extends ASTNode> list) {
+    private List<T> visitEach(List<? extends ASTNode> list) {
+        return visitEach(this, list);
+    }
+
+    public List<T> visitEach(ASTVisitor visitor, List<? extends ASTNode> list) {
         List<T> results = new ArrayList<>();
         for (ASTNode l : list) {
             results.add(l.accept(this));

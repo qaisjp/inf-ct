@@ -101,6 +101,11 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("sub %s, %s, %s", value, x, y);
     }
 
+    // subi: value = $x - i
+    public void subi(Register value, Register x, int i) {
+        printf("subi %s, %s, %d", value, x, i);
+    }
+
     // seq: value = x == y
     public void seq(Register value, Register x, Register y) {
         printf("seq %s, %s, %s", value, x, y);

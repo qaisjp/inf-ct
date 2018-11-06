@@ -45,15 +45,15 @@ public class TextVisitor extends TraverseVisitor<Register> {
             return null;
         }
 
+        // Our stack pointer is just to tell us where to allocate space next.
+        // Set frame pointer to the stack pointer so we know where to look for our function's data
+        Register.fp.set(Register.sp);
+
         // Store arguments on stack
         ;
 
         // Store return value on stack
         ;
-
-        // Our stack already has space allocated for the arguments and result.
-        // Set frame pointer to the stack pointer so we always have a base address for the args and result.
-        Register.fp.set(Register.sp);
 
         // Store variable declarations on stack
         ;

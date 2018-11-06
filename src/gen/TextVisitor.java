@@ -64,6 +64,12 @@ public class TextVisitor extends TraverseVisitor<Register> {
         }
     }
 
+    @Override public Register visitChrLiteral(ChrLiteral c) {
+        Register val = V.registers.get();
+        val.loadImmediate(c.value);
+        return val;
+    }
+
     @Override
     public Register visitIntLiteral(IntLiteral i) {
         Register val = V.registers.get();

@@ -11,4 +11,5 @@ class V {
     static InbuiltVisitor inbuilt;
     static BinOpVisitor binOp;
     static AssignVisitor assign;
+    static FunctionVisitor function;
 }

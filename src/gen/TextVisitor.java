@@ -133,6 +133,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
             value.loadByte(value, 0);
         } else if (t == BaseType.INT) {
             value.loadWord(value, 0);
+        } else if (t instanceof PointerType || t instanceof ArrayType) {
+//            writer.nop();
         } else {
             // arrays and structs need SPECIAL treatment!
             // and strings too

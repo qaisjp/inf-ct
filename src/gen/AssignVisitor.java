@@ -16,7 +16,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
             Type varType = decl.varType;
             if (varType == BaseType.CHAR) {
                 rReg.storeByteAt(lReg, 0);
-            } else if (varType == BaseType.INT) {
+            } else if (varType == BaseType.INT || varType instanceof PointerType) {
                 rReg.storeWordAt(lReg, 0);
             } else {
                 // arrays and structs need SPECIAL treatment!

@@ -22,7 +22,8 @@ public class AssignVisitor extends TraverseVisitor<Void> {
                 // arrays and structs need SPECIAL treatment!
                 // oh and strings too topKEKKER
                 // todo
-                throw TextVisitor.ExceptionVarTypeNotImplemented;
+                throw new RuntimeException(
+                        "STUB! arrays, structs (& maybe strings) haven't been implemented yet");
             }
         }
     }

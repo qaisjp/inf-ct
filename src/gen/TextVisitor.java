@@ -7,9 +7,6 @@ import java.util.List;
 public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer;
 
-    public static final RuntimeException ExceptionVarTypeNotImplemented = new RuntimeException(
-            "STUB! arrays, structs (& maybe strings) haven't been implemented yet");
-
     public TextVisitor() {
         this.writer = V.writer;
     }
@@ -104,7 +101,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
             if (decl.varType instanceof StructType) {
                 // todo: structs need SPECIAL treatment!
-                throw ExceptionVarTypeNotImplemented;
+                throw new RuntimeException(
+                        "STUB! arrays, structs not been implemented yet");
             }
 
             // Load address into "value"
@@ -139,7 +137,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
             // arrays and structs need SPECIAL treatment!
             // and strings too
             // todo
-            throw ExceptionVarTypeNotImplemented;
+            throw new RuntimeException(
+                    "STUB! arrays, structs not implemented yet: " + v.getClass().getName() + " with type " + t.toString());
         }
 
         return value;

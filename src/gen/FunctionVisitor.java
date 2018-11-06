@@ -2,11 +2,46 @@ package gen;
 
 import ast.*;
 
+import java.util.List;
+
 public class FunctionVisitor extends TraverseVisitor<Register> {
-    IndentWriter writer;
+    private IndentWriter writer;
+    private Labeller funcLabeller = new Labeller("func");
+    private int frameOffset = 0;
 
     public FunctionVisitor() {
         this.writer = V.writer;
+    }
+
+    // Store to stack (does not allocate)
+//    private void storeToStack(List<VarDecl> varDecls) {
+//        int size = 0;
+//
+//        for (VarDecl v : varDecls) {
+//            if
+//        }
+//    }
+
+    public void stackAllocate(List<VarDecl> varDecls) {
+        int totalSize = 0;
+        for (VarDecl v : varDecls) {
+            v.setGenStackOffset(frameOffset);
+
+            int size = v.varType.sizeof();
+            frameOffset += size;
+            totalSize += GenUtils.byteAlign(size);
+        }
+
+        // Allocate all that on that stack
+        Register.sp.sub(-totalSize);
+    }
+
+    @Override
+    public Register visitBlock(Block b) {
+        stackAllocate(b.varDecls);
+        visitEach(V.text, b.stmtList);
+
+        return null; // todo: should a block return?
     }
 
     @Override
@@ -29,7 +64,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
-    private Labeller funcLabeller = new Labeller("func");
     @Override
     public Register visitFunDecl(FunDecl f) {
         // Ignore inbuilt declarations

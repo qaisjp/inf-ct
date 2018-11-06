@@ -2,6 +2,8 @@ package gen;
 
 import ast.*;
 
+import java.util.List;
+
 public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer;
 
@@ -33,6 +35,11 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitFunDecl(FunDecl f) {
         return f.accept(V.function);
+    }
+
+    @Override
+    public Register visitBlock(Block b) {
+        return b.accept(V.function);
     }
 
     @Override
@@ -85,7 +92,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register getVarExprAddress(VarExpr v) {
         VarDecl decl = v.vd;
 
-        // todo: isGlobal returns false for structs. getGlobalLabel should return the label of the first item
+        // todo: isGlobal returns true for structs. but getGlobalLabel crashes. should it return the label of the first item?
         if (decl.isGlobal()) {
             Register value = V.registers.get();
 
@@ -101,9 +108,12 @@ public class TextVisitor extends TraverseVisitor<Register> {
             return value;
         }
 
-        // todo: if not global!!!!!!
+        // Local variables have an offset defined from the current frame pointer.
+        // Set a new register to the address of this item on stack. $fp-item.offset
+        Register value = V.registers.get();
+        writer.subi(value, Register.fp, decl.getGenStackOffset());
 
-        return null;
+        return value;
     }
 
     @Override
@@ -136,5 +146,4 @@ public class TextVisitor extends TraverseVisitor<Register> {
             return super.visitExprStmt(e);
         }
     }
-
 }

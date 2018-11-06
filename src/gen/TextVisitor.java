@@ -74,6 +74,13 @@ public class TextVisitor extends TraverseVisitor<Register> {
     }
 
     @Override
+    public Register visitSizeOfExpr(SizeOfExpr e) {
+        Register val = V.registers.get();
+        val.loadImmediate(e.typeToCheck.sizeof());
+        return val;
+    }
+
+    @Override
     public Register visitIntLiteral(IntLiteral i) {
         Register val = V.registers.get();
         val.loadImmediate(i.value);

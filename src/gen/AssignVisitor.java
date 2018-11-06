@@ -9,7 +9,9 @@ public class AssignVisitor extends TraverseVisitor<Void> {
         this.writer = V.writer;
     }
 
-    public void assignVarExpr(VarExpr lhs, Register rReg) {
+
+
+    private void assignVarExpr(VarExpr lhs, Register rReg) {
         try (Register lReg = V.text.getVarExprAddress(lhs)) {
             VarDecl decl = lhs.vd;
 

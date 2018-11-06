@@ -69,13 +69,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitTypecastExpr(TypecastExpr e) {
-        Register reg = e.expr.accept(this);
-
-        if (e.castTo instanceof PointerType) {
-            return reg;
-        }
-
-        throw new RuntimeException(String.format("Unimplemented typecast %s", e.expr)); // todo: finish implementing typecasts
+        // todo: do you need to accept type?
+        return e.expr.accept(this);
     }
 
     @Override

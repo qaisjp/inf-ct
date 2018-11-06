@@ -31,6 +31,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         biFunctions.put(Op.MUL, BinOpVisitor::mul);
         biFunctions.put(Op.MOD, BinOpVisitor::mod);
         biFunctions.put(Op.DIV, BinOpVisitor::div);
+        // todo
 //        functions.put(Op.LT, BinOpVisitor::LT);
 //        functions.put(Op.GT, BinOpVisitor::GT);
 //        functions.put(Op.LE, BinOpVisitor::LE);

@@ -15,9 +15,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             return f.accept(V.inbuilt);
         }
 
-
         // Store arguments on stack
-        ;
+        visitEach(f.exprList); // todo
 
         // Store return value on stack
         ;
@@ -25,7 +24,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         // Update stack pointer
         ;
 
-        super.visitFunCallExpr(f);
         writer.comment("stub! %s", f); // todo
         Register result = V.registers.get();
         return result;

@@ -27,9 +27,9 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         for (VarDecl v : varDecls) {
             v.setGenStackOffset(frameOffset);
 
-            int size = v.varType.sizeof();
+            int size = GenUtils.byteAlign(v.varType.sizeof());
             frameOffset += size;
-            totalSize += GenUtils.byteAlign(size);
+            totalSize += size;
         }
 
         // Allocate all that on that stack

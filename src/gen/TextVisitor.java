@@ -43,7 +43,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitTypecastExpr(TypecastExpr e) {
         // todo: do you need to accept type?
-        return e.expr.accept(this);
+        return e.expr.accept(V.text);
     }
 
     @Override

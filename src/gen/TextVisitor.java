@@ -45,6 +45,19 @@ public class TextVisitor extends TraverseVisitor<Register> {
             return null;
         }
 
+        // Store arguments on stack
+        ;
+
+        // Store return value on stack
+        ;
+
+        // Our stack already has space allocated for the arguments and result.
+        // Set frame pointer to the stack pointer so we always have a base address for the args and result.
+        Register.fp.set(Register.sp);
+
+        // Store variable declarations on stack
+        ;
+
         String label = funcLabeller.label(f.name);
         writer.leadNewline().withLabel(label).comment("%s", f);
 
@@ -59,6 +72,10 @@ public class TextVisitor extends TraverseVisitor<Register> {
             super.visitFunDecl(f);
         }
 
+        // Restore stack pointer to the frame pointer
+        Register.sp.set(Register.fp);
+
+        // Jump to $ra
         Register.ra.jump();
 
         return null; // no register returned for function declarations
@@ -114,6 +131,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register getVarExprAddress(VarExpr v) {
         VarDecl decl = v.vd;
 
+        // todo: isGlobal returns false for structs. getGlobalLabel should return the label of the first item
         if (decl.isGlobal()) {
             Register value = V.registers.get();
 

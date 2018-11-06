@@ -7,6 +7,7 @@ public class VarDecl implements ASTNode {
     public final String varName;
     private String genLabel = null;
     private HashMap<String, String> genStructLabel;
+    private Integer genStackOffset = null;
 
     public VarDecl(Type varType, String varName) {
 	    this.varType = varType;
@@ -20,6 +21,23 @@ public class VarDecl implements ASTNode {
     @Override
     public String toString() {
         return varType.toString() + " " + varName;
+    }
+
+    public void setGenStackOffset(int genStackOffset) {
+        if (isGlobal()) {
+            throw new RuntimeException("Can't set offset of global");
+        }
+        if (this.genStackOffset != null) {
+            throw new RuntimeException("Can't set offset for a single variable declaration multiple times");
+        }
+        this.genStackOffset = genStackOffset;
+    }
+
+    public int getGenStackOffset() {
+        if (genStackOffset == null) {
+            throw new NullPointerException("can't get genStackOffset when not set");
+        }
+        return genStackOffset;
     }
 
     public boolean isGlobal() {

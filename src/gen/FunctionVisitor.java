@@ -15,6 +15,16 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             return f.accept(V.inbuilt);
         }
 
+
+        // Store arguments on stack
+        ;
+
+        // Store return value on stack
+        ;
+
+        // Update stack pointer
+        ;
+
         super.visitFunCallExpr(f);
         writer.comment("stub! %s", f); // todo
         Register result = V.registers.get();
@@ -30,16 +40,14 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         }
 
         // Our stack pointer is just to tell us where to allocate space next.
+        // We already have arguments and the return value allocated.
         // Set frame pointer to the stack pointer so we know where to look for our function's data
         Register.fp.set(Register.sp);
 
-        // Store arguments on stack
-        ;
-
-        // Store return value on stack
-        ;
-
         // Store variable declarations on stack
+        ;
+
+        // Adjust stack pointer for those variable declarations
         ;
 
         String label = funcLabeller.label(f.name);

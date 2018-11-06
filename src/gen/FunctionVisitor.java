@@ -71,36 +71,40 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             return null;
         }
 
-        // Our stack pointer is just to tell us where to allocate space next.
-        // We already have arguments and the return value allocated.
-        // Set frame pointer to the stack pointer so we know where to look for our function's data
-        Register.fp.set(Register.sp);
-
-        // Store variable declarations on stack
-        ;
-
-        // Adjust stack pointer for those variable declarations
-        ;
-
         String label = funcLabeller.label(f.name);
         writer.leadNewline().withLabel(label).comment("%s", f);
 
         writer.suppressNextNewline();
         try (IndentWriter scope = writer.scope()) {
+            //
+            // DO NOT PUT ANYTHING ABOVE THIS SECTION INSIDE THIS SCOPE
+            //
             // If this is the main function, we need a second labels!
             if (f.name.equals("main")) {
                 writer.withLabel("main").printf(".globl main");
+                writer.newline();
             }
+
+            // Our stack pointer is just to tell us where to allocate space next.
+            // We already have arguments and the return value allocated.
+            // Set frame pointer to the stack pointer so we know where to look for our function's data
+            Register.fp.set(Register.sp);
+
+            // Store variable declarations on stack
+            ;
+
+            // Adjust stack pointer for those variable declarations
+            ;
 
             // do some stuff (todo)
             super.visitFunDecl(f);
+
+            // Restore stack pointer to the frame pointer
+            Register.sp.set(Register.fp);
+
+            // Jump to $ra
+            Register.ra.jump();
         }
-
-        // Restore stack pointer to the frame pointer
-        Register.sp.set(Register.fp);
-
-        // Jump to $ra
-        Register.ra.jump();
 
         return null; // no register returned for function declarations
     }

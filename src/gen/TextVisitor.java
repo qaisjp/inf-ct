@@ -75,9 +75,13 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitSizeOfExpr(SizeOfExpr e) {
-        Register val = V.registers.get();
-        val.loadImmediate(e.typeToCheck.sizeof());
-        return val;
+        writer.leadNewline().comment("%s", e);
+
+        try (IndentWriter scope = writer.scope()) {
+            Register val = V.registers.get();
+            val.loadImmediate(e.typeToCheck.sizeof());
+            return val;
+        }
     }
 
     @Override

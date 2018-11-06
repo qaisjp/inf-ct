@@ -204,4 +204,9 @@ public class IndentWriter implements java.lang.AutoCloseable {
     public void comment(String format, Object... args) {
         printf("# " + format, args);
     }
+
+    // jump register unconditionally: jr $target
+    public void jr(Register register) {
+        printf("jr %s", register);
+    }
 }

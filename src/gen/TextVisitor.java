@@ -59,6 +59,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
             super.visitFunDecl(f);
         }
 
+        Register.ra.jump();
+
         return null; // no register returned for function declarations
     }
 

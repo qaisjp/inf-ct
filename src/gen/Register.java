@@ -93,6 +93,10 @@ public class Register implements java.lang.AutoCloseable {
         V.writer.move(target, this);
     }
 
+    public void jump() {
+        V.writer.jr(this);
+    }
+
     public void free() {
         for (Register r : unfreeable) {
             if (r == this) {

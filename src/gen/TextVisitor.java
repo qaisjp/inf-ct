@@ -135,17 +135,14 @@ public class TextVisitor extends TraverseVisitor<Register> {
         if (decl.isGlobal()) {
             Register value = V.registers.get();
 
+            if (decl.varType instanceof StructType) {
+                // todo: structs need SPECIAL treatment!
+                throw ExceptionVarTypeNotImplemented;
+            }
+
             // Load address into "value"
             String label = decl.getGlobalLabel();
             value.loadAddress(label);
-
-            Type t = decl.varType;
-            if (t != BaseType.CHAR && t != BaseType.INT) {
-                // arrays and structs need SPECIAL treatment!
-                // oh and strings too topKEK
-                // todo
-                throw ExceptionVarTypeNotImplemented;
-            }
 
             return value;
         }

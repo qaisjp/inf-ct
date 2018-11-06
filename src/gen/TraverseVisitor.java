@@ -11,10 +11,10 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
         return visitEach(this, list);
     }
 
-    public List<T> visitEach(ASTVisitor visitor, List<? extends ASTNode> list) {
+    public List<T> visitEach(ASTVisitor<T> visitor, List<? extends ASTNode> list) {
         List<T> results = new ArrayList<>();
         for (ASTNode l : list) {
-            results.add(l.accept(this));
+            results.add(l.accept(visitor));
         }
         return results;
     }

@@ -97,6 +97,10 @@ public class Register implements java.lang.AutoCloseable {
         V.writer.jr(this);
     }
 
+    public void sub(int i) {
+        V.writer.subi(this, this, i);
+    }
+
     public void free() {
         for (Register r : unfreeable) {
             if (r == this) {

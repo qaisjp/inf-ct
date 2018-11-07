@@ -14,6 +14,6 @@ public class ChrLiteral extends Expr {
 
     @Override
     public String toString() {
-        return "\'...\'";
+        return "\'" + StrLiteral.escapedString(Character.toString(value)) + "\'";
     }
 }

@@ -14,10 +14,14 @@ public class StrLiteral extends Expr {
 
     @Override
     public String toString() {
-        return "\"...\"";
+        return "\"" + escapedString() + "\"";
     }
 
     public String escapedString() {
+        return escapedString(value);
+    }
+
+    static String escapedString(String value) {
         return value
                 .replace("\\", "\\\\")
                 .replace("\t", "\\t")

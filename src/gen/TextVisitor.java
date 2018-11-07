@@ -164,6 +164,14 @@ public class TextVisitor extends TraverseVisitor<Register> {
     }
 
     @Override
+    public Register visitArrayAccessExpr(ArrayAccessExpr v) {
+        // Get address of variable expression
+        try (Register address = addressOf(v)) {
+            return getValue(address, v.getInnerType());
+        }
+    }
+
+    @Override
     public Register visitExprStmt(ExprStmt e) {
         writer.comment("%s", e);
         try (IndentWriter scope = writer.scope()) {

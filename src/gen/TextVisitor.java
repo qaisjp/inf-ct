@@ -136,30 +136,33 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return value;
     }
 
+    // Get value of a certain type stored at this address
+    public Register getValue(Register address, Type t) {
+        Register value = V.registers.get();
+
+        if (t == BaseType.CHAR) {
+            value.loadByte(address, 0);
+        } else if (t == BaseType.INT || t instanceof PointerType) {
+            value.loadWord(address, 0);
+        } else if (t instanceof ArrayType) {
+            value.set(address);
+        } else {
+            // todo: structs need SPECIAL treatment!
+            throw new RuntimeException(
+                    "STUB! structs not implemented yet with type " + t.toString());
+        }
+
+        return value;
+    }
+
     @Override
     public Register visitVarExpr(VarExpr v) {
         VarDecl decl = v.vd;
 
         // Get address of variable expression
-        Register value = addressOf(v);
-
-        // Load the word or byte now from the register
-        Type t = decl.varType;
-        if (t == BaseType.CHAR) {
-            value.loadByte(value, 0);
-        } else if (t == BaseType.INT || t instanceof PointerType) {
-            value.loadWord(value, 0);
-        } else if (t instanceof ArrayType) {
-            // nop
-        } else {
-            // arrays and structs need SPECIAL treatment!
-            // and strings too
-            // todo
-            throw new RuntimeException(
-                    "STUB! arrays, structs not implemented yet: " + v.getClass().getName() + " with type " + t.toString());
+        try (Register address = addressOf(v)) {
+            return getValue(address, decl.varType);
         }
-
-        return value;
     }
 
     @Override

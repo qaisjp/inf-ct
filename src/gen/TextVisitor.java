@@ -102,7 +102,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
             if (decl.varType instanceof StructType) {
                 // todo: structs need SPECIAL treatment!
                 throw new RuntimeException(
-                        "STUB! arrays, structs not been implemented yet");
+                        "STUB! getVarExprAddress(struct) not been implemented yet");
             }
 
             // Load address into "value"

@@ -2,8 +2,6 @@ package gen;
 
 import ast.*;
 
-import java.util.List;
-
 public class TextVisitor extends TraverseVisitor<Register> {
     private IndentWriter writer;
 
@@ -96,7 +94,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return address;
     }
 
-    public Register getArrayAccessExprAddress(ArrayAccessExpr e) {
+    public Register addressOf(ArrayAccessExpr e) {
         Register pointer = e.expr.accept(V.text);
 
         writer.comment("%s = addressOf(%s)", pointer, e);
@@ -109,7 +107,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return pointer;
     }
 
-    public Register getVarExprAddress(VarExpr v) {
+    public Register addressOf(VarExpr v) {
         VarDecl decl = v.vd;
 
         Register value = V.registers.get();
@@ -121,7 +119,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
             if (decl.varType instanceof StructType) {
                 // todo: structs need SPECIAL treatment!
                 throw new RuntimeException(
-                        "STUB! getVarExprAddress(struct) not been implemented yet");
+                        "STUB! addressOf(struct) not been implemented yet");
             }
 
             // Load address into "value"
@@ -143,7 +141,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         VarDecl decl = v.vd;
 
         // Get address of variable expression
-        Register value = getVarExprAddress(v);
+        Register value = addressOf(v);
 
         // Load the word or byte now from the register
         Type t = decl.varType;

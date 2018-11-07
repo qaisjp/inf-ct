@@ -26,7 +26,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
     }
 
     private void assignVarExpr(VarExpr lhs, Register rReg) {
-        try (Register lReg = V.text.getVarExprAddress(lhs)) {
+        try (Register lReg = V.text.addressOf(lhs)) {
             VarDecl decl = lhs.vd;
 
             storeValue(rReg, decl.varType, lReg, 0);
@@ -42,7 +42,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
             }
         } else if (a.lhs instanceof ArrayAccessExpr) {
             try (
-                    Register pointer = V.text.getArrayAccessExprAddress((ArrayAccessExpr) a.lhs);
+                    Register pointer = V.text.addressOf((ArrayAccessExpr) a.lhs);
                     Register rReg = a.rhs.accept(V.text)
             ) {
                 storeValue(rReg, a.rhs.type, pointer, 0);

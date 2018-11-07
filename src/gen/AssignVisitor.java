@@ -34,6 +34,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
 
     @Override
     public Void visitAssign(Assign a) {
+        writer.comment("$? = %s", a.rhs);
         try (Register rReg = a.rhs.accept(V.text)) {
 
             if (a.lhs instanceof VarExpr) {

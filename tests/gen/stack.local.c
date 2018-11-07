@@ -4,6 +4,7 @@
 2
 Hi
 Hi!
+Hello!
 /*gen:expect*/
 
 // todo: add struct test
@@ -38,9 +39,18 @@ void main() {
 
 	print_c('\n');
 
+	// Update the array to say "Hi!"
 	c[2] = '!';
 	c[3] = '\0';
 
+	// Print that array as string
 	d = (char*) c;
 	print_s(d);
+
+	print_c('\n');
+
+	// Get the first character of that array, and print it followed by "ello!"
+	b = c[0];
+	print_c(b);
+	print_s((char*) "ello!");
 }

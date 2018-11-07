@@ -18,6 +18,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
 
     // For try-with-resources scoping
     public IndentWriter scope() {
+        suppressNextNewline();
         level += 1;
         return this;
     }
@@ -25,6 +26,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
     // Allows try-with-resources to be used for scoping
     @Override
     public void close() {
+        newline();
         level -= 1;
     }
 

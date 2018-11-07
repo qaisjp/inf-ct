@@ -115,7 +115,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         // Local variables have an offset defined from the current frame pointer.
         // Set a new register to the address of this item on stack. $fp-item.offset
         Register value = V.registers.get();
-        writer.subi(value, Register.fp, decl.getGenStackOffset());
+        writer.sub(value, Register.fp, decl.getGenStackOffset());
 
         return value;
     }

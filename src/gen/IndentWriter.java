@@ -96,13 +96,18 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("add %s, %s, %s", value, x, y);
     }
 
+    // addi
+    public void add(Register value, Register x, int y) {
+        printf("addi %s, %s, %d", value, x, y);
+    }
+
     // sub: value = x - y
     public void sub(Register value, Register x, Register y) {
         printf("sub %s, %s, %s", value, x, y);
     }
 
     // subi: value = $x - i
-    public void subi(Register value, Register x, int i) {
+    public void sub(Register value, Register x, int i) {
         printf("subi %s, %s, %d", value, x, i);
     }
 
@@ -119,6 +124,11 @@ public class IndentWriter implements java.lang.AutoCloseable {
     // mul: value = x * y (with some weird HI LO behaviour lol)
     public void mul(Register value, Register x, Register y) {
         printf("mul %s, %s, %s", value, x, y);
+    }
+
+    // mul: value = x * y (with some weird HI LO behaviour lol)
+    public void mul(Register value, Register x, int y) {
+        printf("mul %s, %s, %d", value, x, y);
     }
 
     // load byte: lb $target, $offset($from)

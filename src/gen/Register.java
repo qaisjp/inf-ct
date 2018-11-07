@@ -97,8 +97,25 @@ public class Register implements java.lang.AutoCloseable {
         V.writer.jr(this);
     }
 
+    public void add(int i) {
+        V.writer.add(this, this, i);
+    }
+
+    public void add(Register y) {
+        V.writer.add(this, this, y);
+    }
+
+
     public void sub(int i) {
-        V.writer.subi(this, this, i);
+        V.writer.sub(this, this, i);
+    }
+
+    public void sub(Register subtract) {
+        V.writer.sub(this, this, subtract);
+    }
+
+    public void mul(int multiplier) {
+        V.writer.mul(this, this, multiplier);
     }
 
     public void free() {

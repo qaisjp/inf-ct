@@ -11,6 +11,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
 
     // store
     private void storeValue(Register sourceValue, Type type, Register targetAddress, int offset) {
+        writer.leadNewline().comment("(%s + %d) = valueOf(%s, %s)", targetAddress, offset, sourceValue, type);
         if (type == BaseType.CHAR) {
             sourceValue.storeByteAt(targetAddress, offset);
         } else if (type == BaseType.INT || type instanceof PointerType) {
@@ -39,6 +40,22 @@ public class AssignVisitor extends TraverseVisitor<Void> {
 
             if (a.lhs instanceof VarExpr) {
                 assignVarExpr((VarExpr) a.lhs, rReg);
+            } else if (a.lhs instanceof ArrayAccessExpr) {
+                ArrayAccessExpr arrayAccessExpr = (ArrayAccessExpr) a.lhs;
+
+                writer.leadNewline().comment("$? = %s", arrayAccessExpr.expr);
+                try (Register pointer = arrayAccessExpr.expr.accept(V.text)) {
+
+                    writer.leadNewline().comment("%s = addressOf(%s)", pointer, a.lhs);
+                    int size = arrayAccessExpr.getInnerType().sizeof();
+                    try (Register index = arrayAccessExpr.index.accept(V.text)) {
+                        index.mul(size);
+                        pointer.add(index);
+                    }
+
+                    storeValue(rReg, a.rhs.type, pointer, 0);
+                }
+
             } else {
                 // todo
                 throw new RuntimeException("structs, pointers, etc etc not implemented yet");

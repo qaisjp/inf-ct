@@ -35,7 +35,7 @@ Then, the mark is calculated by dividing the number of points achieved by the nu
 The hidden tests are marked independently from the visible ones.
 
 ## Part 3
-66.6% of the mark will be determined by the visible scoreboard tests and 33.3% will be determined by the hidden tests and 10% by the test coverage.
+66.6% of the mark will be determined by the visible scoreboard tests and 33.3% will be determined by the hidden tests.
 The mark will directly be proportial to the number of passed tests (no negative point).
 
 # Tests #

@@ -40,15 +40,6 @@ public class DataVisitor extends TraverseVisitor<Void> {
         return null;
     }
 
-    @Override
-    public Void visitChrLiteral(ChrLiteral c) {
-        super.visitChrLiteral(c);
-
-        c.genLabel = chrLabeller.num();
-        writer.withLabel(c.genLabel).dataByte(c.value);
-        return null;
-    }
-
     public void visitStructDeclGlobal(VarDecl varDecl, StructType structType) {
         List<VarDecl> varDeclList = structType.decl.varDeclList;
         String varName = varDecl.varName;

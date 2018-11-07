@@ -136,10 +136,10 @@ public class TextVisitor extends TraverseVisitor<Register> {
         Type t = decl.varType;
         if (t == BaseType.CHAR) {
             value.loadByte(value, 0);
-        } else if (t == BaseType.INT) {
+        } else if (t == BaseType.INT || t instanceof PointerType) {
             value.loadWord(value, 0);
-        } else if (t instanceof PointerType || t instanceof ArrayType) {
-//            writer.nop();
+        } else if (t instanceof ArrayType) {
+            // nop
         } else {
             // arrays and structs need SPECIAL treatment!
             // and strings too

@@ -76,6 +76,7 @@ echo "";
 echo -e "${RED}=== Codegen MIPS output below ===${NC}"
 
 # Print out the target
+echo "cat \"$TARGET\""
 cat -n "$TARGET"
 
 # Print out the mips simulation
@@ -89,7 +90,4 @@ if [ "$CODEGEN_CODE" -ne "0" ]; then
 fi
 
 java -jar "$PROJ/desc/part3/Mars4_5.jar" nc sm "$TARGET"
-
-# Delete the target
-rm "$TARGET"
 

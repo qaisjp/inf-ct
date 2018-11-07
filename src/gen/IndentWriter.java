@@ -18,7 +18,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
 
     // For try-with-resources scoping
     public IndentWriter scope() {
-        suppressNextNewline();
+        wasNewline = true;
         level += 1;
         return this;
     }
@@ -211,11 +211,6 @@ public class IndentWriter implements java.lang.AutoCloseable {
     public void newline() {
         writer.printf("\n");
         wasNewline = true;
-    }
-
-    public IndentWriter suppressNextNewline() {
-        wasNewline = true;
-        return this;
     }
 
     public void comment(String format, Object... args) {

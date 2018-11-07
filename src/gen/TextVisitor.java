@@ -96,6 +96,19 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return address;
     }
 
+    public Register getArrayAccessExprAddress(ArrayAccessExpr e) {
+        Register pointer = e.expr.accept(V.text);
+
+        writer.comment("%s = addressOf(%s)", pointer, e);
+        int size = e.getInnerType().sizeof();
+        try (Register index = e.index.accept(V.text)) {
+            index.mul(size);
+            pointer.add(index);
+        }
+
+        return pointer;
+    }
+
     public Register getVarExprAddress(VarExpr v) {
         VarDecl decl = v.vd;
 

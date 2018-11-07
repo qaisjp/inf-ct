@@ -41,19 +41,11 @@ public class AssignVisitor extends TraverseVisitor<Void> {
                 assignVarExpr((VarExpr) a.lhs, rReg);
             }
         } else if (a.lhs instanceof ArrayAccessExpr) {
-            ArrayAccessExpr arrayAccessExpr = (ArrayAccessExpr) a.lhs;
-
-            try (Register pointer = arrayAccessExpr.expr.accept(V.text)) {
-                writer.comment("%s = addressOf(%s)", pointer, a.lhs);
-                int size = arrayAccessExpr.getInnerType().sizeof();
-                try (Register index = arrayAccessExpr.index.accept(V.text)) {
-                    index.mul(size);
-                    pointer.add(index);
-                }
-
-                try (Register rReg = a.rhs.accept(V.text)) {
-                    storeValue(rReg, a.rhs.type, pointer, 0);
-                }
+            try (
+                    Register pointer = V.text.getArrayAccessExprAddress((ArrayAccessExpr) a.lhs);
+                    Register rReg = a.rhs.accept(V.text)
+            ) {
+                storeValue(rReg, a.rhs.type, pointer, 0);
             }
 
         } else {

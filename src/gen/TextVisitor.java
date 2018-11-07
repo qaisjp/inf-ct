@@ -13,7 +13,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitProgram(Program p) {
-        writer.leadNewline().printf(".text");
+        writer.directive("text");
 
         try (IndentWriter scope = writer.scope()) {
             super.visitProgram(p);

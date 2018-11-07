@@ -80,7 +80,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             //
             // If this is the main function, we need a second labels!
             if (f.name.equals("main")) {
-                writer.withLabel("main").printf(".globl main");
+                writer.withLabel("main").directive("globl %s", "main");
                 writer.newline();
             }
 

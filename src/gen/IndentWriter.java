@@ -218,6 +218,11 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("# " + format, args);
     }
 
+    public void directive(String directive, Object... args) {
+        leadNewline();
+        printf("." + directive, args);
+    }
+
     // jump register unconditionally: jr $target
     public void jr(Register register) {
         printf("jr %s", register);

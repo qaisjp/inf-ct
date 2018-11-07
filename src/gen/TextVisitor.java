@@ -68,6 +68,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override public Register visitChrLiteral(ChrLiteral c) {
         Register val = V.registers.get();
+        writer.comment("%s = %s", val, c.toString());
         val.loadImmediate(c.value);
         return val;
     }
@@ -100,9 +101,11 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register getVarExprAddress(VarExpr v) {
         VarDecl decl = v.vd;
 
+        Register value = V.registers.get();
+        writer.leadNewline().comment("%s = addressOf(%s)", value, v);
+
         // todo: isGlobal returns true for structs. but getGlobalLabel crashes. should it return the label of the first item?
         if (decl.isGlobal()) {
-            Register value = V.registers.get();
 
             if (decl.varType instanceof StructType) {
                 // todo: structs need SPECIAL treatment!
@@ -119,7 +122,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
         // Local variables have an offset defined from the current frame pointer.
         // Set a new register to the address of this item on stack. $fp-item.offset
-        Register value = V.registers.get();
         writer.sub(value, Register.fp, decl.getGenStackOffset());
 
         return value;

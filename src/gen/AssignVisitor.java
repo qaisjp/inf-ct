@@ -35,17 +35,13 @@ public class AssignVisitor extends TraverseVisitor<Void> {
 
     @Override
     public Void visitAssign(Assign a) {
-        writer.comment("$? = %s", a.rhs);
         try (Register rReg = a.rhs.accept(V.text)) {
-
             if (a.lhs instanceof VarExpr) {
                 assignVarExpr((VarExpr) a.lhs, rReg);
             } else if (a.lhs instanceof ArrayAccessExpr) {
                 ArrayAccessExpr arrayAccessExpr = (ArrayAccessExpr) a.lhs;
 
-                writer.leadNewline().comment("$? = %s", arrayAccessExpr.expr);
                 try (Register pointer = arrayAccessExpr.expr.accept(V.text)) {
-
                     writer.leadNewline().comment("%s = addressOf(%s)", pointer, a.lhs);
                     int size = arrayAccessExpr.getInnerType().sizeof();
                     try (Register index = arrayAccessExpr.index.accept(V.text)) {

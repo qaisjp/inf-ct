@@ -67,7 +67,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override public Register visitChrLiteral(ChrLiteral c) {
         Register val = V.registers.get();
-        writer.comment("%s = %s", val, c.toString());
+        writer.leadNewline().comment("%s = %s", val, c.toString());
         val.loadImmediate(c.value);
         return val;
     }

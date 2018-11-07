@@ -47,7 +47,12 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitTypecastExpr(TypecastExpr e) {
         // todo: do you need to accept type?
-        return e.expr.accept(V.text);
+        Register value;
+        writer.leadNewline().comment("%s", e);
+        try (IndentWriter scope = writer.scope()) {
+            value = e.expr.accept(V.text);
+        }
+        return value;
     }
 
     @Override

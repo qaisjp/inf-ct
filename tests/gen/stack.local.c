@@ -3,7 +3,7 @@
 1
 2
 Hi
-Hi
+Hi!
 /*gen:expect*/
 
 // todo: add struct test
@@ -11,7 +11,7 @@ Hi
 void main() {
 	int a;      // 4 bytes  4 (a word)
 	char b;     // 1 byte   4 (padded to 4)
-	char c[3];  // 3 bytes  4 (padded to 4)
+	char c[4];  // 4 bytes  4 (padded to 4)
 	char* d;    // 4 bytes  4 (a pointer)
 	            //
 	            // Total:   16 bytes
@@ -37,6 +37,9 @@ void main() {
 	print_s((char*) c);
 
 	print_c('\n');
+
+	c[2] = '!';
+	c[3] = '\0';
 
 	d = (char*) c;
 	print_s(d);

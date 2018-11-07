@@ -47,7 +47,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register visitTypecastExpr(TypecastExpr e) {
         // todo: do you need to accept type?
         Register value;
-        writer.leadNewline().comment("%s", e);
+        writer.comment("%s", e);
         try (IndentWriter scope = writer.scope()) {
             value = e.expr.accept(V.text);
         }
@@ -56,7 +56,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitSizeOfExpr(SizeOfExpr e) {
-        writer.leadNewline().comment("%s", e);
+        writer.comment("%s", e);
 
         try (IndentWriter scope = writer.scope()) {
             Register val = V.registers.get();
@@ -67,7 +67,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override public Register visitChrLiteral(ChrLiteral c) {
         Register val = V.registers.get();
-        writer.leadNewline().comment("%s = %s", val, c.toString());
+        writer.comment("%s = %s", val, c.toString());
         val.loadImmediate(c.value);
         return val;
     }
@@ -81,7 +81,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitAssign(Assign a) {
-        writer.leadNewline().comment("%s", a);
+        writer.comment("%s", a);
 
         try (IndentWriter scope = writer.scope()) {
             a.accept(V.assign);
@@ -100,7 +100,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         VarDecl decl = v.vd;
 
         Register value = V.registers.get();
-        writer.leadNewline().comment("%s = addressOf(%s)", value, v);
+        writer.comment("%s = addressOf(%s)", value, v);
 
         // todo: isGlobal returns true for structs. but getGlobalLabel crashes. should it return the label of the first item?
         if (decl.isGlobal()) {
@@ -153,7 +153,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitExprStmt(ExprStmt e) {
-        writer.leadNewline().comment("%s", e);
+        writer.comment("%s", e);
         try (IndentWriter scope = writer.scope()) {
             return super.visitExprStmt(e);
         }

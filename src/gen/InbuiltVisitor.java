@@ -128,7 +128,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             return null;
         }
 
-        writer.leadNewline().comment("%s", f);
+        writer.comment("%s", f);
 
         if (!inbuilts.containsKey(f.decl.name)) {
             writer.comment("stub: %s", f);

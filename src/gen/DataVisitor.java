@@ -44,7 +44,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
         String varName = varDecl.varName;
 
         // Comment the list of declarations
-        writer.leadNewline().comment("'%s' (struct %s) [size %d]", varName, structType.str, structType.sizeof());
+        writer.comment("'%s' (struct %s) [size %d]", varName, structType.str, structType.sizeof());
 
         // Prep varName to be a prefix
         varName += "_";

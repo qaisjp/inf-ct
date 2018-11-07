@@ -129,7 +129,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitBinOp(BinOp binOp) {
-        writer.leadNewline().comment("%s", binOp);
+        writer.comment("%s", binOp);
 
         if (binOp.op == Op.AND) {
             writer.comment("%s", binOp);

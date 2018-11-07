@@ -11,7 +11,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
 
     // store
     private void storeValue(Register sourceValue, Type type, Register targetAddress, int offset) {
-        writer.leadNewline().comment("(%s + %d) = valueOf(%s, %s)", targetAddress, offset, sourceValue, type);
+        writer.comment("(%s + %d) = valueOf(%s, %s)", targetAddress, offset, sourceValue, type);
         if (type == BaseType.CHAR) {
             sourceValue.storeByteAt(targetAddress, offset);
         } else if (type == BaseType.INT || type instanceof PointerType) {
@@ -44,7 +44,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
             ArrayAccessExpr arrayAccessExpr = (ArrayAccessExpr) a.lhs;
 
             try (Register pointer = arrayAccessExpr.expr.accept(V.text)) {
-                writer.leadNewline().comment("%s = addressOf(%s)", pointer, a.lhs);
+                writer.comment("%s = addressOf(%s)", pointer, a.lhs);
                 int size = arrayAccessExpr.getInnerType().sizeof();
                 try (Register index = arrayAccessExpr.index.accept(V.text)) {
                     index.mul(size);

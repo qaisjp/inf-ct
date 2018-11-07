@@ -25,27 +25,22 @@ public class AssignVisitor extends TraverseVisitor<Void> {
         }
     }
 
-    private void assignVarExpr(VarExpr lhs, Register rReg) {
-        try (Register lReg = V.text.addressOf(lhs)) {
-            VarDecl decl = lhs.vd;
-
-            storeValue(rReg, decl.varType, lReg, 0);
-        }
-    }
-
     @Override
     public Void visitAssign(Assign a) {
 
         if (a.lhs instanceof VarExpr) {
-            try (Register rReg = a.rhs.accept(V.text)) {
-                assignVarExpr((VarExpr) a.lhs, rReg);
+            try (
+                    Register pointer = V.text.addressOf((VarExpr) a.lhs);
+                    Register value = a.rhs.accept(V.text)
+            ) {
+                storeValue(value, a.rhs.type, pointer, 0);
             }
         } else if (a.lhs instanceof ArrayAccessExpr) {
             try (
                     Register pointer = V.text.addressOf((ArrayAccessExpr) a.lhs);
-                    Register rReg = a.rhs.accept(V.text)
+                    Register value = a.rhs.accept(V.text)
             ) {
-                storeValue(rReg, a.rhs.type, pointer, 0);
+                storeValue(value, a.rhs.type, pointer, 0);
             }
 
         } else {

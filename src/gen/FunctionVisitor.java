@@ -102,8 +102,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             // Restore stack pointer to the frame pointer
             Register.sp.set(Register.fp);
 
-            // Jump to $ra
-            Register.ra.jump();
+            // Jump to $ra todo
+//            Register.ra.jump();
         }
 
         return null; // no register returned for function declarations

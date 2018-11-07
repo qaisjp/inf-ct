@@ -17,7 +17,6 @@ public class DataVisitor extends TraverseVisitor<Void> {
     @Override
     public Void visitProgram(Program p) {
         writer.printf(".data");
-        writer.suppressNextNewline();
 
         try (IndentWriter scope = writer.scope()) {
             visitEach(this, p.structTypeDecls);

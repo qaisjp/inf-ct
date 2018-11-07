@@ -74,7 +74,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         String label = funcLabeller.label(f.name);
         writer.leadNewline().withLabel(label).comment("%s", f);
 
-        writer.suppressNextNewline();
         try (IndentWriter scope = writer.scope()) {
             //
             // DO NOT PUT ANYTHING ABOVE THIS SECTION INSIDE THIS SCOPE

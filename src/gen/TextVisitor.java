@@ -14,7 +14,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitProgram(Program p) {
         writer.leadNewline().printf(".text");
-        writer.suppressNextNewline();
 
         try (IndentWriter scope = writer.scope()) {
             super.visitProgram(p);
@@ -83,7 +82,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitAssign(Assign a) {
         writer.leadNewline().comment("%s", a);
-        writer.suppressNextNewline();
 
         try (IndentWriter scope = writer.scope()) {
             a.accept(V.assign);
@@ -156,7 +154,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitExprStmt(ExprStmt e) {
         writer.leadNewline().comment("%s", e);
-        try (IndentWriter scope = writer.scope().suppressNextNewline()) {
+        try (IndentWriter scope = writer.scope()) {
             return super.visitExprStmt(e);
         }
     }

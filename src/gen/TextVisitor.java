@@ -157,11 +157,9 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitVarExpr(VarExpr v) {
-        VarDecl decl = v.vd;
-
         // Get address of variable expression
         try (Register address = addressOf(v)) {
-            return getValue(address, decl.varType);
+            return getValue(address, v.vd.varType);
         }
     }
 

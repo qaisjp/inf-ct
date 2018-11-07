@@ -76,7 +76,7 @@ echo "";
 echo -e "${RED}=== Codegen MIPS output below ===${NC}"
 
 # Print out the target
-cat "$TARGET"
+cat -n "$TARGET"
 
 # Print out the mips simulation
 echo "";

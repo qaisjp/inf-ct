@@ -38,14 +38,14 @@ For the comparison operations, use the positional encoding as seen during the le
 
 ## 3. Variable allocations and uses
 
-- [ ] Your next task should be to implement allocations of global and local variables.
+- [x] Your next task should be to implement allocations of global and local variables.
 - [x] As seen during the course, the global variables all go in the static storage area (data section of the assembly file).
-- [ ] The local variables (variables inside a function) go onto the stack.
+- [x] The local variables (variables inside a function) go onto the stack.
 
 You should allocate them at a fix offset from the frame pointer ($fp) and store this offset either in a symbol table that you carry around or directly in the VarDecl AST node as a field.
 Note that the only thing your compiler has to emit with respect to local variable is code to move the stack pointer ($sp) by an offset corresponding to the size of all the local variables declared on the stack.
 
-- [ ] Next you should implement the logic to read and write local or global variables.
+- [x] Next you should implement the logic to read and write local or global variables.
 
 You can use the `lw` and `sw` instruction to read from or write to a variable respectively.
 
@@ -80,7 +80,7 @@ the function foo is never called at runtime since the semantic `&&` imposes that
 
 ## 5. struct and array accesses
 
-- [ ] Next you should add support for struct and array accesses.
+- [x] Next you should add support for struct and array accesses.
 
 This can be implemented using the `lw` and `sw` instructions for struct and a combination of `add` instruction with the `lw` and `sw` instructions for array accesses.
 

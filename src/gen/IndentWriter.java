@@ -39,10 +39,6 @@ public class IndentWriter implements java.lang.AutoCloseable {
     }
 
     public void printf(String format, Object... args) {
-        if (Arrays.asList(args).contains(null)) {
-            String message = String.format("Cannot print with null argument. Would be (see next line, between brackets):\n\n\t[" + format + "]\n\n", args);
-            throw new NullPointerException(message);
-        }
 
         String indentation = new String(new char[level*width]).replace("\0", " ");
 
@@ -50,7 +46,17 @@ public class IndentWriter implements java.lang.AutoCloseable {
             label += ": ";
         }
 
-        writer.printf(indentation + label + format + "\n", args);
+        writer.printf(indentation + label + format, args);
+
+        if (Arrays.asList(args).contains(null)) {
+            writer.printf("\033[1;31m # <---- cannot print with null argument \033[0m\n");
+            writer.flush();
+
+            String message = String.format("Cannot print with null argument. Would be (see next line, between brackets):\n\n\t[" + format + "]\n\n", args);
+            throw new NullPointerException(message);
+        }
+
+        writer.printf("\n");
         writer.flush();
 
         label = "";

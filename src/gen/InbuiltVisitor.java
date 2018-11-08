@@ -88,7 +88,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         }
 
         // Call syscall 9 - this puts the address in v0
-        Register.v0.loadImmediate(5);
+        Register.v0.loadImmediate(9);
         writer.syscall();
 
         Register value = V.registers.get();

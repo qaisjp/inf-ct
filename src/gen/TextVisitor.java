@@ -109,12 +109,36 @@ public class TextVisitor extends TraverseVisitor<Register> {
     private Register addressOf(FieldAccessExpr f) {
         assert f.expr.type instanceof StructType;
 
-        Register value = V.registers.get();
-        writer.comment("%s = addressOf(%s)", value, f);
+        writer.comment("warning: stubby"); // todo
 
-        writer.nop(); // todo
+        // Only varExpr.fieldName can take advantage of directly addressing by label
+        if (f.expr instanceof VarExpr) {
+            if (((VarExpr) f.expr).vd.isGlobal()) {
+                String label = ((VarExpr) f.expr).vd.getStructFieldLabel(f.string);
 
-        return value;
+                Register address = V.registers.get();
+                address.loadAddress(label);
+                return address;
+            }
+        }
+
+        // Get the address of the struct
+        Register address = f.expr.accept(V.text);
+        writer.comment("%s = addressOf(%s)", address, f);
+
+        // Offset the address by whichever amount
+        StructType structType = (StructType) f.expr.type;
+        int offset = 0; // todo: only calculate this stuff once (also elsewhere in assign)
+        for (VarDecl v : structType.decl.varDeclList) {
+            if (v.varName.equals(f.string)) {
+                address.add(offset);
+                return address;
+            }
+
+            offset += GenUtils.byteAlign(v.varType.sizeof());
+        }
+
+        throw new RuntimeException("could not find field in: " + f.toString());
     }
 
     public Register addressOf(Expr e) {

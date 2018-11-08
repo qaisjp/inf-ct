@@ -9,19 +9,23 @@ public class AssignVisitor extends TraverseVisitor<Void> {
         this.writer = V.writer;
     }
 
-    // store
+    // store - todo: IMPORTANT! watch out for sourceValue/targetAddress modifications if moving this!
     private void storeValue(Register sourceValue, Type type, Register targetAddress, int offset) {
         writer.comment("(%s + %d) = valueOf(%s, %s)", targetAddress, offset, sourceValue, type);
         if (type == BaseType.CHAR) {
             sourceValue.storeByteAt(targetAddress, offset);
         } else if (type == BaseType.INT || type instanceof PointerType) {
             sourceValue.storeWordAt(targetAddress, offset);
+        } else if (type instanceof StructType) { // todo: verify
+            StructTypeDecl struct = ((StructType) type).decl;
+            for (VarDecl v : struct.varDeclList) {
+                storeValue(sourceValue, v.varType, targetAddress, offset);
+                offset += GenUtils.byteAlign(v.varType.sizeof());
+            }
         } else {
-            // arrays and structs need SPECIAL treatment!
-            // oh and strings too topKEKKER
             // todo
             throw new RuntimeException(
-                    "STUB! arrays, structs (& maybe strings) haven't been implemented yet");
+                    "STUB! storeValue hasn't been implemented yet for type: " + type.toString());
         }
     }
 

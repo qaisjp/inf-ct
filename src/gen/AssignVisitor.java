@@ -16,11 +16,25 @@ public class AssignVisitor extends TraverseVisitor<Void> {
             sourceValue.storeByteAt(targetAddress, offset);
         } else if (type == BaseType.INT || type instanceof PointerType) {
             sourceValue.storeWordAt(targetAddress, offset);
-        } else if (type instanceof StructType) { // todo: verify
-            StructTypeDecl struct = ((StructType) type).decl;
-            for (VarDecl v : struct.varDeclList) {
-                storeValue(sourceValue, v.varType, targetAddress, offset);
-                offset += GenUtils.byteAlign(v.varType.sizeof());
+        } else if (type instanceof StructType) {
+
+            // Note, sourceValue is actually referring to the struct's address
+            // Don't forget this!
+
+            try (IndentWriter scope = writer.scope()) {
+                StructTypeDecl struct = ((StructType) type).decl;
+
+                for (VarDecl v : struct.varDeclList) {
+                    // Read the value at the struct address (which may or may not have been incremented)
+                    try (Register innerSourceValue = V.text.getValue(sourceValue, v.varType)) {
+                        storeValue(innerSourceValue, v.varType, targetAddress, offset);
+                    }
+
+                    // Increment our read offset and struct address by the size we've just read
+                    int size = GenUtils.byteAlign(v.varType.sizeof());
+                    sourceValue.add(size);
+                    offset += size;
+                }
             }
         } else {
             // todo

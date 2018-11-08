@@ -110,8 +110,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
     private Register addressOf(FieldAccessExpr f) {
         assert f.expr.type instanceof StructType;
 
-        writer.comment("warning: stubby"); // todo
-
         // Only varExpr.fieldName can take advantage of directly addressing by label
         if (f.expr instanceof VarExpr) {
             if (((VarExpr) f.expr).vd.isGlobal()) {

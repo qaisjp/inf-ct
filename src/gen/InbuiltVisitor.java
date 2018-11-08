@@ -38,6 +38,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private static Register print_i(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
 
+        writer.comment("$a0 = %s", arg);
         if (arg instanceof IntLiteral) {
             // this is left here for efficiency. removing this will just make an extra intermediary register.
             V.writer.li(Register.arg[0], ((IntLiteral) arg).value);
@@ -47,6 +48,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             }
         }
 
+        writer.comment("print_i($a0)");
         Register.v0.loadImmediate(1);
         V.writer.syscall();
 
@@ -60,12 +62,14 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             Register.arg[0].set(val);
         }
 
+        writer.comment("print_s($a0)");
         Register.v0.loadImmediate(4);
         writer.syscall();
         return null;
     }
 
     private static Register read_i(FunDecl f, List<Expr> args) {
+        writer.comment("$v0 = read_i()");
         // Call syscall 5 - this sets the read integer to v0
         Register.v0.loadImmediate(5);
         writer.syscall();
@@ -88,6 +92,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         }
 
         // Call syscall 9 - this puts the address in v0
+        writer.comment("mcmalloc($a0)");
         Register.v0.loadImmediate(9);
         writer.syscall();
 
@@ -99,6 +104,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private static Register print_c(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
 
+        writer.comment("$a0 = %s", arg);
         if (arg instanceof ChrLiteral) {
             // this is left here for efficiency. removing this will just make an extra intermediary register.
             V.writer.li(Register.arg[0], ((ChrLiteral) arg).value);
@@ -108,6 +114,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             }
         }
 
+        writer.comment("print_c($a0)");
         Register.v0.loadImmediate(11);
         V.writer.syscall();
 
@@ -116,10 +123,12 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
     private static Register read_c(FunDecl f, List<Expr> args) {
         // Call syscall 12 - this sets the read character to v0
+        writer.comment("$v0 = read_c()");
         Register.v0.loadImmediate(12);
         writer.syscall();
 
         Register value = V.registers.get();
+        writer.comment("%s = $v0", value);
         Register.v0.moveTo(value);
         return value;
     }

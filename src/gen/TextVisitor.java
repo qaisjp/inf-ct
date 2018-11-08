@@ -235,7 +235,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register visitExprStmt(ExprStmt e) {
         writer.comment("%s", e);
         try (IndentWriter scope = writer.scope()) {
-            return super.visitExprStmt(e);
+            e.expr.accept(V.text).free();
         }
+        return null;
     }
 }

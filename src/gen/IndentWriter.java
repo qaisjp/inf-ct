@@ -26,7 +26,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
     // Allows try-with-resources to be used for scoping
     @Override
     public void close() {
-        newline();
+        wasNewline = false;
         level -= 1;
     }
 

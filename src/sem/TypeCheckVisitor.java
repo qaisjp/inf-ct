@@ -205,14 +205,16 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitValueAtExpr(ValueAtExpr vae) {
-		vae.type = vae.expr.accept(this);
+		Type pointer = vae.expr.accept(this);
+		if (!(pointer instanceof PointerType)) {
+			error("Expression (%s) should have type PointerType, got %s\n", vae, vae.type);
 
-		if (!(vae.type instanceof PointerType)) {
-			error("Expression should have type PointerType, got %s\n", vae.type);
-			return BaseType.VOID;
+			vae.type = BaseType.VOID;
+			return vae.type;
 		}
 
-		return ((PointerType)vae.type).innerType;
+		vae.type = ((PointerType) pointer).innerType;
+		return vae.type;
 	}
 
 	@Override

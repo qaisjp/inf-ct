@@ -41,20 +41,12 @@ public class VarDecl implements ASTNode {
     }
 
     public boolean isGlobal() {
-        return (genLabel != null) || isGlobalStruct();
-    }
-
-    public boolean isGlobalStruct() {
-        return genStructLabel != null;
+        return genLabel != null;
     }
 
     public void setGlobalLabel(String label) {
         if (isGlobal()) {
-            if (isGlobalStruct()) {
-                throw new RuntimeException("Can't set label of a struct");
-            } else {
-                throw new RuntimeException("Can't set label if already set to " + genLabel);
-            }
+            throw new RuntimeException("Can't set label if already set to " + genLabel);
         }
         genLabel = label;
     }
@@ -63,13 +55,15 @@ public class VarDecl implements ASTNode {
         if (!isGlobal()) {
             throw new NullPointerException("Can't get global label if not a global label (genLabel is null)");
         }
-        if (isGlobalStruct()) {
-            throw new RuntimeException("Can't get global label of a struct");
-        }
         return genLabel;
     }
 
     public void setStructFieldLabel(String field, String label) {
+        // ensure is global
+        if (!isGlobal()) {
+            throw new RuntimeException("entire struct must have a label first");
+        }
+
         // ensure vardecl is actually for a struct
         if (!(varType instanceof StructType)) {
             throw new RuntimeException("this variable declaration must be declaring a struct type");

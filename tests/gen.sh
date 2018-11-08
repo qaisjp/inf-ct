@@ -13,6 +13,9 @@ if [ -z "$PROJ" ]; then
     exit 1;
 fi
 
+# Change to proj
+cd "$PROJ"
+
 SHOULD_COMPILE=false;
 SHOULD_EDIT=false;
 FILENAME="$1";

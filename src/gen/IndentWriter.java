@@ -219,6 +219,10 @@ public class IndentWriter implements java.lang.AutoCloseable {
         wasNewline = true;
     }
 
+    public void comment(Object o) {
+        comment("%s", o);
+    }
+
     public void comment(String format, Object... args) {
         leadNewline();
         printf("# " + format, args);

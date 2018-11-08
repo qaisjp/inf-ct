@@ -58,11 +58,7 @@ fi
 # Attempt build
 if $SHOULD_COMPILE; then
     echo -e "${GREY}=== Build output below ===${NC}"
-    if hash infer 2>/dev/null; then
-        infer -- ant build -f "$PROJ/build.xml";
-    else
-        ant build -f "$PROJ/build.xml";
-    fi
+    ant build -f "$PROJ/build.xml";
 fi
 
 # Cancel if can't build

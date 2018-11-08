@@ -38,8 +38,6 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private static Register print_i(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
 
-        Register.v0.loadImmediate(1);
-
         if (arg instanceof IntLiteral) {
             // this is left here for efficiency. removing this will just make an extra intermediary register.
             V.writer.li(Register.arg[0], ((IntLiteral) arg).value);
@@ -49,6 +47,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             }
         }
 
+        Register.v0.loadImmediate(1);
         V.writer.syscall();
 
         return null;
@@ -57,12 +56,11 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private static Register print_s(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
 
-        Register.v0.loadImmediate(4);
-
         try (Register val = arg.accept(V.text)) {
             Register.arg[0].set(val);
         }
 
+        Register.v0.loadImmediate(4);
         writer.syscall();
         return null;
     }
@@ -101,8 +99,6 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private static Register print_c(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
 
-        Register.v0.loadImmediate(11);
-
         if (arg instanceof ChrLiteral) {
             // this is left here for efficiency. removing this will just make an extra intermediary register.
             V.writer.li(Register.arg[0], ((ChrLiteral) arg).value);
@@ -112,6 +108,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             }
         }
 
+        Register.v0.loadImmediate(11);
         V.writer.syscall();
 
         return null;

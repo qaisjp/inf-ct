@@ -54,7 +54,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         visitEach(V.text, b.stmtList);
         stackFree(b.varDecls);
 
-        return null; // todo: should a block return?
+        // todo: don't forget that a block can complete jump to the end of a function
+        return null;
     }
 
     @Override

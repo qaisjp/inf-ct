@@ -22,7 +22,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 //        }
 //    }
 
-    public void stackAllocate(List<VarDecl> varDecls) {
+    private void stackAllocate(List<VarDecl> varDecls) {
         int totalSize = 0;
         for (VarDecl v : varDecls) {
             v.setGenStackOffset(frameOffset);
@@ -36,10 +36,23 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         Register.sp.sub(totalSize);
     }
 
+    private void stackFree(List<VarDecl> varDecls) {
+        int totalSize = 0;
+        for (VarDecl v : varDecls) {
+            int size = GenUtils.byteAlign(v.varType.sizeof());
+            frameOffset -= size;
+            totalSize -= size;
+        }
+
+        // Pop by adding all that to the stack pointer
+        Register.sp.add(totalSize);
+    }
+
     @Override
     public Register visitBlock(Block b) {
         stackAllocate(b.varDecls);
         visitEach(V.text, b.stmtList);
+        stackFree(b.varDecls);
 
         return null; // todo: should a block return?
     }

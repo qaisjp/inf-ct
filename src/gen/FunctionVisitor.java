@@ -41,7 +41,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         for (VarDecl v : varDecls) {
             int size = GenUtils.byteAlign(v.varType.sizeof());
             frameOffset -= size;
-            totalSize -= size;
+            totalSize += size;
         }
 
         // Pop by adding all that to the stack pointer

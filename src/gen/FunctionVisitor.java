@@ -32,8 +32,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             totalSize += size;
         }
 
-        // Allocate all that on that stack
-        Register.sp.sub(-totalSize);
+        // Allocate all that on that stack by SUBTRACTING the stack pointer
+        Register.sp.sub(totalSize);
     }
 
     @Override

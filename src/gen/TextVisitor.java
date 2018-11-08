@@ -147,6 +147,17 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return value;
     }
 
+    public Register addressOf(Expr e) {
+        if (e instanceof VarExpr) {
+            return addressOf((VarExpr) e);
+        } else if (e instanceof ArrayAccessExpr) {
+            return addressOf((ArrayAccessExpr) e);
+        } else if (e instanceof FieldAccessExpr) {
+            return addressOf((FieldAccessExpr) e);
+        }
+        throw new RuntimeException("Got expression that I don't know how to addressOf - " + e.toString());
+    }
+
     // Get value of a certain type stored at this address
     public Register getValue(Register address, Type t) {
         Register value = V.registers.get();
@@ -158,35 +169,35 @@ public class TextVisitor extends TraverseVisitor<Register> {
         } else if (t instanceof ArrayType || t instanceof StructType) {
             value.set(address);
         } else {
-            // todo: structs need SPECIAL treatment!
             throw new RuntimeException(
-                    "STUB! structs not implemented yet with type " + t.toString());
+                    "getValue not implemented yet with type " + t.toString());
         }
 
         return value;
     }
 
-    @Override
-    public Register visitVarExpr(VarExpr v) {
-        // Get address of variable expression
-        try (Register address = addressOf(v)) {
-            return getValue(address, v.vd.varType);
+    private Register visitExpr(Expr e) {
+        try (Register address = addressOf(e)) {
+            return getValue(address, e.type);
         }
     }
 
     @Override
-    public Register visitArrayAccessExpr(ArrayAccessExpr v) {
-        // Get address of array access expression
-        try (Register address = addressOf(v)) {
-            return getValue(address, v.getInnerType());
-        }
+    public Register visitVarExpr(VarExpr e) {
+        assert e.type == e.vd.varType;
+        return visitExpr(e);
     }
 
     @Override
-    public Register visitFieldAccessExpr(FieldAccessExpr f) {
-        try (Register address = addressOf(f)) {
-            return getValue(address, f.type);
-        }
+    public Register visitArrayAccessExpr(ArrayAccessExpr e) {
+        assert e.type == e.getInnerType();
+        return visitExpr(e);
+    }
+
+    @Override
+    public Register visitFieldAccessExpr(FieldAccessExpr e) {
+        assert e.type != null;
+        return visitExpr(e);
     }
 
     @Override

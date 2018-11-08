@@ -42,7 +42,13 @@ public class AssignVisitor extends TraverseVisitor<Void> {
             ) {
                 storeValue(value, a.rhs.type, pointer, 0);
             }
-
+        } else if (a.lhs instanceof FieldAccessExpr) {
+            try (
+                    Register pointer = V.text.addressOf((FieldAccessExpr) a.lhs);
+                    Register value = a.rhs.accept(V.text)
+            ) {
+                storeValue(value, a.rhs.type, pointer, 0);
+            }
         } else {
             // todo
             throw new RuntimeException("structs, pointers, etc etc not implemented yet");

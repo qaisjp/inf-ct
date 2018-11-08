@@ -136,6 +136,17 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return value;
     }
 
+    public Register addressOf(FieldAccessExpr f) {
+        assert f.expr.type instanceof StructType;
+
+        Register value = V.registers.get();
+        writer.comment("%s = addressOf(%s)", value, f);
+
+        writer.nop(); // todo
+
+        return value;
+    }
+
     // Get value of a certain type stored at this address
     public Register getValue(Register address, Type t) {
         Register value = V.registers.get();
@@ -144,7 +155,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
             value.loadByte(address, 0);
         } else if (t == BaseType.INT || t instanceof PointerType) {
             value.loadWord(address, 0);
-        } else if (t instanceof ArrayType) {
+        } else if (t instanceof ArrayType || t instanceof StructType) {
             value.set(address);
         } else {
             // todo: structs need SPECIAL treatment!
@@ -165,9 +176,16 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr v) {
-        // Get address of variable expression
+        // Get address of array access expression
         try (Register address = addressOf(v)) {
             return getValue(address, v.getInnerType());
+        }
+    }
+
+    @Override
+    public Register visitFieldAccessExpr(FieldAccessExpr f) {
+        try (Register address = addressOf(f)) {
+            return getValue(address, f.type);
         }
     }
 

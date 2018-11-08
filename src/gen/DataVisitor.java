@@ -52,11 +52,11 @@ public class DataVisitor extends TraverseVisitor<Void> {
         writer.withLabel(label).printf("");
 
         // Prep varName to be a prefix
-        varName += "_";
+        Labeller localLabeller = new Labeller("s_" + varName);
 
         try (IndentWriter scope = writer.scope()) {
             for (VarDecl v : varDeclList) {
-                label = globalLabeller.label(varName + v.varName);
+                label = localLabeller.label(v.varName);
                 // v.setGlobalLabel(label); // we can't use this. each `v` is global to all declarations of this struct
                 varDecl.setStructFieldLabel(v.varName, label);
 

@@ -140,6 +140,11 @@ public class TextVisitor extends TraverseVisitor<Register> {
         throw new RuntimeException("could not find field in: " + f.toString());
     }
 
+    private Register addressOf(ValueAtExpr e) {
+        assert e.expr.type instanceof PointerType;
+        return addressOf(e.expr);
+    }
+
     public Register addressOf(Expr e) {
         if (e instanceof VarExpr) {
             return addressOf((VarExpr) e);
@@ -147,6 +152,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
             return addressOf((ArrayAccessExpr) e);
         } else if (e instanceof FieldAccessExpr) {
             return addressOf((FieldAccessExpr) e);
+        } else if (e instanceof ValueAtExpr) {
+            return addressOf((ValueAtExpr) e);
         }
         throw new RuntimeException("Got expression that I don't know how to addressOf - " + e.toString());
     }
@@ -190,6 +197,12 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitFieldAccessExpr(FieldAccessExpr e) {
         assert e.type != null;
+        return visitAddressableExpr(e);
+    }
+
+    @Override
+    public Register visitValueAtExpr(ValueAtExpr e) {
+        assert e.expr.type instanceof PointerType;
         return visitAddressableExpr(e);
     }
 

@@ -99,9 +99,9 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         String finishLabel = labeller.num("and_finish");
 
         // Plan:
-        // - jump to FALSE if X fails, otherwise continue (CHECK Y)
-        // - CHECK_Y: jump to TRUE if Y success, otherwise continue (FALSE)
-        // - FALSE  : set result to 0, jump to FINISH
+        // - jump to FALSE if X fails, otherwise continue (jump to CHECK_Y)
+        // - CHECK_Y: jump to TRUE if Y success, otherwise continue (jump to FALSE)
+        // - FALSE  : set result to 0, then finish (jump to FINISH)
         // - TRUE   : set result to 1
         // - FINISH : return the result
 

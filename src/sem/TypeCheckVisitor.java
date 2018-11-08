@@ -329,6 +329,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		Type x = binOp.x.accept(this);
 		Type y = binOp.y.accept(this);
 
+		binOp.type = BaseType.INT;
+
 		switch (binOp.op) {
 			case ADD:
 			case SUB:
@@ -347,7 +349,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				}
 
 				error("Operation %s expects INT and INT, got %s and %s\n", binOp.op, x, y);
-				return BaseType.INT;
+				return binOp.type;
 			case NE:
 			case EQ:
 				if (eq(x, y) && !(x instanceof StructType) && !(x instanceof ArrayType) && x != BaseType.VOID) {
@@ -356,7 +358,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				}
 
 				error("Operation %s expects matching non-void, non-struct, non-array types, got %s and %s\n", binOp.op, x, y);
-				return BaseType.INT;
+				return binOp.type;
 			default:
 				break;
 		}
@@ -387,6 +389,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		} else {
 			assert false;
 		}
+
+		arrayAccessExpr.type = innerType;
 
 		return innerType.accept(this);
 	}

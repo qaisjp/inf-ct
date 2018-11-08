@@ -72,7 +72,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return address;
     }
 
-    public Register addressOf(ArrayAccessExpr e) {
+    private Register addressOf(ArrayAccessExpr e) {
         Register pointer = e.expr.accept(V.text);
 
         writer.comment("%s = addressOf(%s)", pointer, e);
@@ -85,7 +85,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return pointer;
     }
 
-    public Register addressOf(VarExpr v) {
+    private Register addressOf(VarExpr v) {
         VarDecl decl = v.vd;
 
         Register value = V.registers.get();
@@ -114,7 +114,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return value;
     }
 
-    public Register addressOf(FieldAccessExpr f) {
+    private Register addressOf(FieldAccessExpr f) {
         assert f.expr.type instanceof StructType;
 
         Register value = V.registers.get();
@@ -154,7 +154,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return value;
     }
 
-    private Register visitExpr(Expr e) {
+    private Register visitAddressableExpr(Expr e) {
         try (Register address = addressOf(e)) {
             return getValue(address, e.type);
         }
@@ -163,37 +163,38 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitVarExpr(VarExpr e) {
         assert e.type == e.vd.varType;
-        return visitExpr(e);
+        return visitAddressableExpr(e);
     }
 
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr e) {
         assert e.type == e.getInnerType();
-        return visitExpr(e);
+        return visitAddressableExpr(e);
     }
 
     @Override
     public Register visitFieldAccessExpr(FieldAccessExpr e) {
         assert e.type != null;
-        return visitExpr(e);
+        return visitAddressableExpr(e);
     }
 
-    // todo: does this need to be addressOf-d?
     @Override
     public Register visitTypecastExpr(TypecastExpr e) {
+        // visitSizeOfExpr is a value, so we don't need to get addr
         // todo: do you need to accept type?
         Register value;
-        writer.comment("%s", e);
+        writer.comment(e);
         try (IndentWriter scope = writer.scope()) {
             value = e.expr.accept(V.text);
         }
         return value;
     }
 
-    // todo: addressOf?
     @Override
     public Register visitSizeOfExpr(SizeOfExpr e) {
-        writer.comment("%s", e);
+        // visitSizeOfExpr is a value, so we don't need to get addr
+
+        writer.comment(e);
 
         try (IndentWriter scope = writer.scope()) {
             Register val = V.registers.get();

@@ -39,6 +39,14 @@ elif [ "$2" = "-c" ]; then
     SHOULD_COMPILE=true;
 fi
 
+SHOULD_GCC=false;
+if [ "$1" = "-gcc" ]; then
+    SHOULD_GCC=true;
+    FILENAME="$2";
+elif [ "$2" = "-gcc" ]; then
+    SHOULD_GCC=true;
+fi
+
 # Check if args provided
 if [ "$FILENAME" = "" ]; then
     echo "$0 filename.c";
@@ -53,6 +61,17 @@ fi
 if [ ! -f "$FILENAME" ]; then
     echo "Filename \"$FILENAME\" does not exist";
     exit 1;
+fi
+
+# If gcc, we do something completely different.
+if $SHOULD_GCC; then
+    echo -e "${GREY}=== GCC output below${NC}";
+    EXEC_FILE=$(mktemp);
+    gcc "$FILENAME" -o "$EXEC_FILE";
+    echo "";
+    echo -e "${CYAN}=== Executable running${NC}";
+    "$EXEC_FILE";
+    exit $?;
 fi
 
 # Attempt build

@@ -41,28 +41,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return binOp.accept(V.binOp);
     }
 
-    @Override
-    public Register visitTypecastExpr(TypecastExpr e) {
-        // todo: do you need to accept type?
-        Register value;
-        writer.comment("%s", e);
-        try (IndentWriter scope = writer.scope()) {
-            value = e.expr.accept(V.text);
-        }
-        return value;
-    }
-
-    @Override
-    public Register visitSizeOfExpr(SizeOfExpr e) {
-        writer.comment("%s", e);
-
-        try (IndentWriter scope = writer.scope()) {
-            Register val = V.registers.get();
-            val.loadImmediate(e.typeToCheck.sizeof());
-            return val;
-        }
-    }
-
     @Override public Register visitChrLiteral(ChrLiteral c) {
         Register val = V.registers.get();
         writer.comment("%s = %s", val, c.toString());
@@ -198,6 +176,30 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register visitFieldAccessExpr(FieldAccessExpr e) {
         assert e.type != null;
         return visitExpr(e);
+    }
+
+    // todo: does this need to be addressOf-d?
+    @Override
+    public Register visitTypecastExpr(TypecastExpr e) {
+        // todo: do you need to accept type?
+        Register value;
+        writer.comment("%s", e);
+        try (IndentWriter scope = writer.scope()) {
+            value = e.expr.accept(V.text);
+        }
+        return value;
+    }
+
+    // todo: addressOf?
+    @Override
+    public Register visitSizeOfExpr(SizeOfExpr e) {
+        writer.comment("%s", e);
+
+        try (IndentWriter scope = writer.scope()) {
+            Register val = V.registers.get();
+            val.loadImmediate(e.typeToCheck.sizeof());
+            return val;
+        }
     }
 
     @Override

@@ -41,7 +41,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
         return binOp.accept(V.binOp);
     }
 
-    @Override public Register visitChrLiteral(ChrLiteral c) {
+    @Override
+    public Register visitChrLiteral(ChrLiteral c) {
         Register val = V.registers.get();
         writer.comment("%s = %s", val, c.toString());
         val.loadImmediate(c.value);

@@ -79,18 +79,23 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
     private static Register mcmalloc(FunDecl f, List<Expr> args) {
         // Get the bytes required to allocate
-        try (Register byteCount = args.get(0).accept(V.text)) {
+        Expr arg = args.get(0);
+        writer.comment("$a0 = %s", arg);
+        try (
+                IndentWriter scope = writer.scope();
+                Register byteCount = arg.accept(V.text)
+        ) {
             // Set the argument of the syscall to these bytes
             Register.arg[0].set(byteCount);
-
-            // Call syscall 9 - this puts the address in v0
-            Register.v0.loadImmediate(5);
-            writer.syscall();
-
-            Register value = V.registers.get();
-            Register.v0.moveTo(value);
-            return value;
         }
+
+        // Call syscall 9 - this puts the address in v0
+        Register.v0.loadImmediate(5);
+        writer.syscall();
+
+        Register value = V.registers.get();
+        Register.v0.moveTo(value);
+        return value;
     }
 
     private static Register print_c(FunDecl f, List<Expr> args) {
@@ -130,11 +135,13 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
         writer.comment("%s", f);
 
-        if (!inbuilts.containsKey(f.decl.name)) {
-            writer.comment("stub: %s", f);
-            throw new RuntimeException("attempt to call undefined inbuilt " + f.decl.name);
-        }
+        try (IndentWriter scope = writer.scope()) {
+            if (!inbuilts.containsKey(f.decl.name)) {
+                writer.comment("stub: %s", f);
+                throw new RuntimeException("attempt to call undefined inbuilt " + f.decl.name);
+            }
 
-        return inbuilts.get(f.decl.name).apply(f.decl, f.exprList);
+            return inbuilts.get(f.decl.name).apply(f.decl, f.exprList);
+        }
     }
 }

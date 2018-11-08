@@ -91,15 +91,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         Register value = V.registers.get();
         writer.comment("%s = addressOf(%s)", value, v);
 
-        // todo: isGlobal returns true for structs. but getGlobalLabel crashes. should it return the label of the first item?
         if (decl.isGlobal()) {
-
-            if (decl.varType instanceof StructType) {
-                // todo: structs need SPECIAL treatment!
-                throw new RuntimeException(
-                        "STUB! addressOf(struct) not been implemented yet");
-            }
-
             // Load address into "value"
             String label = decl.getGlobalLabel();
             value.loadAddress(label);

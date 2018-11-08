@@ -162,6 +162,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register getValue(Register address, Type t) {
         Register value = V.registers.get();
 
+        writer.comment("%s = valueAt(%s, %s)", value, address, t);
+
         if (t == BaseType.CHAR) {
             value.loadByte(address, 0);
         } else if (t == BaseType.INT || t instanceof PointerType) {

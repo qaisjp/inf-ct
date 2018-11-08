@@ -39,12 +39,15 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         Expr arg = args.get(0);
 
         writer.comment("$a0 = %s", arg);
-        if (arg instanceof IntLiteral) {
-            // this is left here for efficiency. removing this will just make an extra intermediary register.
-            V.writer.li(Register.arg[0], ((IntLiteral) arg).value);
-        } else {
-            try (Register val = arg.accept(V.text)) {
-                Register.arg[0].set(val);
+        try (IndentWriter scope = writer.scope()) {
+            if (arg instanceof IntLiteral) {
+                // this is left here for efficiency. removing this will just make an extra intermediary register.
+                V.writer.li(Register.arg[0], ((IntLiteral) arg).value);
+            } else {
+                try (Register val = arg.accept(V.text)) {
+                    writer.comment("$a0 = %s", val);
+                    Register.arg[0].set(val);
+                }
             }
         }
 
@@ -58,7 +61,11 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
     private static Register print_s(FunDecl f, List<Expr> args) {
         Expr arg = args.get(0);
 
-        try (Register val = arg.accept(V.text)) {
+        writer.comment("$a0 = %s", arg);
+        try (IndentWriter scope = writer.scope();
+             Register val = arg.accept(V.text)
+        ) {
+            writer.comment("$a0 = %s", val);
             Register.arg[0].set(val);
         }
 
@@ -84,8 +91,8 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         Expr arg = args.get(0);
         writer.comment("$a0 = %s", arg);
         try (
-                IndentWriter scope = writer.scope();
-                Register byteCount = arg.accept(V.text)
+            IndentWriter scope = writer.scope();
+            Register byteCount = arg.accept(V.text)
         ) {
             // Set the argument of the syscall to these bytes
             Register.arg[0].set(byteCount);
@@ -105,12 +112,15 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
         Expr arg = args.get(0);
 
         writer.comment("$a0 = %s", arg);
-        if (arg instanceof ChrLiteral) {
-            // this is left here for efficiency. removing this will just make an extra intermediary register.
-            V.writer.li(Register.arg[0], ((ChrLiteral) arg).value);
-        } else {
-            try (Register val = arg.accept(V.text)) {
-                Register.arg[0].set(val);
+        try (IndentWriter scope = writer.scope()) {
+            if (arg instanceof ChrLiteral) {
+                // this is left here for efficiency. removing this will just make an extra intermediary register.
+                V.writer.li(Register.arg[0], ((ChrLiteral) arg).value);
+            } else {
+                try (Register val = arg.accept(V.text)) {
+                    writer.comment("$a0 = %s", val);
+                    Register.arg[0].set(val);
+                }
             }
         }
 

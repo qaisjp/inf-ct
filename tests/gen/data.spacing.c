@@ -1,3 +1,23 @@
+struct online {
+	char exists;
+	char* email;
+}; // 8
+
+struct person {
+	struct online id;
+	int age;
+	char gender;
+}; // 16
+
+// Test struct 1
+struct online id; // 8
+
+// Test struct 2
+struct person qais; // 16
+
+// Array of structs
+struct person people[5];
+
 // Test arrays
 int intArray[5];
 char charArray[5];

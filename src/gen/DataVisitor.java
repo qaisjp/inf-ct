@@ -46,12 +46,17 @@ public class DataVisitor extends TraverseVisitor<Void> {
         // Comment the list of declarations
         writer.comment("'%s' (struct %s) [size %d]", varName, structType.str, structType.sizeof());
 
+        // Label the entire struct
+        String label = globalLabeller.label(varDecl.varName);
+        varDecl.setGlobalLabel(label);
+        writer.withLabel(label).printf("");
+
         // Prep varName to be a prefix
         varName += "_";
 
         try (IndentWriter scope = writer.scope()) {
             for (VarDecl v : varDeclList) {
-                String label = globalLabeller.label(varName + v.varName);
+                label = globalLabeller.label(varName + v.varName);
                 // v.setGlobalLabel(label); // we can't use this. each `v` is global to all declarations of this struct
                 varDecl.setStructFieldLabel(v.varName, label);
 

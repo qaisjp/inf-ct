@@ -50,8 +50,12 @@ public class Register implements java.lang.AutoCloseable {
 
     public static final List<Register> snapshot = new ArrayList<>();
     static {
+        // Add all temporaries and unfreeable
         snapshot.addAll(tmp);
         snapshot.addAll(Arrays.asList(unfreeable));
+
+        // Remove stack pointer though
+        snapshot.remove(sp);
     }
 
 

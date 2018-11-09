@@ -98,6 +98,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             // Allocate space on caller stack for callee to write to
             int resultSize = GenUtils.byteAlign(f.decl.result.sizeof());
             frameOffset += resultSize;
+            writer.comment("Allocate space on caller stack for result");
             Register.sp.sub(resultSize);
             writer.add(resultAddress, Register.fp, frameOffset);
 
@@ -106,9 +107,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             frameOffset = 0;
 
             // Skip the prologue size
+            writer.comment("Skip the prologue size (we will be writing into our callee stack frame)");
             Register.sp.sub(PrologueSize);
 
             // Store a pointer to our result at the current SP
+            writer.comment("Store the result address as the first argument");
             Register.sp.sub(4);
             resultAddress.storeWordAt(Register.sp, 0);
 
@@ -208,7 +211,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 snapshotRegisters();
 
                 // Jump over our parameters (as well as the initial return pointer)
-                writer.comment("skip over return value & return pointer");
+                writer.comment("skip over return value & parameters");
                 for (VarDecl v : f.params) {
                     argSize += GenUtils.byteAlign(v.varType.sizeof());
                 }

@@ -23,6 +23,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 //    }
 
     private void stackAllocate(List<VarDecl> varDecls) {
+        writer.comment("Allocate space on stack for varDecls");
         int totalSize = 0;
         for (VarDecl v : varDecls) {
             v.setGenStackOffset(frameOffset);
@@ -32,16 +33,27 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             totalSize += size;
         }
 
+        if (totalSize == 0) {
+            writer.nop();
+            return;
+        }
+
         // Allocate all that on that stack by SUBTRACTING the stack pointer
         Register.sp.sub(totalSize);
     }
 
     private void stackFree(List<VarDecl> varDecls) {
+        writer.comment("Free space on stack from varDecls");
         int totalSize = 0;
         for (VarDecl v : varDecls) {
             int size = GenUtils.byteAlign(v.varType.sizeof());
             frameOffset -= size;
             totalSize += size;
+        }
+
+        if (totalSize == 0) {
+            writer.nop();
+            return;
         }
 
         // Pop by adding all that to the stack pointer

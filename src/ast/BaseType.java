@@ -28,6 +28,8 @@ public enum BaseType implements Type {
                 return 4;
             case CHAR:
                 return 1;
+            case VOID:
+                return 0;
             default:
                 throw new RuntimeException("Sizeof called on " + this.toString());
         }

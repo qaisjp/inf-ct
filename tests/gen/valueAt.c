@@ -32,11 +32,11 @@ void main() {
 	// Allocate space for all these pointers
 	stack_c = (char*) mcmalloc(sizeof(char));
 	stack_i = (int*) mcmalloc(sizeof(int));
-	stack_b = (struct blah*) mcmalloc(sizeof(struct blah*));
+	stack_b = (struct blah*) mcmalloc(sizeof(struct blah));
 	
 	globl_c = (char*) mcmalloc(sizeof(char));
 	globl_i = (int*) mcmalloc(sizeof(int));
-	globl_b = (struct blah*) mcmalloc(sizeof(struct blah*));
+	globl_b = (struct blah*) mcmalloc(sizeof(struct blah));
 
 	// s_c = 'z';
 	*stack_c = 'z';

@@ -189,6 +189,12 @@ public class TextVisitor extends TraverseVisitor<Register> {
         }
     }
 
+    @Override // todo
+    public Register visitReturn(Return r) {
+        writer.comment("stub: return called. store value at register at address in someplace from fp");
+        return null;
+    }
+
     @Override
     public Register visitVarExpr(VarExpr e) {
         assert e.type == e.vd.varType;

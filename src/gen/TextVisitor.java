@@ -15,6 +15,9 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
         try (IndentWriter scope = writer.scope()) {
             super.visitProgram(p);
+
+            writer.withLabel("main").directive("globl %s", "main");
+            V.writer.jal("func_main");
         }
 
         assert writer.getLevel() == 0;

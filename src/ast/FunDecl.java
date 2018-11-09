@@ -11,6 +11,7 @@ public class FunDecl implements ASTNode {
     public final List<VarDecl> params;
     public final Block block;
     public final boolean isInbuilt;
+    public String genLabel = null;
 
     public FunDecl(Type result, String name, List<VarDecl> params, Block block) {
 	    this.result = result;

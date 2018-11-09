@@ -173,6 +173,8 @@ public class TextVisitor extends TraverseVisitor<Register> {
             value.loadWord(address, 0);
         } else if (t instanceof ArrayType || t instanceof StructType) {
             value.set(address);
+        } else if (t == BaseType.VOID) {
+            writer.nop();
         } else {
             throw new RuntimeException(
                     "getValue not implemented yet with type " + t.toString());

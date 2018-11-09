@@ -2,6 +2,7 @@ package gen;
 
 import ast.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class FunctionVisitor extends TraverseVisitor<Register> {
@@ -207,12 +208,17 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 // Snapshot our caller's registers
                 snapshotRegisters();
 
-                // Jump over our parameters (as well as the initial return pointer)
-                writer.comment("skip over return value & parameters");
+                // Jump over address of result; todo: maybe NULL all this space too?
+                // todo: if nulling. get address. get size. write 0 for size (increment 4)
+                writer.comment("Skip over address of result");
+                Register.sp.sub(4);
+
+                // Jump over our parameters
+                writer.comment("Skip over parameters: %s", Arrays.toString(f.params.toArray()));
                 for (VarDecl v : f.params) {
                     argSize += GenUtils.byteAlign(v.varType.sizeof());
                 }
-                Register.sp.sub(argSize + 4);
+                Register.sp.sub(argSize);
 
                 // Our stack pointer is just to tell us where to allocate space next.
                 // We already have arguments and the return value allocated.

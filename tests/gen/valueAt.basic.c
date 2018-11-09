@@ -18,19 +18,31 @@ struct container* a;
 struct container* b;
 
 void main() {
-	char c;
 	char* cp;
-	c = 'q';
 
 	"ZYX987POIL";
 
+	print_s((char*) "Initial a, b addresses (should be 0, 0)\n");
+	print_address((void*)a);
+	print_c(','); print_c(' ');
+	print_address((void*)b);
+
 	a = (struct container*) mcmalloc(sizeof(struct container));
+	print_s((char*) "\n\naddress `a` after malloc:\n");
+	print_address((void*)a);
+
 	cp = (char*) mcmalloc(sizeof(char));
+	print_s((char*) "\n\naddress `cp` after malloc:\n");
+	print_address((void*)cp);
 
-	*cp = c;
+	print_s((char*) "\n\nPerform *cp = 'q'\n\t(should not change address of cp)");
+	*cp = 'q';
 
+	print_s((char*) "\n\nvalue `*cp`:\n");
 	print_c(*cp); // should be q
-	print_c('\n');
+
+	print_s((char*) "\n\naddress `cp`:\n");
+	print_address((void*)cp);
 
 	// print_s((char*) "Check contents on stack:\n");
 	// print_c(c);
@@ -38,18 +50,33 @@ void main() {
 	// print_c('\n');
 
 	(*a).innerK = 1;
+
+	print_s((char*) "\n\nNew a address after a->innerK = 1:\n");
+	print_address((void*)a);
+
+	print_s((char*) "\n\nNew innerK value after a->innerK = 1:\n");
+	print_i((*a).innerK);
+
+	print_s((char*) "\n\nOld a.innerCP address:\n");
+	print_address((void*)((*a).innerCP));
+
 	(*a).innerCP = cp;
 
-	print_s((char*)"define a, and print\n");
-	print_i((*a).innerK);
-	print_c(*((*a).innerCP));
-	print_c('\n');
+	print_s((char*) "\n\nNew a address after a->innerCP = cp:\n");
+	print_address((void*)((*a).innerCP));
 
-	print_s((char*)"b = a (just pointers)\n");
+	print_s((char*)"\n\nNew innerCP value (*a->innerCP)\n");
+	print_c(*((*a).innerCP));
+
+	print_s((char*)"\n\nb = a (just pointers)\n");
 	b = a;
 
+	print_s((char*) "\n\nNew b address after b = a:\n");
+	print_address((void*)a);
+
+	print_s((char*) "\n\nNew values of innerK, innerCP:\n");
 	print_i((*b).innerK);
+	print_c(','); print_c(' ');
 	print_c(*((*b).innerCP));
 	print_c('\n');
-
 }

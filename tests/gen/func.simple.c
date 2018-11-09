@@ -7,11 +7,11 @@ Back at main again!
 #include "minic-stdlib.h"
 
 void print_something() {
-	print_s((char*) "Something!");
+	print_s((char*) "Something!\n");
 }
 
 void main() {
-	print_s((char*) "Main!");
+	print_s((char*) "Main!\n");
 	print_something();
-	print_s((char*) "Back at main again!");
+	print_s((char*) "Back at main again!\n");
 }

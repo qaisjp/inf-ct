@@ -70,7 +70,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         return null;
     }
 
-    private final static int PrologueSize = 4 * 31; // save 31 registers, so 31 * 4 bytes
+    private final static int PrologueSize = 4 * Register.snapshot.size();
 
     @Override
     public Register visitFunCallExpr(FunCallExpr f) {
@@ -154,21 +154,16 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         }
     }
 
-    // Snapshot registers
-    /*
-        for (i=1; i <= 31; i++) {
-            sp -= i * 4
-            *sp = $i
-        }
-     */
     private void snapshotRegisters() {
         writer.comment("snapshot registers"); //todo
         try (IndentWriter scope = writer.scope()) {
             try (Register tempSp = V.registers.get()) {
                 writer.sub(tempSp, Register.sp, PrologueSize);
 
-                for (int i = 0; i < 31; i++) {
-                    writer.printf("sw $%d, %d(%s)", i + 1, i * 4, tempSp);
+                int i = 0;
+                for (Register r: Register.snapshot) {
+                    writer.sw(r, tempSp, i);
+                    i += 4;
                 }
 
                 Register.sp.set(tempSp);
@@ -182,8 +177,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         try (IndentWriter scope = writer.scope()) {
             try (Register tempSp = V.registers.get()) {
                 tempSp.set(Register.sp);
-                for (int i = 30; i >= 0; i--) {
-                    writer.printf("lw $%d, %d(%s)", i + 1, i * 4, tempSp);
+
+                int i = 0;
+                for (Register r: Register.snapshot) {
+                    writer.lw(r, tempSp, i);
+                    i += 4;
                 }
             }
         }

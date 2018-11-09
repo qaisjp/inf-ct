@@ -1,6 +1,7 @@
 package gen;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,6 +47,12 @@ public class Register implements java.lang.AutoCloseable {
             // pointers and return address
             gp, sp, fp, ra,
     };
+
+    public static final List<Register> snapshot = new ArrayList<>();
+    static {
+        snapshot.addAll(tmp);
+        snapshot.addAll(Arrays.asList(unfreeable));
+    }
 
 
     private final int num;      // register number

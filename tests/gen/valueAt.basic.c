@@ -10,8 +10,8 @@ b = a (just pointers)
 /*gen:expect*/
 
 struct container {
-	int _;
-	char* c;
+	int innerK;
+	char* innerCP;
 };
 
 struct container* a;
@@ -37,19 +37,19 @@ void main() {
 	// print_c(*cp);
 	// print_c('\n');
 
-	(*a)._ = 1;
-	(*a).c = cp;
+	(*a).innerK = 1;
+	(*a).innerCP = cp;
 
 	print_s((char*)"define a, and print\n");
-	print_i((*a)._);
-	print_c(*((*a).c));
+	print_i((*a).innerK);
+	print_c(*((*a).innerCP));
 	print_c('\n');
 
 	print_s((char*)"b = a (just pointers)\n");
 	b = a;
 
-	print_i((*b)._);
-	print_c(*((*b).c));
+	print_i((*b).innerK);
+	print_c(*((*b).innerCP));
 	print_c('\n');
 
 }

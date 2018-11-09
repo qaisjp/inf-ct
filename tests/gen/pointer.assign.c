@@ -1,6 +1,9 @@
 /*gen:expect/*
-qq
+qqq
 /*gen:expect*/
+
+#include "minic-stdlib.h"
+
 char* a;
 char* b;
 void main() {

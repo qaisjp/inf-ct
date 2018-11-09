@@ -9,8 +9,8 @@ public class AssignVisitor extends TraverseVisitor<Void> {
         this.writer = V.writer;
     }
 
-    // store - todo: IMPORTANT! watch out for sourceValue/targetAddress modifications if moving this!
-    private void storeValue(Register sourceValue, Type type, Register targetAddress, int offset) {
+    // store
+    public void storeValue(Register sourceValue, Type type, Register targetAddress, int offset) {
         writer.comment("(%s + %d) = valueOf(%s, %s)", targetAddress, offset, sourceValue, type);
         if (type == BaseType.CHAR) {
             sourceValue.storeByteAt(targetAddress, offset);
@@ -24,6 +24,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
             try (IndentWriter scope = writer.scope()) {
                 StructTypeDecl struct = ((StructType) type).decl;
 
+                int totalSize = 0;
                 for (VarDecl v : struct.varDeclList) {
                     // Read the value at the struct address (which may or may not have been incremented)
                     try (Register innerSourceValue = V.text.getValue(sourceValue, v.varType)) {
@@ -34,7 +35,11 @@ public class AssignVisitor extends TraverseVisitor<Void> {
                     int size = GenUtils.byteAlign(v.varType.sizeof());
                     sourceValue.add(size);
                     offset += size;
+                    totalSize += size;
                 }
+
+                // Restore sourceValue to original address
+                sourceValue.sub(totalSize);
             }
         } else {
             // todo

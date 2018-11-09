@@ -157,8 +157,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
     private void snapshotRegisters() {
         writer.comment("snapshot registers"); //todo
         try (IndentWriter scope = writer.scope()) {
-            writer.sw(Register.sp, Register.sp, 0);
             Register.sp.sub(PrologueSize);
+            writer.sw(Register.sp, Register.sp, 0);
 
             int i = 4;
             for (Register r: Register.snapshot) {
@@ -179,8 +179,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 writer.lw(r, Register.sp, i);
                 i += 4;
             }
-            Register.sp.add(PrologueSize);
             writer.lw(Register.sp, Register.sp, 0);
+            Register.sp.add(PrologueSize);
         }
     }
 

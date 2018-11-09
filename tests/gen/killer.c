@@ -1,5 +1,5 @@
 /*gen:expect/*
-169q169q
+169j169j
 /*gen:expect*/
 
 #include "minic-stdlib.h"
@@ -20,7 +20,7 @@ void main() {
 	c = (struct blah*) mcmalloc(sizeof(struct blah));
 
 	(*c).a = 169;
-	(*c).b = 'q';
+	(*c).b = 'j';
 
 	print_i((*c).a);
 	print_c((*c).b);

@@ -237,4 +237,8 @@ public class IndentWriter implements java.lang.AutoCloseable {
     public void jr(Register register) {
         printf("jr %s", register);
     }
+
+    public void jal(String genLabel) {
+        printf("jal %s", genLabel);
+    }
 }

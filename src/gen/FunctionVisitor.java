@@ -204,7 +204,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
             writer.comment("prologue");
             try (IndentWriter innerScope = writer.scope()) {
-                // Snapshot our registers
+                // Snapshot our caller's registers
                 snapshotRegisters();
 
                 // Jump over our parameters (as well as the initial return pointer)
@@ -234,8 +234,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 writer.comment("Restore stack pointer");
                 Register.sp.add(argSize + 4);
 
-                // Restore registers
+                // Restore registers to caller's state
                 restoreRegisters();
+
+                // Set stack pointer to caller's frame pointer
+                Register.sp.set(Register.fp);
 
                 // Jump to $ra
                 Register.ra.jump();

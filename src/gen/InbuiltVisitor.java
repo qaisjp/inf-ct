@@ -32,6 +32,7 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             InbuiltVisitor.inbuilts.put("mcmalloc", InbuiltVisitor::mcmalloc); // todo this needs testing
             InbuiltVisitor.inbuilts.put("print_c", InbuiltVisitor::print_c);
             InbuiltVisitor.inbuilts.put("read_c", InbuiltVisitor::read_c);
+            InbuiltVisitor.inbuilts.put("print_address", InbuiltVisitor::print_i); // todo remove this
         }
     }
 

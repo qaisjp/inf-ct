@@ -24,6 +24,7 @@ public class SemanticAnalyzer {
 				new FunDecl(BaseType.VOID, "print_s", new PointerType(BaseType.CHAR)),
 				new FunDecl(BaseType.VOID, "print_i", BaseType.INT),
 				new FunDecl(BaseType.VOID, "print_c", BaseType.CHAR),
+				new FunDecl(BaseType.VOID, "print_address", new PointerType(BaseType.VOID)), // todo
 				new FunDecl(BaseType.CHAR, "read_c", null),
 				new FunDecl(BaseType.INT, "read_i", null),
 				new FunDecl(new PointerType(BaseType.VOID), "mcmalloc", BaseType.INT)

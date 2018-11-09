@@ -195,15 +195,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         writer.withLabel(f.genLabel).comment("%s", f);
 
         try (IndentWriter scope = writer.scope()) {
-            //
-            // DO NOT PUT ANYTHING ABOVE THIS SECTION INSIDE THIS SCOPE
-            //
-            // If this is the main function, we need a second labels!
-//            if (f.name.equals("main")) {
-//                writer.withLabel("main").directive("globl %s", "main");
-//                writer.newline();
-//            }
-
             /*
             PROLOGUE:
             - initialise the frame pointer

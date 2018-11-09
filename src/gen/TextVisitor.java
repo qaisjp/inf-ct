@@ -137,7 +137,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
                 return address;
             }
 
-            offset += GenUtils.byteAlign(v.varType.sizeof());
+            offset += GenUtils.wordAlign(v.varType.sizeof());
         }
 
         throw new RuntimeException("could not find field in: " + f.toString());

@@ -16,7 +16,7 @@ public class ArrayType implements Type {
     }
 
     public int sizeof() {
-        return GenUtils.byteAlign(elements * elemType.sizeof());
+        return GenUtils.wordAlign(elements * elemType.sizeof());
     }
 
     @Override

@@ -29,7 +29,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         for (VarDecl v : varDecls) {
             v.setGenStackOffset(frameOffset);
 
-            int size = GenUtils.byteAlign(v.varType.sizeof());
+            int size = GenUtils.wordAlign(v.varType.sizeof());
             frameOffset += size;
             totalSize += size;
         }
@@ -47,7 +47,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         writer.comment("Free space on stack from varDecls");
         int totalSize = 0;
         for (VarDecl v : varDecls) {
-            int size = GenUtils.byteAlign(v.varType.sizeof());
+            int size = GenUtils.wordAlign(v.varType.sizeof());
             frameOffset -= size;
             totalSize += size;
         }
@@ -97,7 +97,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         writer.comment("precall");
         try (IndentWriter scope = writer.scope()) {
             // Allocate space on caller stack for callee to write to
-            int resultSize = GenUtils.byteAlign(f.decl.result.sizeof());
+            int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
             frameOffset += resultSize;
             writer.comment("Allocate space on caller stack for result");
             Register.sp.sub(resultSize);
@@ -126,7 +126,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 Expr expr = f.exprList.get(i);
                 Type type = expr.type;
 
-                argSize += GenUtils.byteAlign(type.sizeof());
+                argSize += GenUtils.wordAlign(type.sizeof());
 
                 try (Register sourceValue = expr.accept(V.text)) {
                     Register targetAddress = Register.sp;
@@ -216,7 +216,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 // Jump over our parameters
                 writer.comment("Skip over parameters: %s", Arrays.toString(f.params.toArray()));
                 for (VarDecl v : f.params) {
-                    argSize += GenUtils.byteAlign(v.varType.sizeof());
+                    argSize += GenUtils.wordAlign(v.varType.sizeof());
                 }
                 Register.sp.sub(argSize);
 

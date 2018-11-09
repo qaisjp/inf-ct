@@ -60,7 +60,7 @@ public class DataVisitor extends TraverseVisitor<Void> {
                 // v.setGlobalLabel(label); // we can't use this. each `v` is global to all declarations of this struct
                 varDecl.setStructFieldLabel(v.varName, label);
 
-                writer.withLabel(label).dataSpace(GenUtils.byteAlign(v.varType.sizeof()));
+                writer.withLabel(label).dataSpace(GenUtils.wordAlign(v.varType.sizeof()));
             }
         }
 

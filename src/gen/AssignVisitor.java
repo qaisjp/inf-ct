@@ -32,7 +32,7 @@ public class AssignVisitor extends TraverseVisitor<Void> {
                     }
 
                     // Increment our read offset and struct address by the size we've just read
-                    int size = GenUtils.byteAlign(v.varType.sizeof());
+                    int size = GenUtils.wordAlign(v.varType.sizeof());
                     sourceValue.add(size);
                     offset += size;
                     totalSize += size;

@@ -25,7 +25,7 @@ public class StructType implements Type {
 
         // Each field for a struct must be 4-byte aligned
         for (VarDecl v : decl.varDeclList) {
-            size += GenUtils.byteAlign(v.varType.sizeof());
+            size += GenUtils.wordAlign(v.varType.sizeof());
         }
         return size;
     }

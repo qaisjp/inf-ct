@@ -157,16 +157,14 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
     private void snapshotRegisters() {
         writer.comment("snapshot registers"); //todo
         try (IndentWriter scope = writer.scope()) {
-            try (Register tempSp = V.registers.get()) {
-                writer.sub(tempSp, Register.sp, PrologueSize);
+            writer.sw(Register.sp, Register.sp, 0);
+            Register.sp.sub(PrologueSize);
 
-                int i = 0;
-                for (Register r: Register.snapshot) {
-                    writer.sw(r, tempSp, i);
-                    i += 4;
-                }
-
-                Register.sp.set(tempSp);
+            int i = 4;
+            for (Register r: Register.snapshot) {
+                if (r == Register.sp) continue;
+                writer.sw(r, Register.sp, i);
+                i += 4;
             }
         }
     }
@@ -175,15 +173,14 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
     private void restoreRegisters() {
         writer.comment("restore registers");
         try (IndentWriter scope = writer.scope()) {
-            try (Register tempSp = V.registers.get()) {
-                tempSp.set(Register.sp);
-
-                int i = 0;
-                for (Register r: Register.snapshot) {
-                    writer.lw(r, tempSp, i);
-                    i += 4;
-                }
+            int i = 4;
+            for (Register r: Register.snapshot) {
+                if (r == Register.sp) continue;
+                writer.lw(r, Register.sp, i);
+                i += 4;
             }
+            Register.sp.add(PrologueSize);
+            writer.lw(Register.sp, Register.sp, 0);
         }
     }
 

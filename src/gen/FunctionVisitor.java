@@ -107,8 +107,10 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             return null;
         }
 
-        f.genLabel = funcLabeller.label(f.name);
+        f.genLabel = funcLabeller.label(f.name + "_start");
         writer.withLabel(f.genLabel).comment("%s", f);
+
+        String epilogueLabel = funcLabeller.label(f.name + "_epilogue");
 
         try (IndentWriter scope = writer.scope()) {
             /*
@@ -141,6 +143,9 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 writer.comment("reset frame pointer");
                 Register.fp.set(Register.sp);
 
+                // Set $ra to epilogue
+                writer.comment("Set $ra to epilogue");
+                Register.ra.loadAddress(epilogueLabel);
             }
 
             // do some stuff, todo: what about result, parameters?
@@ -149,7 +154,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 visitBlock(f.block);
             }
 
-            writer.comment("epilogue");
+            writer.withLabel(epilogueLabel).comment("epilogue");
             try (IndentWriter innerScope = writer.scope()) {
                 // Restore stack pointer
                 writer.comment("Restore stack pointer");
@@ -189,15 +194,15 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         int oldFrameOffset;
 
         Register resultAddress = V.registers.get();
+        int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
 
         writer.comment("precall");
         try (IndentWriter scope = writer.scope()) {
             // Allocate space on caller stack for callee to write to
-            int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
             frameOffset += resultSize;
             writer.comment("Allocate space on caller stack for result");
             Register.sp.sub(resultSize);
-            writer.add(resultAddress, Register.fp, frameOffset);
+//            writer.add(resultAddress, Register.fp, frameOffset);
 
             // Back up our frame offset, and reset
             oldFrameOffset = frameOffset;
@@ -242,16 +247,21 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
         writer.comment("postreturn");
         try (IndentWriter scope = writer.scope()) {
+            // Restore frame offset
+            frameOffset = oldFrameOffset;
+
 //            // Pop return value from the stack
-//            Register result = V.text.getValue(Register.sp, f.decl.result);
+            Register result = V.text.getValue(resultAddress, f.decl.result);
+            // todo: I am pretty sure this leaks information. We never free up this stack.
+//            frameOffset -= resultSize;
+//            result.loadWord(result, 0);
+//            Register.sp.add(resultSize);
 
 //            // Pop arguments off stack
 //            stackFree(f.decl.params);
 
-            frameOffset = oldFrameOffset;
-
 //            return result;
-            return resultAddress; // todo
+            return result; // todo
         }
     }
 }

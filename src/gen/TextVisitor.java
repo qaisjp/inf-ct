@@ -17,7 +17,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
             super.visitProgram(p);
 
             writer.withLabel("main").directive("globl %s", "main");
-            V.writer.jal("func_main");
+            V.writer.jal("func_main_start");
         }
 
         assert writer.getLevel() == 0;
@@ -203,13 +203,19 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override // todo
     public Register visitReturn(Return r) {
-        writer.comment("stub: return called. store value at register at address in someplace from fp");
+//        writer.comment("stub: return called. store value at register at address in someplace from fp");
+        writer.comment(r);
         try (
+                IndentWriter scope = writer.scope();
                 Register targetAddress = V.registers.get();
                 Register value = r.expr.accept(V.text)
         ) {
+            writer.comment("Store value at result address defined");
             targetAddress.loadWord(Register.fp, 0);
             V.assign.storeValue(value, r.expr.type, targetAddress, 0);
+
+            writer.comment("Jump to epilogue (defined at $ra)");
+            writer.jr(Register.ra);
         }
         return null;
     }

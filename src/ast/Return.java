@@ -10,4 +10,9 @@ public class Return extends Stmt {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitReturn(this);
     }
+
+    @Override
+    public String toString() {
+        return "return " + expr.toString() + ";";
+    }
 }

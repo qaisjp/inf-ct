@@ -73,92 +73,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
     private final static int PrologueSize = 4 * Register.snapshot.size();
 
-    @Override
-    public Register visitFunCallExpr(FunCallExpr f) {
-        if (f.decl.isInbuilt) {
-            return f.accept(V.inbuilt);
-        }
-
-        /*
-        Plan for calling int foo(char bar):
-        - WIND:
-            - skip prologue
-            - allocate and place arguments on our current function's stack frame (first argument is result address)
-        - JUMP: jump to foo
-        - UNWIND:
-            -
-        -
-         */
-
-        int oldFrameOffset;
-
-        Register resultAddress = V.registers.get();
-
-        writer.comment("precall");
-        try (IndentWriter scope = writer.scope()) {
-            // Allocate space on caller stack for callee to write to
-            int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
-            frameOffset += resultSize;
-            writer.comment("Allocate space on caller stack for result");
-            Register.sp.sub(resultSize);
-            writer.add(resultAddress, Register.fp, frameOffset);
-
-            // Back up our frame offset, and reset
-            oldFrameOffset = frameOffset;
-            frameOffset = 0;
-
-            // Skip the prologue size
-            writer.comment("Skip the prologue size (we will be writing into our callee stack frame)");
-            Register.sp.sub(PrologueSize);
-
-            // Store a pointer to our result at the current SP
-            writer.comment("Store the result address as the first argument");
-            Register.sp.sub(4);
-            resultAddress.storeWordAt(Register.sp, 0);
-
-            // Allocate space for arguments on stack
-            stackAllocate(f.decl.params);
-
-            // Iterate through args (skipping address of result)
-            int argSize = 4;
-            for (int i = 0; i < f.decl.params.size(); i++) {
-                VarDecl decl = f.decl.params.get(i);
-                Expr expr = f.exprList.get(i);
-                Type type = expr.type;
-
-                argSize += GenUtils.wordAlign(type.sizeof());
-
-                try (Register sourceValue = expr.accept(V.text)) {
-                    Register targetAddress = Register.sp;
-                    int offset = decl.getGenStackOffset();
-                    V.assign.storeValue(sourceValue, type, targetAddress, offset);
-                }
-                // todo: copy values
-            }
-
-            // Roll back the sp by PrologueSize + argSize
-            writer.comment("Roll back the sp by PrologueSize + argSize");
-            Register.sp.add(PrologueSize + argSize);
-        }
-
-        writer.comment("perform jump to declaration");
-        writer.jal(f.decl.genLabel);
-
-        writer.comment("postreturn");
-        try (IndentWriter scope = writer.scope()) {
-//            // Pop return value from the stack
-//            Register result = V.text.getValue(Register.sp, f.decl.result);
-
-//            // Pop arguments off stack
-//            stackFree(f.decl.params);
-
-            frameOffset = oldFrameOffset;
-
-//            return result;
-            return resultAddress; // todo
-        }
-    }
-
     private void snapshotRegisters() {
         writer.comment("snapshot registers"); //todo
         try (IndentWriter scope = writer.scope()) {
@@ -253,5 +167,91 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         }
 
         return null; // no register returned for function declarations
+    }
+
+    @Override
+    public Register visitFunCallExpr(FunCallExpr f) {
+        if (f.decl.isInbuilt) {
+            return f.accept(V.inbuilt);
+        }
+
+        /*
+        Plan for calling int foo(char bar):
+        - WIND:
+            - skip prologue
+            - allocate and place arguments on our current function's stack frame (first argument is result address)
+        - JUMP: jump to foo
+        - UNWIND:
+            -
+        -
+         */
+
+        int oldFrameOffset;
+
+        Register resultAddress = V.registers.get();
+
+        writer.comment("precall");
+        try (IndentWriter scope = writer.scope()) {
+            // Allocate space on caller stack for callee to write to
+            int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
+            frameOffset += resultSize;
+            writer.comment("Allocate space on caller stack for result");
+            Register.sp.sub(resultSize);
+            writer.add(resultAddress, Register.fp, frameOffset);
+
+            // Back up our frame offset, and reset
+            oldFrameOffset = frameOffset;
+            frameOffset = 0;
+
+            // Skip the prologue size
+            writer.comment("Skip the prologue size (we will be writing into our callee stack frame)");
+            Register.sp.sub(PrologueSize);
+
+            // Store a pointer to our result at the current SP
+            writer.comment("Store the result address as the first argument");
+            Register.sp.sub(4);
+            resultAddress.storeWordAt(Register.sp, 0);
+
+            // Allocate space for arguments on stack
+            stackAllocate(f.decl.params);
+
+            // Iterate through args (skipping address of result)
+            int argSize = 4;
+            for (int i = 0; i < f.decl.params.size(); i++) {
+                VarDecl decl = f.decl.params.get(i);
+                Expr expr = f.exprList.get(i);
+                Type type = expr.type;
+
+                argSize += GenUtils.wordAlign(type.sizeof());
+
+                try (Register sourceValue = expr.accept(V.text)) {
+                    Register targetAddress = Register.sp;
+                    int offset = decl.getGenStackOffset();
+                    V.assign.storeValue(sourceValue, type, targetAddress, offset);
+                }
+                // todo: copy values
+            }
+
+            // Roll back the sp by PrologueSize + argSize
+            writer.comment("Roll back the sp by PrologueSize + argSize");
+            Register.sp.add(PrologueSize + argSize);
+        }
+
+        writer.comment("perform jump to declaration");
+        writer.jal(f.decl.genLabel);
+
+        writer.comment("postreturn");
+        try (IndentWriter scope = writer.scope()) {
+//            // Pop return value from the stack
+//            Register result = V.text.getValue(Register.sp, f.decl.result);
+
+//            // Pop arguments off stack
+//            stackFree(f.decl.params);
+
+            frameOffset = oldFrameOffset;
+
+//            return result;
+            return resultAddress; // todo
+        }
     }
 }

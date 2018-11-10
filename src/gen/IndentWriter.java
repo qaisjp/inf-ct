@@ -40,7 +40,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
 
     public void printf(String format, Object... args) {
 
-        String indentation = new String(new char[level*width]).replace("\0", " ");
+        String indentation = new String(new char[Math.max(0,level*width)]).replace("\0", " ");
 
         if (!label.isEmpty()) {
             label += ": ";
@@ -214,6 +214,9 @@ public class IndentWriter implements java.lang.AutoCloseable {
     }
 
     public void newline() {
+        if (shouldNop) {
+            writer.printf("nop");
+        }
         writer.printf("\n");
         wasNewline = true;
     }
@@ -222,9 +225,21 @@ public class IndentWriter implements java.lang.AutoCloseable {
         comment("%s", o);
     }
 
+    private final boolean shouldNop = System.getenv("QAISJP_CT_NOP") != null;
     public void comment(String format, Object... args) {
         leadNewline();
+        if (shouldNop) {
+            if (!label.isEmpty()) {
+                label += ": ";
+            }
+            writer.printf(label + "nop ");
+            label = "";
+            level -= 1;
+        }
         printf("# " + format, args);
+        if (shouldNop) {
+            level += 1;
+        }
     }
 
     public void directive(String directive, Object... args) {

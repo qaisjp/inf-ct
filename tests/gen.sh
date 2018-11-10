@@ -88,7 +88,7 @@ fi
 echo "";
 echo -e "${CYAN}=== Codegen debug output below ===${NC}"
 
-TARGET="$(mktemp)"
+TARGET="$FILENAME.tmp.asm"
 
 java -ea -cp $PROJ/bin Main -gen "$FILENAME" "$TARGET"
 

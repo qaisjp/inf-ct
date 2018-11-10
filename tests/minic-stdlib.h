@@ -28,3 +28,7 @@ int read_i() {
 void* mcmalloc(int size) {
   return malloc(size);
 }
+
+void print_address(void* p) {
+  print_i((int) p);
+}

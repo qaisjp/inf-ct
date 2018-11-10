@@ -1,11 +1,47 @@
 #include "minic-stdlib.h"
 
 /*gen:expect/*
+Initial a, b addresses (should be 0, 0)
+0, 0
+
+address `a` after malloc:
+268697600
+
+address `cp` after malloc:
+268697608
+
+Perform *cp = 'q'
+	(should not change address of cp)
+
+value `*cp`:
 q
-define a, and print
-1q
+
+address `cp`:
+268697608
+
+New a address after a->innerK = 1:
+268697600
+
+New innerK value after a->innerK = 1:
+1
+
+Old a.innerCP address:
+0
+
+New a.innerCP address after a->innerCP = cp:
+268697608
+
+New innerCP value (*a->innerCP)
+q
+
 b = a (just pointers)
-1q
+	(b and a should be equal now)
+
+New b address after b = a:
+268697600
+
+Values of b->innerK, b->innerCP should be same as a:
+1, q
 
 /*gen:expect*/
 
@@ -62,19 +98,19 @@ void main() {
 
 	(*a).innerCP = cp;
 
-	print_s((char*) "\n\nNew a address after a->innerCP = cp:\n");
+	print_s((char*) "\n\nNew a.innerCP address after a->innerCP = cp:\n");
 	print_address((void*)((*a).innerCP));
 
 	print_s((char*)"\n\nNew innerCP value (*a->innerCP)\n");
 	print_c(*((*a).innerCP));
 
-	print_s((char*)"\n\nb = a (just pointers)\n");
+	print_s((char*)"\n\nb = a (just pointers)\n\t(b and a should be equal now)");
 	b = a;
 
 	print_s((char*) "\n\nNew b address after b = a:\n");
 	print_address((void*)a);
 
-	print_s((char*) "\n\nNew values of innerK, innerCP:\n");
+	print_s((char*) "\n\nValues of b->innerK, b->innerCP should be same as a:\n");
 	print_i((*b).innerK);
 	print_c(','); print_c(' ');
 	print_c(*((*b).innerCP));

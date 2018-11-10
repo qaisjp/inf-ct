@@ -145,7 +145,19 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     private Register addressOf(ValueAtExpr e) {
         assert e.expr.type instanceof PointerType;
-        return addressOf(e.expr);
+        writer.comment(e);
+        try (IndentWriter scope = writer.scope()) {
+            // Store address of the pointer in a register
+            Register locationOfPointer = addressOf(e.expr);
+
+            // Read the pointer into our register
+            writer.lw(locationOfPointer, locationOfPointer, 0);
+
+            // This is what the above load word has done
+            Register pointer = locationOfPointer;
+
+            return pointer;
+        }
     }
 
     public Register addressOf(Expr e) {

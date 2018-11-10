@@ -11,6 +11,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
     // Magic stuff
     private String label = ""; // current label
     private boolean wasNewline = false;
+    private final boolean debugWriter = System.getenv("DEBUG") != null;
 
     public IndentWriter(PrintWriter writer) {
         this.writer = writer;
@@ -214,7 +215,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
     }
 
     public void newline() {
-        if (shouldNop) {
+        if (debugWriter) {
             writer.printf("nop");
         }
         writer.printf("\n");
@@ -225,10 +226,9 @@ public class IndentWriter implements java.lang.AutoCloseable {
         comment("%s", o);
     }
 
-    private final boolean shouldNop = System.getenv("QAISJP_CT_NOP") != null;
     public void comment(String format, Object... args) {
         leadNewline();
-        if (shouldNop) {
+        if (debugWriter) {
             if (!label.isEmpty()) {
                 label += ": ";
             }
@@ -237,7 +237,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
             level -= 1;
         }
         printf("# " + format, args);
-        if (shouldNop) {
+        if (debugWriter) {
             level += 1;
         }
     }

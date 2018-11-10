@@ -12,6 +12,12 @@ int call_second() {
 	return 1;
 }
 
-int main() {
-	return (call_first() && 0) && call_second();
+void main() {
+    int n;
+
+    call_first();
+
+    n = 0 && call_second();
+
+	// return 0;
 }

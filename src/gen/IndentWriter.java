@@ -208,8 +208,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
 
     public IndentWriter leadNewline() {
         if (!wasNewline) {
-            writer.printf("\n");
-            wasNewline = true;
+            newline();
         }
         return this;
     }

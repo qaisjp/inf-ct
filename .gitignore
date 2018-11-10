@@ -1,5 +1,5 @@
 tests/*_spec.lua
-tests/gen/*.tmp.asm
+tests/gen/tmp.*
 
 # Created by https://www.gitignore.io/api/c,java,intellij
 

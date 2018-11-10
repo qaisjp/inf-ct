@@ -88,7 +88,7 @@ fi
 echo "";
 echo -e "${CYAN}=== Codegen debug output below ===${NC}"
 
-TARGET="$FILENAME.tmp.asm"
+TARGET="$(dirname $FILENAME)/tmp.$(basename $FILENAME).asm"
 
 java -ea -cp $PROJ/bin Main -gen "$FILENAME" "$TARGET"
 

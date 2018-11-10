@@ -1,5 +1,5 @@
 #include "minic-stdlib.h"
-
+/*gen:debug*/
 /*gen:expect/*
 Initial a, b addresses (should be 0, 0)
 0, 0

@@ -29,7 +29,7 @@ public class SemanticAnalyzer {
 				new FunDecl(new PointerType(BaseType.VOID), "mcmalloc", BaseType.INT)
 		));
 
-		if (System.getenv("DEBUG") != null || System.getenv("TRAVIS_CI") != null) {
+		if (System.getenv("DEBUG") != null) {
 			funDecls.add(new FunDecl(BaseType.VOID, "print_address", new PointerType(BaseType.VOID)));
 		}
 

@@ -23,8 +23,10 @@ string.split = (sep) =>
    self\gsub(pattern, (c) -> fields[#fields+1] = c)
    fields
 
-lexfile = (filepath, input) ->
+lexfile = (filepath, input, withDebug) ->
     cmd = "\"$PROJ/tests/gen.sh\" \"#{filepath}\" 2>&1"
+    if withDebug then
+        cmd = "DEBUG=1 " .. cmd
 
     local inputPath
     if input then
@@ -41,6 +43,14 @@ lexfile = (filepath, input) ->
     if inputPath
         os.execute("rm \"#{inputPath}\"")
     return t
+
+-- Checks for existence of a boolean directive
+find_bool_directive = (directive, lines) ->
+    directive = "/*gen:#{directive}*/"
+    for _, v in ipairs(lines) do
+        if v == directive then
+            return true
+    false
 
 -- Extracts the directive and returns the contents
 extract_directive = (directive, lines) ->
@@ -78,7 +88,7 @@ check_parses_to = (filename, filepath) ->
     --     return
 
     local input, expected_output
-    local isPending
+    local isPending, isDebug
 
     lazy_setup ->
         -- print filename
@@ -89,6 +99,8 @@ check_parses_to = (filename, filepath) ->
     
         -- if has_input then
         --     print "input:", table.concat(input, "\n")
+
+        isDebug = find_bool_directive "debug", c_lines
 
         expected_output = extract_directive "expect", c_lines
         has_output = #expected_output != 0
@@ -107,7 +119,7 @@ check_parses_to = (filename, filepath) ->
 
         input = table.concat(input, "\n") if input
 
-        output = lexfile filepath, input
+        output = lexfile filepath, input, isDebug
         lines = output\splitlines!
         their_output = extract_simulated_output lines
         -- print filename, table.concat(their_output, "\n")

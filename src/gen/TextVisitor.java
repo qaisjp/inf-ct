@@ -204,6 +204,13 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override // todo
     public Register visitReturn(Return r) {
         writer.comment("stub: return called. store value at register at address in someplace from fp");
+        try (
+                Register targetAddress = V.registers.get();
+                Register value = r.expr.accept(V.text)
+        ) {
+            targetAddress.loadWord(Register.fp, 0);
+            V.assign.storeValue(value, r.expr.type, targetAddress, 0);
+        }
         return null;
     }
 

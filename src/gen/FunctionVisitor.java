@@ -137,6 +137,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             }
 
             // Roll back the sp by PrologueSize + argSize
+            writer.comment("Roll back the sp by PrologueSize + argSize");
             Register.sp.add(PrologueSize + argSize);
         }
 

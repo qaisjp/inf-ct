@@ -56,6 +56,9 @@ public class Register implements java.lang.AutoCloseable {
 
         // Remove stack pointer though
         snapshot.remove(sp);
+
+        // And remove syscall
+        snapshot.remove(v0);
     }
 
 

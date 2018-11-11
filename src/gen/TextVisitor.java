@@ -207,12 +207,10 @@ public class TextVisitor extends TraverseVisitor<Register> {
         writer.comment(r);
         try (
                 IndentWriter scope = writer.scope();
-                Register targetAddress = V.registers.get();
                 Register value = r.expr.accept(V.text)
         ) {
-            writer.comment("Store value at result address defined");
-            targetAddress.loadWord(Register.fp, 0);
-            V.assign.storeValue(value, r.expr.type, targetAddress, 0);
+            writer.comment("Store return value at $v0");
+            Register.v0.set(value);
 
             writer.comment("Jump to epilogue (defined at $ra)");
             writer.jr(Register.ra);

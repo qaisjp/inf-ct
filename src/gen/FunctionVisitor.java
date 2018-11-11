@@ -125,11 +125,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 // Snapshot our caller's registers
                 snapshotRegisters();
 
-                // Jump over address of result; todo: maybe NULL all this space too?
-                // todo: if nulling. get address. get size. write 0 for size (increment 4)
-                writer.comment("Skip over address of result");
-                Register.sp.sub(4);
-
                 // Jump over our parameters
                 writer.comment("Skip over parameters: %s", Arrays.toString(f.params.toArray()));
                 for (VarDecl v : f.params) {
@@ -138,7 +133,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 Register.sp.sub(argSize);
 
                 // Our stack pointer is just to tell us where to allocate space next.
-                // We already have arguments and the return value allocated.
+                // We already have arguments allocated.
                 // Set frame pointer to the stack pointer so we know where the callee can look for our passed data
                 writer.comment("reset frame pointer");
                 Register.fp.set(Register.sp);
@@ -158,7 +153,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             try (IndentWriter innerScope = writer.scope()) {
                 // Restore stack pointer
                 writer.comment("Restore stack pointer");
-                Register.sp.add(argSize + 4);
+                Register.sp.add(argSize);
 
                 // Restore registers to caller's state
                 restoreRegisters();
@@ -191,20 +186,15 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         -
          */
 
-        int oldFrameOffset;
+        // Back up our frame offset, and reset the frame offset to 0
+        int oldFrameOffset = frameOffset;
+        frameOffset = 0;
 
-        Register resultAddress = V.registers.get();
-        int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
+        Register result = V.registers.get();
+//        int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
 
         writer.comment("precall");
         try (IndentWriter scope = writer.scope()) {
-            // Allocate space on caller stack for callee to write to
-            frameOffset += resultSize;
-            writer.comment("Allocate space on caller stack for result");
-            Register.sp.sub(resultSize);
-//            writer.add(resultAddress, Register.fp, frameOffset);
-
-            // Back up our frame offset, and reset
             oldFrameOffset = frameOffset;
             frameOffset = 0;
 
@@ -212,16 +202,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             writer.comment("Skip the prologue size (we will be writing into our callee stack frame)");
             Register.sp.sub(PrologueSize);
 
-            // Store a pointer to our result at the current SP
-            writer.comment("Store the result address as the first argument");
-            Register.sp.sub(4);
-            resultAddress.storeWordAt(Register.sp, 0);
-
             // Allocate space for arguments on stack
             stackAllocate(f.decl.params);
 
-            // Iterate through args (skipping address of result)
-            int argSize = 4;
+            // Iterate through args
+            int argSize = 0;
             for (int i = 0; i < f.decl.params.size(); i++) {
                 VarDecl decl = f.decl.params.get(i);
                 Expr expr = f.exprList.get(i);
@@ -234,7 +219,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                     int offset = decl.getGenStackOffset();
                     V.assign.storeValue(sourceValue, type, targetAddress, offset);
                 }
-                // todo: copy values
+                // todo: copy values ?
             }
 
             // Roll back the sp by PrologueSize + argSize
@@ -250,18 +235,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             // Restore frame offset
             frameOffset = oldFrameOffset;
 
-//            // Pop return value from the stack
-            Register result = V.text.getValue(resultAddress, f.decl.result);
-            // todo: I am pretty sure this leaks information. We never free up this stack.
-//            frameOffset -= resultSize;
-//            result.loadWord(result, 0);
-//            Register.sp.add(resultSize);
-
-//            // Pop arguments off stack
-//            stackFree(f.decl.params);
-
-//            return result;
-            return result; // todo
+            result.set(Register.v0);
+            return result;
         }
     }
 }

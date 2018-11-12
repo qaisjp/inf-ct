@@ -88,7 +88,6 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
-    // todo: needs testing
     private static Register and(Register x, Expr yExpr) {
         // Generate a result register
         Register result = V.registers.get();
@@ -127,6 +126,44 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
+    private static Register or(Register x, Expr yExpr) {
+        // Generate a result register
+        Register result = V.registers.get();
+
+        // Generate a "false", "true", "end" label ahead of time
+        String falseLabel = labeller.num("and_false");
+        String trueLabel = labeller.num("and_true");
+        String finishLabel = labeller.num("and_finish");
+
+        // Plan:
+        // - jump to TRUE if X success, otherwise continue (jump to CHECK_Y)
+        // - CHECK_Y: continue if Y success, otherwise jump to FALSE
+        // - TRUE   : set result to 1 (jump to FINISH)
+        // - FALSE  : set result to 0
+        // - FINISH : return the result
+
+        // Jump to TRUE if X success
+        writer.bnez(x, trueLabel);
+
+        // Jump to FALSE if Y fail
+        try (Register y = yExpr.accept(V.text)) {
+            // If y is greater than zero, we want to skip to the true label
+            writer.beqz(y, falseLabel);
+        }
+
+        // TRUE : Set result to 1, jump to finish
+        writer.withLabel(trueLabel).li(result, 1);
+        writer.j(finishLabel);
+
+        // FALSE: Set result to 0
+        writer.withLabel(falseLabel).li(result, 0);
+
+        // Emit finish label
+        writer.withLabel(finishLabel).nop();
+
+        return result;
+    }
+
     @Override
     public Register visitBinOp(BinOp binOp) {
         writer.comment("%s", binOp);
@@ -139,10 +176,14 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
             ) {
                 return and(x, binOp.y);
             }
-//        } else if (binOp.op == Op.OR) {
-//            try (Register x = binOp.x.accept(V.text)) {
-//                or(x);
-//            }
+        } else if (binOp.op == Op.OR) {
+            writer.comment("%s", binOp);
+            try (
+                    Register x = binOp.x.accept(V.text);
+                    IndentWriter scope = writer.scope()
+            ) {
+                return or(x, binOp.y);
+            }
         } else if (biFunctions.containsKey(binOp.op)) {
             try (
                     Register x = binOp.x.accept(V.text);

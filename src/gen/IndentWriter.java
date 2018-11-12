@@ -186,6 +186,12 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("beq %s, $zero, %s", value, label);
     }
 
+    // branch if not equal zero: bnez $x, label
+    public void bnez(Register value, String label) {
+        Labeller.verifyLabel(label);
+        printf("bnez %s, %s", value, label);
+    }
+
     // branch if greater than zero: bgtz $x, label
     public void bgtz(Register value, String label) {
         Labeller.verifyLabel(label);

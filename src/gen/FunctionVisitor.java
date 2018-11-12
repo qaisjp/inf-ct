@@ -66,8 +66,8 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         int oldOffset = frameOffset;
         stackAllocate(b.varDecls);
         visitEach(V.text, b.stmtList);
-//        stackFree(b.varDecls);
-        frameOffset = oldOffset;
+        stackFree(b.varDecls);
+        assert frameOffset == oldOffset;
 
         // todo: don't forget that a block can complete jump to the end of a function
         return null;

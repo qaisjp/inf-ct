@@ -127,18 +127,18 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 // Snapshot our caller's registers
                 snapshotRegisters();
 
+                // Our stack pointer is just to tell us where to allocate space next.
+                // We already have arguments allocated.
+                // Set frame pointer to the stack pointer so we know where the callee can look for our passed data
+                writer.comment("reset frame pointer");
+                Register.fp.set(Register.sp);
+
                 // Jump over our parameters
                 writer.comment("Skip over parameters: %s", Arrays.toString(f.params.toArray()));
                 for (VarDecl v : f.params) {
                     argSize += GenUtils.wordAlign(v.varType.sizeof());
                 }
                 Register.sp.sub(argSize);
-
-                // Our stack pointer is just to tell us where to allocate space next.
-                // We already have arguments allocated.
-                // Set frame pointer to the stack pointer so we know where the callee can look for our passed data
-                writer.comment("reset frame pointer");
-                Register.fp.set(Register.sp);
 
                 // Set $ra to epilogue
                 writer.comment("Set $ra to epilogue");

@@ -114,3 +114,4 @@ fi
 
 java -jar "$PROJ/desc/part3/Mars4_5.jar" nc sm "$TARGET"
 
+exit $?

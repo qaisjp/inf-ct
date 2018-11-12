@@ -157,11 +157,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 writer.comment("Restore stack pointer");
                 Register.sp.add(argSize);
 
+                // Set stack pointer to our function's frame pointer
+                Register.sp.set(Register.fp);
+
                 // Restore registers to caller's state
                 restoreRegisters();
-
-                // Set stack pointer to caller's frame pointer
-                Register.sp.set(Register.fp);
 
                 // Jump to $ra
                 Register.ra.jump();

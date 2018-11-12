@@ -197,9 +197,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
         writer.comment("precall");
         try (IndentWriter scope = writer.scope()) {
-            oldFrameOffset = frameOffset;
-            frameOffset = 0;
-
             // Skip the prologue size
             writer.comment("Skip the prologue size (we will be writing into our callee stack frame)");
             Register.sp.sub(PrologueSize);

@@ -63,9 +63,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitBlock(Block b) {
+        int oldOffset = frameOffset;
         stackAllocate(b.varDecls);
         visitEach(V.text, b.stmtList);
-        stackFree(b.varDecls);
+//        stackFree(b.varDecls);
+        frameOffset = oldOffset;
 
         // todo: don't forget that a block can complete jump to the end of a function
         return null;

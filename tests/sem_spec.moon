@@ -144,11 +144,11 @@ tests =
         "Could not call test[INT example], param `INT example` was incorrectly given type VOID"
         "Expected ArrayType or PointerType, got VOID"
         "Could not call test[INT example], param `INT example` was incorrectly given type VOID"}
-    ["f.valueof.what.c"]: to: {"Symbol haha does not exist!", "Expression should have type PointerType, got VOID"}
+    ["f.valueof.what.c"]: to: {"Symbol haha does not exist!", "Expression (*haha) should have type PointerType, got VOID"}
     ["f.valueof.others.c"]: to: {
-        "Expression should have type PointerType, got INT",
-        "Expression should have type PointerType, got CHAR[5]",
-        "Expression should have type PointerType, got CHAR"}
+        "Expression (*2) should have type PointerType, got INT",
+        "Expression (*\"this\") should have type PointerType, got CHAR[5]",
+        "Expression (*'a') should have type PointerType, got CHAR"}
     ["f.vardecl.void.c"]: to: {"Cannot declare variable a as VOID"}
 
     ["p.array.access.c"]: to: {}

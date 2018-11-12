@@ -153,10 +153,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
             writer.withLabel(epilogueLabel).comment("epilogue");
             try (IndentWriter innerScope = writer.scope()) {
-                // Restore stack pointer
-                writer.comment("Restore stack pointer");
-                Register.sp.add(argSize);
-
                 // Set stack pointer to our function's frame pointer
                 Register.sp.set(Register.fp);
 
@@ -193,7 +189,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         frameOffset = 0;
 
         Register result = V.registers.get();
-//        int resultSize = GenUtils.wordAlign(f.decl.result.sizeof());
 
         writer.comment("precall");
         try (IndentWriter scope = writer.scope()) {

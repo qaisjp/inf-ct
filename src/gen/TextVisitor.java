@@ -45,6 +45,11 @@ public class TextVisitor extends TraverseVisitor<Register> {
     }
 
     @Override
+    public Register visitReturn(Return r) {
+        return r.accept(V.function);
+    }
+
+    @Override
     public Register visitChrLiteral(ChrLiteral c) {
         Register val = V.registers.get();
         writer.comment("%s = %s", val, c.toString());
@@ -199,23 +204,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
         try (Register address = addressOf(e)) {
             return getValue(address, e.type);
         }
-    }
-
-    @Override // todo
-    public Register visitReturn(Return r) {
-//        writer.comment("stub: return called. store value at register at address in someplace from fp");
-        writer.comment(r);
-        try (
-                IndentWriter scope = writer.scope();
-                Register value = r.expr.accept(V.text)
-        ) {
-            writer.comment("Store return value at $v0");
-            Register.v0.set(value);
-
-            writer.comment("Jump to epilogue (defined at $ra)");
-            writer.jr(Register.ra);
-        }
-        return null;
     }
 
     @Override

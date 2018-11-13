@@ -88,7 +88,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
         Register pointer = e.expr.accept(V.text);
 
         writer.comment("%s = addressOf(%s)", pointer, e);
-        int size = e.getInnerType().sizeof();
+        int size = e.type.sizeof();
         try (Register index = e.index.accept(V.text)) {
             index.mul(size);
             pointer.add(index);
@@ -217,7 +217,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr e) {
-        assert e.type == e.getInnerType();
         return visitAddressableExpr(e);
     }
 

@@ -218,7 +218,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 Register.sp.sub(argSize);
 
                 int offset = decl.getGenStackOffset();
-                writer.comment("Storing value of (%s) at $sp", expr, offset);
+                writer.comment("Storing arg $d (%s) at $sp", i, expr, offset);
                 try (
                     IndentWriter argScope = writer.scope();
                     Register sourceValue = expr.accept(V.text)
@@ -226,7 +226,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                     Register targetAddress = Register.sp;
                     V.assign.storeValue(sourceValue, type, targetAddress, 0);
                 }
-                // todo: copy values ?
             }
 
             // Roll back the sp by PrologueSize + argSize

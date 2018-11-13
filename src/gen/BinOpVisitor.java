@@ -147,7 +147,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
     private static Register compare(Register x, Register y, String operator) {
         Register result = V.registers.get();
-        writer.printf("%s %s, %s, %s", operator, operator, result, x, y);
+        writer.printf("%s %s, %s, %s", operator, result, x, y);
         return result;
 
     }

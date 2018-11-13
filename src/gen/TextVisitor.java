@@ -17,7 +17,10 @@ public class TextVisitor extends TraverseVisitor<Register> {
             super.visitProgram(p);
 
             writer.withLabel("main").directive("globl %s", "main");
-            V.writer.jal("func_main_start");
+            writer.jal("func_main_start");
+            Register.arg[0].set(Register.v0);
+            Register.v0.loadImmediate(17);
+            writer.syscall();
         }
 
         assert writer.getLevel() == 0;

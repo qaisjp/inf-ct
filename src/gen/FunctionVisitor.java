@@ -61,20 +61,22 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         visitEach(V.text, b.stmtList);
         stackFree(b.varDecls);
         assert frameOffset == oldOffset;
-
-        // todo: don't forget that a block can complete jump to the end of a function
         return null;
     }
 
-    @Override // todo
+    @Override
     public Register visitReturn(Return r) {
         writer.comment(r);
-        try (
-                IndentWriter scope = writer.scope();
-                Register value = r.expr.accept(V.text)
-        ) {
-            writer.comment("Store return value at $v0");
-            Register.v0.set(value);
+        try (IndentWriter scope = writer.scope()) {
+            if (r.expr != null) {
+                try (Register value = r.expr.accept(V.text)) {
+                    writer.comment("Store return value at $v0");
+                    Register.v0.set(value);
+                }
+            } else {
+                writer.comment("Store default return value at $v0");
+                Register.v0.loadImmediate(0);
+            }
 
             writer.comment("Jump to epilogue (defined at $ra)");
             writer.jr(Register.ra);
@@ -85,7 +87,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
     private final static int PrologueSize = 4 * Register.snapshot.size();
 
     private void snapshotRegisters() {
-        writer.comment("snapshot registers"); //todo
+        writer.comment("snapshot registers");
         try (IndentWriter scope = writer.scope()) {
             writer.comment("Adjust $sp for prologue");
             Register.sp.sub(PrologueSize);
@@ -158,10 +160,13 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
                 Register.ra.loadAddress(epilogueLabel);
             }
 
-            // do some stuff, todo: what about result, parameters?
+            // do some stuff
             writer.comment("function contents");
             try (IndentWriter innerScope = writer.scope()) {
                 visitBlock(f.block);
+
+                writer.comment("Store default return value at $v0");
+                Register.v0.loadImmediate(0);
             }
 
             writer.withLabel(epilogueLabel).comment("epilogue");
@@ -201,6 +206,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
         writer.comment("precall");
         try (IndentWriter scope = writer.scope()) {
+            // Store current return address
+            writer.comment("Store current return address on stack");
+            Register.sp.sub(4);
+            Register.ra.storeWordAt(Register.sp, 0);
+
             // Skip the prologue size
             writer.comment("Skip the prologue size (we will be writing into our callee stack frame)");
             Register.sp.sub(PrologueSize);
@@ -238,6 +248,11 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
         writer.comment("postreturn");
         try (IndentWriter scope = writer.scope()) {
+            writer.comment("Restore return address");
+            Register.ra.loadWord(Register.sp, 0);
+            Register.sp.add(4);
+
+            writer.comment("Set return value");
             result.set(Register.v0);
             return result;
         }

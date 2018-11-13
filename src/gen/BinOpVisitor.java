@@ -15,16 +15,15 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
     private static Map<Op, BiFunction<Register,Register,Register>> biFunctions = null;
 
     private static Labeller labeller = new Labeller("binop");
-    private static Map<Op, String> comparators = new HashMap<Op, String>(){{
-        comparators.put(Op.LT, "slt");
-        comparators.put(Op.GT, "sgt");
-        comparators.put(Op.LE, "sle");
-        comparators.put(Op.GE, "sge");
-        comparators.put(Op.ADD, "add");
-        comparators.put(Op.SUB, "sub");
-        comparators.put(Op.EQ, "seq");
-        comparators.put(Op.NE, "sne");
-
+    private static Map<Op, String> comparators = new HashMap<Op, String>() {{
+        put(Op.LT, "slt");
+        put(Op.GT, "sgt");
+        put(Op.LE, "sle");
+        put(Op.GE, "sge");
+        put(Op.ADD, "add");
+        put(Op.SUB, "sub");
+        put(Op.EQ, "seq");
+        put(Op.NE, "sne");
     }};
 
     public BinOpVisitor() {

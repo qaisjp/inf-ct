@@ -168,7 +168,9 @@ public abstract class TraverseVisitor<T> implements ASTVisitor<T> {
 
     @Override
     public T visitReturn(Return r) {
-        r.expr.accept(this);
+        if (r.expr != null) {
+            r.expr.accept(this);
+        }
         return null;
     }
 

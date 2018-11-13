@@ -13,6 +13,9 @@ public class Return extends Stmt {
 
     @Override
     public String toString() {
+        if (expr == null) {
+            return "return;";
+        }
         return "return " + expr.toString() + ";";
     }
 }

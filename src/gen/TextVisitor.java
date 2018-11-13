@@ -299,4 +299,26 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
         return null;
     }
+
+    private Labeller whileLabeller = new Labeller("while");
+    @Override
+    public Register visitWhile(While s) {
+        String startLabel = whileLabeller.num("this");
+        String endLabel = whileLabeller.num("end");
+
+        writer.withLabel(startLabel).comment("while (%s)", s.expr);
+        try (
+            IndentWriter scope = writer.scope();
+            Register shouldContinue = s.expr.accept(V.text)
+        ) {
+            writer.beqz(shouldContinue, endLabel);
+
+            s.stmt.accept(V.text);
+
+            writer.j(startLabel);
+        }
+
+        writer.withLabel(endLabel).nop();
+        return null;
+    }
 }

@@ -162,6 +162,7 @@ tests =
     ["p.struct_and_decl.c"]: to: {}
     ["p.struct_and_vardecl.c"]: to: {}
     ["p.struct.access.c"]: to: {}
+    ["p.struct.assign.c"]: to: {}
     ["p.struct.return.c"]: to: {}
     ["p.struct.self.c"]: to: {}
 

@@ -32,7 +32,8 @@ Please note that we expect your programs to have one main function which should 
 
 You should make use of the `getRegister` and `freeRegister` helper functions to allocate and free up registers as seen in the class.
 
-- [ ] Please note that the comparison operators as well as the `||` and `&&` should be implemented with control flow.
+- [ ] Please note that the comparison operators
+- [x] as well as the `||` and `&&` should be implemented with control flow.
 
 For the comparison operations, use the positional encoding as seen during the lecture (value 0 means false, any other value means true).
 
@@ -61,8 +62,9 @@ We will follow the following specification for the size of the different types:
 
 ## 4. Branching (if-then-else, loop, logical operators)
 
-- [ ] We suggest that you then implement the loop and if-then-else control structures as seen during the course using the branch instructions.
-- [ ] The logical `||` and `&&` should also be implemented with control flow.
+- [ ] We suggest that you then implement the loop
+- [ ] and if-then-else control structures as seen during the course using the branch instructions.
+- [x] The logical `||` and `&&` should also be implemented with control flow.
 
 Note that in the following example
 
@@ -88,11 +90,11 @@ The idea is to get the address of an array into a register, then add to it the i
 
 ## 6. Function call
 
-- [ ] You can them move on to implementing function calls.
+- [x] You can them move on to implementing function calls.
 
-- [ ] You can pass up to four arguments (no larger than 4 bytes each) through registers `$a0-$a3`, the rest or other arguments (e.g. struct) being passed on the stack.
+- [x] You can pass up to four arguments (no larger than 4 bytes each) through registers `$a0-$a3`, the rest or other arguments (e.g. struct) being passed on the stack.
 
-- [ ] Return value can be passed through register `$v0` or through the stack if they are bigger than 4 bytes (e.g. struct).
+- [x] Return value can be passed through register `$v0` or through the stack if they are bigger than 4 bytes (e.g. struct).
 
 As seen during the lectures, when entering a function should make sure to save the content of the temporary registers, frame pointers `$fp` and return address `$ra`, and restored them when leaving the function.
 You should also initialise the frame pointer to the value of the stack pointer.

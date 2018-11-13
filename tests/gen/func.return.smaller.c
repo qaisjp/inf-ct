@@ -2,12 +2,12 @@
 1234
 /*gen:expect*/
 int a() {
-	return 1234;
+    return 1234;
 }
 
 void main() {
-	int b;
-	b = a();
+    int b;
+    b = a();
 
-	print_i(b);
+    print_i(b);
 }

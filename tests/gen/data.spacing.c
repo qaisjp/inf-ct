@@ -1,12 +1,12 @@
 struct online {
-	char exists;
-	char* email;
+    char exists;
+    char* email;
 }; // 8
 
 struct person {
-	struct online id;
-	int age;
-	char gender;
+    struct online id;
+    int age;
+    char gender;
 }; // 16
 
 // Test struct 1

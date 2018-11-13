@@ -1,8 +1,8 @@
 struct person {
-	struct person* children;
-	int age;
-	char* name;
-	char gender;
+    struct person* children;
+    int age;
+    char* name;
+    char gender;
 };
 
 struct person qais;

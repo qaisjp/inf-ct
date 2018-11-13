@@ -1,8 +1,8 @@
 char* str;
 
 int main() {
-	str = (char*) "Hello, world!";
-	print_s(str);
+    str = (char*) "Hello, world!";
+    print_s(str);
 
-	return 0;
+    return 0;
 }

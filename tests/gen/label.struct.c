@@ -10,5 +10,5 @@ struct blah s;
 int s_x;
 
 void main() {
-	print_s((char*) "success");
+    print_s((char*) "success");
 }

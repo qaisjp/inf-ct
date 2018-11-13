@@ -21,7 +21,7 @@ void main() {
     print_s((char*) "address `cp` after malloc:\n");
     print_address((void*)cp);
 
-    print_s((char*) "\n\nPerform *cp = 'q'\n\t(should not change address of cp)");
+    print_s((char*) "\n\nPerform *cp = 'q'\n    (should not change address of cp)");
     *cp = 'q';
 
     print_s((char*) "\n\naddress `cp` after assign:\n");

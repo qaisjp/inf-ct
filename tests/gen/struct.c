@@ -68,10 +68,10 @@ void main() {
     print_s((char*) "\nstack_qais:\n");
 
     print_s((char*) "- id:\n");
-    print_s((char*) "\t- exists: ");
+    print_s((char*) "    - exists: ");
     print_c(stack_qais.id.exists);
     print_c('\n');
-    print_s((char*) "\t- email: ");
+    print_s((char*) "    - email: ");
     print_s(stack_qais.id.email);
     print_c('\n');
     
@@ -108,10 +108,10 @@ void main() {
     print_s((char*) "\nglobal_qais:\n");
 
     print_s((char*) "- id:\n");
-    print_s((char*) "\t- exists: ");
+    print_s((char*) "    - exists: ");
     print_c(global_qais.id.exists);
     print_c('\n');
-    print_s((char*) "\t- email: ");
+    print_s((char*) "    - email: ");
     print_s(global_qais.id.email);
     print_c('\n');
     

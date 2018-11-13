@@ -71,7 +71,7 @@ void main() {
     print_s((char*) "\n\naddress `cp` after malloc:\n");
     print_address((void*)cp);
 
-    print_s((char*) "\n\nPerform *cp = 'q'\n\t(should not change address of cp)");
+    print_s((char*) "\n\nPerform *cp = 'q'\n    (should not change address of cp)");
     *cp = 'q';
 
     print_s((char*) "\n\nvalue `*cp`:\n");
@@ -104,7 +104,7 @@ void main() {
     print_s((char*)"\n\nNew innerCP value (*a->innerCP)\n");
     print_c(*((*a).innerCP));
 
-    print_s((char*)"\n\nb = a (just pointers)\n\t(b and a should be equal now)");
+    print_s((char*)"\n\nb = a (just pointers)\n    (b and a should be equal now)");
     b = a;
 
     print_s((char*) "\n\nNew b address after b = a:\n");

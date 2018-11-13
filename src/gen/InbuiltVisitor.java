@@ -32,8 +32,20 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             InbuiltVisitor.inbuilts.put("mcmalloc", InbuiltVisitor::mcmalloc); // todo this needs testing
             InbuiltVisitor.inbuilts.put("print_c", InbuiltVisitor::print_c);
             InbuiltVisitor.inbuilts.put("read_c", InbuiltVisitor::read_c);
-            InbuiltVisitor.inbuilts.put("print_address", InbuiltVisitor::print_i); // todo remove this
+
+            if (System.getenv("DEBUG") != null) {
+                InbuiltVisitor.inbuilts.put("print_address", InbuiltVisitor::print_i); // todo remove this
+                InbuiltVisitor.inbuilts.put("get_register", InbuiltVisitor::get_register);
+            }
         }
+    }
+
+    private static Register get_register(FunDecl f, List<Expr> args) {
+        int reg = ((IntLiteral) args.get(0)).value;
+        Register val = registers.get();
+        writer.comment("get_register %d", reg);
+        writer.printf("move %s, $%d", val, reg);
+        return val;
     }
 
     private static Register print_i(FunDecl f, List<Expr> args) {

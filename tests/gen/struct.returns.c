@@ -42,6 +42,21 @@ struct person {
 struct online global_id;
 struct person global_qais;
 
+struct online make_id(char exists, char* email) {
+    struct online out;
+    out.exists = exists;
+    out.email = email;
+    return out;
+}
+
+struct person make_person(struct online id, int age, char gender) {
+    struct person p;
+    p.id = id;
+    p.age = age;
+    p.gender = gender;
+    return p;
+}
+
 void main() {
     struct online stack_id;		// 8 bytes   8
     struct person stack_qais; 	// 16 bytes  16
@@ -55,8 +70,8 @@ void main() {
 
     print_s((char*) "== Stack\n");
 
-    stack_id.exists = 's';
-    stack_id.email = (char*) "stack should be: 5, t - okay?";
+    stack_id = make_id('s', (char*) "stack should be: 5, t - okay?");
+    stack_qais = make_person(stack_id, 5, 't');
 
     print_s((char*) "stack_id:\n");
 
@@ -67,10 +82,6 @@ void main() {
     print_s((char*) "- email: ");
     print_s(stack_id.email);
     print_c('\n');
-    
-    stack_qais.id = stack_id;
-    stack_qais.age = 5;
-    stack_qais.gender = 't';
 
     print_s((char*) "\nstack_qais:\n");
 
@@ -81,7 +92,7 @@ void main() {
     print_s((char*) "    - email: ");
     print_s(stack_qais.id.email);
     print_c('\n');
-    
+
     print_s((char*) "- age: ");
     print_i(stack_qais.age);
     print_c('\n');
@@ -95,8 +106,8 @@ void main() {
     print_s((char*) "\n\n== Globals\n");
 
     // Globals
-    global_id.exists = 'g';
-    global_id.email = (char*) "global should be: 8, h - okay?";
+    global_id = make_id('g', (char*) "global should be: 8, h - okay?");
+    global_qais = make_person(global_id, 8, 'h');
 
     print_s((char*) "global_id:\n");
 
@@ -107,10 +118,6 @@ void main() {
     print_s((char*) "- email: ");
     print_s(global_id.email);
     print_c('\n');
-    
-    global_qais.id = global_id;
-    global_qais.age = 8;
-    global_qais.gender = 'h';
 
     print_s((char*) "\nglobal_qais:\n");
 
@@ -121,7 +128,7 @@ void main() {
     print_s((char*) "    - email: ");
     print_s(global_qais.id.email);
     print_c('\n');
-    
+
     print_s((char*) "- age: ");
     print_i(global_qais.age);
     print_c('\n');

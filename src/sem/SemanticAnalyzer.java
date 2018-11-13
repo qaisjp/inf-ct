@@ -31,6 +31,7 @@ public class SemanticAnalyzer {
 
 		if (System.getenv("DEBUG") != null) {
 			funDecls.add(new FunDecl(BaseType.VOID, "print_address", new PointerType(BaseType.VOID)));
+			funDecls.add(new FunDecl(BaseType.INT, "get_register", BaseType.INT));
 		}
 
 		// Append real function declaration to our inbuilts list

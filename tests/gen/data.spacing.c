@@ -1,3 +1,6 @@
+/*gen:expect/*
+K
+/*gen:expect*/
 struct online {
     char exists;
     char* email;
@@ -41,3 +44,7 @@ char charArray_be_8_01[5]; // should be 8
 char charArray_be_8_02[7]; // should be 8
 char charArray_be_8_03[8]; // should be 8
 char charArray_be_12_01[9]; // should be 12
+
+void main() {
+    print_c('K');
+}

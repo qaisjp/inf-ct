@@ -1,16 +1,21 @@
 /*gen:debug*/
 /*gen:expect/*
-13371337109
+1337
+20
+1337109
 1
 /*gen:expect*/
 #include "minic-stdlib.h"
 
 void eww() {
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
+    int a; // 4 +
+    int b; // 4 +
+    int c; // 4 +
+    int d; // 4 +
+    int e; // 4  = 20
+    print_c('\n');
+    print_i(get_register(30) - get_register(29));
+    print_c('\n');
     a = 0;
     b = 1;
     c = 2;

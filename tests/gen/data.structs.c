@@ -1,3 +1,4 @@
+/*gen:no-output*/
 struct person {
     struct person* children;
     int age;
@@ -9,3 +10,4 @@ struct person qais;
 struct person cecil;
 struct person anthony;
 
+void main() {}

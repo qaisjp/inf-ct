@@ -3,6 +3,8 @@ Main!
 Something!
 52709
 Back at main again!
+
+ALL OK: Simulator status code non-zero: 255
 /*gen:expect*/
 
 #include "minic-stdlib.h"
@@ -13,7 +15,7 @@ char newline() {
 
 int print_something() {
     print_s((char*) "Something!");
-    newline();
+    print_c(newline());
     return 52709;
 }
 
@@ -28,5 +30,5 @@ int main() {
     print_c(newline());
     back();
 
-    return 1298;
+    return 255;
 }

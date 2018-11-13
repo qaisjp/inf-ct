@@ -113,5 +113,7 @@ if [ "$CODEGEN_CODE" -ne "0" ]; then
 fi
 
 java -jar "$PROJ/desc/part3/Mars4_5.jar" nc sm "$TARGET"
-
-exit $?
+SIMULATOR_CODE="$?"
+if [ "$SIMULATOR_CODE" -ne "0" ]; then
+    echo "ALL OK: Simulator status code non-zero: $SIMULATOR_CODE"
+fi

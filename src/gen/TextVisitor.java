@@ -261,7 +261,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
     public Register visitExprStmt(ExprStmt e) {
         writer.comment("%s", e);
         try (IndentWriter scope = writer.scope()) {
-            try (Register r = e.expr.accept(V.text)) {
+            try (Register autoFreedRegisterThatCanBeNull = e.expr.accept(V.text)) {
 
             }
         }

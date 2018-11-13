@@ -14,33 +14,26 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         this.writer = V.writer;
     }
 
-    // Store to stack (does not allocate)
-//    private void storeToStack(List<VarDecl> varDecls) {
-//        int size = 0;
-//
-//        for (VarDecl v : varDecls) {
-//            if
-//        }
-//    }
-
-    private void stackAllocate(List<VarDecl> varDecls) {
-        writer.comment("Allocate space on stack for varDecls");
+    private void stackAllocate(List<VarDecl> varDecls, boolean updateSP) {
+        writer.comment("Allocate space on stack for varDecls %s (updateSP=%s) (frameOffset=%d)", Arrays.toString(varDecls.toArray()), updateSP, frameOffset);
         int totalSize = 0;
         for (VarDecl v : varDecls) {
-            v.setGenStackOffset(frameOffset);
-
             int size = GenUtils.wordAlign(v.varType.sizeof());
-            frameOffset += size;
+            frameOffset -= size;
             totalSize += size;
+
+            v.setGenStackOffset(frameOffset);
         }
 
-        if (totalSize == 0) {
-            writer.nop();
-            return;
-        }
+        if (updateSP) {
+            if (totalSize == 0) {
+                writer.nop();
+                return;
+            }
 
-        // Allocate all that on that stack by SUBTRACTING the stack pointer
-        Register.sp.sub(totalSize);
+            // Allocate all that on that stack by SUBTRACTING the stack pointer
+            Register.sp.sub(totalSize);
+        }
     }
 
     private void stackFree(List<VarDecl> varDecls) {
@@ -48,7 +41,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         int totalSize = 0;
         for (VarDecl v : varDecls) {
             int size = GenUtils.wordAlign(v.varType.sizeof());
-            frameOffset -= size;
+            frameOffset += size;
             totalSize += size;
         }
 
@@ -64,7 +57,7 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitBlock(Block b) {
         int oldOffset = frameOffset;
-        stackAllocate(b.varDecls);
+        stackAllocate(b.varDecls, true);
         visitEach(V.text, b.stmtList);
         stackFree(b.varDecls);
         assert frameOffset == oldOffset;
@@ -129,6 +122,10 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         writer.withLabel(f.genLabel).comment("%s", f);
 
         String epilogueLabel = funcLabeller.label(f.name + "_epilogue");
+
+        frameOffset = 0; // reset frame offset to 0 because we only care about it per function
+        // Allocate space for arguments on stack
+        stackAllocate(f.params, false);
 
         try (IndentWriter scope = writer.scope()) {
             /*
@@ -200,10 +197,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
         -
          */
 
-        // Back up our frame offset, and reset the frame offset to 0
-        int oldFrameOffset = frameOffset;
-        frameOffset = 0;
-
         Register result = V.registers.get();
 
         writer.comment("precall");
@@ -212,29 +205,33 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
             writer.comment("Skip the prologue size (we will be writing into our callee stack frame)");
             Register.sp.sub(PrologueSize);
 
-            // Allocate space for arguments on stack
-            stackAllocate(f.decl.params);
-
             // Iterate through args
-            int argSize = 0;
+            int totalArgSize = 0;
             for (int i = 0; i < f.decl.params.size(); i++) {
                 VarDecl decl = f.decl.params.get(i);
                 Expr expr = f.exprList.get(i);
                 Type type = expr.type;
 
-                argSize += GenUtils.wordAlign(type.sizeof());
+                int argSize = GenUtils.wordAlign(type.sizeof());
+                totalArgSize += argSize;
 
-                try (Register sourceValue = expr.accept(V.text)) {
+                Register.sp.sub(argSize);
+
+                int offset = decl.getGenStackOffset();
+                writer.comment("Storing value of (%s) at $sp", expr, offset);
+                try (
+                    IndentWriter argScope = writer.scope();
+                    Register sourceValue = expr.accept(V.text)
+                ) {
                     Register targetAddress = Register.sp;
-                    int offset = decl.getGenStackOffset();
-                    V.assign.storeValue(sourceValue, type, targetAddress, offset);
+                    V.assign.storeValue(sourceValue, type, targetAddress, 0);
                 }
                 // todo: copy values ?
             }
 
             // Roll back the sp by PrologueSize + argSize
             writer.comment("Roll back the sp by PrologueSize + argSize");
-            Register.sp.add(PrologueSize + argSize);
+            Register.sp.add(PrologueSize + totalArgSize);
         }
 
         writer.comment("perform jump to declaration");
@@ -242,9 +239,6 @@ public class FunctionVisitor extends TraverseVisitor<Register> {
 
         writer.comment("postreturn");
         try (IndentWriter scope = writer.scope()) {
-            // Restore frame offset
-            frameOffset = oldFrameOffset;
-
             result.set(Register.v0);
             return result;
         }

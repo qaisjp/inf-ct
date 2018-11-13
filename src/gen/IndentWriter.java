@@ -28,6 +28,7 @@ public class IndentWriter implements java.lang.AutoCloseable {
     @Override
     public void close() {
         wasNewline = false;
+        leadNewline();
         level -= 1;
     }
 

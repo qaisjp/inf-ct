@@ -8,14 +8,16 @@ First called! 1
 First called! 1
 /*gen:expect*/
 
+#include "minic-stdlib.h"
+
 int call_first() {
-	print_s((char*) "\nFirst called! ");
-	return 1;
+    print_s((char*) "\nFirst called! ");
+    return 1;
 }
 
 int call_second() {
-	print_s((char*) "\nHello, world!");
-	return 0;
+    print_s((char*) "\nHello, world!");
+    return 0;
 }
 
 void main() {
@@ -24,21 +26,21 @@ void main() {
     call_first();
 
     n = 0 && call_second();
-	print_i(n);
+    print_i(n);
 
-	call_first();
+    call_first();
 
-	n = 1 || call_second();
-	print_i(n);
+    n = 1 || call_second();
+    print_i(n);
 
-	n = call_second() && call_first();
-	print_i(n);
+    n = call_second() && call_first();
+    print_i(n);
 
-	n = call_second() || call_first();
-	print_i(n);
+    n = call_second() || call_first();
+    print_i(n);
 
-	n = call_first() || call_second();
-	print_i(n);
+    n = call_first() || call_second();
+    print_i(n);
 
-	// return 0;
+    // return 0;
 }

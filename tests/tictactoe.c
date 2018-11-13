@@ -1,3 +1,216 @@
+/*gen:put/*
+a
+2
+b
+2
+c
+0
+c
+4
+f
+9
+c
+1
+a
+1
+a
+3
+b
+1
+c
+2
+c
+3
+b
+3
+y
+a
+1
+a
+1
+b
+1
+b
+2
+c
+1
+c
+3
+n
+/*gen:put*/
+/*gen:expect/*
+
+     1   2   3
+   +---+---+---+
+a  |   |   |   |
+   +---+---+---+
+b  |   |   |   |
+   +---+---+---+
+c  |   |   |   |
+   +---+---+---+
+
+Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  |   | X |   |
+   +---+---+---+
+b  |   |   |   |
+   +---+---+---+
+c  |   |   |   |
+   +---+---+---+
+
+Player 2 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  |   | X |   |
+   +---+---+---+
+b  |   | O |   |
+   +---+---+---+
+c  |   |   |   |
+   +---+---+---+
+
+Player 1 select move (e.g. a2)>That is not a valid move!
+Player 1 select move (e.g. a2)>That is not a valid move!
+Player 1 select move (e.g. a2)>That is not a valid move!
+Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  |   | X |   |
+   +---+---+---+
+b  |   | O |   |
+   +---+---+---+
+c  | X |   |   |
+   +---+---+---+
+
+Player 2 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | O | X |   |
+   +---+---+---+
+b  |   | O |   |
+   +---+---+---+
+c  | X |   |   |
+   +---+---+---+
+
+Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | O | X | X |
+   +---+---+---+
+b  |   | O |   |
+   +---+---+---+
+c  | X |   |   |
+   +---+---+---+
+
+Player 2 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | O | X | X |
+   +---+---+---+
+b  | O | O |   |
+   +---+---+---+
+c  | X |   |   |
+   +---+---+---+
+
+Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | O | X | X |
+   +---+---+---+
+b  | O | O |   |
+   +---+---+---+
+c  | X | X |   |
+   +---+---+---+
+
+Player 2 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | O | X | X |
+   +---+---+---+
+b  | O | O |   |
+   +---+---+---+
+c  | X | X | O |
+   +---+---+---+
+
+Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | O | X | X |
+   +---+---+---+
+b  | O | O | X |
+   +---+---+---+
+c  | X | X | O |
+   +---+---+---+
+
+It's a draw!
+Play again? (y/n)> Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | X |   |   |
+   +---+---+---+
+b  |   |   |   |
+   +---+---+---+
+c  |   |   |   |
+   +---+---+---+
+
+Player 2 select move (e.g. a2)>That move is not possible!
+Player 2 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | X |   |   |
+   +---+---+---+
+b  | O |   |   |
+   +---+---+---+
+c  |   |   |   |
+   +---+---+---+
+
+Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | X |   |   |
+   +---+---+---+
+b  | O | X |   |
+   +---+---+---+
+c  |   |   |   |
+   +---+---+---+
+
+Player 2 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | X |   |   |
+   +---+---+---+
+b  | O | X |   |
+   +---+---+---+
+c  | O |   |   |
+   +---+---+---+
+
+Player 1 select move (e.g. a2)>
+
+     1   2   3
+   +---+---+---+
+a  | X |   |   |
+   +---+---+---+
+b  | O | X |   |
+   +---+---+---+
+c  | O |   | X |
+   +---+---+---+
+
+Player 1 has won!
+Play again? (y/n)> 
+/*gen:expect*/
 // Tic-tac-toe game
 // Written by Daniel Hillerström
 

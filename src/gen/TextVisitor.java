@@ -265,4 +265,38 @@ public class TextVisitor extends TraverseVisitor<Register> {
         }
         return null;
     }
+
+    private Labeller ifLabeller = new Labeller("if");
+
+    @Override
+    public Register visitIf(If s) {
+        String endLabel = ifLabeller.num("end");
+        String elseLabel = (s.elseStmt == null) ? endLabel : ifLabeller.num("else");
+
+        writer.comment("if (%s)", s.expr);
+        try (
+            IndentWriter scope = writer.scope();
+            Register shouldSkip = s.expr.accept(V.text)
+        ) {
+            writer.beqz(shouldSkip, elseLabel);
+
+            s.stmt.accept(V.text);
+
+            writer.j(endLabel);
+        }
+
+        if (s.elseStmt == null) {
+            writer.withLabel(endLabel).nop();
+            return null;
+        }
+
+        writer.withLabel(elseLabel).comment("else");
+        try (IndentWriter scope = writer.scope()) {
+            s.elseStmt.accept(V.text);
+        }
+
+        writer.withLabel(endLabel).nop();
+
+        return null;
+    }
 }

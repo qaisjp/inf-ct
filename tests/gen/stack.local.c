@@ -5,6 +5,7 @@
 Hi
 Hi!
 Hello!
+!
 /*gen:expect*/
 
 // todo: add struct test
@@ -53,4 +54,9 @@ void main() {
     b = c[0];
     print_c(b);
     print_s((char*) "ello!");
+
+    print_c('\n');
+
+    // Print the third offset of that pointer (exclamation mark)
+    print_c(d[2]);
 }

@@ -4,6 +4,7 @@ import ast.BinOp;
 import ast.Expr;
 import ast.Op;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -14,6 +15,17 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
     private static Map<Op, BiFunction<Register,Register,Register>> biFunctions = null;
 
     private static Labeller labeller = new Labeller("binop");
+    private static Map<Op, String> comparators = new HashMap<Op, String>(){{
+        comparators.put(Op.LT, "slt");
+        comparators.put(Op.GT, "sgt");
+        comparators.put(Op.LE, "sle");
+        comparators.put(Op.GE, "sge");
+        comparators.put(Op.ADD, "add");
+        comparators.put(Op.SUB, "sub");
+        comparators.put(Op.EQ, "seq");
+        comparators.put(Op.NE, "sne");
+
+    }};
 
     public BinOpVisitor() {
         if (biFunctions != null) {
@@ -24,43 +36,12 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
         // Pour biFunctions
         biFunctions = new HashMap<>();
-        biFunctions.put(Op.ADD, BinOpVisitor::add);
-        biFunctions.put(Op.SUB, BinOpVisitor::sub);
-        biFunctions.put(Op.EQ, BinOpVisitor::eq);
-        biFunctions.put(Op.NE, BinOpVisitor::ne);
         biFunctions.put(Op.MUL, BinOpVisitor::mul);
         biFunctions.put(Op.MOD, BinOpVisitor::mod);
         biFunctions.put(Op.DIV, BinOpVisitor::div);
-        // todo
-//        functions.put(Op.LT, BinOpVisitor::LT);
-//        functions.put(Op.GT, BinOpVisitor::GT);
-//        functions.put(Op.LE, BinOpVisitor::LE);
-//        functions.put(Op.GE, BinOpVisitor::GE);
     }
 
-    private static Register add(Register x, Register y) {
-        Register result = V.registers.get();
-        writer.add(result, x, y);
-        return result;
-    }
 
-    private static Register sub(Register x, Register y) {
-        Register result = V.registers.get();
-        writer.sub(result, x, y);
-        return result;
-    }
-
-    private static Register eq(Register x, Register y) {
-        Register result = V.registers.get();
-        writer.seq(result, x, y);
-        return result;
-    }
-
-    private static Register ne(Register x, Register y) {
-        Register result = V.registers.get();
-        writer.sne(result, x, y);
-        return result;
-    }
 
     // todo: check if this a legal boi because of hi lo stuff
     // andrius says it is legal
@@ -164,6 +145,13 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
+    private static Register compare(Register x, Register y, String operator) {
+        Register result = V.registers.get();
+        writer.printf("%s %s, %s, %s", operator, operator, result, x, y);
+        return result;
+
+    }
+
     @Override
     public Register visitBinOp(BinOp binOp) {
         writer.comment("%s", binOp);
@@ -190,6 +178,13 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
                     Register y = binOp.y.accept(V.text)
             ) {
                 return biFunctions.get(binOp.op).apply(x, y);
+            }
+        } else if (comparators.containsKey(binOp.op)) {
+            try (
+                Register x = binOp.x.accept(V.text);
+                Register y = binOp.y.accept(V.text)
+            ) {
+                return BinOpVisitor.compare(x, y, comparators.get(binOp.op));
             }
         }
 

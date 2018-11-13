@@ -28,11 +28,11 @@ Please note that we expect your programs to have one main function which should 
 
 ## 2. Binary Operators
 
-- [ ] Your next task should be to add support for all the binary operators.
+- [x] Your next task should be to add support for all the binary operators.
 
 You should make use of the `getRegister` and `freeRegister` helper functions to allocate and free up registers as seen in the class.
 
-- [ ] Please note that the comparison operators
+- [x] Please note that the comparison operators
 - [x] as well as the `||` and `&&` should be implemented with control flow.
 
 For the comparison operations, use the positional encoding as seen during the lecture (value 0 means false, any other value means true).

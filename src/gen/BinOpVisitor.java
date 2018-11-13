@@ -115,7 +115,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
         // FALSE: Set result to 0, jump to finish
         writer.withLabel(falseLabel).li(result, 0);
-        writer.j(finishLabel);
+        writer.b(finishLabel);
 
         // TRUE : Set result to 1
         writer.withLabel(trueLabel).li(result, 1);
@@ -153,7 +153,7 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
 
         // TRUE : Set result to 1, jump to finish
         writer.withLabel(trueLabel).li(result, 1);
-        writer.j(finishLabel);
+        writer.b(finishLabel);
 
         // FALSE: Set result to 0
         writer.withLabel(falseLabel).li(result, 0);

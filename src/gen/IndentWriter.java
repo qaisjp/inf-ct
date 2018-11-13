@@ -205,6 +205,12 @@ public class IndentWriter implements java.lang.AutoCloseable {
         printf("j %s", label);
     }
 
+    // branch to label: b label
+    public void b(String label) {
+        Labeller.verifyLabel(label);
+        printf("b %s", label);
+    }
+
     // nop: nope!
     public void nop() {
         printf("nop");

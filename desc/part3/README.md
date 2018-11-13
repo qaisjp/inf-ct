@@ -62,8 +62,8 @@ We will follow the following specification for the size of the different types:
 
 ## 4. Branching (if-then-else, loop, logical operators)
 
-- [ ] We suggest that you then implement the loop
-- [ ] and if-then-else control structures as seen during the course using the branch instructions.
+- [x] We suggest that you then implement the loop
+- [x] and if-then-else control structures as seen during the course using the branch instructions.
 - [x] The logical `||` and `&&` should also be implemented with control flow.
 
 Note that in the following example

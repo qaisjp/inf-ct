@@ -282,7 +282,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
             s.stmt.accept(V.text);
 
-            writer.j(endLabel);
+            writer.b(endLabel);
         }
 
         if (s.elseStmt == null) {
@@ -315,7 +315,7 @@ public class TextVisitor extends TraverseVisitor<Register> {
 
             s.stmt.accept(V.text);
 
-            writer.j(startLabel);
+            writer.b(startLabel);
         }
 
         writer.withLabel(endLabel).nop();

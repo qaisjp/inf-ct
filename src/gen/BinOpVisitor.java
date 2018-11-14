@@ -40,18 +40,12 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         biFunctions.put(Op.DIV, BinOpVisitor::div);
     }
 
-
-
-    // todo: check if this a legal boi because of hi lo stuff
-    // andrius says it is legal
     private static Register mul(Register x, Register y) {
         Register result = V.registers.get();
         writer.mul(result, x, y);
         return result;
     }
 
-    // todo: check if this legal
-    // andrius says it is legal
     private static Register mod(Register num, Register dividedBy) {
         Register result = V.registers.get();
         writer.div(num, dividedBy);
@@ -59,8 +53,6 @@ public class BinOpVisitor extends TraverseVisitor<Register> {
         return result;
     }
 
-    // todo check if this is legal because of hi low stuff
-    // andrius says it is legal
     private static Register div(Register num, Register dividedBy) {
         Register result = V.registers.get();
         writer.div(num, dividedBy);

@@ -235,7 +235,6 @@ public class TextVisitor extends TraverseVisitor<Register> {
     @Override
     public Register visitTypecastExpr(TypecastExpr e) {
         // visitSizeOfExpr is a value, so we don't need to get addr
-        // todo: do you need to accept type?
         Register value;
         writer.comment(e);
         try (IndentWriter scope = writer.scope()) {

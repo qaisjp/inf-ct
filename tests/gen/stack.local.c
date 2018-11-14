@@ -8,8 +8,6 @@ Hello!
 !
 /*gen:expect*/
 
-// todo: add struct test
-
 void main() {
     int a;      // 4 bytes  4 (a word)
     char b;     // 1 byte   4 (padded to 4)

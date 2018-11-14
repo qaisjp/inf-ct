@@ -27,7 +27,6 @@ global_qais:
 /*gen:expect*/
 /*gen:debug*/
 
-// todo: add struct test
 struct online {
     char exists;
     char* email;

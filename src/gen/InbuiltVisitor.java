@@ -29,12 +29,12 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
             InbuiltVisitor.inbuilts.put("print_i", InbuiltVisitor::print_i);
             InbuiltVisitor.inbuilts.put("print_s", InbuiltVisitor::print_s);
             InbuiltVisitor.inbuilts.put("read_i", InbuiltVisitor::read_i);
-            InbuiltVisitor.inbuilts.put("mcmalloc", InbuiltVisitor::mcmalloc); // todo this needs testing
+            InbuiltVisitor.inbuilts.put("mcmalloc", InbuiltVisitor::mcmalloc);
             InbuiltVisitor.inbuilts.put("print_c", InbuiltVisitor::print_c);
             InbuiltVisitor.inbuilts.put("read_c", InbuiltVisitor::read_c);
 
             if (System.getenv("DEBUG") != null) {
-                InbuiltVisitor.inbuilts.put("print_address", InbuiltVisitor::print_i); // todo remove this
+                InbuiltVisitor.inbuilts.put("print_address", InbuiltVisitor::print_i);
                 InbuiltVisitor.inbuilts.put("get_register", InbuiltVisitor::get_register);
             }
         }
@@ -166,7 +166,6 @@ public class InbuiltVisitor extends TraverseVisitor<Register> {
 
         try (IndentWriter scope = writer.scope()) {
             if (!inbuilts.containsKey(f.decl.name)) {
-                writer.comment("stub: %s", f);
                 throw new RuntimeException("attempt to call undefined inbuilt " + f.decl.name);
             }
 

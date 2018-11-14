@@ -112,7 +112,6 @@ public class Tokeniser {
         for (Map.Entry<String,TokenClass> e : stringTokMap.entrySet()) {
             String s = e.getKey();
 
-            // todo: doesn't catch char sometimes hmmm
             if (s.charAt(0) == firstChar) {
                 char c = firstChar;
                 // System.out.print(c);
@@ -146,7 +145,6 @@ public class Tokeniser {
 
                         // We've consumed the string but there's more!!
                         // We just break out of it. It could be another string or an identifier
-                        // TODO: Tweak this. other identifiers won't actually be checked.
                         break;
                     }
                 }
@@ -322,7 +320,6 @@ public class Tokeniser {
                 // If we're a newline, whoops. It's all gone to pot!
                 if (c == '\n' || c == '\r') {
                     // error("expected closing quote, got newline", line, column);
-                    // TODO: ask if we should print an error
                     error++;
                     return new Token(TokenClass.INVALID, line, column);
                 }
@@ -372,7 +369,6 @@ public class Tokeniser {
             // If we're a newline, whoops. It's all gone to pot!
             if (c == '\n' || c == '\r') {
                 // error("expected closing quote, got newline", line, column);
-                // TODO: ask if we should print an error
                 error++;
                 return new Token(TokenClass.INVALID, line, column);
             }

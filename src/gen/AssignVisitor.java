@@ -42,9 +42,8 @@ public class AssignVisitor extends TraverseVisitor<Void> {
                 sourceValue.sub(totalSize);
             }
         } else {
-            // todo
             throw new RuntimeException(
-                    "STUB! storeValue hasn't been implemented yet for type: " + type.toString());
+                    "storeValue hasn't been implemented for type: " + type.toString());
         }
     }
 

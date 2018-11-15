@@ -7,7 +7,7 @@ Please note that the description of the course work might be updated from time t
 1. [Part 1 (parser)](desc/part1/), Thursday 11 October 2018  at 11am, weight = 20%
 2. [Part 2 (ast builder + semantic analyser)](desc/part2/),  Thursday 25 October 2018  at 11am, weight = 20%
 3. [Part 3 (code generator)](desc/part3/), Thursday 15 November 2018 at 11am, weight = 30%
-4. Part 4 (LLVM-based compiler pass), Monday 14 January 2019, 10am, weight = 30%
+4. [Part 4 (LLVM-based compiler pass)](desc/part4/), Monday 14 January 2019, 10am, weight = 30%
 
 Note that specific instructions for each part can be found above by clicking on the part name.
 
@@ -35,7 +35,7 @@ Then, the mark is calculated by dividing the number of points achieved by the nu
 The hidden tests are marked independently from the visible ones.
 
 ## Part 3
-66.6% of the mark will be determined by the visible scoreboard tests and 33.3% will be determined by the hidden tests and 10% by the test coverage.
+66.6% of the mark will be determined by the visible scoreboard tests and 33.3% will be determined by the hidden tests.
 The mark will directly be proportial to the number of passed tests (no negative point).
 
 # Tests #

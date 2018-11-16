@@ -148,11 +148,45 @@ LoopInfo &LI = getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
 
 ## 3. Implement a Simple Dead Code Elimination Pass
 
-TBA
+Add a new method to your instruction counting pass to eliminate dead code. In the C program below, 'd' is dead because it is not used after it's assignment in the program. The assignment to 'c' is dead 
+because it's only use is in the assignment to 'd' which is dead.
+
+```
+int foo() {
+  int a = 7;
+  int b = a * 2;
+  int c = b - a;   // dead 
+  int d = c / a;   // dead
+  return b;
+}
+```
+
+LLVM has a method to detect dead code and a method to remove instructions that you can use in your pass.
+
+```
+isInstructionTriviallyDead()
+eraseFromParent()
+```
+
+You will use the LLVM iterators we discussed in class to find the dead instructions. It is illegal to remove an instruction while you are iterating over them. You need to first identify the instructions that are dead and then in a second loop remove them. Use the LLVM SmallVector data structure to store the dead instructions you find while iterating and a second loop to remove them.
+
+```
+SmallVector<Instruction*, 64> Worklist;
+```
+
+You need to run LLVM's 'mem2reg' pass before your DCE pass to convert the bitcode into a form that will work with your optimization. Without running 'mem2reg' all instructions will store their destinations operands to the stack and load their source operands from the stack. The memory instructions will block the ability for you to discover dead code. When you run 'mem2reg', you are converting the stack allocated code in non-SSA form, into SSA form with virtual registers.
+
+Use the 'opt' tool to run 'mem2reg' before your DCE pass. Give your pass a command line option called 'skeletonpass'.
+
+```
+~/ug3-ct/build/bin/clang -S -emit-llvm -Xclang -disable-O0-optnone dead.c
+~/ug3-ct/build/bin/opt -load skeleton/libSkeletonPass.so -mem2reg -skeletonpass dead.ll
+``` 
 
 ## 4. Implement Iterative Liveness Analysis
 
-TBA
+For the last part of your project you will replace the isInstructionTriviallyDead() method from LLVM with your own method to identify dead code. This relies on computing liveness which you learned about in [Lecture 15](http://www.inf.ed.ac.uk/teaching/courses/ct/slides-16-17/15-regalloc.pdf).
+
 
 ## 5. Submitting Your Project
 

@@ -197,9 +197,38 @@ Detailed description is available [here.](ug3project.pdf)
 
 As with parts 1-3, part 4 will be marked with a set of automated scripts, but we won't be running scripts every day like wiht previous tests. In order for the scripts to run correctly, your passes will have to be placed and named in a way that they expect. 
 
+Passes should be stored in a folder `part-4/passes`. Your passes folder should contain two passes, named: 
+
+- `llvm-pass-simple-dce` (part 3, a Simple Dead Code Elimination Pass)
+- `llvm-pass-my-dce` (part 4, an Iteratrive Liveness Analysis pass)
+
+The sources for each pass should be in a folder named `skeleton`, and the pass (when compiled) should be a shared object called `libSkeletonPass.so`. If you cloned the skeleton pass repository (i.e. https://github.com/sampsyo/llvm-pass-skeleton.git), and did not change the CMakelists or the name of the source (`Skeleton.cpp`) then the pass should be configured correctly. 
+
+In other words, the `part-4/passes` folder should be structured as follows (relative to the root of your repository): 
+
+```
+part-4
+`-- passes
+    |-- llvm-pass-my-dce
+    |   |-- CMakeLists.txt
+    |   `-- skeleton
+    |       |-- CMakeLists.txt
+    |       `-- Skeleton.cpp
+    `-- llvm-pass-simple-dce
+        |-- CMakeLists.txt
+        `-- skeleton
+            |-- CMakeLists.txt
+            `-- Skeleton.cpp
+```
+
+(you should get a similar output if you run `tree --charset=ascii` in your `part-4` folder)
+
+It is generally good engineering practice to exclude build directories from your repository, so your passes should give a similar output to the above structure if you run `tree --charset=ascii` in your `part-4` folder.
 
 
 ### Naming your pass
+The pass in part 3 should be named `skeletonpass`, while the pass in part 4 should be named `live`.
+Here is an example of how to name your pass `skeletonpass`:
 
 ```
 char SimpleDCE::ID = 0;

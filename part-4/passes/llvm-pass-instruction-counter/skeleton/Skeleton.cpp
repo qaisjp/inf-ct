@@ -13,7 +13,7 @@ namespace {
     SkeletonPass() : FunctionPass(ID) {}
 
     virtual bool runOnFunction(Function &F) {
-      int instructions = 0;
+      int instructions = F.getInstructionCount();
       counter++;
       errs() << "Function " << F.getName() << " (" << counter << ") \t\tInstructions: " << instructions << "\n";
       return false;

@@ -13,8 +13,9 @@ namespace {
     SkeletonPass() : FunctionPass(ID) {}
 
     virtual bool runOnFunction(Function &F) {
+      int instructions = 0;
       counter++;
-      errs() << "I have seen  saw a function called " << F.getName() << "which is function number " << counter << "\n";
+      errs() << "Function " << F.getName() << " (" << counter << ") \t\tInstructions: " << instructions << "\n";
       return false;
     }
   };

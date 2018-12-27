@@ -14,8 +14,8 @@ To get started, you will clone the LLVM and Clang sources into your home directo
 cd ~
 mkdir ug3-ct
 cd ug3-ct
-git clone https://github.com/llvm-mirror/llvm
-git clone https://github.com/llvm-mirror/clang llvm/tools/clang
+git clone https://github.com/llvm-mirror/llvm --depth=1
+git clone https://github.com/llvm-mirror/clang llvm/tools/clang --depth=1
 ```
 
 You have been given an extra 40GB of space for this course. The Debug build of LLVM requires around 30GB of disk space! Be careful not to fill up your home directory. If you are using DICE use the 'RelWithDebInfo' cmake build type, which uses less space.
@@ -75,21 +75,22 @@ Congratulations you have just built LLVM!
 
 You have LLVM and are able to compile C programs. The next step is to create a pass of your own. Adrian Sampson at Cornell has put a simple skeleton pass online that you can use as a starting point. Change to your home directory and clone Adrian's git repository with the code.
 
-```
+```bash
 cd ~
 git clone https://github.com/sampsyo/llvm-pass-skeleton.git
 ```
 
 Change to the directory for the skeleton pass and take a look at the source. It does nothing except print the name of whatever function it encounters.
 
-```
+```bash
 cd llvm-pass-skeleton
 less skeleton/Skeleton.cpp
 ```
 
 Let's build the pass now. Create a build directory and change to the directory.
 
-```
+```bash
+# From llvm-pass-skeleton
 mkdir build
 cd build
 ```
@@ -97,21 +98,23 @@ cd build
 Before running Cmake and building the pass, you need to set LLVM_DIR to your LLVM build directory, i.e. ~/ug3-ct/build. Otherwise when you build the skeleton pass it will try to build with the version of LLVM that
 is already installed on DICE and fail.
 
-```
+```bash
 export LLVM_DIR=~/ug3-ct/build
 ```
 
 You're ready to create the Makefiles and build the pass.
 
-```
+```bash
+# From llvm-pass-skeleton/build
 cmake3 ..
 make
 ```
 
 There should be a shared library for your new pass in skeleton/libSkeletonPass.so. When you compile a program with LLVM it will load your pass and automatically call it. You'll need a C file to use as a test. You can use the test.c you created in Step 0 or create a new file.
 
-```
-~/ug3-ct/build/bin/clang -Xclang -load -Xclang skeleton/libSkeletonPass.so ~/ug3-ct/build/test.c
+```bash
+# From llvm-pass-skeleton/build
+$LLVM_DIR/bin/clang -Xclang -load -Xclang skeleton/libSkeletonPass.so $LLVM_DIR/test.c
 I saw a function called main!
 ```
 
@@ -129,7 +132,7 @@ The lecture notes are for an older version of LLVM and you need to make the foll
 
 Slide 5: Include the C++ header for vector with the other includes and add namespace std so the compiler can find vector.
 
-```
+```cpp
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
 #include "llvm/Support/raw_ostream.h"
@@ -142,7 +145,7 @@ For your project you only need the code from Slide 5. If you would like to try o
 
 Slide 17: The getAnalysis() method to access the LoopInfo structure in runOnFunction() has changed. Here is the correct definition.
 
-```
+```cpp
 LoopInfo &LI = getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
 ```
 
@@ -151,7 +154,7 @@ LoopInfo &LI = getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
 Add a new method to your instruction counting pass to eliminate dead code. In the C program below, 'd' is dead because it is not used after it's assignment in the program. The assignment to 'c' is dead 
 because it's only use is in the assignment to 'd' which is dead.
 
-```
+```cpp
 int foo() {
   int a = 7;
   int b = a * 2;
@@ -163,14 +166,14 @@ int foo() {
 
 LLVM has a method to detect dead code and a method to remove instructions that you can use in your pass.
 
-```
+```cpp
 isInstructionTriviallyDead()
 eraseFromParent()
 ```
 
 You will use the LLVM iterators we discussed in class to find the dead instructions. It is illegal to remove an instruction while you are iterating over them. You need to first identify the instructions that are dead and then in a second loop remove them. Use the LLVM SmallVector data structure to store the dead instructions you find while iterating and a second loop to remove them.
 
-```
+```cpp
 SmallVector<Instruction*, 64> Worklist;
 ```
 
@@ -178,9 +181,9 @@ You need to run LLVM's 'mem2reg' pass before your DCE pass to convert the bitcod
 
 Use the 'opt' tool to run 'mem2reg' before your DCE pass. Give your pass a command line option called 'skeletonpass'.
 
-```
-~/ug3-ct/build/bin/clang -S -emit-llvm -Xclang -disable-O0-optnone dead.c
-~/ug3-ct/build/bin/opt -load skeleton/libSkeletonPass.so -mem2reg -skeletonpass dead.ll
+```bash
+$LLVM_DIR/bin/clang -S -emit-llvm -Xclang -disable-O0-optnone dead.c
+$LLVM_DIR/bin/opt -load skeleton/libSkeletonPass.so -mem2reg -skeletonpass dead.ll
 ``` 
 
 ## 4. Implement Iterative Liveness Analysis
@@ -230,7 +233,7 @@ It is generally good engineering practice to exclude build directories from your
 The pass in part 3 should be named `skeletonpass`, while the pass in part 4 should be named `live`.
 Here is an example of how to name your pass `skeletonpass`:
 
-```
+```cpp
 char SimpleDCE::ID = 0;
 __attribute__((unused)) static RegisterPass<SimpleDCE>
     X("skeletonpass", "Simple dead code elimination"); // NOLINT

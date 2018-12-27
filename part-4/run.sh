@@ -15,8 +15,10 @@ export TEST_FILE="$PART4/test.c"
 # Associative array of passes
 typeset -A passes
 passes[counter]="llvm-pass-instruction-counter"
+passes[simple]="llvm-pass-simple-dce"
+passes[my]="llvm-pass-my-dce"
 export PASSNAME="${passes[$1]}"
-echo $PASSNAME
+
 
 if [ "$1" = "ll" ]; then
     "$LLVM_DIR/bin/clang" -c -S -emit-llvm -Xclang -disable-O0-optnone "$TEST_FILE" -o "$LLVM_DIR/test.ll"

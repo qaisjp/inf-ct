@@ -16,11 +16,19 @@ if [ "$1" = "ll" ]; then
     "$LLVM_DIR/bin/clang" -c -S -emit-llvm -Xclang -disable-O0-optnone "$TEST_FILE" -o "$LLVM_DIR/test.ll"
 elif [ "$1" = "counter" ]; then
     export PASS="$PASSES/llvm-pass-instruction-counter"
-    cd "$PASS/build"
-    make -j8
-    "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
+    cd "$PASS"
+    if [ "$2" = "cmake" ]; then
+        rm -rf build
+        mkdir build
+        cd build
+        cmake ..
+    else
+        cd build
+        make -j8
+        "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
+    fi
 else
     echo "Arguments:"
     echo "- ll: creates the ll file"
-    echo "- counter: builds and runs llvm-pass-instruction-counter"
+    echo "- counter: builds and runs llvm-pass-instruction-counter (pass cmake to rebuild make project)"
 fi

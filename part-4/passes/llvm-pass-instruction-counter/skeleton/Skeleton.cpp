@@ -5,13 +5,16 @@
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 using namespace llvm;
 
+int counter = 0;
+
 namespace {
   struct SkeletonPass : public FunctionPass {
     static char ID;
     SkeletonPass() : FunctionPass(ID) {}
 
     virtual bool runOnFunction(Function &F) {
-      errs() << "I saw a function called " << F.getName() << "!\n";
+      counter++;
+      errs() << "I have seen  saw a function called " << F.getName() << "which is function number " << counter << "\n";
       return false;
     }
   };

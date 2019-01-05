@@ -12,12 +12,19 @@ export PART4="$PROJ/ct-18-19/part-4"
 export PASSES="$PART4/passes"
 export TEST_FILE="$PART4/test.c"
 
-# Associative array of passes
-typeset -A passes
-passes[counter]="llvm-pass-instruction-counter"
-passes[simple]="llvm-pass-simple-dce"
-passes[my]="llvm-pass-my-dce"
-export PASSNAME="${passes[$1]}"
+# Associative array of pass directories
+typeset -A passDir
+passDir[counter]="llvm-pass-instruction-counter"
+passDir[simple]="llvm-pass-simple-dce"
+passDir[my]="llvm-pass-my-dce"
+export PASSNAME="${passDir[$1]}"
+
+# Associative array of pass names
+typeset -A passName
+passName[counter]="skeletonpass"
+passName[simple]="skeletonpass"
+passName[my]="live"
+export PASSARG="-${passName[$1]}"
 
 # Make sure we use the correct cmake
 export CMAKE="cmake";
@@ -43,7 +50,7 @@ elif [ ! -z "${PASSNAME}" ]; then
         # "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
 
         # Pipe to /dev/null needed because opt returns bytecode. Messages are printed to stderr.
-        "$LLVM_DIR/bin/opt" -load "$PASS/build/skeleton/libSkeletonPass.so" -mem2reg -skeletonpass "$LLVM_DIR/test.ll" > /dev/null
+        "$LLVM_DIR/bin/opt" -load "$PASS/build/skeleton/libSkeletonPass.so" -mem2reg "$PASSARG" "$LLVM_DIR/test.ll" > /dev/null
     fi
 else
     echo "Arguments:"

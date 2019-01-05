@@ -38,7 +38,12 @@ elif [ ! -z "${PASSNAME}" ]; then
     else
         cd build
         make -j8
-        "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
+
+        # This does not run mem2reg, so our DCE will not work with this command.
+        # "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
+
+        # Pipe to /dev/null needed because opt returns bytecode. Messages are printed to stderr.
+        "$LLVM_DIR/bin/opt" -load "$PASS/build/skeleton/libSkeletonPass.so" -mem2reg -skeletonpass "$LLVM_DIR/test.ll" > /dev/null
     fi
 else
     echo "Arguments:"

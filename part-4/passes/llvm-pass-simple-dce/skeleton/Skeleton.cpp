@@ -3,7 +3,11 @@
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
+#include <vector>
+
 using namespace llvm;
+
+int counter = 0;
 
 namespace {
   struct SkeletonPass : public FunctionPass {
@@ -11,7 +15,18 @@ namespace {
     SkeletonPass() : FunctionPass(ID) {}
 
     virtual bool runOnFunction(Function &F) {
-      errs() << "I saw a function called " << F.getName() << "!\n";
+      int instructions = F.getInstructionCount();
+      int ourInstructions = 0;
+
+      for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
+        for (BasicBlock::iterator i = bb->begin(); i != bb->end(); ++i) {
+          Instruction* inst = &*i;
+          ourInstructions++;
+        }
+      }
+
+      counter++;
+      errs() << "Function " << F.getName() << " (" << counter << ") \tInstructions:\t" << instructions << "\tOurs: " << ourInstructions << "\n";
       return false;
     }
   };

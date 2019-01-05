@@ -13,6 +13,7 @@ int foo() {
 }
 
 int* something() {
+  char a = '?';
   return &some_number;
 }
 

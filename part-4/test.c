@@ -8,7 +8,7 @@ int foo() {
   int a = 7;
   int b = a * 2;
   int c = b - a; // dead
-  int d = c / a; // dead
+  int d = c / a; // dead (depends on c)
   return b;
 }
 
@@ -17,6 +17,7 @@ int* something() {
 }
 
 int main() {
-    foo();
-    return 1;
+  int a = foo();
+  int b = a + 2; // dead
+  return 1;
 }

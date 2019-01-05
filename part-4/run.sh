@@ -11,7 +11,8 @@ export LLVM_DIR="$PROJ/build"
 export PART4="$PROJ/ct-18-19/part-4"
 export PASSES="$PART4/passes"
 export TEST_FILE="$PART4/test.c"
-export LL_FILE="$LLVM_DIR/test.ll"
+export LL_FILE="$PART4/test-pre.ll"
+export NEW_LL_FILE="$PART4/test-post.ll"
 
 # Associative array of pass directories
 typeset -A passDir
@@ -51,7 +52,7 @@ elif [ ! -z "${PASSNAME}" ]; then
         # "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
 
         # Pipe to /dev/null needed because opt returns bytecode. Messages are printed to stderr.
-        "$LLVM_DIR/bin/opt" -load "$PASS/build/skeleton/libSkeletonPass.so" -mem2reg "$PASSARG" "$LL_FILE" > /dev/null
+        "$LLVM_DIR/bin/opt" -S -load "$PASS/build/skeleton/libSkeletonPass.so" -mem2reg "$PASSARG" "$LL_FILE" -o "$NEW_LL_FILE"
     fi
 else
     echo "Arguments:"

@@ -11,6 +11,7 @@ export LLVM_DIR="$PROJ/build"
 export PART4="$PROJ/ct-18-19/part-4"
 export PASSES="$PART4/passes"
 export TEST_FILE="$PART4/test.c"
+export LL_FILE="$LLVM_DIR/test.ll"
 
 # Associative array of pass directories
 typeset -A passDir
@@ -33,7 +34,7 @@ if type cmake3 > /dev/null; then
 fi
 
 if [ "$1" = "ll" ]; then
-    "$LLVM_DIR/bin/clang" -c -S -emit-llvm -Xclang -disable-O0-optnone "$TEST_FILE" -o "$LLVM_DIR/test.ll"
+    "$LLVM_DIR/bin/clang" -S -emit-llvm -Xclang -disable-O0-optnone "$TEST_FILE" -o "$LL_FILE"
 elif [ ! -z "${PASSNAME}" ]; then
     export PASS="$PASSES/$PASSNAME"
     cd "$PASS"
@@ -50,7 +51,7 @@ elif [ ! -z "${PASSNAME}" ]; then
         # "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
 
         # Pipe to /dev/null needed because opt returns bytecode. Messages are printed to stderr.
-        "$LLVM_DIR/bin/opt" -load "$PASS/build/skeleton/libSkeletonPass.so" -mem2reg "$PASSARG" "$LLVM_DIR/test.ll" > /dev/null
+        "$LLVM_DIR/bin/opt" -load "$PASS/build/skeleton/libSkeletonPass.so" -mem2reg "$PASSARG" "$LL_FILE" > /dev/null
     fi
 else
     echo "Arguments:"

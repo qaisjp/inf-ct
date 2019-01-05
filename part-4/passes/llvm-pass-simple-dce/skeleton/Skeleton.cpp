@@ -9,6 +9,25 @@ using namespace llvm;
 
 int counter = 0;
 
+/*
+SmallVector<Instruction*, 16> ul;
+
+while changed {
+  changed = false
+  for (instruction i) {
+    if i.isTriviallyDead() {
+      changed = true
+      ul.push(i)
+    }
+  }
+
+  while (!ul.empty()) {
+    node = ul.pop();
+    node.replaceAllwith(node.getCurrentValue(0)) // i think?
+    nodeblah
+}
+*/
+
 namespace {
   struct SkeletonPass : public FunctionPass {
     static char ID;

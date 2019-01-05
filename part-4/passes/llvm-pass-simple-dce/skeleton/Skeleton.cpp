@@ -45,7 +45,11 @@ namespace {
             errs() << "instruction dead \n";
             ul.push_back(inst);
           } else {
-            errs() << "instruction alive \n";
+            errs() << "instruction alive: ";
+            inst->printAsOperand(errs());
+            errs() << "\n";
+
+            // errs() << "instruction alive " << inst->getOpcodeName() << "\n";
           }
         }
       }

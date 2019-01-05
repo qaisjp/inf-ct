@@ -57,6 +57,11 @@ namespace {
 
 char SkeletonPass::ID = 0;
 
+// Register the pass
+__attribute__((unused)) static RegisterPass<SkeletonPass> X(
+  "skeletonpass", "Simple dead code elimination"
+);
+
 // Automatically enable the pass.
 // http://adriansampson.net/blog/clangpass.html
 static void registerSkeletonPass(const PassManagerBuilder &,

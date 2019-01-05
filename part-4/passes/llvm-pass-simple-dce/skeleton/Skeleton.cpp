@@ -32,23 +32,41 @@ namespace {
     static char ID;
     SkeletonPass() : FunctionPass(ID) {}
 
-    virtual bool runOnFunction(Function &F) {
+    // searchAndDestroy returns true if something changed
+    bool searchAndDestroy(Function &F) {
+      SmallVector<Instruction*, 16> ul;
 
-      // const TargetLibraryInfo* TLI = &getAnalysis<TargetLibraryInfo>();
-
-      errs() << "\nFunction: " << F.getName() << "\n";
-
+      // Find dead instructions
       for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
         for (BasicBlock::iterator i = bb->begin(); i != bb->end(); ++i) {
           Instruction* inst = &*i;
 
           if (isInstructionTriviallyDead(inst)) {
             errs() << "instruction dead \n";
+            ul.push_back(inst);
           } else {
             errs() << "instruction alive \n";
           }
         }
       }
+
+      // Erase each instruction
+      for (Instruction* inst : ul) {
+        errs() << "instruction removed\n";
+        inst->eraseFromParent();
+      }
+
+      return !ul.empty();
+    }
+
+    virtual bool runOnFunction(Function &F) {
+      int pass = 0;
+      do {
+        pass += 1;
+        errs() << "\n# Function: " << F.getName() << " (pass " << pass << ")\n";
+      } while (searchAndDestroy(F));
+
+      errs() << "\n--------\n";
 
       return false;
     }

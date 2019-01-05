@@ -21,7 +21,7 @@ export PASSNAME="${passes[$1]}"
 
 # Make sure we use the correct cmake
 export CMAKE="cmake";
-if hash cmake3 2>/dev/null; then
+if type cmake3 > /dev/null; then
     CMAKE="cmake3";
 fi
 

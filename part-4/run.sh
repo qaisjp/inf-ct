@@ -19,6 +19,11 @@ passes[simple]="llvm-pass-simple-dce"
 passes[my]="llvm-pass-my-dce"
 export PASSNAME="${passes[$1]}"
 
+# Make sure we use the correct cmake
+export CMAKE="cmake";
+if hash cmake3 2>/dev/null; then
+    CMAKE="cmake3";
+fi
 
 if [ "$1" = "ll" ]; then
     "$LLVM_DIR/bin/clang" -c -S -emit-llvm -Xclang -disable-O0-optnone "$TEST_FILE" -o "$LLVM_DIR/test.ll"
@@ -29,7 +34,7 @@ elif [ ! -z "${PASSNAME}" ]; then
         rm -rf build
         mkdir build
         cd build
-        cmake ..
+        $CMAKE ..
     else
         cd build
         make -j8

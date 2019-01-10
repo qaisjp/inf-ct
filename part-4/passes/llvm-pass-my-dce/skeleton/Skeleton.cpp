@@ -27,6 +27,11 @@ while changed {
 }
 */
 
+bool ourIsDead(Instruction* I) {
+  errs() << "Called!\n";
+  return isInstructionTriviallyDead(I);
+}
+
 namespace {
   struct SkeletonPass : public FunctionPass {
     static char ID;
@@ -41,7 +46,7 @@ namespace {
         for (BasicBlock::iterator i = bb->begin(); i != bb->end(); ++i) {
           Instruction* inst = &*i;
 
-          if (isInstructionTriviallyDead(inst)) {
+          if (ourIsDead(inst)) {
             errs() << "instruction dead \n";
             ul.push_back(inst);
           } else {

@@ -46,19 +46,35 @@ namespace {
 
       for (BasicBlock &BB : F) {
         for (Instruction &inst : BB) {
-          // InstructionSet users = getInstructionUsers(inst);
           in[&inst] = InstructionSet();
           out[&inst] = InstructionSet();
         }
       }
 
-
       do {
-
         for (BasicBlock &BB : F) {
           for (Instruction &inst : BB) {
-            inPrime[&inst] = in[&inst];
-            outPrime[&inst] = out[&inst];
+            Instruction* I = &inst;
+            inPrime[I] = in[I];
+            outPrime[I] = out[I];
+
+            InstructionSet users = getInstructionUsers(inst);
+
+            // Copy out into outCopied
+            // Then remove current instruction from outCopied (out[n] - def[n])
+            InstructionSet outCopied;
+            std::copy(out[I].begin(), out[I].end(), std::inserter(outCopied, outCopied.begin()));
+            outCopied.erase(I);
+
+            // use[n] U (out[n] - def[n])
+            InstructionSet inDest;
+            std::set_union(users.begin(), users.end(),
+                       outCopied.begin(), outCopied.end(),
+                       std::inserter(inDest, inDest.begin()));
+
+            in[I] = inDest;
+
+            // Part 2 of Solve Data-Flow Equations
           }
         }
 

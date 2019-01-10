@@ -42,7 +42,9 @@ namespace {
           Instruction* inst = &*i;
 
           if (isInstructionTriviallyDead(inst)) {
-            errs() << "instruction dead \n";
+            errs() << "instruction dead: ";
+            inst->printAsOperand(errs());
+            errs() << "\n";
             ul.push_back(inst);
           } else {
             errs() << "instruction alive: ";

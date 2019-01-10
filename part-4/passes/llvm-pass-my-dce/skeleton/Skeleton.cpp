@@ -46,14 +46,14 @@ namespace {
           Instruction* inst = &*i;
 
           if (ourIsDead(inst)) {
-            errs() << "instruction dead \n";
+            errs() << "instruction dead: ";
+            inst->printAsOperand(errs());
+            errs() << "\n";
             ul.push_back(inst);
           } else {
             errs() << "instruction alive: ";
             inst->printAsOperand(errs());
             errs() << "\n";
-
-            // errs() << "instruction alive " << inst->getOpcodeName() << "\n";
           }
         }
       }

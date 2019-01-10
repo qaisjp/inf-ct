@@ -5,6 +5,7 @@ char another() {
 }
 
 int foo() {
+  volatile int volly = 1337;
   int a = 7;
   int b = a * 2;
   int c = b - a; // dead

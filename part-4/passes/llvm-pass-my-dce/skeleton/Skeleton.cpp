@@ -23,9 +23,9 @@ namespace {
   typedef std::set<Instruction*> InstructionSet;
   typedef std::map<Instruction*, InstructionSet> InstructionSetMap;
 
-  InstructionSet getInstructionUsers(Instruction &I) {
+  InstructionSet getInstructionUsers(Instruction* I) {
     InstructionSet users;
-    for (User* U : I.users()) {
+    for (User* U : I->users()) {
       if (Instruction* I = dyn_cast<Instruction>(U)) {
         users.insert(I);
       }
@@ -44,21 +44,26 @@ namespace {
 
       InstructionSetMap in, inPrime, out, outPrime;
 
-      for (BasicBlock &BB : F) {
-        for (Instruction &inst : BB) {
-          in[&inst] = InstructionSet();
-          out[&inst] = InstructionSet();
+      for (BasicBlock &bb : F) {
+        for (BasicBlock::iterator i = bb.begin(); i != bb.end(); ++i) {
+          Instruction* I = &*i;
+          in[I] = InstructionSet();
+          out[I] = InstructionSet();
         }
       }
 
+      int count = 0;
       do {
-        for (BasicBlock &BB : F) {
-          for (Instruction &inst : BB) {
-            Instruction* I = &inst;
+        count+=1;
+        errs() << "Count: " << count << "\n";
+
+        for (BasicBlock &bb : F) {
+          for (BasicBlock::iterator iter = bb.begin(); iter != bb.end(); ++iter) {
+            Instruction* I = &*iter;
             inPrime[I] = in[I];
             outPrime[I] = out[I];
 
-            InstructionSet users = getInstructionUsers(inst);
+            InstructionSet users = getInstructionUsers(I);
 
             // Copy out into outCopied
             // Then remove current instruction from outCopied (out[n] - def[n])
@@ -72,16 +77,44 @@ namespace {
                        outCopied.begin(), outCopied.end(),
                        std::inserter(inDest, inDest.begin()));
 
-            in[I] = inDest;
+            in[I] = inDest; // in[I] = use[n] U (out[n] - def[n])
 
             // Part 2 of Solve Data-Flow Equations
+            InstructionSet successors;
+            if (I->isTerminator()) {
+              for(size_t i = 0; i < I->getNumSuccessors(); i++)
+              {
+                BasicBlock* bb = I->getSuccessor(i);
+                successors.insert(&*bb->begin());
+              }
+            } else {
+              // Peek at the next item
+              auto peek = iter;
+              ++peek;
+
+              Instruction* successor = &*peek;
+              bool reachedEnd = successor == &*bb.end();
+
+              // errs() << "Reached end: " << reachedEnd << "\n";
+
+              if (!reachedEnd) {
+                successors.insert(successor);
+              }
+            }
+
+            InstructionSet outDest; // [1, 2]
+            for (Instruction* successor : successors) {
+              InstructionSet newDest; // [1, 2] U in[s]
+              std::set_union(in[successor].begin(), in[successor].end(),
+                        outDest.begin(), outDest.end(),
+                        std::inserter(newDest, newDest.begin()));
+
+              outDest = newDest; // outDest = [1,2] U in[s]
+            }
+
+            out[I] = outDest;
           }
         }
-
-        // errs() << "equality: ";
-        // errs() << (in == out);
-        // errs() << "!!!!!!\n";
-
       } while (!(inPrime == in && outPrime == out));
 
       // Find dead instructions

@@ -48,6 +48,11 @@ elif [ ! -z "${PASSNAME}" ]; then
         cd build
         make -j8
 
+        # Cancel if can't build
+        if [ "$?" -ne "0" ]; then
+            exit 1;
+        fi
+
         # This does not run mem2reg, so our DCE will not work with this command.
         # "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
 

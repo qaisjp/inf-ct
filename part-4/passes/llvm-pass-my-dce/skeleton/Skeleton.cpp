@@ -81,7 +81,7 @@ char SkeletonPass::ID = 0;
 
 // Register the pass
 __attribute__((unused)) static RegisterPass<SkeletonPass> X(
-  "skeletonpass", "Simple dead code elimination"
+  "live", "Dead code elimination with liveness analysis"
 );
 
 // Automatically enable the pass.

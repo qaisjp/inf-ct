@@ -8,30 +8,32 @@
 
 using namespace llvm;
 
-/*
-SmallVector<Instruction*, 16> ul;
-
-while changed {
-  changed = false
-  for (instruction i) {
-    if i.isTriviallyDead() {
-      changed = true
-      ul.push(i)
-    }
+bool ourIsDead(Instruction* I) {
+  if (I->mayHaveSideEffects()) {
+    return false;
   }
 
-  while (!ul.empty()) {
-    node = ul.pop();
-    node.replaceAllwith(node.getCurrentValue(0)) // i think?
-    nodeblah
-}
-*/
+  // I->isTerminator();
 
-bool ourIsDead(Instruction* I) {
+  // auto block = I->getSuccessor();
   return isInstructionTriviallyDead(I);
 }
 
 namespace {
+  typedef std::set<Instruction*> InstructionSet;
+  typedef std::map<Instruction*, InstructionSet> InstructionSetMap;
+
+  InstructionSet getInstructionUsers(Instruction &I) {
+    InstructionSet users;
+    for (User* U : I.users()) {
+      if (Instruction* I = dyn_cast<Instruction>(U)) {
+        users.insert(I);
+      }
+    }
+
+    return users;
+  }
+
   struct SkeletonPass : public FunctionPass {
     static char ID;
     SkeletonPass() : FunctionPass(ID) {}
@@ -40,28 +42,52 @@ namespace {
     bool searchAndDestroy(Function &F) {
       SmallVector<Instruction*, 16> ul;
 
-      // Find dead instructions
-      for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
-        for (BasicBlock::iterator i = bb->begin(); i != bb->end(); ++i) {
-          Instruction* inst = &*i;
+      InstructionSetMap in, inPrime, out, outPrime;
 
-          if (ourIsDead(inst)) {
-            errs() << "instruction dead: ";
-            inst->printAsOperand(errs());
+      for (BasicBlock &BB : F) {
+        for (Instruction &inst : BB) {
+          // InstructionSet users = getInstructionUsers(inst);
+          in[&inst] = InstructionSet();
+          out[&inst] = InstructionSet();
+        }
+      }
+
+
+      do {
+
+        for (BasicBlock &BB : F) {
+          for (Instruction &inst : BB) {
+            inPrime[&inst] = in[&inst];
+            outPrime[&inst] = out[&inst];
+          }
+        }
+
+        // errs() << "equality: ";
+        // errs() << (in == out);
+        // errs() << "!!!!!!\n";
+
+      } while (!(inPrime == in && outPrime == out));
+
+      // Find dead instructions
+      errs() << "\n\nNow eliminating:\n";
+      for (BasicBlock &BB : F) {
+        for (Instruction &I : BB) {
+          if (ourIsDead(&I)) {
+            errs() << "- dead: ";
+            I.printAsOperand(errs());
             errs() << "\n";
-            ul.push_back(inst);
+            ul.push_back(&I);
           } else {
-            errs() << "instruction alive: ";
-            inst->printAsOperand(errs());
+            errs() << "- alive: ";
+            I.printAsOperand(errs());
             errs() << "\n";
           }
         }
       }
 
       // Erase each instruction
-      for (Instruction* inst : ul) {
-        errs() << "instruction removed\n";
-        inst->eraseFromParent();
+      for (Instruction* I : ul) {
+        I->eraseFromParent();
       }
 
       return !ul.empty();

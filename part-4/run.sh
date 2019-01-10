@@ -36,6 +36,8 @@ fi
 
 if [ "$1" = "ll" ]; then
     "$LLVM_DIR/bin/clang" -S -emit-llvm -Xclang -disable-O0-optnone "$TEST_FILE" -o "$LL_FILE"
+elif [ "$1" = "diff" ]; then
+    diff "$LL_FILE" "$NEW_LL_FILE"
 elif [ ! -z "${PASSNAME}" ]; then
     export PASS="$PASSES/$PASSNAME"
     cd "$PASS"

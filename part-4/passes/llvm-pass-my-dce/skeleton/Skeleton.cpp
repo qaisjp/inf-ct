@@ -42,7 +42,7 @@ namespace {
 
       // Find dead instructions
       for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
-        for (BasicBlock::reverse_iterator i = bb->rbegin(); i != bb->rend(); ++i) {
+        for (BasicBlock::iterator i = bb->begin(); i != bb->end(); ++i) {
           Instruction* inst = &*i;
 
           if (ourIsDead(inst)) {

@@ -28,7 +28,6 @@ while changed {
 */
 
 bool ourIsDead(Instruction* I) {
-  errs() << "Called!\n";
   return isInstructionTriviallyDead(I);
 }
 

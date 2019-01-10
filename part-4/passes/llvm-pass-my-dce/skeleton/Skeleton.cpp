@@ -117,18 +117,24 @@ namespace {
         }
       } while (!(inPrime == in && outPrime == out));
 
+      InstructionSet outs = out.end()->second;
+
       // Find dead instructions
       errs() << "\n\nNow eliminating:\n";
-      for (BasicBlock &BB : F) {
-        for (Instruction &I : BB) {
-          if (ourIsDead(&I)) {
+      for (BasicBlock &bb : F) {
+        for (BasicBlock::iterator iter = bb.begin(); iter != bb.end(); ++iter) {
+          Instruction* I = &*iter;
+          const bool outs_contains = outs.find(I) != outs.end();
+
+          if (!outs_contains) {
+          // if (ourIsDead(&I)) {
             errs() << "- dead: ";
-            I.printAsOperand(errs());
+            I->printAsOperand(errs());
             errs() << "\n";
-            ul.push_back(&I);
+            ul.push_back(I);
           } else {
             errs() << "- alive: ";
-            I.printAsOperand(errs());
+            I->printAsOperand(errs());
             errs() << "\n";
           }
         }

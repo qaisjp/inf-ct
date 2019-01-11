@@ -11,8 +11,9 @@ export LLVM_DIR="$PROJ/build"
 export PART4="$PROJ/ct-18-19/part-4"
 export PASSES="$PART4/passes"
 export TEST_FILE="$PART4/test.c"
-export LL_FILE="$PART4/test-pre.ll"
-export NEW_LL_FILE="$PART4/test-post.ll"
+export LL_NAME="test"
+export LL_FILE="$PART4/$LL_NAME-pre.ll"
+export NEW_LL_FILE="$PART4/$LL_NAME-post.ll"
 
 # Associative array of pass directories
 typeset -A passDir

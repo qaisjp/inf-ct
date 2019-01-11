@@ -24,6 +24,10 @@ namespace {
   typedef std::set<Instruction*> InstructionSet;
   typedef std::map<Instruction*, InstructionSet> InstructionSetMap;
 
+  bool str_neq(const char* a, const char* b) {
+    return strcmp(a, b) != 0;
+  }
+
   InstructionSet getInstructionUsers(Instruction* I) {
     InstructionSet users;
     for (auto i = I->op_begin(); i != I->op_end(); i++) {

@@ -55,6 +55,11 @@ elif [ ! -z "${PASSNAME}" ]; then
             exit 1;
         fi
 
+        # If arg "ll" given, also build the ll using ourselves
+        if [ "$2" = "ll" ]; then
+            "$0" "ll"
+        fi
+
         # This does not run mem2reg, so our DCE will not work with this command.
         # "$LLVM_DIR/bin/clang" -Xclang -load -Xclang "$PASS/build/skeleton/libSkeletonPass.so" "$TEST_FILE"
 

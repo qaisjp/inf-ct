@@ -29,6 +29,10 @@ namespace {
     return strcmp(a, b) == 0;
   }
 
+  bool isPHINode(Value* v) {
+    return isa<PHINode>(v);
+  }
+
   ValueSet getInstructionUsers(Instruction* I) {
     ValueSet users;
     for (auto i = I->op_begin(); i != I->op_end(); i++) {
@@ -59,6 +63,8 @@ namespace {
           out[I] = ValueSet();
         }
       }
+
+      std::map<PHINode*, std::map<BasicBlock*,ValueSet*>> phiBlockValueSetMap;
 
       // Calculate in and out sets
       int count = 0;
@@ -96,10 +102,18 @@ namespace {
               {
                 BasicBlock* succBB = I->getSuccessor(i);
                 auto succI = &*succBB->begin();
-                if (!isa<PHINode>(succI)) {
+                // if (!isa<PHINode>(succI)) {
                   successors.insert(succI);
                   continue;
+                // }
+
+                // We're a phinode!
+                PHINode* phi = dyn_cast<PHINode>(succI);
+                for (auto phiter = phi->block_begin(); phiter != phi->block_end(); phiter++) {
+                  BasicBlock* b = *phiter;
+                  // successors.insert(&*b->begin());
                 }
+
               }
             } else {
               // Peek at the next item
@@ -119,9 +133,14 @@ namespace {
             ValueSet outDest; // [1, 2]
             for (Instruction* successor : successors) {
               ValueSet newDest; // [1, 2] U in[s]
-              std::set_union(in[successor].begin(), in[successor].end(),
-                        outDest.begin(), outDest.end(),
-                        std::inserter(newDest, newDest.begin()));
+
+              if (isPHINode(successor)) {
+
+              } else {
+                std::set_union(in[successor].begin(), in[successor].end(),
+                          outDest.begin(), outDest.end(),
+                          std::inserter(newDest, newDest.begin()));
+              }
 
               outDest = newDest; // outDest = [1,2] U in[s]
             }

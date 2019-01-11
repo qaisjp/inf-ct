@@ -12,11 +12,6 @@ bool stayinAlive(Instruction* I) {
   if (I->mayHaveSideEffects()) {
     return true;
   }
-
-  // I->isTerminator();
-
-  // auto block = I->getSuccessor();
-  // return isInstructionTriviallyDead(I);
   return false;
 }
 

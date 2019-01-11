@@ -131,10 +131,9 @@ namespace {
       for (BasicBlock &bb : F) {
         for (auto iter = bb.begin(); iter != bb.end(); ++iter) {
           Instruction* I = &*iter;
-          auto opName = I->getOpcodeName();
 
           // Ignore phinodes
-          if (str_eq(opName, "phi")) {
+          if (isa<PHINode>(I)) {
             continue;
           }
 

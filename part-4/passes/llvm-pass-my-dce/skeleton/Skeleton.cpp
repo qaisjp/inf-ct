@@ -149,6 +149,7 @@ namespace {
             }
           }
           errs() << "}\n";
+          errs() << "\t" << *I << "\n";
         }
       }
 

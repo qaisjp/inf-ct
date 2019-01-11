@@ -125,21 +125,61 @@ namespace {
         }
       } while (!(inPrime == in && outPrime == out));
 
-      InstructionSet outs = out.end()->second;
+      // Output that shit
+      errs() << "\nOutput everything:\n";
+      for (BasicBlock &bb : F) {
+        for (auto iter = bb.rbegin(); iter != bb.rend(); ++iter) {
+          Instruction* I = &*iter;
+          auto opName = I->getOpcodeName();
+
+          // Ignore phinodes
+          if (opName == "phi") {
+            continue;
+          }
+
+          errs() << "{";
+          for (auto V : in[I]) {
+            // errs() << ",";
+            V->printAsOperand(errs(), false);
+            errs() << ",";
+          }
+          errs() << "}\n";
+        }
+      }
 
       // Find dead instructions
-      errs() << "\n\nNow eliminating:\n";
-      for (BasicBlock &bb : F) {
-        for (BasicBlock::iterator iter = bb.begin(); iter != bb.end(); ++iter) {
-          Instruction* I = &*iter;
-          const bool outs_contains = outs.find(I) != outs.end();
+      errs() << "\n\nLooping through instructions:\n";
+      InstructionSet currentLive, currentDead;
 
-          if (!outs_contains) {
-          // if (ourIsDead(&I)) {
+      for (BasicBlock &bb : F) {
+        for (auto iter = bb.rbegin(); iter != bb.rend(); ++iter) {
+          Instruction* I = &*iter;
+
+          InstructionSet outs = out[I];
+          InstructionSet ins = in[I];
+          currentLive.clear();
+
+          std::set_difference(outs.begin(), outs.end(),
+                      currentDead.begin(), currentDead.end(),
+                      std::inserter(currentLive, currentLive.end()));
+
+          bool isDead = (currentLive.find(I) == currentLive.end());
+            // && !stayinAlive(I);
+          auto opName = (I->getOpcodeName());
+          currentDead.clear();
+          if (
+            !outs.empty() && isDead
+            && str_neq(opName, "ret") && str_neq(opName, "br")) {
+
             errs() << "- dead: ";
             I->printAsOperand(errs());
             errs() << "\n";
             ul.push_back(I);
+
+            std::set_difference(ins.begin(), ins.end(),
+                      currentLive.begin(), currentLive.end(),
+                      std::inserter(currentDead, currentDead.end()));
+
           } else {
             errs() << "- alive: ";
             I->printAsOperand(errs());

@@ -8,15 +8,16 @@
 
 using namespace llvm;
 
-bool ourIsDead(Instruction* I) {
+bool stayinAlive(Instruction* I) {
   if (I->mayHaveSideEffects()) {
-    return false;
+    return true;
   }
 
   // I->isTerminator();
 
   // auto block = I->getSuccessor();
-  return isInstructionTriviallyDead(I);
+  // return isInstructionTriviallyDead(I);
+  return false;
 }
 
 namespace {
@@ -25,12 +26,9 @@ namespace {
 
   InstructionSet getInstructionUsers(Instruction* I) {
     InstructionSet users;
-    for (User* U : I->users()) {
-      if (Instruction* I = dyn_cast<Instruction>(U)) {
-        users.insert(I);
-      }
+    for (auto i = I->op_begin(); i != I->op_end(); i++) {
+      users.insert(dyn_cast<Instruction>(&*i));
     }
-
     return users;
   }
 

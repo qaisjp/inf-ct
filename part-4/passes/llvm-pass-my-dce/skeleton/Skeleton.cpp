@@ -90,11 +90,11 @@ namespace {
             // Part 2 of Solve Data-Flow Equations
             InstructionSet successors;
             if (I->isTerminator()) {
-              for(size_t i = 0; i < I->getNumSuccessors(); i++)
-              {
-                BasicBlock* bb = I->getSuccessor(i);
-                successors.insert(&*bb->begin());
-              }
+              // for(size_t i = 0; i < I->getNumSuccessors(); i++)
+              // {
+              //   BasicBlock* bb = I->getSuccessor(i);
+              //   successors.insert(&*bb->begin());
+              // }
             } else {
               // Peek at the next item
               auto peek = iter;

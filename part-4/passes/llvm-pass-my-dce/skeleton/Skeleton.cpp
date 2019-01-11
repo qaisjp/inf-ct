@@ -170,8 +170,8 @@ namespace {
                       currentDead.begin(), currentDead.end(),
                       std::inserter(currentLive, currentLive.end()));
 
-          bool isDead = (currentLive.find(I) == currentLive.end());
-            // && !stayinAlive(I);
+          bool isDead = (currentLive.find(I) == currentLive.end())
+            && !stayinAlive(I);
           auto opName = (I->getOpcodeName());
           currentDead.clear();
           if (

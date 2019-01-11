@@ -31,7 +31,12 @@ namespace {
   InstructionSet getInstructionUsers(Instruction* I) {
     InstructionSet users;
     for (auto i = I->op_begin(); i != I->op_end(); i++) {
-      users.insert(dyn_cast<Instruction>(&*i));
+      if (isa<Instruction>(&*i)) {
+        auto in = dyn_cast<Instruction>(&*i);
+        // errs() << "-address in: " << in << "\n";
+        // errs() << "-- " << *in << "\n";
+        users.insert(in);
+      }
     }
     return users;
   }

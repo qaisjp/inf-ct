@@ -24,8 +24,8 @@ namespace {
   typedef std::set<Instruction*> InstructionSet;
   typedef std::map<Instruction*, InstructionSet> InstructionSetMap;
 
-  bool str_neq(const char* a, const char* b) {
-    return strcmp(a, b) != 0;
+  bool str_eq(const char* a, const char* b) {
+    return strcmp(a, b) == 0;
   }
 
   InstructionSet getInstructionUsers(Instruction* I) {
@@ -133,7 +133,7 @@ namespace {
           auto opName = I->getOpcodeName();
 
           // Ignore phinodes
-          if (opName == "phi") {
+          if (str_eq(opName, "phi")) {
             continue;
           }
 

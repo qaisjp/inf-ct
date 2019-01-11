@@ -148,10 +148,17 @@ namespace {
         }
       }
 
+      errs() << "\nNow erasing:\n";
+
       // Erase each instruction
       for (Instruction* I : ul) {
+        errs() << "- erasing: ";
+        I->printAsOperand(errs(), false);
+        errs() << "\n";
         I->eraseFromParent();
       }
+
+      errs() << "- done!\n";
 
       return !ul.empty();
     }

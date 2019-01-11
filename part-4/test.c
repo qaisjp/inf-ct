@@ -14,7 +14,7 @@ int foo() {
 }
 
 int* something() {
-  char a = '?';
+  char a = 'a';
   return &some_number;
 }
 

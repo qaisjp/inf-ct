@@ -59,6 +59,7 @@ namespace {
         }
       }
 
+      // Calculate in and out sets
       int count = 0;
       do {
         count+=1;
@@ -157,14 +158,17 @@ namespace {
 
     virtual bool runOnFunction(Function &F) {
       int pass = 0;
-      do {
-        pass += 1;
-        errs() << "\n# Function: " << F.getName() << " (pass " << pass << ")\n";
-      } while (searchAndDestroy(F));
+      auto fName = F.getName();
 
-      errs() << "\n--------\n";
+      // do {
+        // pass += 1;
+        errs() << "\n# Function: " << fName << " (pass " << pass << ")\n";
+        searchAndDestroy(F);
+      // } while (searchAndDestroy(F));
 
-      return false;
+      errs() << "\n# Done with " << fName << "\n\n######\n";
+
+      return true;
     }
   };
 }

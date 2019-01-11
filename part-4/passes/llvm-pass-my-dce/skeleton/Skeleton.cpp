@@ -138,10 +138,15 @@ namespace {
           }
 
           errs() << "{";
+          int i=0;
           for (auto V : in[I]) {
             // errs() << ",";
             V->printAsOperand(errs(), false);
-            errs() << ",";
+
+            i++;
+            if (i < in[I].size()) {
+              errs() << ",";
+            }
           }
           errs() << "}\n";
         }

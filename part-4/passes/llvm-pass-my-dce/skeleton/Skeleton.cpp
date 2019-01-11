@@ -21,18 +21,19 @@ bool stayinAlive(Instruction* I) {
 }
 
 namespace {
+  typedef std::set<Value*> ValueSet;
   typedef std::set<Instruction*> InstructionSet;
-  typedef std::map<Instruction*, InstructionSet> InstructionSetMap;
+  typedef std::map<Value*, ValueSet> ValueSetMap;
 
   bool str_eq(const char* a, const char* b) {
     return strcmp(a, b) == 0;
   }
 
-  InstructionSet getInstructionUsers(Instruction* I) {
-    InstructionSet users;
+  ValueSet getInstructionUsers(Instruction* I) {
+    ValueSet users;
     for (auto i = I->op_begin(); i != I->op_end(); i++) {
-      if (isa<Instruction>(&*i)) {
-        auto in = dyn_cast<Instruction>(&*i);
+      if (isa<Instruction>(&*i) || isa<Argument>(&*i)) {
+        auto in = dyn_cast<Value>(&*i);
         // errs() << "-address in: " << in << "\n";
         // errs() << "-- " << *in << "\n";
         users.insert(in);
@@ -49,13 +50,13 @@ namespace {
     bool searchAndDestroy(Function &F) {
       SmallVector<Instruction*, 16> ul;
 
-      InstructionSetMap in, inPrime, out, outPrime;
+      ValueSetMap in, inPrime, out, outPrime;
 
       for (BasicBlock &bb : F) {
         for (BasicBlock::iterator i = bb.begin(); i != bb.end(); ++i) {
           Instruction* I = &*i;
-          in[I] = InstructionSet();
-          out[I] = InstructionSet();
+          in[I] = ValueSet();
+          out[I] = ValueSet();
         }
       }
 
@@ -71,16 +72,16 @@ namespace {
             inPrime[I] = in[I];
             outPrime[I] = out[I];
 
-            InstructionSet users = getInstructionUsers(I);
+            ValueSet users = getInstructionUsers(I);
 
             // Copy out into outCopied
             // Then remove current instruction from outCopied (out[n] - def[n])
-            InstructionSet outCopied;
+            ValueSet outCopied;
             std::copy(out[I].begin(), out[I].end(), std::inserter(outCopied, outCopied.begin()));
             outCopied.erase(I);
 
             // use[n] U (out[n] - def[n])
-            InstructionSet inDest;
+            ValueSet inDest;
             std::set_union(users.begin(), users.end(),
                        outCopied.begin(), outCopied.end(),
                        std::inserter(inDest, inDest.begin()));
@@ -110,9 +111,9 @@ namespace {
               }
             }
 
-            InstructionSet outDest; // [1, 2]
+            ValueSet outDest; // [1, 2]
             for (Instruction* successor : successors) {
-              InstructionSet newDest; // [1, 2] U in[s]
+              ValueSet newDest; // [1, 2] U in[s]
               std::set_union(in[successor].begin(), in[successor].end(),
                         outDest.begin(), outDest.end(),
                         std::inserter(newDest, newDest.begin()));
@@ -155,14 +156,14 @@ namespace {
 
       // Find dead instructions
       errs() << "\n\nLooping through instructions:\n";
-      InstructionSet currentLive, currentDead;
+      ValueSet currentLive, currentDead;
 
       for (BasicBlock &bb : F) {
         for (auto iter = bb.rbegin(); iter != bb.rend(); ++iter) {
           Instruction* I = &*iter;
 
-          InstructionSet outs = out[I];
-          InstructionSet ins = in[I];
+          ValueSet outs = out[I];
+          ValueSet ins = in[I];
           currentLive.clear();
 
           std::set_difference(outs.begin(), outs.end(),

@@ -174,7 +174,7 @@ namespace {
           currentDead.clear();
           if (
             !outs.empty() && isDead
-            && str_neq(opName, "ret") && str_neq(opName, "br")) {
+            && !str_eq(opName, "ret") && !str_eq(opName, "br")) {
 
             errs() << "- dead: ";
             I->printAsOperand(errs());

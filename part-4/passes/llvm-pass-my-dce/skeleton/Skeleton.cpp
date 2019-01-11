@@ -128,7 +128,7 @@ namespace {
       // Output that shit
       errs() << "\nOutput everything:\n";
       for (BasicBlock &bb : F) {
-        for (auto iter = bb.rbegin(); iter != bb.rend(); ++iter) {
+        for (auto iter = bb.begin(); iter != bb.end(); ++iter) {
           Instruction* I = &*iter;
           auto opName = I->getOpcodeName();
 

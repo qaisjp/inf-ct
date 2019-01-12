@@ -1,6 +1,9 @@
 tests/*_spec.lua
 tests/gen/tmp.*
 
+part-4/test-pre.ll
+part-4/test-post.ll
+
 # Created by https://www.gitignore.io/api/c,java,intellij
 
 ### C ###

@@ -63,8 +63,8 @@ namespace {
         if (DEBUG_MODE)
           errs() << "Count: " << count << "\n";
 
-        for (BasicBlock &bb : F) {
-          for (BasicBlock::iterator iter = bb.begin(); iter != bb.end(); ++iter) {
+        for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
+          for (BasicBlock::iterator iter = bb->begin(); iter != bb->end(); ++iter) {
             Instruction* I = &*iter;
             inPrime[I] = in[I];
             outPrime[I] = out[I];
@@ -100,7 +100,7 @@ namespace {
               ++peek;
 
               Instruction* successor = &*peek;
-              bool reachedEnd = successor == &*bb.end();
+              bool reachedEnd = successor == &*bb->end();
 
               // errs() << "Reached end: " << reachedEnd << "\n";
 

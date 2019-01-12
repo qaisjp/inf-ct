@@ -95,23 +95,11 @@ namespace {
             // Part 2 of Solve Data-Flow Equations
             InstructionSet successors;
             if (I->isTerminator()) {
-
               for(size_t i = 0; i < I->getNumSuccessors(); i++)
               {
                 BasicBlock* succBB = I->getSuccessor(i);
                 auto succI = &*succBB->begin();
-                // if (!isa<PHINode>(succI)) {
-                  successors.insert(succI);
-                  continue;
-                // }
-
-                // We're a phinode!
-                PHINode* phi = dyn_cast<PHINode>(succI);
-                for (auto phiter = phi->block_begin(); phiter != phi->block_end(); phiter++) {
-                  BasicBlock* b = *phiter;
-                  // successors.insert(&*b->begin());
-                }
-
+                successors.insert(succI);
               }
             } else {
               // Peek at the next item
@@ -163,7 +151,6 @@ namespace {
           errs() << "{";
           int i=0;
           for (auto V : in[I]) {
-            // errs() << ",";
             V->printAsOperand(errs(), false);
 
             i++;

@@ -10,13 +10,6 @@ bool DEBUG_MODE = false;
 
 using namespace llvm;
 
-bool stayinAlive(Instruction* I) {
-  if (I->mayHaveSideEffects()) {
-    return true;
-  }
-  return false;
-}
-
 namespace {
   typedef std::set<Value*> ValueSet;
   typedef std::set<Instruction*> InstructionSet;
@@ -183,7 +176,7 @@ namespace {
                       std::inserter(currentLive, currentLive.end()));
 
           bool isDead = (currentLive.find(I) == currentLive.end())
-            && !stayinAlive(I);
+            && I->isSafeToRemove();
           auto opName = (I->getOpcodeName());
           currentDead.clear();
           if (

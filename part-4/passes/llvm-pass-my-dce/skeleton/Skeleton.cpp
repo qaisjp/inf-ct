@@ -6,6 +6,8 @@
 #include "llvm/Transforms/Utils/Local.h"
 #include <vector>
 
+bool DEBUG_MODE = false;
+
 using namespace llvm;
 
 bool stayinAlive(Instruction* I) {
@@ -65,7 +67,8 @@ namespace {
       int count = 0;
       do {
         count+=1;
-        errs() << "Count: " << count << "\n";
+        if (DEBUG_MODE)
+          errs() << "Count: " << count << "\n";
 
         for (BasicBlock &bb : F) {
           for (BasicBlock::iterator iter = bb.begin(); iter != bb.end(); ++iter) {
@@ -146,7 +149,8 @@ namespace {
       } while (!(inPrime == in && outPrime == out));
 
       // Output that shit
-      errs() << "\nOutput everything:\n";
+      if (DEBUG_MODE)
+        errs() << "\nOutput everything:\n";
       for (BasicBlock &bb : F) {
         for (auto iter = bb.begin(); iter != bb.end(); ++iter) {
           Instruction* I = &*iter;
@@ -168,12 +172,15 @@ namespace {
             }
           }
           errs() << "}\n";
-          errs() << "\t" << *I << "\n";
+
+          if (DEBUG_MODE)
+            errs() << "\t" << *I << "\n";
         }
       }
 
       // Find dead instructions
-      errs() << "\n\nLooping through instructions:\n";
+      if (DEBUG_MODE)
+        errs() << "\n\nLooping through instructions:\n";
       ValueSet currentLive, currentDead;
 
       for (BasicBlock &bb : F) {
@@ -196,9 +203,11 @@ namespace {
             !outs.empty() && isDead
             && !str_eq(opName, "ret") && !str_eq(opName, "br")) {
 
-            errs() << "- dead: ";
+            if (DEBUG_MODE)
+              errs() << "- dead: ";
             I->printAsOperand(errs());
-            errs() << "\n";
+            if (DEBUG_MODE)
+              errs() << "\n";
             ul.push_back(I);
 
             std::set_difference(ins.begin(), ins.end(),
@@ -206,24 +215,30 @@ namespace {
                       std::inserter(currentDead, currentDead.end()));
 
           } else {
-            errs() << "- alive: ";
+            if (DEBUG_MODE)
+              errs() << "- alive: ";
             I->printAsOperand(errs());
-            errs() << "\n";
+            if (DEBUG_MODE)
+              errs() << "\n";
           }
         }
       }
 
-      errs() << "\nNow erasing:\n";
+      if (DEBUG_MODE)
+        errs() << "\nNow erasing:\n";
 
       // Erase each instruction
       for (Instruction* I : ul) {
-        errs() << "- erasing: ";
+        if (DEBUG_MODE)
+          errs() << "- erasing: ";
         I->printAsOperand(errs(), false);
-        errs() << "\n";
+        if (DEBUG_MODE)
+          errs() << "\n";
         I->eraseFromParent();
       }
 
-      errs() << "- done!\n";
+      if (DEBUG_MODE)
+        errs() << "- done!\n";
 
       return !ul.empty();
     }
@@ -234,11 +249,13 @@ namespace {
 
       // do {
         // pass += 1;
-        errs() << "\n# Function: " << fName << " (pass " << pass << ")\n";
+        if (DEBUG_MODE)
+          errs() << "\n# Function: " << fName << " (pass " << pass << ")\n";
         searchAndDestroy(F);
       // } while (searchAndDestroy(F));
 
-      errs() << "\n# Done with " << fName << "\n\n######\n";
+      if (DEBUG_MODE)
+        errs() << "\n# Done with " << fName << "\n\n######\n";
 
       return true;
     }

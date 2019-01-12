@@ -100,13 +100,7 @@ namespace {
               ++peek;
 
               Instruction* successor = &*peek;
-              bool reachedEnd = successor == &*bb->end();
-
-              // errs() << "Reached end: " << reachedEnd << "\n";
-
-              if (!reachedEnd) {
-                successors.insert(successor);
-              }
+              successors.insert(successor);
             }
 
             ValueSet outDest; // [1, 2]

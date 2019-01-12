@@ -6,7 +6,7 @@
 #include "llvm/Transforms/Utils/Local.h"
 #include <vector>
 
-bool DEBUG_MODE = false;
+bool DEBUG_MODE = true;
 
 using namespace llvm;
 

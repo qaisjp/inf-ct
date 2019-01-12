@@ -173,7 +173,7 @@ namespace {
 
           std::set_difference(outs.begin(), outs.end(),
                       currentDead.begin(), currentDead.end(),
-                      std::inserter(currentLive, currentLive.end()));
+                      std::inserter(currentLive, currentLive.begin()));
 
           bool isDead = (currentLive.find(I) == currentLive.end())
             && I->isSafeToRemove();
@@ -192,7 +192,7 @@ namespace {
 
             std::set_difference(ins.begin(), ins.end(),
                       currentLive.begin(), currentLive.end(),
-                      std::inserter(currentDead, currentDead.end()));
+                      std::inserter(currentDead, currentDead.begin()));
 
           } else {
             if (DEBUG_MODE)

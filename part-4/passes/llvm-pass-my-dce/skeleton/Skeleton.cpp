@@ -110,12 +110,13 @@ namespace {
             // use[n] U (out[n] - def[n])
             ValueSet inDest;
             std::set_union(users.begin(), users.end(),
-                       outCopied.begin(), outCopied.end(),
-                       std::inserter(inDest, inDest.begin()));
+                        outCopied.begin(), outCopied.end(),
+                        std::inserter(inDest, inDest.begin()));
 
             in[I] = inDest; // in[I] = use[n] U (out[n] - def[n])
 
-            // Ensure that a terminator always has > 0 successors
+            // If successors>0, then terminator.
+            // BUT TERMINATORS DON'T ALWAYS HAVE SUCCESSORS!
             // errs() << "Terminator: " << toboolstr(I->isTerminator()) << "\tSuccs: " << I->getNumSuccessors() << "\n";
             assert((I->getNumSuccessors()>0) ? I->isTerminator() : true);
 

@@ -1,0 +1,64 @@
+
+# Function: sum (pass 0)
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+Count: 5
+Count: 6
+Count: 7
+Count: 8
+Count: 9
+Count: 10
+
+Output everything:
+{%a,%b}
+	  %0 = icmp slt i32 %a, %b
+{%0}
+	  br i1 %0, label %bb.nph, label %bb2
+{%a,%b}
+	  %tmp = sub i32 %b, %a
+{}
+	  br label %bb
+{%a,%tmp,%indvar,%res.05}
+	  %i.04 = add i32 %indvar, %a
+{%tmp,%indvar,%res.05,%i.04}
+	  %1 = mul nsw i32 %res.05, %i.04
+{%tmp,%indvar}
+	  %indvar.next = add i32 %indvar, 1
+{%tmp,%indvar.next}
+	  %exitcond = icmp eq i32 %indvar.next, %tmp
+{%exitcond}
+	  br i1 %exitcond, label %bb2, label %bb
+{%res.0.lcssa}
+	  ret i32 %res.0.lcssa
+{}
+
+Looping through instructions:
+- alive: void <badref>
+- alive: i1 %0
+- alive: void <badref>
+- alive: i32 %tmp
+- alive: void <badref>
+- alive: i1 %exitcond
+- alive: i32 %indvar.next
+- dead: i32 %1
+- dead: i32 %i.04
+- dead: i32 %res.05
+- alive: i32 %indvar
+- alive: void <badref>
+- alive: i32 %res.0.lcssa
+
+Now erasing:
+- erasing: %1
+- erasing: %i.04
+- erasing: %res.05
+- done!
+
+# Done with sum
+
+######
+PHI node operands are not the same type as the result!
+  %res.0.lcssa = phi i32 [ 1, %entry ], [ <badref>, %bb ]
+in function sum
+LLVM ERROR: Broken function found, compilation aborted!

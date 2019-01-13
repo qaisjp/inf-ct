@@ -106,6 +106,10 @@ namespace {
 
             in[I] = inDest; // in[I] = use[n] U (out[n] - def[n])
 
+            // Ensure that a terminator always has > 0 successors
+            // errs() << "Terminator: " << toboolstr(I->isTerminator()) << "\tSuccs: " << I->getNumSuccessors() << "\n";
+            assert((I->getNumSuccessors()>0) ? I->isTerminator() : true);
+
             // Part 2 of Solve Data-Flow Equations
             InstructionSet successors;
             if (I->isTerminator()) {

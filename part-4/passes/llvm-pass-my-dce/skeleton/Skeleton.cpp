@@ -56,6 +56,36 @@ namespace {
       errs() << "\n";
     }
 
+    void outputLiveness(Function &F, ValueSetMap in) {
+      for (BasicBlock &bb : F) {
+        for (auto iter = bb.begin(); iter != bb.end(); ++iter) {
+          Instruction* I = &*iter;
+
+          // Ignore phinodes
+          if (isa<PHINode>(I)) {
+            continue;
+          }
+
+          errs() << "{";
+          int i=0;
+          for (auto V : in[I]) {
+            V->printAsOperand(errs(), false);
+
+            i++;
+            if (i < in[I].size()) {
+              errs() << ",";
+            }
+          }
+          errs() << "}\n";
+
+          if (DEBUG_MODE)
+            errs() << "\t" << *I << "\n";
+        }
+      }
+
+      errs() << "{}";
+    }
+
     // searchAndDestroy returns true if something changed
     bool searchAndDestroy(Function &F) {
       SmallVector<Instruction*, 16> ul;
@@ -173,33 +203,7 @@ namespace {
       // Output that shit
       if (DEBUG_MODE)
         errs() << "\nOutput everything:\n";
-      for (BasicBlock &bb : F) {
-        for (auto iter = bb.begin(); iter != bb.end(); ++iter) {
-          Instruction* I = &*iter;
-
-          // Ignore phinodes
-          if (isa<PHINode>(I)) {
-            continue;
-          }
-
-          errs() << "{";
-          int i=0;
-          for (auto V : in[I]) {
-            V->printAsOperand(errs(), false);
-
-            i++;
-            if (i < in[I].size()) {
-              errs() << ",";
-            }
-          }
-          errs() << "}\n";
-
-          if (DEBUG_MODE)
-            errs() << "\t" << *I << "\n";
-        }
-      }
-
-      errs() << "{}";
+      outputLiveness(F, in);
 
       // Find dead instructions
       if (DEBUG_MODE)

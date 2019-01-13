@@ -168,8 +168,21 @@ namespace {
               for(size_t i = 0; i < I->getNumSuccessors(); i++)
               {
                 BasicBlock* succBB = I->getSuccessor(i);
-                auto succI = &*succBB->begin();
+                auto it = succBB->begin();
+                auto succI = &*it;
                 successors.insert(succI);
+
+                // errs() << "Current: " << *succI << "; phi:" << isa<PHINode>(succI) << ";\n";
+
+                // if (isa<PHINode>(succI)) {
+                //   for (it++; it != succBB->end(); it++) {
+                //     if (!isa<PHINode>(&*it)) {
+                //       break;
+                //     }
+                //     errs() << "- " << *it << ";\n";
+                //     successors.insert(&*it);
+                //   }
+                // }
               }
             } else {
               // Peek at the next item

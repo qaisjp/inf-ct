@@ -95,7 +95,7 @@ namespace {
         }
       }
 
-      errs() << "{}";
+      errs() << "{}\n\n";
     }
 
     // searchAndDestroy returns true if something changed

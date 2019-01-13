@@ -276,7 +276,9 @@ namespace {
         errs() << "\nNow erasing:\n";
 
       // Erase each instruction
+      // for (auto it = ul.rbegin(); it != ul.rend(); it++) {
       for (Instruction* I : ul) {
+      //   Instruction* I = *it;
         if (DEBUG_MODE)
           errs() << "- erasing: ";
         I->printAsOperand(errs(), false);

@@ -309,11 +309,11 @@ namespace {
       // for (auto it = ul.rbegin(); it != ul.rend(); it++) {
       for (Instruction* I : ul) {
       //   Instruction* I = *it;
-        if (DEBUG_MODE)
+        if (DEBUG_MODE) {
           errs() << "- erasing: ";
-        I->printAsOperand(errs(), false);
-        if (DEBUG_MODE)
+          I->printAsOperand(errs(), false);
           errs() << "\n";
+        }
         I->eraseFromParent();
       }
 

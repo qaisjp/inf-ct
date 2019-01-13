@@ -8,6 +8,8 @@
 
 bool DEBUG_MODE = true;
 
+#define toboolstr(i) ((i == 0) ? "false" : "true")
+
 using namespace llvm;
 
 namespace {

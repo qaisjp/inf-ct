@@ -201,30 +201,26 @@ namespace {
             ValueSet outDest; // [1, 2]
             for (Instruction* successor : successors) {
               ValueSet newOutDest; // [1, 2] U in[s]
+              ValueSet swapped;
 
               if (isPHINode(successor)) {
                 auto sucPhi = dyn_cast<PHINode>(successor);
                 if (I->isTerminator()) { // if came from branch (not another phinode)
                   auto s = phiMap[sucPhi][&*bb];
-                  ValueSet intermediate;
+
                   std::set_union(s.begin(), s.end(),
                             diff[sucPhi].begin(), diff[sucPhi].end(),
-                            std::inserter(intermediate, intermediate.begin()));
-
-                  std::set_union(intermediate.begin(), intermediate.end(),
-                    outDest.begin(), outDest.end(),
-                  std::inserter(newOutDest, newOutDest.begin()));
-
+                            std::inserter(swapped, swapped.begin()));
                 } else {
-                  std::set_union(diff[sucPhi].begin(), diff[sucPhi].end(),
-                          outDest.begin(), outDest.end(),
-                          std::inserter(newOutDest, newOutDest.begin()));
+                  swapped = diff[sucPhi];
                 }
               } else {
-                std::set_union(in[successor].begin(), in[successor].end(),
+                swapped = in[successor];
+              }
+
+              std::set_union(swapped.begin(), swapped.end(),
                           outDest.begin(), outDest.end(),
                           std::inserter(newOutDest, newOutDest.begin()));
-              }
 
               outDest = newOutDest; // outDest = [1,2] U in[s]
             }

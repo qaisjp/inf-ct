@@ -92,7 +92,9 @@ namespace {
               {
                 BasicBlock* succBB = I->getSuccessor(i);
                 auto succI = &*succBB->begin();
-                successors.insert(succI);
+                auto succPhi = dyn_cast<PHINode>(succI);
+
+                phiMap[succPhi][succBB] = out[I];
               }
             } else {
               // Peek at the next item
@@ -108,7 +110,11 @@ namespace {
               ValueSet newOutDest; // [1, 2] U in[s]
 
               if (isPHINode(successor)) {
-
+                auto sucPhi = dyn_cast<PHINode>(successor);
+                auto s = phiMap[sucPhi][&*bb];
+                std::set_union(s.begin(), s.end(),
+                          outDest.begin(), outDest.end(),
+                          std::inserter(newOutDest, newOutDest.begin()));
               } else {
                 std::set_union(in[successor].begin(), in[successor].end(),
                           outDest.begin(), outDest.end(),

@@ -7,7 +7,7 @@
 #include <set>
 #include <vector>
 
-bool DEBUG_MODE = true;
+bool DEBUG_MODE = false;
 
 #define toboolstr(i) ((i == 0) ? "false" : "true")
 

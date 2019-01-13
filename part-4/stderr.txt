@@ -1,49 +1,11 @@
-
-# Function: sum (pass 1)
-Count: 1
-Count: 2
-Count: 3
-Count: 4
-Count: 5
-Count: 6
-Count: 7
-Count: 8
-Count: 9
-Count: 10
-Count: 11
-Count: 12
-Count: 13
-Count: 14
-Count: 15
-
-Output everything:
 {%a,%b}
-	  %0 = icmp slt i32 %a, %b
 {%a,%b,%0}
-	  br i1 %0, label %bb.nph, label %bb2
 {%a,%b}
-	  %tmp = sub i32 %b, %a
 {%a,%tmp}
-	  br label %bb
 {%a,%tmp,%indvar,%res.05}
-	  %i.04 = add i32 %indvar, %a
 {%a,%tmp,%indvar,%res.05,%i.04}
-	  %1 = mul nsw i32 %res.05, %i.04
 {%a,%tmp,%indvar,%1}
-	  %indvar.next = add i32 %indvar, 1
 {%a,%tmp,%1,%indvar.next}
-	  %exitcond = icmp eq i32 %indvar.next, %tmp
 {%a,%tmp,%1,%indvar.next,%exitcond}
-	  br i1 %exitcond, label %bb2, label %bb
 {%res.0.lcssa}
-	  ret i32 %res.0.lcssa
 {}
-
-Looping through instructions:
-
-Now erasing:
-- done!
-
-# Done with sum
-
-######

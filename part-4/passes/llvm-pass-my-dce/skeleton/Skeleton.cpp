@@ -152,6 +152,8 @@ namespace {
         }
       }
 
+      errs() << "{}";
+
       // Find dead instructions
       if (DEBUG_MODE)
         errs() << "\n\nLooping through instructions:\n";

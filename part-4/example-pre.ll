@@ -26,4 +26,5 @@ bb2: ; preds = %bb, %entry
  %res.0.lcssa = phi i32 [ 1, %entry ], [ %1, %bb ]
 ; {%res.0.lcssa}
  ret i32 %res.0.lcssa
+; {}
 }

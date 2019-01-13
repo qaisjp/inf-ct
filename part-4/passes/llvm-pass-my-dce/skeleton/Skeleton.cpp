@@ -105,17 +105,17 @@ namespace {
 
             ValueSet outDest; // [1, 2]
             for (Instruction* successor : successors) {
-              ValueSet newDest; // [1, 2] U in[s]
+              ValueSet newOutDest; // [1, 2] U in[s]
 
               if (isPHINode(successor)) {
 
               } else {
                 std::set_union(in[successor].begin(), in[successor].end(),
                           outDest.begin(), outDest.end(),
-                          std::inserter(newDest, newDest.begin()));
+                          std::inserter(newOutDest, newOutDest.begin()));
               }
 
-              outDest = newDest; // outDest = [1,2] U in[s]
+              outDest = newOutDest; // outDest = [1,2] U in[s]
             }
 
             out[I] = outDest;

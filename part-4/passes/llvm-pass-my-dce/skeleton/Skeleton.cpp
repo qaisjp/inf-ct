@@ -8,6 +8,7 @@
 #include <vector>
 
 bool DEBUG_MODE = false;
+bool livenessPrinted = false;
 
 #define toboolstr(i) ((i == 0) ? "false" : "true")
 
@@ -57,6 +58,11 @@ namespace {
     }
 
     void outputLiveness(Function &F, ValueSetMap in) {
+      if (livenessPrinted) {
+        return;
+      }
+      livenessPrinted = true;
+
       for (BasicBlock &bb : F) {
         for (auto iter = bb.begin(); iter != bb.end(); ++iter) {
           Instruction* I = &*iter;

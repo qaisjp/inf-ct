@@ -4,6 +4,37 @@ char another() {
     return 'a';
 }
 
+int switchy() {
+  char grade = '0';
+  int n = 0;
+  int b = 5;
+
+  switch(grade) {
+      case 'A' :
+        n = 1;
+        break;
+      case 'B' :
+        n = 2;
+        break;
+      case 'C' :
+          n = 3;
+          int c = n + b;
+         grade = 'F';
+         break;
+      case 'D' :
+          n = 4;
+         break;
+      case 'F' :
+          n = 5;
+         break;
+      default :
+          n = 6;
+         b = 8;
+   }
+
+  return n;
+}
+
 int foo() {
   volatile int volly = 1337;
   int a = 7;

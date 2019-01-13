@@ -90,7 +90,7 @@ namespace {
     bool searchAndDestroy(Function &F) {
       SmallVector<Instruction*, 16> ul;
 
-      ValueSetMap in, prevIn, out, prevOut;
+      ValueSetMap in, prevIn, out, prevOut, diff;
 
       for (BasicBlock &bb : F) {
         for (BasicBlock::iterator i = bb.begin(); i != bb.end(); ++i) {
@@ -137,9 +137,8 @@ namespace {
 
             // Copy out into outCopied
             // Then remove current instruction from outCopied (out[n] - def[n])
-            ValueSet outCopied;
-            std::copy(out[I].begin(), out[I].end(), std::inserter(outCopied, outCopied.begin()));
-            outCopied.erase(I);
+            std::copy(out[I].begin(), out[I].end(), std::inserter(diff[I], diff[I].begin()));
+            diff[I].erase(I);
 
             // Debug outCopied is correct
             // errs() << "#out[I] = " << out[I].size() << "\t#outCopied = " << outCopied.size() <<"\n";
@@ -153,7 +152,7 @@ namespace {
             // use[n] U (out[n] - def[n])
             ValueSet inDest;
             std::set_union(users.begin(), users.end(),
-                        outCopied.begin(), outCopied.end(),
+                        diff[I].begin(), diff[I].end(),
                         std::inserter(inDest, inDest.begin()));
 
             in[I] = inDest; // in[I] = use[n] U (out[n] - def[n])
@@ -192,10 +191,22 @@ namespace {
 
               if (isPHINode(successor)) {
                 auto sucPhi = dyn_cast<PHINode>(successor);
-                auto s = phiMap[sucPhi][&*bb];
-                std::set_union(s.begin(), s.end(),
-                          outDest.begin(), outDest.end(),
+                if (I->isTerminator()) { // if came from branch (not another phinode)
+                  auto s = phiMap[sucPhi][&*bb];
+                  ValueSet intermediate;
+                  std::set_union(s.begin(), s.end(),
+                            diff[sucPhi].begin(), diff[sucPhi].end(),
+                            std::inserter(intermediate, intermediate.begin()));
+
+                  std::set_union(intermediate.begin(), intermediate.end(),
+                    outDest.begin(), outDest.end(),
+                  std::inserter(newOutDest, newOutDest.begin()));
+
+                } else {
+                  std::set_union(outDest.begin(), outDest.end(),
+                          diff[sucPhi].begin(), diff[sucPhi].end(),
                           std::inserter(newOutDest, newOutDest.begin()));
+                }
               } else {
                 std::set_union(in[successor].begin(), in[successor].end(),
                           outDest.begin(), outDest.end(),

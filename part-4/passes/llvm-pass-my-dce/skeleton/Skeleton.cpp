@@ -301,17 +301,20 @@ namespace {
       int pass = 0;
       auto fName = F.getName();
 
-      // do {
-        // pass += 1;
+      bool changed = false;
+      bool everChanged = false;
+      do {
+        pass += 1;
         if (DEBUG_MODE)
           errs() << "\n# Function: " << fName << " (pass " << pass << ")\n";
-        searchAndDestroy(F);
-      // } while (searchAndDestroy(F));
+        changed = searchAndDestroy(F);
+        everChanged |= changed;
+      } while (changed);
 
       if (DEBUG_MODE)
         errs() << "\n# Done with " << fName << "\n\n######\n";
 
-      return true;
+      return everChanged;
     }
   };
 }

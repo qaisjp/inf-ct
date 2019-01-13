@@ -67,12 +67,12 @@ namespace {
           }
 
           errs() << "{";
-          int i=0;
+          auto i = 0;
+          auto max = in[I].size();
           for (auto V : in[I]) {
             V->printAsOperand(errs(), false);
-
             i++;
-            if (i < in[I].size()) {
+            if (i < max) {
               errs() << ",";
             }
           }

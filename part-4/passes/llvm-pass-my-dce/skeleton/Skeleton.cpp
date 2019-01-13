@@ -332,6 +332,7 @@ namespace {
       int pass = 0;
       auto fName = F.getName();
 
+      livenessPrinted = false;
       bool changed = false;
       bool everChanged = false;
       do {

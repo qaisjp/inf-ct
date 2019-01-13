@@ -54,7 +54,7 @@ namespace {
         }
       }
 
-      std::map<PHINode*, std::map<BasicBlock*,ValueSet*>> phiMap;
+      std::map<PHINode*, std::map<BasicBlock*,ValueSet>> phiMap;
 
       // Calculate in and out sets
       int count = 0;

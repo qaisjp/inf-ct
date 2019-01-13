@@ -60,7 +60,7 @@ namespace {
     bool searchAndDestroy(Function &F) {
       SmallVector<Instruction*, 16> ul;
 
-      ValueSetMap in, inPrime, out, outPrime;
+      ValueSetMap in, prevIn, out, prevOut;
 
       for (BasicBlock &bb : F) {
         for (BasicBlock::iterator i = bb.begin(); i != bb.end(); ++i) {
@@ -82,8 +82,8 @@ namespace {
         for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
           for (BasicBlock::iterator iter = bb->begin(); iter != bb->end(); ++iter) {
             Instruction* I = &*iter;
-            inPrime[I] = in[I];
-            outPrime[I] = out[I];
+            prevIn[I] = in[I];
+            prevOut[I] = out[I];
 
             // if (isa<PHINode>(I)) {
             //   auto p = dyn_cast<PHINode>(I);
@@ -168,7 +168,7 @@ namespace {
             out[I] = outDest;
           }
         }
-      } while (!(inPrime == in && outPrime == out));
+      } while (!(prevIn == in && prevOut == out));
 
       // Output that shit
       if (DEBUG_MODE)

@@ -36,6 +36,11 @@ if type cmake3 > /dev/null; then
 fi
 
 if [ "$1" = "ll" ]; then
+    if [ "$LL_NAME" = "example" ]; then
+        echo "Can't update ll for the example";
+        exit 1;
+    fi
+
     "$LLVM_DIR/bin/clang" -S -emit-llvm -Xclang -disable-O0-optnone "$TEST_FILE" -o "$LL_FILE"
     "$LLVM_DIR/bin/opt" -S -mem2reg "$LL_FILE" -o "$LL_FILE"
 elif [ "$1" = "diff" ]; then

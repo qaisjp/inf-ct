@@ -40,6 +40,19 @@ namespace {
     static char ID;
     SkeletonPass() : FunctionPass(ID) {}
 
+    #define printSet(setContent, asP) _printSet(#setContent, setContent, asP)
+    void _printSet(const char* thing, ValueSet s, bool asPointer) {
+      errs() << thing << ": ";
+      for (auto it = s.begin(); it != s.end(); it++) {
+        if (asPointer) {
+          errs() << *it << ", ";
+        } else {
+          errs() << **it << ", ";
+        }
+      }
+      errs() << "\n";
+    }
+
     // searchAndDestroy returns true if something changed
     bool searchAndDestroy(Function &F) {
       SmallVector<Instruction*, 16> ul;

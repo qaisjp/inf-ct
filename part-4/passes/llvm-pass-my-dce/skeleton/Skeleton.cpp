@@ -216,8 +216,8 @@ namespace {
                   std::inserter(newOutDest, newOutDest.begin()));
 
                 } else {
-                  std::set_union(outDest.begin(), outDest.end(),
-                          diff[sucPhi].begin(), diff[sucPhi].end(),
+                  std::set_union(diff[sucPhi].begin(), diff[sucPhi].end(),
+                          outDest.begin(), outDest.end(),
                           std::inserter(newOutDest, newOutDest.begin()));
                 }
               } else {

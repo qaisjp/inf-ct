@@ -98,6 +98,15 @@ namespace {
             std::copy(out[I].begin(), out[I].end(), std::inserter(outCopied, outCopied.begin()));
             outCopied.erase(I);
 
+            // Debug outCopied is correct
+            // errs() << "#out[I] = " << out[I].size() << "\t#outCopied = " << outCopied.size() <<"\n";
+            // if (out[I].size() > 0) {
+            //   errs() << "this: " << I << "\n";
+            //   printSet(out[I], true);
+            //   printSet(outCopied, true);
+            // }
+            // errs() << "\n";
+
             // use[n] U (out[n] - def[n])
             ValueSet inDest;
             std::set_union(users.begin(), users.end(),

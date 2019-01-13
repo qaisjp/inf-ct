@@ -69,6 +69,12 @@ namespace {
             inPrime[I] = in[I];
             outPrime[I] = out[I];
 
+            // if (isa<PHINode>(I)) {
+            //   auto p = dyn_cast<PHINode>(I);
+            //   in[bb->getFirstNonPHI()].insert(I);
+            //   continue;
+            // }
+
             ValueSet users = getInstructionUsers(I);
 
             // Copy out into outCopied

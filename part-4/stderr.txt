@@ -14,7 +14,7 @@ Count: 10
 Output everything:
 {%a,%b}
 	  %0 = icmp slt i32 %a, %b
-{%0}
+{%a,%b,%0}
 	  br i1 %0, label %bb.nph, label %bb2
 {%a,%b}
 	  %tmp = sub i32 %b, %a
@@ -24,11 +24,11 @@ Output everything:
 	  %i.04 = add i32 %indvar, %a
 {%tmp,%indvar,%res.05,%i.04}
 	  %1 = mul nsw i32 %res.05, %i.04
-{%tmp,%indvar}
+{%tmp,%indvar,%1}
 	  %indvar.next = add i32 %indvar, 1
-{%tmp,%indvar.next}
+{%tmp,%1,%indvar.next}
 	  %exitcond = icmp eq i32 %indvar.next, %tmp
-{%exitcond}
+{%1,%indvar.next,%exitcond}
 	  br i1 %exitcond, label %bb2, label %bb
 {%res.0.lcssa}
 	  ret i32 %res.0.lcssa

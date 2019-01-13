@@ -121,7 +121,19 @@ namespace {
             //   continue;
             // }
 
-            ValueSet users = getInstructionUsers(I);
+            ValueSet users;
+            if (isa<PHINode>(I)) {
+              auto succPhi = dyn_cast<PHINode>(I);
+              for (auto i=0; i<succPhi->getNumIncomingValues(); i++) {
+                auto incomingVal = succPhi->getIncomingValue(i);
+                if (isa<Instruction>(incomingVal) || isa<Argument>(incomingVal)) {
+                  auto vb = succPhi->getIncomingBlock(i);
+                  phiMap[succPhi][vb].insert(incomingVal);
+                }
+              }
+            } else {
+              users = getInstructionUsers(I);
+            }
 
             // Copy out into outCopied
             // Then remove current instruction from outCopied (out[n] - def[n])
@@ -158,9 +170,7 @@ namespace {
               {
                 BasicBlock* succBB = I->getSuccessor(i);
                 auto succI = &*succBB->begin();
-                auto succPhi = dyn_cast<PHINode>(succI);
-
-                phiMap[succPhi][succBB] = out[I];
+                successors.insert(succI);
               }
             } else {
               // Peek at the next item

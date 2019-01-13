@@ -33,13 +33,9 @@
 {%1,%.01,%.0}
 {%4,%1,%.01,%.0}
 {%1,%.01,%.0}
-{%1,%.01}
-{%1,%.01}
-{%1,%8}
+{%1,%.01,%6}
+{%1,%.01,%6}
+{%1,%6,%8}
 {%.0}
 {}
 
-PHI node operands are not the same type as the result!
-  %.0 = phi i32 [ 1, %2 ], [ <badref>, %6 ]
-in function sum
-LLVM ERROR: Broken function found, compilation aborted!

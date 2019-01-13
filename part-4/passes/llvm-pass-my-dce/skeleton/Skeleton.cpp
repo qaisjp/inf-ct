@@ -176,6 +176,7 @@ namespace {
 
             // Part 2 of Solve Data-Flow Equations
             InstructionSet successors;
+            std::set<PHINode*> phiSuc;
             if (I->isTerminator()) {
               for(size_t i = 0; i < I->getNumSuccessors(); i++)
               {
@@ -186,15 +187,16 @@ namespace {
 
                 // errs() << "Current: " << *succI << "; phi:" << isa<PHINode>(succI) << ";\n";
 
-                // if (isa<PHINode>(succI)) {
-                //   for (it++; it != succBB->end(); it++) {
-                //     if (!isa<PHINode>(&*it)) {
-                //       break;
-                //     }
-                //     errs() << "- " << *it << ";\n";
-                //     successors.insert(&*it);
-                //   }
-                // }
+                if (isa<PHINode>(succI)) {
+                  for (it++; it != succBB->end(); it++) {
+                    if (!isa<PHINode>(&*it)) {
+                      break;
+                    }
+                    if (DEBUG_MODE)
+                      errs() << "- " << *it << ";\n";
+                    phiSuc.insert(dyn_cast<PHINode>(&*it));
+                  }
+                }
               }
             } else {
               // Peek at the next item
@@ -235,6 +237,24 @@ namespace {
                           std::inserter(newOutDest, newOutDest.begin()));
 
               outDest = newOutDest; // outDest = [1,2] U in[s]
+            }
+
+            if (!phiSuc.empty()) {
+              ValueSet phiUnion;
+              for (auto V : phiSuc) {
+                auto s = phiMap[V][&*bb];
+                ValueSet newPhiUnion;
+                std::set_union(s.begin(), s.end(),
+                            phiUnion.begin(), phiUnion.end(),
+                            std::inserter(newPhiUnion, newPhiUnion.begin()));
+                phiUnion = newPhiUnion;
+              }
+
+              ValueSet newNewOutDest;
+              std::set_union(phiUnion.begin(), phiUnion.end(),
+                          outDest.begin(), outDest.end(),
+                          std::inserter(newNewOutDest, newNewOutDest.begin()));
+              outDest = newNewOutDest;
             }
 
             out[I] = outDest;

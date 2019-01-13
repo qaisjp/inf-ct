@@ -310,9 +310,7 @@ namespace {
       for (Instruction* I : ul) {
       //   Instruction* I = *it;
         if (DEBUG_MODE) {
-          errs() << "- erasing: ";
-          I->printAsOperand(errs(), false);
-          errs() << "\n";
+          errs() << "- erasing: " << *I << "\n";
         }
         I->eraseFromParent();
       }

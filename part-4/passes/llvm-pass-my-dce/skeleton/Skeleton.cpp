@@ -138,6 +138,11 @@ namespace {
               ++peek;
 
               Instruction* successor = &*peek;
+
+              // We can never have reached the end because is terminator checks this for us
+              bool reachedEnd = successor == &*bb->end();
+              assert(!reachedEnd);
+
               successors.insert(successor);
             }
 

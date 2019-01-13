@@ -231,46 +231,46 @@ namespace {
         errs() << "\n\nLooping through instructions:\n";
       ValueSet currentLive, currentDead;
 
-      // for (BasicBlock &bb : F) {
-      //   for (auto iter = bb.rbegin(); iter != bb.rend(); ++iter) {
-      //     Instruction* I = &*iter;
+      for (BasicBlock &bb : F) {
+        for (auto iter = bb.rbegin(); iter != bb.rend(); ++iter) {
+          Instruction* I = &*iter;
 
-      //     ValueSet outs = out[I];
-      //     ValueSet ins = in[I];
-      //     currentLive.clear();
+          ValueSet outs = out[I];
+          ValueSet ins = in[I];
+          currentLive.clear();
 
-      //     std::set_difference(outs.begin(), outs.end(),
-      //                 currentDead.begin(), currentDead.end(),
-      //                 std::inserter(currentLive, currentLive.begin()));
+          std::set_difference(outs.begin(), outs.end(),
+                      currentDead.begin(), currentDead.end(),
+                      std::inserter(currentLive, currentLive.begin()));
 
-      //     bool isDead = (currentLive.find(I) == currentLive.end())
-      //       && I->isSafeToRemove();
-      //     auto opName = (I->getOpcodeName());
-      //     currentDead.clear();
-      //     if (
-      //       !outs.empty() && isDead
-      //       && !str_eq(opName, "ret") && !str_eq(opName, "br")) {
+          bool isDead = (currentLive.find(I) == currentLive.end())
+            && I->isSafeToRemove();
+          auto opName = (I->getOpcodeName());
+          currentDead.clear();
+          if (
+            !outs.empty() && isDead
+            && !str_eq(opName, "ret") && !str_eq(opName, "br")) {
 
-      //       if (DEBUG_MODE)
-      //         errs() << "- dead: ";
-      //       I->printAsOperand(errs());
-      //       if (DEBUG_MODE)
-      //         errs() << "\n";
-      //       ul.push_back(I);
+            if (DEBUG_MODE)
+              errs() << "- dead: ";
+            I->printAsOperand(errs());
+            if (DEBUG_MODE)
+              errs() << "\n";
+            ul.push_back(I);
 
-      //       std::set_difference(ins.begin(), ins.end(),
-      //                 currentLive.begin(), currentLive.end(),
-      //                 std::inserter(currentDead, currentDead.begin()));
+            std::set_difference(ins.begin(), ins.end(),
+                      currentLive.begin(), currentLive.end(),
+                      std::inserter(currentDead, currentDead.begin()));
 
-      //     } else {
-      //       if (DEBUG_MODE)
-      //         errs() << "- alive: ";
-      //       I->printAsOperand(errs());
-      //       if (DEBUG_MODE)
-      //         errs() << "\n";
-      //     }
-      //   }
-      // }
+          } else {
+            if (DEBUG_MODE)
+              errs() << "- alive: ";
+            I->printAsOperand(errs());
+            if (DEBUG_MODE)
+              errs() << "\n";
+          }
+        }
+      }
 
       if (DEBUG_MODE)
         errs() << "\nNow erasing:\n";

@@ -44,6 +44,12 @@ namespace {
     static char ID;
     SkeletonPass() : FunctionPass(ID) {}
 
+    bool safeToRemove(Instruction* I) {
+      return !isa<CallInst>(I) &&
+        !I->mayHaveSideEffects() &&
+        !I->isTerminator();
+    }
+
     #define printSet(setContent, asP) _printSet(#setContent, setContent, asP)
     void _printSet(const char* thing, ValueSet s, bool asPointer) {
       errs() << thing << ": ";
@@ -249,7 +255,7 @@ namespace {
         for (BasicBlock::iterator iter = bb->begin(); iter != bb->end(); ++iter) {
           Instruction* I = &*iter;
           bool isDead = (out[I].find(I) == out[I].end())
-            && I->isSafeToRemove();
+            && safeToRemove(I);
           if (isDead) {
             ul.push_back(I);
           }

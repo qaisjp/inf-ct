@@ -229,10 +229,10 @@ namespace {
       // Find dead instructions
       if (DEBUG_MODE)
         errs() << "\n\nLooping through instructions:\n";
-      ValueSet currentLive, currentDead;
 
-      for (BasicBlock &bb : F) {
-        for (auto iter = bb.rbegin(); iter != bb.rend(); ++iter) {
+      ValueSet currentLive, currentDead;
+      for (auto bb = --F.end(); bb !=  --F.begin(); bb--) {
+        for (auto iter = bb->rbegin(); iter != bb->rend(); ++iter) {
           Instruction* I = &*iter;
 
           ValueSet outs = out[I];

@@ -230,51 +230,62 @@ namespace {
       if (DEBUG_MODE)
         errs() << "\n\nLooping through instructions:\n";
 
-      ValueSet currentLive, currentDead;
-      for (auto bb = --F.end(); bb !=  --F.begin(); bb--) {
-        for (auto iter = bb->rbegin(); iter != bb->rend(); ++iter) {
+      for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
+        for (BasicBlock::iterator iter = bb->begin(); iter != bb->end(); ++iter) {
           Instruction* I = &*iter;
-
-          ValueSet outs = out[I];
-          ValueSet ins = in[I];
-          currentLive.clear();
-
-          std::set_difference(outs.begin(), outs.end(),
-                      currentDead.begin(), currentDead.end(),
-                      std::inserter(currentLive, currentLive.end()));
-
-          bool isDead = (currentLive.find(I) == currentLive.end())
+          bool isDead = (out[I].find(I) == out[I].end())
             && I->isSafeToRemove();
-          auto opName = I->getOpcodeName();
-
-          // Ensure returns and breaks are never safe to remove
-          if (str_eq(opName, "ret") || str_eq(opName, "br")) {
-            assert(!I->isSafeToRemove());
-          }
-
-          currentDead.clear();
-          if (!outs.empty() && isDead) {
-
-            if (DEBUG_MODE)
-              errs() << "- dead: ";
-            I->printAsOperand(errs());
-            if (DEBUG_MODE)
-              errs() << "\n";
+          if (isDead) {
             ul.push_back(I);
-
-            std::set_difference(ins.begin(), ins.end(),
-                      currentLive.begin(), currentLive.end(),
-                      std::inserter(currentDead, currentDead.end()));
-
-          } else {
-            if (DEBUG_MODE)
-              errs() << "- alive: ";
-            I->printAsOperand(errs());
-            if (DEBUG_MODE)
-              errs() << "\n";
           }
         }
       }
+
+      // ValueSet currentLive, currentDead;
+      // for (auto bb = --F.end(); bb !=  --F.begin(); bb--) {
+      //   for (auto iter = bb->rbegin(); iter != bb->rend(); ++iter) {
+      //     Instruction* I = &*iter;
+
+      //     ValueSet outs = out[I];
+      //     ValueSet ins = in[I];
+      //     currentLive.clear();
+
+      //     std::set_difference(outs.begin(), outs.end(),
+      //                 currentDead.begin(), currentDead.end(),
+      //                 std::inserter(currentLive, currentLive.end()));
+
+      //     bool isDead = (currentLive.find(I) == currentLive.end())
+      //       && I->isSafeToRemove();
+      //     auto opName = I->getOpcodeName();
+
+      //     // Ensure returns and breaks are never safe to remove
+      //     if (str_eq(opName, "ret") || str_eq(opName, "br")) {
+      //       assert(!I->isSafeToRemove());
+      //     }
+
+      //     currentDead.clear();
+      //     if (!outs.empty() && isDead) {
+
+      //       if (DEBUG_MODE)
+      //         errs() << "- dead: ";
+      //       I->printAsOperand(errs());
+      //       if (DEBUG_MODE)
+      //         errs() << "\n";
+      //       ul.push_back(I);
+
+      //       std::set_difference(ins.begin(), ins.end(),
+      //                 currentLive.begin(), currentLive.end(),
+      //                 std::inserter(currentDead, currentDead.end()));
+
+      //     } else {
+      //       if (DEBUG_MODE)
+      //         errs() << "- alive: ";
+      //       I->printAsOperand(errs());
+      //       if (DEBUG_MODE)
+      //         errs() << "\n";
+      //     }
+      //   }
+      // }
 
       if (DEBUG_MODE)
         errs() << "\nNow erasing:\n";

@@ -35,30 +35,10 @@ Output everything:
 {}
 
 Looping through instructions:
-- alive: void <badref>
-- alive: i1 %0
-- alive: void <badref>
-- alive: i32 %tmp
-- alive: void <badref>
-- alive: i1 %exitcond
-- alive: i32 %indvar.next
-- dead: i32 %1
-- dead: i32 %i.04
-- dead: i32 %res.05
-- alive: i32 %indvar
-- alive: void <badref>
-- alive: i32 %res.0.lcssa
 
 Now erasing:
-- erasing: %1
-- erasing: %i.04
-- erasing: %res.05
 - done!
 
 # Done with sum
 
 ######
-PHI node operands are not the same type as the result!
-  %res.0.lcssa = phi i32 [ 1, %entry ], [ <badref>, %bb ]
-in function sum
-LLVM ERROR: Broken function found, compilation aborted!

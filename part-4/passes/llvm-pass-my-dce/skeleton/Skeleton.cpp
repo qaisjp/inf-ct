@@ -245,11 +245,15 @@ namespace {
 
           bool isDead = (currentLive.find(I) == currentLive.end())
             && I->isSafeToRemove();
-          auto opName = (I->getOpcodeName());
+          auto opName = I->getOpcodeName();
+
+          // Ensure returns and breaks are never safe to remove
+          if (str_eq(opName, "ret") || str_eq(opName, "br")) {
+            assert(!I->isSafeToRemove());
+          }
+
           currentDead.clear();
-          if (
-            !outs.empty() && isDead
-            && !str_eq(opName, "ret") && !str_eq(opName, "br")) {
+          if (!outs.empty() && isDead) {
 
             if (DEBUG_MODE)
               errs() << "- dead: ";

@@ -55,6 +55,8 @@
         "cfenv": "cpp",
         "__config": "cpp",
         "__nullptr": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "iomanip": "cpp",
+        "iostream": "cpp"
     }
 }

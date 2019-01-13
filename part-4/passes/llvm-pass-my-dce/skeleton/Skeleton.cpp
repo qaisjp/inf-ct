@@ -322,6 +322,11 @@ namespace {
     }
 
     virtual bool runOnFunction(Function &F) {
+      // Set debug mode
+      if (const char* env_p = std::getenv("QDEBUG")) {
+        DEBUG_MODE=true;
+      }
+
       int pass = 0;
       auto fName = F.getName();
 

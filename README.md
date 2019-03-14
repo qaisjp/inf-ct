@@ -6,6 +6,8 @@ This coursework was awarded a mark of 99% in total (A1).
 
 100% was attained for all parts, except in the hidden tests of part 2, where 97/100 marks were attained. The bug where those 3 marks were lost has since been fixed.
 
+I am **[colt](https://www.inf.ed.ac.uk/teaching/courses/ct/18-19/scoreboard/colt_results.html)**.
+
 # Deadlines #
 
 1. [Part 1 (parser)](desc/part1/), Thursday 11 October 2018  at 11am, weight = 20%

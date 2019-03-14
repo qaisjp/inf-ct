@@ -1,6 +1,10 @@
-# Description of the course work is likely to be upatded!#
+# Informatics Compiling Techniques 2018/19
 
-Please note that the description of the course work might be updated from time to time to clarify things or fix mistakes.
+# Results
+
+This coursework was awarded a mark of 99% in total (A1).
+
+100% was attained for all parts, except in the hidden tests of part 2, where 97/100 marks were attained. The bug where those 3 marks were lost has since been fixed.
 
 # Deadlines #
 

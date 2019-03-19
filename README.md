@@ -16,7 +16,7 @@ Other code is _not licensed_. All rights reserved. Copyright is retained by thei
 
 (Most likely the course organiser and the TAs.)
 
-All files inside the test folder, except for the files listed below, are written by myself (and are hence licensed under MIT):
+All files inside the test folder, except for the files listed below, are _guaranteed_ to be written by myself (and are hence licensed under MIT):
 - [`minic-stdlib.h`](https://github.com/qaisjp/inf-ct/blob/8e50529c6f42c816b070d9391ebd70a2daab1d9d/tests/minic-stdlib.h)
 - [`tictactoe.c`](https://github.com/qaisjp/inf-ct/blob/8e50529c6f42c816b070d9391ebd70a2daab1d9d/tests/tictactoe.c)
 - [`fibonacci.c`](https://github.com/qaisjp/inf-ct/blob/8e50529c6f42c816b070d9391ebd70a2daab1d9d/tests/fibonacci.c)
